@@ -60,22 +60,23 @@ export function summarizeContributions(
 
   for (const tx of transactions) {
     if (isExternalContribution(tx)) {
-      totalExternalContributionsCents += tx.amountCents;
-      if (tx.category === "personal_contribution") personalCents += tx.amountCents;
-      if (tx.category === "initial_funding") initialFundingCents += tx.amountCents;
+      const amount = tx.amountCents ?? 0;
+      totalExternalContributionsCents += amount;
+      if (tx.category === "personal_contribution") personalCents += amount;
+      if (tx.category === "initial_funding") initialFundingCents += amount;
       if (tx.category === "viewer_support_contribution") {
-        viewerSupportCents += tx.amountCents;
+        viewerSupportCents += amount;
       }
       if (
         tx.category === "youtube_revenue_contribution" ||
         tx.category === "affiliate_revenue_contribution" ||
         tx.category === "sponsorship_revenue_contribution"
       ) {
-        channelIncomeCents += tx.amountCents;
+        channelIncomeCents += amount;
       }
     }
     if (isExternalWithdrawal(tx)) {
-      externalWithdrawalsCents += Math.abs(tx.amountCents);
+      externalWithdrawalsCents += Math.abs(tx.amountCents ?? 0);
     }
   }
 
@@ -118,14 +119,13 @@ export function calculatePortfolioPerformance(args: {
   const realizedGainLossCents: number | null = null;
 
   for (const tx of args.transactions) {
-    if (tx.category === "dividend") dividendsReceivedCents += tx.amountCents;
-    if (tx.category === "options_premium") optionsIncomeReceivedCents += tx.amountCents;
-    if (tx.category === "interest") interestReceivedCents += tx.amountCents;
-    if (tx.category === "withdrawal" && !tx.externalCashFlow) {
-      investmentRelatedWithdrawalsCents += Math.abs(tx.amountCents);
+    if (tx.category === "dividend") dividendsReceivedCents += tx.amountCents ?? 0;
+    if (tx.category === "options_premium") {
+      optionsIncomeReceivedCents += tx.amountCents ?? 0;
     }
-    if (tx.category === "security_sale" && tx.note?.includes("realized")) {
-      // Realized P&L is optional and only used when explicitly recorded.
+    if (tx.category === "interest") interestReceivedCents += tx.amountCents ?? 0;
+    if (tx.category === "withdrawal" && !tx.externalCashFlow) {
+      investmentRelatedWithdrawalsCents += Math.abs(tx.amountCents ?? 0);
     }
   }
 
@@ -171,5 +171,5 @@ export function incomeFromCategory(
   if (!INCOME_CATEGORIES.has(category)) return 0;
   return transactions
     .filter((tx) => tx.category === category)
-    .reduce((sum, tx) => sum + tx.amountCents, 0);
+    .reduce((sum, tx) => sum + (tx.amountCents ?? 0), 0);
 }

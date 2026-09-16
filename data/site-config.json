@@ -2,21 +2,37 @@
   "siteName": "Work Save Bitcoin",
   "siteTitle": "Work Save Bitcoin | Fiat Freedom Portfolio",
   "siteDescription": "Follow a public portfolio exploring Bitcoin treasury companies, Bitcoin-per-share growth, portfolio performance, and the path from Bitcoin equities to fiat income.",
-  "canonicalBaseUrl": "https://example.com",
+  "canonicalBaseUrl": "https://work-save-bitcoin-dashboard.vercel.app",
   "timezone": "America/New_York",
   "youtubeChannelUrl": "https://www.youtube.com/@WorkSaveBitcoin",
-  "xUrl": null,
-  "contactEmail": null,
-  "bitcoinSupportAddress": null,
+  "xUrl": "https://x.com/worksavebitcoin",
+  "contactEmail": "josh@greiff.org",
+  "bitcoinSupportAddress": "worksavebitcoin@coinos.io",
   "bitcoinSupportQrUrl": null,
   "paypalSupportUrl": null,
-  "referralLinks": [],
+  "referralLinks": [
+    {
+      "label": "River",
+      "url": "https://river.com/signup?r=NLSDT4EX",
+      "note": "Buy Bitcoin with zero fees and earn interest on cash, paid in Bitcoin. Affiliate link."
+    },
+    {
+      "label": "Strike",
+      "url": "https://invite.strike.me/OD1BYU",
+      "note": "Buy Bitcoin with reduced fees. Affiliate link."
+    }
+  ],
   "educationalResources": [
     {
       "title": "Bitcoin whitepaper",
       "url": "https://bitcoin.org/bitcoin.pdf",
       "note": "Primary technical introduction to Bitcoin."
+    },
+    {
+      "title": "Fiat Freedom Portfolio — Episode 1",
+      "url": "https://www.youtube.com/watch?v=Z2IPGIUr8DA",
+      "note": "I’m Building a Portfolio So I Never Have to Sell My Bitcoin."
     }
   ],
-  "supportDisclaimer": "Voluntary support funds the WSB Strategic Bitcoin Reserve. Support does not provide ownership, returns, voting rights, or any financial claim on the reserve or the securities portfolio."
+  "supportDisclaimer": "Voluntary support funds the WSB Strategic Bitcoin Reserve. Support does not provide ownership, returns, voting rights, or any financial claim on the reserve or the securities portfolio. Some referral links may compensate the channel at no additional cost to you."
 }

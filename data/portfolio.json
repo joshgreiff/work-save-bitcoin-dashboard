@@ -1,18 +1,18 @@
 {
   "series": "Fiat Freedom Portfolio",
   "inceptionEpisodeNumber": 1,
-  "inceptionPublishedAt": "2026-09-16T12:00:00-04:00",
-  "inceptionValuationAt": "2026-09-16T16:00:00-04:00",
+  "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
+  "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-09-16T16:00:00-04:00",
+  "currentValuationAt": "2026-09-16T08:00:00-04:00",
   "currentPortfolioValueCents": 199991,
   "cashBalanceCents": 0,
   "dataQuality": "seed",
   "notes": [
-    "Episode 1 seed record. Share counts and starting value are confirmed.",
-    "inceptionValuationAt uses the series convention of 4:00 p.m. Eastern on the publication date. It is not a confirmed brokerage fill timestamp.",
+    "Episode 1 opening seed. Share counts and $1,999.91 starting value are confirmed from the Episode 1 publication record.",
+    "Valuation timestamps use the Episode 1 publish window (8:00 a.m. Eastern series schedule), not the 4:00 p.m. Eastern market close. The first standardized closing snapshot should replace these fields after the September 16, 2026 close.",
     "cashBalanceCents is seeded as 0 pending confirmation.",
-    "Per-security prices, cost basis, and benchmark prices are intentionally null until confirmed."
+    "Per-security prices, cost basis, and benchmark prices remain null until confirmed."
   ],
   "positions": [
     {
@@ -27,7 +27,7 @@
     },
     {
       "ticker": "ASST",
-      "name": "Asset Entities / Strive",
+      "name": "Strive (ASST)",
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
@@ -37,10 +37,12 @@
     },
     {
       "ticker": "MPJPY",
-      "name": "Strategy preferred (MPJPY)",
-      "assetClass": "preferred",
+      "name": "Metaplanet ADR",
+      "assetClass": "adr_common_equity",
       "shares": 59,
-      "lookThroughEligible": false,
+      "lookThroughEligible": true,
+      "underlyingTicker": "3350",
+      "adrRatio": 1,
       "priceCents": null,
       "marketValueCents": null,
       "costBasisCents": null

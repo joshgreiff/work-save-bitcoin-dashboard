@@ -2,12 +2,12 @@
   "episodes": [
     {
       "episodeNumber": 1,
-      "slug": "episode-1-fiat-freedom-portfolio-launch",
-      "title": "Fiat Freedom Portfolio — Episode 1",
-      "youtubeUrl": null,
-      "thumbnailUrl": null,
-      "publishedAt": "2026-09-16T12:00:00-04:00",
-      "valuationAt": "2026-09-16T16:00:00-04:00",
+      "slug": "episode-1-building-a-portfolio-so-i-never-have-to-sell-bitcoin",
+      "title": "I’m Building a Portfolio So I Never Have to Sell My Bitcoin",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Z2IPGIUr8DA",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Z2IPGIUr8DA/hqdefault.jpg",
+      "publishedAt": "2026-09-16T08:00:00-04:00",
+      "valuationAt": "2026-09-16T08:00:00-04:00",
       "portfolioValueCents": 199991,
       "cashBalanceCents": 0,
       "cumulativeContributionsCents": 199991,
@@ -36,8 +36,10 @@
           "shares": 59,
           "priceCents": null,
           "marketValueCents": null,
-          "assetClass": "preferred",
-          "lookThroughEligible": false
+          "assetClass": "adr_common_equity",
+          "lookThroughEligible": true,
+          "underlyingTicker": "3350",
+          "adrRatio": 1
         }
       ],
       "benchmarks": [
@@ -64,9 +66,10 @@
         }
       ],
       "notes": [
-        "Initial funding of $1,999.91 established the Fiat Freedom Portfolio.",
-        "Holdings at launch: 12.12 MSTR, 13.70 ASST, 59 MPJPY.",
-        "Security prices and benchmark prices are pending confirmation and are stored as null."
+        "Day 1 of the Fiat Freedom Portfolio. Initial funding of $1,999.91.",
+        "Holdings at launch: 12.12 MSTR, 13.70 ASST, 59 MPJPY (Metaplanet Level I ADR, 1:1 vs TSE:3350).",
+        "This snapshot uses the Episode 1 publish window, not the 4:00 p.m. Eastern close. Replace with the first standardized closing valuation after market close.",
+        "Security prices and benchmark prices remain null until confirmed."
       ]
     }
   ]

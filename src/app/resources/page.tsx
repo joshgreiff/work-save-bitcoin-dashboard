@@ -22,31 +22,30 @@ export default function ResourcesPage() {
         <ul className="space-y-2 text-sm">
           {site.youtubeChannelUrl ? (
             <li>
-              <a className="text-[var(--accent)] hover:underline" href={site.youtubeChannelUrl} target="_blank" rel="noreferrer">
-                YouTube
+              <a
+                className="text-[var(--accent)] hover:underline"
+                href={site.youtubeChannelUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                YouTube — Work. Save. Bitcoin
               </a>
             </li>
-          ) : (
-            <li className="text-[var(--muted)]">YouTube URL pending confirmation</li>
-          )}
+          ) : null}
           {site.xUrl ? (
             <li>
               <a className="text-[var(--accent)] hover:underline" href={site.xUrl} target="_blank" rel="noreferrer">
-                X
+                X — @worksavebitcoin
               </a>
             </li>
-          ) : (
-            <li className="text-[var(--muted)]">X account pending confirmation</li>
-          )}
+          ) : null}
           {site.contactEmail ? (
             <li>
               <a className="text-[var(--accent)] hover:underline" href={`mailto:${site.contactEmail}`}>
                 {site.contactEmail}
               </a>
             </li>
-          ) : (
-            <li className="text-[var(--muted)]">Contact email pending confirmation</li>
-          )}
+          ) : null}
         </ul>
       </section>
 
@@ -55,7 +54,12 @@ export default function ResourcesPage() {
         <ul className="space-y-3 text-sm">
           {site.educationalResources.map((resource) => (
             <li key={resource.url} className="border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
-              <a className="text-[var(--accent)] hover:underline" href={resource.url} target="_blank" rel="noreferrer">
+              <a
+                className="text-[var(--accent)] hover:underline"
+                href={resource.url}
+                target="_blank"
+                rel="noreferrer"
+              >
                 {resource.title}
               </a>
               {resource.note ? <p className="mt-1 text-[var(--muted)]">{resource.note}</p> : null}
@@ -67,15 +71,15 @@ export default function ResourcesPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-medium">Referral links</h2>
         {site.referralLinks.length === 0 ? (
-          <p className="text-sm text-[var(--muted)]">No referral links configured yet.</p>
+          <p className="text-sm text-[var(--muted)]">No referral links configured.</p>
         ) : (
-          <ul className="space-y-2 text-sm">
+          <ul className="space-y-3 text-sm">
             {site.referralLinks.map((link) => (
-              <li key={link.url}>
+              <li key={link.url} className="border border-[var(--border)] bg-[var(--surface)] px-4 py-3">
                 <a className="text-[var(--accent)] hover:underline" href={link.url} target="_blank" rel="noreferrer">
                   {link.label}
                 </a>
-                {link.note ? <span className="text-[var(--muted)]"> — {link.note}</span> : null}
+                {link.note ? <p className="mt-1 text-[var(--muted)]">{link.note}</p> : null}
               </li>
             ))}
           </ul>
@@ -84,20 +88,25 @@ export default function ResourcesPage() {
 
       <section className="space-y-3">
         <h2 className="text-xl font-medium">Voluntary support</h2>
-        <p className="text-sm text-[var(--muted-foreground)]">
-          Bitcoin address:{" "}
-          {site.bitcoinSupportAddress ?? "Not published yet (configure in data/site-config.json)."}
-        </p>
-        <p className="text-sm text-[var(--muted-foreground)]">
-          PayPal:{" "}
-          {site.paypalSupportUrl ? (
-            <a className="text-[var(--accent)] hover:underline" href={site.paypalSupportUrl} target="_blank" rel="noreferrer">
+        {site.bitcoinSupportAddress ? (
+          <p className="text-sm text-[var(--muted-foreground)]">
+            Bitcoin / Lightning:{" "}
+            <span className="tabular-nums text-[var(--foreground)]">{site.bitcoinSupportAddress}</span>
+          </p>
+        ) : null}
+        {site.paypalSupportUrl ? (
+          <p className="text-sm text-[var(--muted-foreground)]">
+            PayPal:{" "}
+            <a
+              className="text-[var(--accent)] hover:underline"
+              href={site.paypalSupportUrl}
+              target="_blank"
+              rel="noreferrer"
+            >
               Support via PayPal
             </a>
-          ) : (
-            "Not published yet"
-          )}
-        </p>
+          </p>
+        ) : null}
         <TextLink href="/reserve">View Bitcoin Reserve tracking →</TextLink>
       </section>
 

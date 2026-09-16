@@ -12,6 +12,8 @@ export const positionSchema = z.object({
   assetClass: assetClassSchema,
   shares: z.number(),
   lookThroughEligible: z.boolean(),
+  underlyingTicker: z.string().optional(),
+  adrRatio: z.number().positive().optional(),
   priceCents: centsSchema.nullable(),
   marketValueCents: centsSchema.nullable(),
   costBasisCents: centsSchema.nullable().optional(),

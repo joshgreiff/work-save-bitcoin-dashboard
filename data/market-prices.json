@@ -2,7 +2,7 @@
   "prices": [
     {
       "symbol": "BTCUSD",
-      "asOf": "2026-09-16T16:00:00-04:00",
+      "asOf": "2026-09-16T08:00:00-04:00",
       "priceCents": null,
       "sourceName": null,
       "sourceUrl": null,
@@ -12,7 +12,7 @@
     },
     {
       "symbol": "SPY",
-      "asOf": "2026-09-16T16:00:00-04:00",
+      "asOf": "2026-09-16T08:00:00-04:00",
       "priceCents": null,
       "sourceName": null,
       "sourceUrl": null,
@@ -22,7 +22,7 @@
     },
     {
       "symbol": "GLD",
-      "asOf": "2026-09-16T16:00:00-04:00",
+      "asOf": "2026-09-16T08:00:00-04:00",
       "priceCents": null,
       "sourceName": null,
       "sourceUrl": null,
@@ -32,7 +32,7 @@
     },
     {
       "symbol": "MSTR",
-      "asOf": "2026-09-16T16:00:00-04:00",
+      "asOf": "2026-09-16T08:00:00-04:00",
       "priceCents": null,
       "sourceName": null,
       "sourceUrl": null,
@@ -42,7 +42,7 @@
     },
     {
       "symbol": "ASST",
-      "asOf": "2026-09-16T16:00:00-04:00",
+      "asOf": "2026-09-16T08:00:00-04:00",
       "priceCents": null,
       "sourceName": null,
       "sourceUrl": null,
@@ -52,7 +52,7 @@
     },
     {
       "symbol": "MPJPY",
-      "asOf": "2026-09-16T16:00:00-04:00",
+      "asOf": "2026-09-16T08:00:00-04:00",
       "priceCents": null,
       "sourceName": null,
       "sourceUrl": null,

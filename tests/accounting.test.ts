@@ -70,7 +70,7 @@ describe("look-through BTC", () => {
         dilutedSatsPerShare: null,
       },
       {
-        ticker: "MPJPY",
+        ticker: "PREF",
         shares: 59,
         lookThroughEligible: false,
         dilutedSatsPerShare: 50_000,

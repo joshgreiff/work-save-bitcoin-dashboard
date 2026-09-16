@@ -5,18 +5,27 @@ import {
   transactionCategorySchema,
 } from "./common";
 
-export const portfolioTransactionSchema = z.object({
-  id: z.string().min(1),
-  timestamp: isoDateTimeSchema,
-  category: transactionCategorySchema,
-  ticker: z.string().optional(),
-  shares: z.number().optional(),
-  priceCents: centsSchema.nullable().optional(),
-  amountCents: centsSchema,
-  externalCashFlow: z.boolean(),
-  episodeNumber: z.number().int().positive().optional(),
-  note: z.string().optional(),
-});
+export const portfolioTransactionSchema = z
+  .object({
+    id: z.string().min(1),
+    timestamp: isoDateTimeSchema,
+    category: transactionCategorySchema,
+    ticker: z.string().optional(),
+    shares: z.number().optional(),
+    priceCents: centsSchema.nullable().optional(),
+    amountCents: centsSchema.nullable(),
+    externalCashFlow: z.boolean(),
+    episodeNumber: z.number().int().positive().optional(),
+    note: z.string().optional(),
+  })
+  .superRefine((tx, ctx) => {
+    if (tx.externalCashFlow && tx.amountCents == null) {
+      ctx.addIssue({
+        code: "custom",
+        message: `External cash-flow transaction ${tx.id} requires amountCents`,
+      });
+    }
+  });
 
 export const transactionsFileSchema = z
   .object({

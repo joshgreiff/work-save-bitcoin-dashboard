@@ -35,7 +35,7 @@ export const fixtureTransactions: PortfolioTransaction[] = [
     id: "fx-dividend",
     timestamp: "2026-09-17T11:00:00-04:00",
     category: "dividend",
-    ticker: "MPJPY",
+    ticker: "XYZ",
     amountCents: 2500,
     externalCashFlow: false,
     episodeNumber: 2,

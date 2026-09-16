@@ -21,6 +21,7 @@ export const provenanceSchema = z.object({
 
 export const assetClassSchema = z.enum([
   "common_equity",
+  "adr_common_equity",
   "preferred",
   "etf",
   "cash",

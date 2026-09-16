@@ -26,4 +26,8 @@ Version 1 answers “how much gross income could today’s liquidation value buy
 
 ## Episode 1 valuation timestamp
 
-`inceptionValuationAt` uses the series convention of 4:00 p.m. Eastern on the publication date. It is **not** a confirmed brokerage fill timestamp. Security and benchmark prices remain `null` until confirmed.
+Episode 1 currently uses the series publish window (`2026-09-16T08:00:00-04:00`), not a fabricated 4:00 p.m. Eastern close. After the September 16, 2026 market close, replace current portfolio value and `valuationAt` fields with the real 4:00 p.m. Eastern account snapshot to establish the first standardized closing baseline.
+
+## MPJPY classification
+
+MPJPY is a sponsored Level I ADR representing Metaplanet ordinary shares (TSE:3350) at a 1:1 ratio. Asset class is `adr_common_equity` with `lookThroughEligible: true`. Diluted sats/share should come from Metaplanet disclosures and apply 1:1 to the ADR.

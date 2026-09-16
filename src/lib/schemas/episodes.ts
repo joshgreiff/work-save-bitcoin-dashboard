@@ -13,6 +13,8 @@ export const positionSnapshotSchema = z.object({
   marketValueCents: centsSchema.nullable(),
   assetClass: assetClassSchema,
   lookThroughEligible: z.boolean(),
+  underlyingTicker: z.string().optional(),
+  adrRatio: z.number().positive().optional(),
 });
 
 export const benchmarkSnapshotSchema = z.object({

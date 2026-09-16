@@ -43,7 +43,7 @@ export default function PortfolioPage() {
       <SectionIntro
         eyebrow="Actual securities portfolio"
         title="Fiat Freedom Portfolio"
-        description="A real portfolio of Bitcoin treasury equities and preferred securities. Contributions are separated from investment results."
+        description="A real portfolio of Bitcoin treasury equities. Contributions are separated from investment results."
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -73,6 +73,7 @@ export default function PortfolioPage() {
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <MetricCard label="Total external contributions" value={formatUsdFromCents(c.totalExternalContributionsCents)} asOf={data.portfolio.currentValuationAt} />
+        <MetricCard label="Initial funding" value={formatUsdFromCents(c.initialFundingCents)} asOf={data.portfolio.currentValuationAt} hint="Opening deposit establishing the portfolio" />
         <MetricCard label="Personal contributions" value={formatUsdFromCents(c.personalCents)} asOf={data.portfolio.currentValuationAt} />
         <MetricCard label="Channel-income contributions" value={formatUsdFromCents(c.channelIncomeCents)} asOf={data.portfolio.currentValuationAt} />
         <MetricCard label="Viewer-support contributions" value={formatUsdFromCents(c.viewerSupportCents)} asOf={data.portfolio.currentValuationAt} />
@@ -91,11 +92,14 @@ export default function PortfolioPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-medium">Current holdings</h2>
         <DataTable
-          headers={["Ticker", "Shares", "Asset class", "Price", "Market value", "Look-through"]}
+          headers={["Ticker", "Shares", "Asset class", "Underlying", "Price", "Market value", "Look-through"]}
           rows={data.portfolio.positions.map((pos) => [
             pos.ticker,
             formatShares(pos.shares),
             pos.assetClass,
+            pos.underlyingTicker
+              ? `${pos.underlyingTicker}${pos.adrRatio ? ` (${pos.adrRatio}:1 ADR)` : ""}`
+              : "—",
             formatUsdFromCents(pos.priceCents),
             formatUsdFromCents(pos.marketValueCents),
             pos.lookThroughEligible ? "Eligible" : "Excluded",
@@ -133,7 +137,7 @@ export default function PortfolioPage() {
               tx.category,
               tx.ticker ?? "—",
               tx.shares == null ? "—" : formatShares(tx.shares),
-              formatUsdFromCents(tx.amountCents),
+              formatUsdFromCents(tx.amountCents, { fallback: "—" }),
               tx.externalCashFlow ? "Yes" : "No",
               tx.note ?? "",
             ])}

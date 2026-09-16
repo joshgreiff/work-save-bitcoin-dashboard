@@ -74,7 +74,11 @@ export default function HomePage() {
           label="Actual portfolio value"
           value={formatUsdFromCents(data.portfolio.currentPortfolioValueCents)}
           asOf={data.portfolio.currentValuationAt}
-          hint={data.portfolio.dataQuality === "seed" ? "Seed data — confirm prices" : undefined}
+          hint={
+            data.portfolio.dataQuality === "seed"
+              ? "Opening seed — replace with 4:00 p.m. ET closing snapshot after market close"
+              : undefined
+          }
         />
         <MetricCard
           label="Investment gain / loss"

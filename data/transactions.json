@@ -2,7 +2,7 @@
   "transactions": [
     {
       "id": "tx-ep1-initial-funding",
-      "timestamp": "2026-09-16T12:00:00-04:00",
+      "timestamp": "2026-09-16T08:00:00-04:00",
       "category": "initial_funding",
       "amountCents": 199991,
       "externalCashFlow": true,
@@ -11,39 +11,39 @@
     },
     {
       "id": "tx-ep1-buy-mstr",
-      "timestamp": "2026-09-16T12:00:00-04:00",
+      "timestamp": "2026-09-16T08:00:00-04:00",
       "category": "security_purchase",
       "ticker": "MSTR",
       "shares": 12.12,
       "priceCents": null,
-      "amountCents": 0,
+      "amountCents": null,
       "externalCashFlow": false,
       "episodeNumber": 1,
-      "note": "Share count confirmed. Purchase price and dollar amount pending confirmation; amountCents seeded as 0 and must not be used as cost basis."
+      "note": "Share count confirmed. Purchase price and dollar amount pending confirmation."
     },
     {
       "id": "tx-ep1-buy-asst",
-      "timestamp": "2026-09-16T12:00:00-04:00",
+      "timestamp": "2026-09-16T08:00:00-04:00",
       "category": "security_purchase",
       "ticker": "ASST",
       "shares": 13.7,
       "priceCents": null,
-      "amountCents": 0,
+      "amountCents": null,
       "externalCashFlow": false,
       "episodeNumber": 1,
       "note": "Share count confirmed. Purchase price and dollar amount pending confirmation."
     },
     {
       "id": "tx-ep1-buy-mpjpy",
-      "timestamp": "2026-09-16T12:00:00-04:00",
+      "timestamp": "2026-09-16T08:00:00-04:00",
       "category": "security_purchase",
       "ticker": "MPJPY",
       "shares": 59,
       "priceCents": null,
-      "amountCents": 0,
+      "amountCents": null,
       "externalCashFlow": false,
       "episodeNumber": 1,
-      "note": "Share count confirmed. Purchase price and dollar amount pending confirmation."
+      "note": "Share count confirmed. Metaplanet Level I ADR (1:1). Purchase price and dollar amount pending confirmation."
     }
   ]
 }

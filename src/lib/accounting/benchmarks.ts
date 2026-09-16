@@ -29,9 +29,9 @@ export function extractExternalCashFlows(
 ): CashFlowEvent[] {
   const events: CashFlowEvent[] = [];
   for (const tx of transactions) {
-    if (isExternalContribution(tx)) {
+    if (isExternalContribution(tx) && tx.amountCents != null) {
       events.push({ timestamp: tx.timestamp, amountCents: tx.amountCents });
-    } else if (isExternalWithdrawal(tx)) {
+    } else if (isExternalWithdrawal(tx) && tx.amountCents != null) {
       events.push({
         timestamp: tx.timestamp,
         amountCents: -Math.abs(tx.amountCents),

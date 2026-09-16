@@ -58,15 +58,29 @@ export default async function EpisodeDetailPage({ params }: Props) {
 
       <div className="flex flex-wrap gap-4 text-sm">
         {episode.youtubeUrl ? (
-          <a className="text-[var(--accent)] underline-offset-4 hover:underline" href={episode.youtubeUrl} rel="noreferrer" target="_blank">
+          <a
+            className="text-[var(--accent)] underline-offset-4 hover:underline"
+            href={episode.youtubeUrl}
+            rel="noreferrer"
+            target="_blank"
+          >
             Watch on YouTube
           </a>
-        ) : (
-          <span className="text-[var(--muted)]">YouTube URL pending</span>
-        )}
+        ) : null}
         {prev ? <TextLink href={`/episodes/${prev.slug}`}>← Episode {prev.episodeNumber}</TextLink> : null}
         {next ? <TextLink href={`/episodes/${next.slug}`}>Episode {next.episodeNumber} →</TextLink> : null}
       </div>
+
+      {episode.thumbnailUrl ? (
+        <a href={episode.youtubeUrl ?? undefined} target="_blank" rel="noreferrer" className="block max-w-xl">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={episode.thumbnailUrl}
+            alt={`Thumbnail for ${episode.title}`}
+            className="w-full border border-[var(--border)]"
+          />
+        </a>
+      ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard label="Portfolio value" value={formatUsdFromCents(episode.portfolioValueCents)} asOf={episode.valuationAt} />
