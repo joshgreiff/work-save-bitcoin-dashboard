@@ -1,0 +1,22 @@
+{
+  "siteName": "Work Save Bitcoin",
+  "siteTitle": "Work Save Bitcoin | Fiat Freedom Portfolio",
+  "siteDescription": "Follow a public portfolio exploring Bitcoin treasury companies, Bitcoin-per-share growth, portfolio performance, and the path from Bitcoin equities to fiat income.",
+  "canonicalBaseUrl": "https://example.com",
+  "timezone": "America/New_York",
+  "youtubeChannelUrl": "https://www.youtube.com/@WorkSaveBitcoin",
+  "xUrl": null,
+  "contactEmail": null,
+  "bitcoinSupportAddress": null,
+  "bitcoinSupportQrUrl": null,
+  "paypalSupportUrl": null,
+  "referralLinks": [],
+  "educationalResources": [
+    {
+      "title": "Bitcoin whitepaper",
+      "url": "https://bitcoin.org/bitcoin.pdf",
+      "note": "Primary technical introduction to Bitcoin."
+    }
+  ],
+  "supportDisclaimer": "Voluntary support funds the WSB Strategic Bitcoin Reserve. Support does not provide ownership, returns, voting rights, or any financial claim on the reserve or the securities portfolio."
+}

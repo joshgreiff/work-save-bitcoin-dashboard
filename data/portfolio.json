@@ -1,0 +1,49 @@
+{
+  "series": "Fiat Freedom Portfolio",
+  "inceptionEpisodeNumber": 1,
+  "inceptionPublishedAt": "2026-09-16T12:00:00-04:00",
+  "inceptionValuationAt": "2026-09-16T16:00:00-04:00",
+  "startingPortfolioValueCents": 199991,
+  "currentValuationAt": "2026-09-16T16:00:00-04:00",
+  "currentPortfolioValueCents": 199991,
+  "cashBalanceCents": 0,
+  "dataQuality": "seed",
+  "notes": [
+    "Episode 1 seed record. Share counts and starting value are confirmed.",
+    "inceptionValuationAt uses the series convention of 4:00 p.m. Eastern on the publication date. It is not a confirmed brokerage fill timestamp.",
+    "cashBalanceCents is seeded as 0 pending confirmation.",
+    "Per-security prices, cost basis, and benchmark prices are intentionally null until confirmed."
+  ],
+  "positions": [
+    {
+      "ticker": "MSTR",
+      "name": "Strategy (MicroStrategy)",
+      "assetClass": "common_equity",
+      "shares": 12.12,
+      "lookThroughEligible": true,
+      "priceCents": null,
+      "marketValueCents": null,
+      "costBasisCents": null
+    },
+    {
+      "ticker": "ASST",
+      "name": "Asset Entities / Strive",
+      "assetClass": "common_equity",
+      "shares": 13.7,
+      "lookThroughEligible": true,
+      "priceCents": null,
+      "marketValueCents": null,
+      "costBasisCents": null
+    },
+    {
+      "ticker": "MPJPY",
+      "name": "Strategy preferred (MPJPY)",
+      "assetClass": "preferred",
+      "shares": 59,
+      "lookThroughEligible": false,
+      "priceCents": null,
+      "marketValueCents": null,
+      "costBasisCents": null
+    }
+  ]
+}

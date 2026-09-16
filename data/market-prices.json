@@ -1,0 +1,64 @@
+{
+  "prices": [
+    {
+      "symbol": "BTCUSD",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "priceCents": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Seed placeholder. Do not invent BTC/USD for Episode 1."
+    },
+    {
+      "symbol": "SPY",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "priceCents": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Seed placeholder. Prior 4:00 p.m. Eastern adjusted close pending confirmation."
+    },
+    {
+      "symbol": "GLD",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "priceCents": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Seed placeholder. Prior 4:00 p.m. Eastern adjusted close pending confirmation."
+    },
+    {
+      "symbol": "MSTR",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "priceCents": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Seed placeholder. Security price pending confirmation."
+    },
+    {
+      "symbol": "ASST",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "priceCents": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Seed placeholder. Security price pending confirmation."
+    },
+    {
+      "symbol": "MPJPY",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "priceCents": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Seed placeholder. Security price pending confirmation."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "metrics": [
+    {
+      "id": "mstr-seed-unconfirmed",
+      "ticker": "MSTR",
+      "metricDate": "2026-09-16",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "totalBtcSats": null,
+      "basicSharesOutstanding": null,
+      "dilutedSharesOutstanding": null,
+      "basicSatsPerShare": null,
+      "dilutedSatsPerShare": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Eligible for look-through once company Bitcoin holdings and diluted share count are confirmed from IR/SEC sources."
+    },
+    {
+      "id": "asst-seed-unconfirmed",
+      "ticker": "ASST",
+      "metricDate": "2026-09-16",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "totalBtcSats": null,
+      "basicSharesOutstanding": null,
+      "dilutedSharesOutstanding": null,
+      "basicSatsPerShare": null,
+      "dilutedSatsPerShare": null,
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Eligible for look-through once company Bitcoin holdings and diluted share count are confirmed from IR/SEC sources."
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "episodes": [
+    {
+      "episodeNumber": 1,
+      "slug": "episode-1-fiat-freedom-portfolio-launch",
+      "title": "Fiat Freedom Portfolio — Episode 1",
+      "youtubeUrl": null,
+      "thumbnailUrl": null,
+      "publishedAt": "2026-09-16T12:00:00-04:00",
+      "valuationAt": "2026-09-16T16:00:00-04:00",
+      "portfolioValueCents": 199991,
+      "cashBalanceCents": 0,
+      "cumulativeContributionsCents": 199991,
+      "cumulativeWithdrawalsCents": 0,
+      "cumulativeIncomeCents": 0,
+      "investmentPnLCents": 0,
+      "positions": [
+        {
+          "ticker": "MSTR",
+          "shares": 12.12,
+          "priceCents": null,
+          "marketValueCents": null,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "ASST",
+          "shares": 13.7,
+          "priceCents": null,
+          "marketValueCents": null,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "MPJPY",
+          "shares": 59,
+          "priceCents": null,
+          "marketValueCents": null,
+          "assetClass": "preferred",
+          "lookThroughEligible": false
+        }
+      ],
+      "benchmarks": [
+        {
+          "symbol": "BTCUSD",
+          "label": "Bitcoin",
+          "priceCents": null,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "SPY",
+          "label": "S&P 500 (SPY)",
+          "priceCents": null,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "GLD",
+          "label": "Gold (GLD)",
+          "priceCents": null,
+          "units": null,
+          "valueCents": null
+        }
+      ],
+      "notes": [
+        "Initial funding of $1,999.91 established the Fiat Freedom Portfolio.",
+        "Holdings at launch: 12.12 MSTR, 13.70 ASST, 59 MPJPY.",
+        "Security prices and benchmark prices are pending confirmation and are stored as null."
+      ]
+    }
+  ]
+}
