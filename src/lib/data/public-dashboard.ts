@@ -98,7 +98,6 @@ export function buildPublicDashboard() {
       siteDescription: site.siteDescription,
       youtubeChannelUrl: site.youtubeChannelUrl,
       xUrl: site.xUrl,
-      contactEmail: site.contactEmail,
       timezone: site.timezone,
     },
     portfolio: {

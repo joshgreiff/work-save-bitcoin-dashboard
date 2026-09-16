@@ -6,7 +6,7 @@
   "timezone": "America/New_York",
   "youtubeChannelUrl": "https://www.youtube.com/@WorkSaveBitcoin",
   "xUrl": "https://x.com/worksavebitcoin",
-  "contactEmail": "josh@greiff.org",
+  "contactEmail": null,
   "bitcoinSupportAddress": "worksavebitcoin@coinos.io",
   "bitcoinSupportQrUrl": null,
   "paypalSupportUrl": null,

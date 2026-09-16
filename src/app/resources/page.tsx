@@ -39,13 +39,6 @@ export default function ResourcesPage() {
               </a>
             </li>
           ) : null}
-          {site.contactEmail ? (
-            <li>
-              <a className="text-[var(--accent)] hover:underline" href={`mailto:${site.contactEmail}`}>
-                {site.contactEmail}
-              </a>
-            </li>
-          ) : null}
         </ul>
       </section>
 
