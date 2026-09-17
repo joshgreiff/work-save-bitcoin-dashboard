@@ -44,6 +44,15 @@ Rules:
 * Set BTCUSD / SPY / GLD (and optional holding) prices only when confirmed; otherwise leave `null` — never invent.
 * Do not rewrite prior points unless correcting a documented error.
 * Charts and `/api/public-dashboard` derive series from this file.
+* Optional helper: `npm run quotes` prints live Coinbase/Yahoo marks for drafting a close — still confirm before writing history.
+
+## Live quotes (informational)
+
+* Endpoint: `/api/live-quotes`
+* UI panel on home and portfolio pages
+* CLI: `npm run quotes`
+* Sources: Coinbase BTC-USD spot; Yahoo Finance chart for MSTR, ASST, MPJPY, SPY, GLD
+* Not used for official performance, episodes, or valuation-history unless you manually confirm and paste values
 
 ## Adding an episode
 

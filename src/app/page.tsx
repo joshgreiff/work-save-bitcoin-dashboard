@@ -4,6 +4,7 @@ import {
   CashFlowMatchedChart,
   PortfolioValueChart,
 } from "@/components/charts/Charts";
+import { LiveMarkPanel } from "@/components/LiveMarkPanel";
 import {
   AsOf,
   Disclaimer,
@@ -141,6 +142,8 @@ export default function HomePage() {
           </p>
         </section>
       ) : null}
+
+      <LiveMarkPanel />
 
       <section className="grid gap-4 lg:grid-cols-2">
         <PortfolioValueChart data={valueChart} />

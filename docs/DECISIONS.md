@@ -8,6 +8,10 @@ Static files keep the public ledger auditable, avoid secrets, and match episode-
 
 Append-only session marks (`data/valuation-history.json`) unlock time-series charts for portfolio value, contribution-adjusted returns, and cash-flow-matched BTC/SPY/GLD without brokerage APIs or invented prices. Live quotes can layer on later; official performance still uses confirmed 9:30 a.m. / 4:00 p.m. Eastern points only.
 
+## Why live quotes stay informational
+
+`/api/live-quotes` pulls public market prints (Coinbase BTC spot; Yahoo Finance chart for equities/ETFs) so the dashboard can show a current mark without hand-editing prices every day. Those quotes must never replace official closes, episode snapshots, contribution-adjusted P&L, or cash-flow-matched benchmarks. No brokerage credentials are used.
+
 ## Why no brokerage integration
 
 Credentials and account identifiers are explicitly out of scope. Manual snapshots prevent accidental exposure and keep the educational narrative intentional.

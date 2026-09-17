@@ -4,6 +4,7 @@ import {
   CashFlowMatchedChart,
   PortfolioValueChart,
 } from "@/components/charts/Charts";
+import { LiveMarkPanel } from "@/components/LiveMarkPanel";
 import {
   AsOf,
   DataTable,
@@ -131,6 +132,8 @@ export default function PortfolioPage() {
           </div>
         </aside>
       ) : null}
+
+      <LiveMarkPanel />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <MetricCard label="Total external contributions" value={formatUsdFromCents(c.totalExternalContributionsCents)} asOf={data.portfolio.currentValuationAt} />

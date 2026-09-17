@@ -1,0 +1,370 @@
+{
+  "asOf": "2026-09-17T16:00:00-04:00",
+  "notes": [
+    "Catalog terms are sourced from Strategy press releases and SEC filings where cited.",
+    "Variable dividend rates are dated observations or clearly labeled assumptions — never treat them as permanent constants.",
+    "Live market prices come from /api/live-quotes and are informational until confirmed into official history."
+  ],
+  "securities": [
+    {
+      "ticker": "MSTR",
+      "name": "Strategy (MicroStrategy) common",
+      "role": "common_equity",
+      "eligibleForIncomeAllocation": false,
+      "statedAmountCents": null,
+      "liquidationPreferenceCents": null,
+      "annualDistributionRateBps": null,
+      "annualDistributionCentsPerShare": 0,
+      "distributionFrequency": "none",
+      "rateKind": "fixed",
+      "cumulativeKind": "not_applicable",
+      "convertibility": "not_applicable",
+      "seniorityRank": 99,
+      "seniorityLabel": "Common equity (residual)",
+      "callable": false,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": null,
+      "termsNotes": [
+        "Modeled via a transparent common NAV × mNAV framework in Scenario Lab.",
+        "Strategy’s reported “BTC Yield” is a company-defined KPI, not an investment return or traditional yield."
+      ],
+      "riskNotes": [
+        "Common equity is junior to debt and preferred claims.",
+        "mNAV can expand or contract independently of Bitcoin."
+      ],
+      "sources": [
+        {
+          "label": "Strategy investor relations",
+          "sourceName": "Strategy",
+          "sourceUrl": "https://www.strategy.com/",
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true,
+          "note": "Issuer homepage for ongoing disclosures."
+        }
+      ],
+      "comparisonHints": {
+        "missedDividendProtections": "Not applicable (common)",
+        "fundamentalChangeProvisions": "See issuer disclosures",
+        "atmProgramStatus": "Issuer may operate ATM programs from time to time",
+        "liquidityNote": "High relative liquidity among modeled names"
+      }
+    },
+    {
+      "ticker": "STRF",
+      "name": "Strategy Strife Perpetual Preferred (STRF)",
+      "role": "preferred",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": 10000,
+      "liquidationPreferenceCents": 10000,
+      "annualDistributionRateBps": 1000,
+      "annualDistributionCentsPerShare": 1000,
+      "distributionFrequency": "quarterly",
+      "rateKind": "fixed",
+      "cumulativeKind": "cumulative",
+      "convertibility": "non_convertible",
+      "seniorityRank": 20,
+      "seniorityLabel": "Perpetual preferred (see prospectus capital stack)",
+      "callable": true,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": 1800,
+      "rateAsOf": "2025-03-21T00:00:00-04:00",
+      "termsNotes": [
+        "Fixed 10.00% annual cumulative dividend on $100 stated amount.",
+        "Quarterly cash distribution schedule.",
+        "Non-convertible.",
+        "Missed dividends accumulate; compounded-dividend rate can increase above the regular rate up to a maximum of 18%, subject to the security’s terms.",
+        "Limited clean-up and tax-redemption provisions; fundamental-change repurchase rights.",
+        "Do not assume Strategy will redeem at $100 during ordinary conditions."
+      ],
+      "riskNotes": [
+        "Dividends are not guaranteed and remain subject to declaration.",
+        "Call / redemption provisions can cap upside if activated under the terms.",
+        "Bitcoin appreciation does not mechanically increase the fixed preferred dividend."
+      ],
+      "sources": [
+        {
+          "label": "STRF pricing press release",
+          "sourceName": "Strategy press",
+          "sourceUrl": "https://www.strategy.com/press/strategy-announces-pricing-of-strf-perpetual-preferred-stock_03-21-2025",
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true,
+          "note": "Primary marketing disclosure for STRF terms."
+        },
+        {
+          "label": "STRF free writing prospectus (SEC)",
+          "sourceName": "SEC EDGAR",
+          "sourceUrl": "https://www.sec.gov/Archives/edgar/data/1050446/000119312525059788/d868064dfwp.htm",
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true,
+          "note": "Free writing prospectus excerpt for term confirmation."
+        }
+      ],
+      "comparisonHints": {
+        "missedDividendProtections": "Cumulative; compounded rate may increase per terms (max 18%)",
+        "fundamentalChangeProvisions": "Fundamental-change repurchase rights (see prospectus)",
+        "atmProgramStatus": "See issuer disclosures",
+        "liquidityNote": "Preferred liquidity can be thinner than common"
+      }
+    },
+    {
+      "ticker": "STRC",
+      "name": "Strategy Stretch Perpetual Preferred (STRC)",
+      "role": "preferred",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": 10000,
+      "liquidationPreferenceCents": 10000,
+      "annualDistributionRateBps": null,
+      "annualDistributionCentsPerShare": null,
+      "distributionFrequency": "semi_monthly",
+      "rateKind": "variable",
+      "cumulativeKind": "cumulative",
+      "convertibility": "non_convertible",
+      "seniorityRank": 25,
+      "seniorityLabel": "Perpetual preferred (see prospectus capital stack)",
+      "callable": true,
+      "callPriceCents": 10000,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": "2026-06-08T00:00:00-04:00",
+      "termsNotes": [
+        "$100 stated amount; variable cumulative dividend.",
+        "Current dividend rate is dated data and must be updated when Strategy changes policy — not a permanent constant.",
+        "Semi-monthly payment cadence as of June 2026 disclosures.",
+        "Strategy has stated an objective to support trading near $100 without guaranteeing it.",
+        "Callable at the applicable redemption price under its terms.",
+        "Dividend remains subject to board declaration; current policy and rate can change."
+      ],
+      "riskNotes": [
+        "Variable rate and buyback/support policy can change.",
+        "Trading near stated amount is an objective, not a guarantee.",
+        "Bitcoin appreciation does not automatically raise the preferred dividend."
+      ],
+      "sources": [
+        {
+          "label": "STRC pricing press release",
+          "sourceName": "Strategy press",
+          "sourceUrl": "https://www.strategy.com/press/strategy-announces-pricing-of-strc-perpetual-preferred-stock_07-25-2025",
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true
+        },
+        {
+          "label": "STRC semi-monthly dividends approval",
+          "sourceName": "Strategy press",
+          "sourceUrl": "https://www.strategy.com/press/strategy-announces-approval-of-strc-semi-monthly-dividends_06-08-2026",
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true
+        },
+        {
+          "label": "STRC repurchase / buyback policy",
+          "sourceName": "Strategy press",
+          "sourceUrl": "https://www.strategy.com/press/strategy-initiates-strc-repurchases-and-announces-ongoing-buyback-policy_07-27-2026",
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true
+        }
+      ],
+      "comparisonHints": {
+        "missedDividendProtections": "Cumulative (variable rate)",
+        "fundamentalChangeProvisions": "See prospectus",
+        "atmProgramStatus": "Issuer has discussed repurchase / support policy — verify latest",
+        "liquidityNote": "Preferred liquidity can be thinner than common"
+      }
+    },
+    {
+      "ticker": "STRK",
+      "name": "Strategy Strike Perpetual Preferred (STRK)",
+      "role": "preferred",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": 10000,
+      "liquidationPreferenceCents": 10000,
+      "annualDistributionRateBps": null,
+      "annualDistributionCentsPerShare": null,
+      "distributionFrequency": "other",
+      "rateKind": "fixed",
+      "cumulativeKind": "cumulative",
+      "convertibility": "convertible",
+      "seniorityRank": 30,
+      "seniorityLabel": "Perpetual preferred (see prospectus)",
+      "callable": true,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": null,
+      "termsNotes": [
+        "Terms must be confirmed from the latest prospectus before treating rate or convertibility details as final.",
+        "Convertible features change total-return mechanics versus non-convertible preferreds."
+      ],
+      "riskNotes": [
+        "Conversion optionality and preferred terms are complex — verify primary sources.",
+        "Insufficient finalized seed terms: rate left null until confirmed."
+      ],
+      "sources": [],
+      "comparisonHints": {
+        "missedDividendProtections": "Confirm in prospectus",
+        "fundamentalChangeProvisions": "Confirm in prospectus",
+        "atmProgramStatus": "See issuer disclosures",
+        "liquidityNote": "Confirm average volume before sizing"
+      }
+    },
+    {
+      "ticker": "STRD",
+      "name": "Strategy Stride Perpetual Preferred (STRD)",
+      "role": "preferred",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": 10000,
+      "liquidationPreferenceCents": 10000,
+      "annualDistributionRateBps": null,
+      "annualDistributionCentsPerShare": null,
+      "distributionFrequency": "other",
+      "rateKind": "fixed",
+      "cumulativeKind": "cumulative",
+      "convertibility": "non_convertible",
+      "seniorityRank": 35,
+      "seniorityLabel": "Perpetual preferred (see prospectus)",
+      "callable": true,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": null,
+      "termsNotes": [
+        "Placeholder catalog row — confirm rate, frequency, and seniority from primary sources before relying on income projections."
+      ],
+      "riskNotes": [
+        "Insufficient finalized seed terms: distribution left null until confirmed."
+      ],
+      "sources": [],
+      "comparisonHints": {}
+    },
+    {
+      "ticker": "SATA",
+      "name": "Strategy SATA preferred (catalog)",
+      "role": "preferred",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": 10000,
+      "liquidationPreferenceCents": 10000,
+      "annualDistributionRateBps": null,
+      "annualDistributionCentsPerShare": null,
+      "distributionFrequency": "other",
+      "rateKind": "variable",
+      "cumulativeKind": "cumulative",
+      "convertibility": "non_convertible",
+      "seniorityRank": 40,
+      "seniorityLabel": "Perpetual preferred (confirm)",
+      "callable": true,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": null,
+      "termsNotes": [
+        "Catalog placeholder pending primary-source term sheet confirmation."
+      ],
+      "riskNotes": [
+        "Do not invent a dividend rate."
+      ],
+      "sources": [],
+      "comparisonHints": {}
+    },
+    {
+      "ticker": "IBIT",
+      "name": "iShares Bitcoin Trust (IBIT)",
+      "role": "bitcoin_proxy",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": null,
+      "liquidationPreferenceCents": null,
+      "annualDistributionRateBps": 0,
+      "annualDistributionCentsPerShare": 0,
+      "distributionFrequency": "none",
+      "rateKind": "fixed",
+      "cumulativeKind": "not_applicable",
+      "convertibility": "not_applicable",
+      "seniorityRank": null,
+      "seniorityLabel": "Spot Bitcoin ETF proxy",
+      "callable": false,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": null,
+      "termsNotes": [
+        "Benchmark / optional allocation sleeve. Not a Strategy preferred security.",
+        "Income model treats indicated yield as 0 unless a verified distribution is added."
+      ],
+      "riskNotes": [
+        "Tracks Bitcoin exposure with ETF structure risks (fees, creation/redemption, tracking)."
+      ],
+      "sources": [],
+      "comparisonHints": {
+        "liquidityNote": "Generally liquid relative to preferreds"
+      }
+    },
+    {
+      "ticker": "BTC",
+      "name": "Bitcoin (direct)",
+      "role": "benchmark",
+      "eligibleForIncomeAllocation": false,
+      "statedAmountCents": null,
+      "liquidationPreferenceCents": null,
+      "annualDistributionRateBps": 0,
+      "annualDistributionCentsPerShare": 0,
+      "distributionFrequency": "none",
+      "rateKind": "fixed",
+      "cumulativeKind": "not_applicable",
+      "convertibility": "not_applicable",
+      "seniorityRank": null,
+      "seniorityLabel": "Bitcoin benchmark",
+      "callable": false,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": null,
+      "termsNotes": [
+        "Scenario Lab benchmark. Not held as a securities-portfolio position in v1."
+      ],
+      "riskNotes": [],
+      "sources": [],
+      "comparisonHints": {}
+    },
+    {
+      "ticker": "CASH",
+      "name": "Cash / Treasury proxy",
+      "role": "cash_proxy",
+      "eligibleForIncomeAllocation": true,
+      "statedAmountCents": 100,
+      "liquidationPreferenceCents": 100,
+      "annualDistributionRateBps": 400,
+      "annualDistributionCentsPerShare": 4,
+      "distributionFrequency": "monthly",
+      "rateKind": "variable",
+      "cumulativeKind": "not_applicable",
+      "convertibility": "not_applicable",
+      "seniorityRank": 1,
+      "seniorityLabel": "Cash / T-bill proxy (defensive sleeve)",
+      "callable": false,
+      "callPriceCents": null,
+      "callYear": null,
+      "compoundedDividendMaxRateBps": null,
+      "rateAsOf": "2026-09-17T16:00:00-04:00",
+      "termsNotes": [
+        "Illustrative defensive allocation unit priced at $1.00 with an assumed ~4% annualized cash yield.",
+        "Not a recommendation. Edit the assumed yield in Scenario Lab / Income Today."
+      ],
+      "riskNotes": [
+        "Assumed cash yield is user-editable and is not a live T-bill quote."
+      ],
+      "sources": [
+        {
+          "label": "Model assumption",
+          "sourceName": "Internal model assumption",
+          "sourceUrl": null,
+          "retrievedAt": "2026-09-17T16:00:00-04:00",
+          "manual": true,
+          "note": "Assumed proxy — replace with observed T-bill / money-market yield when desired."
+        }
+      ],
+      "comparisonHints": {
+        "liquidityNote": "Highest liquidity sleeve in the model"
+      }
+    }
+  ]
+}

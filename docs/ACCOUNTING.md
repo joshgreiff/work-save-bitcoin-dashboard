@@ -64,6 +64,16 @@ Monthly income = annual income ÷ 12
 
 WSB Bitcoin Reserve is never deployable capital.
 
+## Fiat Freedom Income Model / Scenario Lab
+
+The Income Model is a **hypothetical** third ledger. It may use the actual portfolio’s deployable liquidation value as an input, but it must never mutate portfolio JSON, episode snapshots, contribution records, reserve balances, or reported investment performance.
+
+* **Income Today** — deterministic gross-income calculator from allocations, prices, and indicated distributions.
+* **Scenario Lab** — user-assumption projections for BTC, MSTR (NAV × mNAV), and preferreds (distribution + required-yield terminal). Presets are labeled illustrative only.
+* **Security Comparison** — historical risk metrics only when verified total-return history exists; otherwise “Insufficient history.”
+
+STRF seed terms use stated-amount × fixed rate for income and market price for current yield. STRC’s variable rate is dated/editable and must not be treated as a permanent constant.
+
 ## Valuation history (open / close)
 
 Official chart series come from append-only session points in `data/valuation-history.json`:

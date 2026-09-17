@@ -29,6 +29,8 @@ import {
   loadSiteConfig,
   loadTransactions,
   loadValuationHistory,
+  loadIncomeSecurities,
+  loadIncomeHistory,
 } from "./load";
 
 function latestMetricForTicker(
@@ -51,6 +53,11 @@ export function buildPublicDashboard() {
   const donations = loadDonations();
   const valuationHistory = loadValuationHistory();
   const incomeModel = loadIncomeModel();
+  const incomeSecurities = loadIncomeSecurities();
+  const incomeHistory = loadIncomeHistory();
+  const catalogByTicker = new Map(
+    incomeSecurities.securities.map((s) => [s.ticker, s]),
+  );
 
   const contributions = summarizeContributions(transactionsFile.transactions);
   const performance = calculatePortfolioPerformance({
@@ -81,6 +88,7 @@ export function buildPublicDashboard() {
   const income = calculateIncomeModel({
     portfolioValueCents: portfolio.currentPortfolioValueCents,
     model: incomeModel,
+    catalogByTicker,
   });
 
   const cashFlows = extractExternalCashFlows(transactionsFile.transactions);
@@ -166,6 +174,18 @@ export function buildPublicDashboard() {
       asOf: incomeModel.asOf,
       wholeSharesOnly: incomeModel.wholeSharesOnly,
       notes: incomeModel.notes,
+      illustrativePreset: incomeModel.illustrativePreset,
+      scenarioPresets: incomeModel.scenarioPresets,
+      mstrDefaults: incomeModel.mstrDefaults ?? null,
+      defaultHorizonYears: incomeModel.defaultHorizonYears,
+      defaultRiskFreeRate: incomeModel.defaultRiskFreeRate,
+      defaultInflationRate: incomeModel.defaultInflationRate,
+      minHistoryObservations: incomeModel.minHistoryObservations,
+      allocation: incomeModel.securities,
+      excludedCashCents: incomeModel.excludedCashCents,
+      milestonesMonthlyCents: incomeModel.milestonesMonthlyCents,
+      catalog: incomeSecurities,
+      history: incomeHistory,
       result: income,
     },
     benchmarks: {

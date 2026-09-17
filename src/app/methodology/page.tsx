@@ -59,6 +59,14 @@ export default function MethodologyPage() {
           </p>
         </section>
         <section className="space-y-2">
+          <h2 className="text-xl font-medium text-[var(--foreground)]">Live quotes</h2>
+          <p>
+            The dashboard may show auto-refreshed public market quotes for holdings and benchmarks.
+            Those live marks are informational only, never replace the official 4:00 p.m. Eastern
+            close, and never update episode snapshots or valuation history without confirmation.
+          </p>
+        </section>
+        <section className="space-y-2">
           <h2 className="text-xl font-medium text-[var(--foreground)]">Bitcoin-per-share exposure</h2>
           <p>
             Look-through sats = shares owned × diluted sats per share. Diluted sats per share is the

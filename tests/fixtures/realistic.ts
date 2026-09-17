@@ -59,6 +59,12 @@ export const fixtureIncomeModel: IncomeModel = {
   wholeSharesOnly: false,
   excludedCashCents: 0,
   milestonesMonthlyCents: [1000, 2500, 10000, 50000, 100000],
+  illustrativePreset: false,
+  scenarioPresets: [],
+  defaultHorizonYears: 5,
+  defaultRiskFreeRate: 0.04,
+  defaultInflationRate: 0.02,
+  minHistoryObservations: 24,
   securities: [
     {
       ticker: "PFFA",

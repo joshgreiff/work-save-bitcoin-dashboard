@@ -8,7 +8,7 @@
 * Tax calculations
 * Automatic SEC parsing or web scraping
 * Protected admin portal / database
-* Real-time market prices
+* Real-time market prices *(live informational quotes now available via `/api/live-quotes`; official closes remain manual)*
 * Model-portfolio paper-trading performance history
 * Public deployment (requires explicit approval)
 * Confirmed security prices, cost basis, BTC/SPY/GLD prints for Episode 1

@@ -1,17 +1,103 @@
 {
-  "asOf": "2026-09-16T16:00:00-04:00",
+  "asOf": "2026-09-17T16:00:00-04:00",
   "wholeSharesOnly": false,
   "excludedCashCents": 0,
-  "milestonesMonthlyCents": [
-    1000,
-    2500,
-    10000,
-    50000,
-    100000
+  "milestonesMonthlyCents": [1000, 2500, 10000, 50000, 100000],
+  "illustrativePreset": true,
+  "defaultHorizonYears": 5,
+  "defaultRiskFreeRate": 0.04,
+  "defaultInflationRate": 0.02,
+  "minHistoryObservations": 24,
+  "securities": [
+    {
+      "ticker": "STRF",
+      "name": "STRF",
+      "targetAllocationBps": 4000,
+      "priceCents": null,
+      "annualDistributionCentsPerShare": 1000,
+      "note": "Illustrative only — fixed 10% on $100 stated amount ($10/share)."
+    },
+    {
+      "ticker": "STRC",
+      "name": "STRC",
+      "targetAllocationBps": 4000,
+      "priceCents": null,
+      "annualDistributionCentsPerShare": 900,
+      "note": "Illustrative only — assumed 9.00% variable rate until the latest declared rate is confirmed. Marked editable."
+    },
+    {
+      "ticker": "CASH",
+      "name": "Cash / Treasury proxy",
+      "targetAllocationBps": 2000,
+      "priceCents": 100,
+      "annualDistributionCentsPerShare": 4,
+      "note": "Illustrative defensive sleeve at ~4% assumed cash yield."
+    }
   ],
-  "securities": [],
+  "scenarioPresets": [
+    {
+      "id": "bear",
+      "name": "Bear",
+      "label": "Illustrative only",
+      "bitcoinCagr": -0.15,
+      "annualBtcPerShareGrowth": -0.05,
+      "startingMnav": 1.8,
+      "terminalMnav": 1.2,
+      "preferredTerminalRequiredYield": 0.14,
+      "dividendStress": true,
+      "notes": [
+        "Negative Bitcoin path, mNAV contraction, wider preferred required yields, dividend-stress toggle on."
+      ]
+    },
+    {
+      "id": "base",
+      "name": "Base",
+      "label": "Illustrative only",
+      "bitcoinCagr": 0.2,
+      "annualBtcPerShareGrowth": 0.05,
+      "startingMnav": 1.8,
+      "terminalMnav": 1.8,
+      "preferredTerminalRequiredYield": 0.1,
+      "dividendStress": false,
+      "notes": [
+        "Moderate Bitcoin growth, conservative BTC-per-share growth, stable mNAV and preferred required yields."
+      ]
+    },
+    {
+      "id": "bull",
+      "name": "Bull",
+      "label": "Illustrative only",
+      "bitcoinCagr": 0.4,
+      "annualBtcPerShareGrowth": 0.15,
+      "startingMnav": 1.8,
+      "terminalMnav": 2.4,
+      "preferredTerminalRequiredYield": 0.08,
+      "dividendStress": false,
+      "notes": [
+        "Strong Bitcoin growth, positive BTC-per-share growth, optional mNAV expansion, tighter preferred required yields."
+      ]
+    }
+  ],
+  "mstrDefaults": {
+    "startingPriceCents": null,
+    "startingBitcoinHoldings": null,
+    "startingDilutedShares": null,
+    "startingBtcPerDilutedShare": null,
+    "startingNetSeniorClaimsPerShareCents": null,
+    "startingCashPerShareCents": null,
+    "startingSoftwareValuePerShareCents": null,
+    "annualSeniorClaimsGrowth": 0,
+    "asOf": null,
+    "notes": [
+      "MSTR balance-sheet inputs start empty so the Scenario Lab does not invent holdings, dilution, or senior claims.",
+      "Enter observed figures from Strategy disclosures before treating projections as meaningful."
+    ],
+    "sources": []
+  },
   "notes": [
-    "Income model is unconfigured at Episode 1 seed. Add modeled securities with target allocations totaling 100% once confirmed.",
-    "WSB Strategic Bitcoin Reserve is never included in deployable capital."
+    "Illustrative income allocation only — not a recommendation and fully user-editable.",
+    "WSB Strategic Bitcoin Reserve is never included in deployable capital.",
+    "Official portfolio values and episode history are never mutated by this model.",
+    "STRC distribution uses an illustrative assumed rate until the latest declared rate is confirmed with a source and as-of date."
   ]
 }

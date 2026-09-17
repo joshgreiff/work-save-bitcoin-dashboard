@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "validate:data": "tsx scripts/validate-data.ts",
+    "quotes": "tsx scripts/fetch-live-quotes.ts",
     "format": "prettier --write ."
   },
   "dependencies": {

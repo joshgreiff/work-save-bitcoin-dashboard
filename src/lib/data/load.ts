@@ -2,7 +2,11 @@ import { readFileSync } from "node:fs";
 import path from "node:path";
 import { donationsFileSchema } from "@/lib/schemas/donations";
 import { episodesFileSchema } from "@/lib/schemas/episodes";
-import { incomeModelSchema } from "@/lib/schemas/income-model";
+import {
+  incomeHistoryFileSchema,
+  incomeModelSchema,
+  incomeSecuritiesFileSchema,
+} from "@/lib/schemas/income-model";
 import { issuerMetricsFileSchema } from "@/lib/schemas/issuer-metrics";
 import { marketPricesFileSchema } from "@/lib/schemas/market-prices";
 import { portfolioSchema } from "@/lib/schemas/portfolio";
@@ -90,6 +94,20 @@ export function loadIncomeModel() {
   );
 }
 
+export function loadIncomeSecurities() {
+  return parseOrThrow(
+    "income-securities.json",
+    incomeSecuritiesFileSchema.safeParse(readJsonFile("income-securities.json")),
+  );
+}
+
+export function loadIncomeHistory() {
+  return parseOrThrow(
+    "income-history.json",
+    incomeHistoryFileSchema.safeParse(readJsonFile("income-history.json")),
+  );
+}
+
 export function validateAllDataFiles(): void {
   loadSiteConfig();
   loadPortfolio();
@@ -101,4 +119,6 @@ export function validateAllDataFiles(): void {
   loadDonations();
   loadValuationHistory();
   loadIncomeModel();
+  loadIncomeSecurities();
+  loadIncomeHistory();
 }
