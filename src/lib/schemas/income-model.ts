@@ -18,6 +18,7 @@ export const convertibilitySchema = z.enum([
   "not_applicable",
 ]);
 export const distributionFrequencySchema = z.enum([
+  "business_daily",
   "monthly",
   "semi_monthly",
   "quarterly",
@@ -43,6 +44,7 @@ export const incomeSecurityFieldSchema = provenanceSchema.extend({
 export const incomeSecuritySchema = z.object({
   ticker: z.string().min(1),
   name: z.string().min(1),
+  issuer: z.string().nullable().optional(),
   role: securityRoleSchema,
   eligibleForIncomeAllocation: z.boolean(),
   statedAmountCents: nonNegativeCentsSchema.nullable(),
@@ -60,11 +62,17 @@ export const incomeSecuritySchema = z.object({
   convertibility: convertibilitySchema,
   seniorityRank: z.number().int().positive().nullable(),
   seniorityLabel: z.string().nullable(),
-  callable: z.boolean(),
-  callPriceCents: nonNegativeCentsSchema.nullable(),
+  /** Ordinary discretionary optional redemption (e.g. STRC at $101). */
+  ordinaryCallable: z.boolean(),
+  ordinaryCallPriceCents: nonNegativeCentsSchema.nullable(),
+  cleanUpRedemption: z.boolean().default(false),
+  taxRedemption: z.boolean().default(false),
+  fundamentalChangeRepurchase: z.boolean().default(false),
   callYear: z.number().int().nullable(),
   compoundedDividendMaxRateBps: z.number().int().nonnegative().nullable(),
   rateAsOf: isoDateTimeSchema.nullable(),
+  /** When false, Scenario Lab should not run preferred projections for this name. */
+  projectionsEnabled: z.boolean().default(true),
   termsNotes: z.array(z.string()).default([]),
   riskNotes: z.array(z.string()).default([]),
   sources: z
@@ -174,13 +182,23 @@ export const incomeModelSchema = z
 
 export const incomeHistoryPointSchema = z.object({
   asOf: isoDateTimeSchema,
+  /** Unadjusted closing price for point-in-time valuation. */
   priceCents: centsSchema.positive(),
   distributionCents: nonNegativeCentsSchema.default(0),
+  /**
+   * Distribution-adjusted total-return index level (or period total return input
+   * series elsewhere). Risk metrics must not use price-only paths for dividend
+   * securities.
+   */
+  totalReturnIndex: z.number().positive().nullable().optional(),
 });
 
 export const incomeHistorySeriesSchema = provenanceSchema.extend({
   ticker: z.string().min(1),
   points: z.array(incomeHistoryPointSchema),
+  seriesKind: z
+    .enum(["unadjusted_close", "distribution_adjusted_total_return"])
+    .default("unadjusted_close"),
 });
 
 export const incomeHistoryFileSchema = z.object({

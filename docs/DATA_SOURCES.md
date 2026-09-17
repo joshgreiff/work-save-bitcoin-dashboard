@@ -23,4 +23,5 @@ Every externally sourced figure should eventually include source name, URL, as-o
 
 * CLI: `npm run quotes` prints the current live mark JSON.
 * UI: home and portfolio pages show a live mark panel that refreshes about once a minute.
-* Live values must never be labeled as the official 4:00 p.m. Eastern close or written into episode / valuation-history rows without human confirmation.
+* Live income: `/api/live-income-model` applies live quotes to the income-model allocation (informational; never mutates episodes).
+* Live values must never be labeled as overwriting official episode / valuation-history rows without human confirmation.

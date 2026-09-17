@@ -2,6 +2,9 @@
   "series": [],
   "notes": [
     "Historical total-return series for Sharpe / Sortino / drawdown are not seeded yet.",
-    "Security Comparison shows “Insufficient history” until verified price and distribution points are appended."
+    "When history is added: store unadjusted closing prices for point-in-time portfolio valuation.",
+    "Use a separate distribution-adjusted total-return series for Sharpe, Sortino, and drawdown.",
+    "Never calculate risk-adjusted metrics from price-only data for dividend securities.",
+    "Security Comparison shows “Insufficient history” until verified series are appended."
   ]
 }

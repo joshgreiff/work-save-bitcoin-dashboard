@@ -124,6 +124,6 @@ export async function fetchLiveQuotes(args: {
       quotes,
     }),
     disclaimer:
-      "Live quotes are informational only. They are not the official 4:00 p.m. Eastern close, do not update episode snapshots, and are never used for contribution-adjusted performance or cash-flow-matched benchmarks.",
+      "Live quotes mark the published share weights to market. They are the current portfolio value while holdings are unchanged. Official episode snapshots and valuation-history open/close rows are still append-only confirmed marks and are not auto-overwritten.",
   };
 }

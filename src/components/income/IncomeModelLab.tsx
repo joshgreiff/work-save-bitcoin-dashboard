@@ -165,7 +165,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
   const [dividendStress, setDividendStress] = useState(
     activePreset?.dividendStress ?? false,
   );
-  const [strcRateBps, setStrcRateBps] = useState(900);
+  const [strcRateBps, setStrcRateBps] = useState(1200);
 
   useEffect(() => {
     let cancelled = false;
@@ -329,7 +329,9 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
   );
 
   const preferredPaths = useMemo(() => {
-    return ["STRF", "STRC"].map((ticker) => {
+    return ["STRF", "STRC"]
+      .filter((ticker) => catalogByTicker.get(ticker)?.projectionsEnabled !== false)
+      .map((ticker) => {
       const catalog = catalogByTicker.get(ticker);
       const row = pricedAllocations.find((a) => a.ticker === ticker);
       const price = row?.priceCents ?? 10000;
@@ -355,9 +357,9 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
         ),
         terminalRequiredYield: preferredRequiredYield,
         reinvestDistributions: reinvest,
-        callable: catalog?.callable ?? false,
-        callActivated,
-        callPriceCents: catalog?.callPriceCents ?? null,
+        ordinaryCallable: catalog?.ordinaryCallable ?? false,
+        ordinaryCallActivated: callActivated,
+        ordinaryCallPriceCents: catalog?.ordinaryCallPriceCents ?? null,
         dividendStressHaircut: dividendStress ? 0.5 : 0,
       });
       return { ticker, ...projected };
@@ -518,9 +520,9 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
               </select>
             </Field>
             <Field
-              label="STRC assumed rate (bps)"
-              edited={strcRateBps !== 900}
-              onReset={() => setStrcRateBps(900)}
+              label="STRC rate (bps, dated/editable)"
+              edited={strcRateBps !== 1200}
+              onReset={() => setStrcRateBps(1200)}
             >
               <input
                 className={inputClass}
@@ -881,7 +883,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                 checked={callActivated}
                 onChange={(e) => setCallActivated(e.target.checked)}
               />
-              Activate modeled call cap (when callable)
+              Activate ordinary call cap (STRC $101 — not STRF)
             </label>
             <label className="flex items-center gap-2">
               <input
@@ -1082,10 +1084,26 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   >
                     <h4 className="font-medium">{security.ticker}</h4>
                     <ul className="mt-2 space-y-1 text-[var(--muted-foreground)]">
+                      <li>Issuer: {security.issuer ?? "—"}</li>
                       <li>Rate: {security.rateKind}</li>
                       <li>Cumulative: {security.cumulativeKind}</li>
                       <li>Convertible: {security.convertibility}</li>
-                      <li>Callable: {security.callable ? "yes" : "no"}</li>
+                      <li>
+                        Ordinary callable:{" "}
+                        {security.ordinaryCallable
+                          ? `yes${
+                              security.ordinaryCallPriceCents != null
+                                ? ` @ $${(security.ordinaryCallPriceCents / 100).toFixed(2)}`
+                                : ""
+                            }`
+                          : "no"}
+                      </li>
+                      <li>
+                        Other redemptions: clean-up{" "}
+                        {security.cleanUpRedemption ? "yes" : "no"} / tax{" "}
+                        {security.taxRedemption ? "yes" : "no"} / fund. change{" "}
+                        {security.fundamentalChangeRepurchase ? "yes" : "no"}
+                      </li>
                       <li>
                         Missed-dividend:{" "}
                         {security.comparisonHints?.missedDividendProtections ?? "—"}

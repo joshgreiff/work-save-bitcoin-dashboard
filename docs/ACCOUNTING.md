@@ -72,7 +72,9 @@ The Income Model is a **hypothetical** third ledger. It may use the actual portf
 * **Scenario Lab** — user-assumption projections for BTC, MSTR (NAV × mNAV), and preferreds (distribution + required-yield terminal). Presets are labeled illustrative only.
 * **Security Comparison** — historical risk metrics only when verified total-return history exists; otherwise “Insufficient history.”
 
-STRF seed terms use stated-amount × fixed rate for income and market price for current yield. STRC’s variable rate is dated/editable and must not be treated as a permanent constant.
+STRF seed terms use stated-amount × fixed rate for income and market price for current yield. STRF has no ordinary discretionary par call — clean-up, tax, and fundamental-change provisions only. STRC’s variable rate is dated (12.00% policy as of 2026-07-30) and editable; ordinary optional redemption is $101, not $100. SATA is a Strive preferred, not Strategy.
+
+When historical risk metrics are added: use unadjusted closes for point-in-time valuation, and distribution-adjusted total-return series for Sharpe, Sortino, and drawdown. Never compute risk-adjusted metrics from price-only data for dividend securities.
 
 ## Valuation history (open / close)
 

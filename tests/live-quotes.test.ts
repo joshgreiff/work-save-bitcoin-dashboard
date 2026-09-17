@@ -123,6 +123,6 @@ describe("fetchLiveQuotes", () => {
     expect(result.quotes.some((q) => q.symbol === "BTCUSD")).toBe(true);
     expect(result.quotes.some((q) => q.symbol === "MSTR")).toBe(true);
     expect(result.errors.length).toBeGreaterThan(0);
-    expect(result.disclaimer.toLowerCase()).toContain("informational");
+    expect(result.disclaimer.toLowerCase()).toContain("share weights");
   });
 });

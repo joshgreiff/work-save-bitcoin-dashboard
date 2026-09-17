@@ -1,9 +1,10 @@
 {
-  "asOf": "2026-09-17T16:00:00-04:00",
+  "asOf": "2026-09-17T18:00:00-04:00",
   "notes": [
-    "Catalog terms are sourced from Strategy press releases and SEC filings where cited.",
-    "Variable dividend rates are dated observations or clearly labeled assumptions — never treat them as permanent constants.",
-    "Live market prices come from /api/live-quotes and are informational until confirmed into official history."
+    "Catalog terms are sourced from Strategy and Strive press releases / disclosures where cited.",
+    "Variable dividend rates are dated observations and remain editable \u2014 never treat them as permanent constants.",
+    "Ordinary call prices are contractual redemption terms, not market repurchase prints.",
+    "Live market prices come from /api/live-quotes and /api/live-income-model and are informational until confirmed into official history."
   ],
   "securities": [
     {
@@ -21,14 +22,12 @@
       "convertibility": "not_applicable",
       "seniorityRank": 99,
       "seniorityLabel": "Common equity (residual)",
-      "callable": false,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
       "rateAsOf": null,
       "termsNotes": [
-        "Modeled via a transparent common NAV × mNAV framework in Scenario Lab.",
-        "Strategy’s reported “BTC Yield” is a company-defined KPI, not an investment return or traditional yield."
+        "Modeled via a transparent common NAV \u00d7 mNAV framework in Scenario Lab.",
+        "Strategy\u2019s reported \u201cBTC Yield\u201d is a company-defined KPI, not an investment return or traditional yield."
       ],
       "riskNotes": [
         "Common equity is junior to debt and preferred claims.",
@@ -49,7 +48,14 @@
         "fundamentalChangeProvisions": "See issuer disclosures",
         "atmProgramStatus": "Issuer may operate ATM programs from time to time",
         "liquidityNote": "High relative liquidity among modeled names"
-      }
+      },
+      "issuer": "Strategy",
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     },
     {
       "ticker": "STRF",
@@ -66,8 +72,6 @@
       "convertibility": "non_convertible",
       "seniorityRank": 20,
       "seniorityLabel": "Perpetual preferred (see prospectus capital stack)",
-      "callable": true,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": 1800,
       "rateAsOf": "2025-03-21T00:00:00-04:00",
@@ -75,8 +79,9 @@
         "Fixed 10.00% annual cumulative dividend on $100 stated amount.",
         "Quarterly cash distribution schedule.",
         "Non-convertible.",
-        "Missed dividends accumulate; compounded-dividend rate can increase above the regular rate up to a maximum of 18%, subject to the security’s terms.",
+        "Missed dividends accumulate; compounded-dividend rate can increase above the regular rate up to a maximum of 18%, subject to the security\u2019s terms.",
         "Limited clean-up and tax-redemption provisions; fundamental-change repurchase rights.",
+        "No ordinary discretionary par call comparable to STRC \u2014 do not apply an ordinary $100 call cap. Price may trade above $100 via required-yield compression.",
         "Do not assume Strategy will redeem at $100 during ordinary conditions."
       ],
       "riskNotes": [
@@ -107,7 +112,14 @@
         "fundamentalChangeProvisions": "Fundamental-change repurchase rights (see prospectus)",
         "atmProgramStatus": "See issuer disclosures",
         "liquidityNote": "Preferred liquidity can be thinner than common"
-      }
+      },
+      "issuer": "Strategy",
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": true,
+      "taxRedemption": true,
+      "fundamentalChangeRepurchase": true,
+      "projectionsEnabled": true
     },
     {
       "ticker": "STRC",
@@ -116,25 +128,23 @@
       "eligibleForIncomeAllocation": true,
       "statedAmountCents": 10000,
       "liquidationPreferenceCents": 10000,
-      "annualDistributionRateBps": null,
-      "annualDistributionCentsPerShare": null,
+      "annualDistributionRateBps": 1200,
+      "annualDistributionCentsPerShare": 1200,
       "distributionFrequency": "semi_monthly",
       "rateKind": "variable",
       "cumulativeKind": "cumulative",
       "convertibility": "non_convertible",
       "seniorityRank": 25,
       "seniorityLabel": "Perpetual preferred (see prospectus capital stack)",
-      "callable": true,
-      "callPriceCents": 10000,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
-      "rateAsOf": "2026-06-08T00:00:00-04:00",
+      "rateAsOf": "2026-07-30T00:00:00-04:00",
       "termsNotes": [
         "$100 stated amount; variable cumulative dividend.",
-        "Current dividend rate is dated data and must be updated when Strategy changes policy — not a permanent constant.",
-        "Semi-monthly payment cadence as of June 2026 disclosures.",
+        "Strategy documented a 12.00% annualized dividend policy as of July 30, 2026 \u2014 dated and editable because the rate remains variable.",
+        "Semi-monthly payment cadence.",
         "Strategy has stated an objective to support trading near $100 without guaranteeing it.",
-        "Callable at the applicable redemption price under its terms.",
+        "Ordinary optional redemption price is $101 plus accumulated unpaid dividends \u2014 not $100. Do not confuse market repurchases near/below $100 with contractual redemption.",
         "Dividend remains subject to board declaration; current policy and rate can change."
       ],
       "riskNotes": [
@@ -163,14 +173,29 @@
           "sourceUrl": "https://www.strategy.com/press/strategy-initiates-strc-repurchases-and-announces-ongoing-buyback-policy_07-27-2026",
           "retrievedAt": "2026-09-17T16:00:00-04:00",
           "manual": true
+        },
+        {
+          "label": "Q2 2026 results \u2014 12% STRC dividend policy",
+          "sourceName": "Strategy press",
+          "sourceUrl": "https://www.strategy.com/press/strategy-announces-second-quarter-2026-financial-results_07-30-2026",
+          "retrievedAt": "2026-09-17T18:00:00-04:00",
+          "manual": true,
+          "note": "Documents 12.00% annualized dividend policy as of July 2026."
         }
       ],
       "comparisonHints": {
         "missedDividendProtections": "Cumulative (variable rate)",
         "fundamentalChangeProvisions": "See prospectus",
-        "atmProgramStatus": "Issuer has discussed repurchase / support policy — verify latest",
+        "atmProgramStatus": "Issuer has discussed repurchase / support policy \u2014 verify latest",
         "liquidityNote": "Preferred liquidity can be thinner than common"
-      }
+      },
+      "issuer": "Strategy",
+      "ordinaryCallable": true,
+      "ordinaryCallPriceCents": 10100,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     },
     {
       "ticker": "STRK",
@@ -187,8 +212,6 @@
       "convertibility": "convertible",
       "seniorityRank": 30,
       "seniorityLabel": "Perpetual preferred (see prospectus)",
-      "callable": true,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
       "rateAsOf": null,
@@ -197,7 +220,7 @@
         "Convertible features change total-return mechanics versus non-convertible preferreds."
       ],
       "riskNotes": [
-        "Conversion optionality and preferred terms are complex — verify primary sources.",
+        "Conversion optionality and preferred terms are complex \u2014 verify primary sources.",
         "Insufficient finalized seed terms: rate left null until confirmed."
       ],
       "sources": [],
@@ -206,7 +229,14 @@
         "fundamentalChangeProvisions": "Confirm in prospectus",
         "atmProgramStatus": "See issuer disclosures",
         "liquidityNote": "Confirm average volume before sizing"
-      }
+      },
+      "issuer": null,
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     },
     {
       "ticker": "STRD",
@@ -215,56 +245,90 @@
       "eligibleForIncomeAllocation": true,
       "statedAmountCents": 10000,
       "liquidationPreferenceCents": 10000,
-      "annualDistributionRateBps": null,
-      "annualDistributionCentsPerShare": null,
-      "distributionFrequency": "other",
+      "annualDistributionRateBps": 1000,
+      "annualDistributionCentsPerShare": 1000,
+      "distributionFrequency": "quarterly",
       "rateKind": "fixed",
-      "cumulativeKind": "cumulative",
+      "cumulativeKind": "non_cumulative",
       "convertibility": "non_convertible",
       "seniorityRank": 35,
       "seniorityLabel": "Perpetual preferred (see prospectus)",
-      "callable": true,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
       "rateAsOf": null,
       "termsNotes": [
-        "Placeholder catalog row — confirm rate, frequency, and seniority from primary sources before relying on income projections."
+        "Non-cumulative preferred; fixed 10.00% on $100 stated amount ($10/share) pending full prospectus confirmation of remaining terms.",
+        "Projections disabled until remaining terms are confirmed from the primary prospectus."
       ],
       "riskNotes": [
-        "Insufficient finalized seed terms: distribution left null until confirmed."
+        "Non-cumulative: missed dividends do not accrue.",
+        "Confirm seniority, call, and other terms from the primary prospectus before enabling projections."
       ],
       "sources": [],
-      "comparisonHints": {}
+      "comparisonHints": {},
+      "issuer": "Strategy",
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": false
     },
     {
       "ticker": "SATA",
-      "name": "Strategy SATA preferred (catalog)",
+      "name": "Strive Variable Rate Series A Perpetual Preferred Stock (SATA)",
       "role": "preferred",
       "eligibleForIncomeAllocation": true,
       "statedAmountCents": 10000,
       "liquidationPreferenceCents": 10000,
-      "annualDistributionRateBps": null,
-      "annualDistributionCentsPerShare": null,
-      "distributionFrequency": "other",
+      "annualDistributionRateBps": 1300,
+      "annualDistributionCentsPerShare": 1300,
+      "distributionFrequency": "business_daily",
       "rateKind": "variable",
       "cumulativeKind": "cumulative",
       "convertibility": "non_convertible",
       "seniorityRank": 40,
-      "seniorityLabel": "Perpetual preferred (confirm)",
-      "callable": true,
-      "callPriceCents": null,
+      "seniorityLabel": "Strive perpetual preferred (confirm capital stack)",
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
-      "rateAsOf": null,
+      "rateAsOf": "2026-08-07T00:00:00-04:00",
       "termsNotes": [
-        "Catalog placeholder pending primary-source term sheet confirmation."
+        "Issued by Strive, Inc. \u2014 not Strategy.",
+        "Variable cumulative dividend; $100 stated amount; 13.00% annualized rate as documented around August 2026 \u2014 dated and editable.",
+        "Business-daily distribution frequency per issuer disclosures.",
+        "Ordinary call price documented at $110."
       ],
       "riskNotes": [
-        "Do not invent a dividend rate."
+        "Issuer concentration is Strive, not Strategy.",
+        "Variable rate can change; verify latest declared rate."
       ],
-      "sources": [],
-      "comparisonHints": {}
+      "sources": [
+        {
+          "label": "Strive Q2 2026 financial results",
+          "sourceName": "Strive investors",
+          "sourceUrl": "https://investors.strive.com/news-events/news-releases/news-details/2026/Strive-Inc--Announces-Second-Quarter-2026-Financial-Results/default.aspx",
+          "retrievedAt": "2026-09-17T18:00:00-04:00",
+          "manual": true
+        },
+        {
+          "label": "Strive SATA follow-on offering announcement",
+          "sourceName": "Strive investors",
+          "sourceUrl": "https://investors.strive.com/news-events/news-releases/news-details/2026/Strive-Announces-Proposed-Follow-On-Offering-of-SATA-Stock/default.aspx",
+          "retrievedAt": "2026-09-17T18:00:00-04:00",
+          "manual": true
+        }
+      ],
+      "comparisonHints": {
+        "missedDividendProtections": "Cumulative (variable)",
+        "liquidityNote": "Confirm average volume before sizing"
+      },
+      "issuer": "Strive, Inc.",
+      "ordinaryCallable": true,
+      "ordinaryCallPriceCents": 11000,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     },
     {
       "ticker": "IBIT",
@@ -281,8 +345,6 @@
       "convertibility": "not_applicable",
       "seniorityRank": null,
       "seniorityLabel": "Spot Bitcoin ETF proxy",
-      "callable": false,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
       "rateAsOf": null,
@@ -296,7 +358,14 @@
       "sources": [],
       "comparisonHints": {
         "liquidityNote": "Generally liquid relative to preferreds"
-      }
+      },
+      "issuer": null,
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     },
     {
       "ticker": "BTC",
@@ -313,8 +382,6 @@
       "convertibility": "not_applicable",
       "seniorityRank": null,
       "seniorityLabel": "Bitcoin benchmark",
-      "callable": false,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
       "rateAsOf": null,
@@ -323,7 +390,14 @@
       ],
       "riskNotes": [],
       "sources": [],
-      "comparisonHints": {}
+      "comparisonHints": {},
+      "issuer": null,
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     },
     {
       "ticker": "CASH",
@@ -340,8 +414,6 @@
       "convertibility": "not_applicable",
       "seniorityRank": 1,
       "seniorityLabel": "Cash / T-bill proxy (defensive sleeve)",
-      "callable": false,
-      "callPriceCents": null,
       "callYear": null,
       "compoundedDividendMaxRateBps": null,
       "rateAsOf": "2026-09-17T16:00:00-04:00",
@@ -359,12 +431,19 @@
           "sourceUrl": null,
           "retrievedAt": "2026-09-17T16:00:00-04:00",
           "manual": true,
-          "note": "Assumed proxy — replace with observed T-bill / money-market yield when desired."
+          "note": "Assumed proxy \u2014 replace with observed T-bill / money-market yield when desired."
         }
       ],
       "comparisonHints": {
         "liquidityNote": "Highest liquidity sleeve in the model"
-      }
+      },
+      "issuer": null,
+      "ordinaryCallable": false,
+      "ordinaryCallPriceCents": null,
+      "cleanUpRedemption": false,
+      "taxRedemption": false,
+      "fundamentalChangeRepurchase": false,
+      "projectionsEnabled": true
     }
   ]
 }

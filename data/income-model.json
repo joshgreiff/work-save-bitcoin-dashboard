@@ -22,8 +22,8 @@
       "name": "STRC",
       "targetAllocationBps": 4000,
       "priceCents": null,
-      "annualDistributionCentsPerShare": 900,
-      "note": "Illustrative only — assumed 9.00% variable rate until the latest declared rate is confirmed. Marked editable."
+      "annualDistributionCentsPerShare": 1200,
+      "note": "Illustrative allocation — uses Strategy’s dated 12.00% annualized STRC policy (as of 2026-07-30). Rate remains variable and editable."
     },
     {
       "ticker": "CASH",
@@ -98,6 +98,6 @@
     "Illustrative income allocation only — not a recommendation and fully user-editable.",
     "WSB Strategic Bitcoin Reserve is never included in deployable capital.",
     "Official portfolio values and episode history are never mutated by this model.",
-    "STRC distribution uses an illustrative assumed rate until the latest declared rate is confirmed with a source and as-of date."
+    "STRC uses Strategy’s documented 12.00% annualized dividend policy as of 2026-07-30; the rate stays editable because it is variable."
   ]
 }

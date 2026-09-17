@@ -128,18 +128,41 @@ describe("income model lab acceptance", () => {
     expect(yieldAtPremium).toBeCloseTo(1000 / 11000, 10);
   });
 
-  it("treats STRC variable rate as dated/editable input", () => {
+  it("treats STRC variable rate as dated/editable 12% policy input", () => {
     const catalog = loadIncomeSecurities().securities.find((s) => s.ticker === "STRC");
     expect(catalog?.rateKind).toBe("variable");
-    expect(catalog?.annualDistributionRateBps).toBeNull();
+    expect(catalog?.annualDistributionRateBps).toBe(1200);
+    expect(catalog?.annualDistributionCentsPerShare).toBe(1200);
+    expect(catalog?.ordinaryCallPriceCents).toBe(10100);
+    expect(catalog?.rateAsOf).toContain("2026-07-30");
     const assumed = resolveAnnualDistributionCentsPerShare({
       statedAmountCents: 10000,
-      annualDistributionRateBps: 900,
+      annualDistributionRateBps: 1200,
     });
-    expect(assumed).toBe(900);
+    expect(assumed).toBe(1200);
   });
 
-  it("caps terminal value with call only when activated", () => {
+  it("does not apply an ordinary par call cap to STRF", () => {
+    const catalog = loadIncomeSecurities().securities.find((s) => s.ticker === "STRF");
+    expect(catalog?.ordinaryCallable).toBe(false);
+    expect(catalog?.cleanUpRedemption).toBe(true);
+    expect(catalog?.taxRedemption).toBe(true);
+    expect(catalog?.fundamentalChangeRepurchase).toBe(true);
+    const open = projectPreferredTotalReturn({
+      horizonYears: 5,
+      startingPriceCents: 10000,
+      annualDistributionCentsPerShare: 1000,
+      distributionFrequencyPerYear: 4,
+      terminalRequiredYield: 0.05,
+      reinvestDistributions: false,
+      ordinaryCallable: false,
+      ordinaryCallActivated: true,
+      ordinaryCallPriceCents: 10000,
+    });
+    expect(open.terminalPriceCents).toBeGreaterThan(10000);
+  });
+
+  it("caps terminal value with ordinary call only when activated", () => {
     const base = {
       horizonYears: 5,
       startingPriceCents: 10000,
@@ -147,13 +170,29 @@ describe("income model lab acceptance", () => {
       distributionFrequencyPerYear: 4,
       terminalRequiredYield: 0.05,
       reinvestDistributions: false,
-      callable: true,
-      callPriceCents: 10000,
+      ordinaryCallable: true,
+      ordinaryCallPriceCents: 10100,
     };
-    const open = projectPreferredTotalReturn({ ...base, callActivated: false });
-    const called = projectPreferredTotalReturn({ ...base, callActivated: true });
-    expect(open.terminalPriceCents).toBeGreaterThan(10000);
-    expect(called.terminalPriceCents).toBe(10000);
+    const open = projectPreferredTotalReturn({ ...base, ordinaryCallActivated: false });
+    const called = projectPreferredTotalReturn({ ...base, ordinaryCallActivated: true });
+    expect(open.terminalPriceCents).toBeGreaterThan(10100);
+    expect(called.terminalPriceCents).toBe(10100);
+  });
+
+  it("marks STRD as non-cumulative with fixed 10% terms", () => {
+    const catalog = loadIncomeSecurities().securities.find((s) => s.ticker === "STRD");
+    expect(catalog?.cumulativeKind).toBe("non_cumulative");
+    expect(catalog?.annualDistributionRateBps).toBe(1000);
+    expect(catalog?.projectionsEnabled).toBe(false);
+  });
+
+  it("catalogs SATA as Strive preferred with dated 13% terms", () => {
+    const catalog = loadIncomeSecurities().securities.find((s) => s.ticker === "SATA");
+    expect(catalog?.issuer).toBe("Strive, Inc.");
+    expect(catalog?.name).toContain("Strive");
+    expect(catalog?.annualDistributionRateBps).toBe(1300);
+    expect(catalog?.ordinaryCallPriceCents).toBe(11000);
+    expect(catalog?.distributionFrequency).toBe("business_daily");
   });
 
   it("reinvests distributions into fractional shares", () => {
@@ -164,9 +203,9 @@ describe("income model lab acceptance", () => {
       distributionFrequencyPerYear: 1,
       terminalRequiredYield: 0.1,
       reinvestDistributions: true,
-      callable: false,
-      callActivated: false,
-      callPriceCents: null,
+      ordinaryCallable: false,
+      ordinaryCallActivated: false,
+      ordinaryCallPriceCents: null,
     });
     expect(result.points[1]!.shares).toBeGreaterThan(1);
   });

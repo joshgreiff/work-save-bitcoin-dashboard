@@ -5,9 +5,10 @@ export type PreferredProjectionInputs = {
   distributionFrequencyPerYear: number;
   terminalRequiredYield: number;
   reinvestDistributions: boolean;
-  callable: boolean;
-  callActivated: boolean;
-  callPriceCents: number | null;
+  /** Only ordinary discretionary calls (e.g. STRC). Not clean-up / tax / fundamental-change. */
+  ordinaryCallable: boolean;
+  ordinaryCallActivated: boolean;
+  ordinaryCallPriceCents: number | null;
   dividendStressHaircut?: number;
   recoveryValueCents?: number | null;
 };
@@ -46,8 +47,12 @@ export function projectPreferredTotalReturn(
       : Math.round(annualDist / args.terminalRequiredYield);
 
   let terminalPriceCents = modeledTerminal;
-  if (args.callable && args.callActivated && args.callPriceCents != null) {
-    terminalPriceCents = Math.min(modeledTerminal, args.callPriceCents);
+  if (
+    args.ordinaryCallable &&
+    args.ordinaryCallActivated &&
+    args.ordinaryCallPriceCents != null
+  ) {
+    terminalPriceCents = Math.min(modeledTerminal, args.ordinaryCallPriceCents);
   }
   if (args.recoveryValueCents != null) {
     terminalPriceCents = args.recoveryValueCents;
@@ -79,12 +84,6 @@ export function projectPreferredTotalReturn(
       }
     }
 
-    if (!args.reinvestDistributions && year > 0) {
-      // cumulativeCash already updated
-    } else if (args.reinvestDistributions) {
-      cumulativeCash = 0;
-    }
-
     const portfolioValueCents = args.reinvestDistributions
       ? Math.round(shares * marketPriceCents)
       : Math.round(shares * marketPriceCents + cumulativeCash);
@@ -111,6 +110,7 @@ export function projectPreferredTotalReturn(
 
 export function frequencyToPeriodsPerYear(
   frequency:
+    | "business_daily"
     | "monthly"
     | "semi_monthly"
     | "quarterly"
@@ -120,6 +120,8 @@ export function frequencyToPeriodsPerYear(
     | "other",
 ): number {
   switch (frequency) {
+    case "business_daily":
+      return 252;
     case "semi_monthly":
       return 24;
     case "monthly":

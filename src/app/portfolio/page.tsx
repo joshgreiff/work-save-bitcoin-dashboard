@@ -1,15 +1,14 @@
 import {
-  AllocationChart,
   BenchmarkReturnChart,
   CashFlowMatchedChart,
   PortfolioValueChart,
 } from "@/components/charts/Charts";
 import { LiveMarkPanel } from "@/components/LiveMarkPanel";
+import { PortfolioLiveHeader } from "@/components/PortfolioLiveHeader";
 import {
   AsOf,
   DataTable,
   EmptyState,
-  formatPercent,
   formatShares,
   formatUsdFromCents,
   MetricCard,
@@ -33,13 +32,6 @@ export default function PortfolioPage() {
     label: row.label,
     value: row.portfolio,
   }));
-
-  const allocation = data.portfolio.positions
-    .filter((pos) => pos.marketValueCents != null)
-    .map((pos) => ({
-      name: pos.ticker,
-      value: (pos.marketValueCents as number) / 100,
-    }));
 
   const cashFlowChart = series.map((row) => ({
     label: row.label,
@@ -73,78 +65,67 @@ export default function PortfolioPage() {
       <SectionIntro
         eyebrow="Actual securities portfolio"
         title="Fiat Freedom Portfolio"
-        description="A real portfolio of Bitcoin treasury equities. Contributions are separated from investment results."
+        description="A real portfolio of Bitcoin treasury equities. Contributions are separated from investment results. Current value marks the published share weights to live quotes."
       />
 
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <MetricCard
-          label="Starting value"
-          value={formatUsdFromCents(data.portfolio.startingPortfolioValueCents)}
-          asOf={data.portfolio.inceptionValuationAt}
-        />
-        <MetricCard
-          label="Current value"
-          value={formatUsdFromCents(data.portfolio.currentPortfolioValueCents)}
-          asOf={data.portfolio.currentValuationAt}
-          hint="Official 4:00 p.m. ET regular-market close"
-        />
-        <MetricCard
-          label="Cash balance"
-          value={formatUsdFromCents(data.portfolio.cashBalanceCents)}
-          asOf={data.portfolio.currentValuationAt}
-          hint="Confirmed cash figure pending; buying power excluded"
-        />
-        <MetricCard
-          label="Investment P&L"
-          value={formatUsdFromCents(p.investmentPnLCents, { showSign: true })}
-          tone={p.investmentPnLCents === 0 ? "neutral" : p.investmentPnLCents > 0 ? "positive" : "negative"}
-          asOf={data.portfolio.currentValuationAt}
-        />
-      </div>
-
-      {data.portfolio.afterHours ? (
-        <aside className="border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted-foreground)]">
-          <p className="font-medium text-[var(--foreground)]">After-hours mark (not official)</p>
-          <p className="mt-2">
-            {formatUsdFromCents(data.portfolio.afterHours.portfolioValueCents)} at{" "}
-            {data.portfolio.afterHours.asOf}. Position values below are after-hours only and are not
-            used for close, benchmarks, or returns.
-          </p>
-          <div className="mt-3 overflow-x-auto">
-            <table className="min-w-full text-left text-sm">
-              <thead className="text-xs uppercase tracking-wide text-[var(--muted)]">
-                <tr>
-                  <th className="py-2 pr-4">Ticker</th>
-                  <th className="py-2 pr-4">Shares</th>
-                  <th className="py-2">After-hours value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.portfolio.afterHours.positions.map((pos) => (
-                  <tr key={pos.ticker} className="border-t border-[var(--border)]">
-                    <td className="py-2 pr-4">{pos.ticker}</td>
-                    <td className="py-2 pr-4 tabular-nums">{formatShares(pos.shares)}</td>
-                    <td className="py-2 tabular-nums">{formatUsdFromCents(pos.marketValueCents)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </aside>
-      ) : null}
+      <PortfolioLiveHeader
+        cashBalanceCents={data.portfolio.cashBalanceCents}
+        positions={data.portfolio.positions.map((pos) => ({
+          ticker: pos.ticker,
+          shares: pos.shares,
+        }))}
+        totalExternalContributionsCents={c.totalExternalContributionsCents}
+        netExternalContributionsCents={c.netExternalContributionsCents}
+        startingPortfolioValueCents={data.portfolio.startingPortfolioValueCents}
+        inceptionValuationAt={data.portfolio.inceptionValuationAt}
+        fallbackValueCents={data.portfolio.currentPortfolioValueCents}
+        fallbackAsOf={data.portfolio.currentValuationAt}
+      />
 
       <LiveMarkPanel />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <MetricCard label="Total external contributions" value={formatUsdFromCents(c.totalExternalContributionsCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Initial funding" value={formatUsdFromCents(c.initialFundingCents)} asOf={data.portfolio.currentValuationAt} hint="Opening deposit establishing the portfolio" />
-        <MetricCard label="Personal contributions" value={formatUsdFromCents(c.personalCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Channel-income contributions" value={formatUsdFromCents(c.channelIncomeCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Viewer-support contributions" value={formatUsdFromCents(c.viewerSupportCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Withdrawals (external)" value={formatUsdFromCents(c.externalWithdrawalsCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Dividends received" value={formatUsdFromCents(p.dividendsReceivedCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Options income" value={formatUsdFromCents(p.optionsIncomeReceivedCents)} asOf={data.portfolio.currentValuationAt} />
-        <MetricCard label="Return since inception" value={formatPercent(p.returnSinceInception, { showSign: true })} asOf={data.portfolio.currentValuationAt} />
+        <MetricCard
+          label="Total external contributions"
+          value={formatUsdFromCents(c.totalExternalContributionsCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
+        <MetricCard
+          label="Initial funding"
+          value={formatUsdFromCents(c.initialFundingCents)}
+          asOf={data.portfolio.currentValuationAt}
+          hint="Opening deposit establishing the portfolio"
+        />
+        <MetricCard
+          label="Personal contributions"
+          value={formatUsdFromCents(c.personalCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
+        <MetricCard
+          label="Channel-income contributions"
+          value={formatUsdFromCents(c.channelIncomeCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
+        <MetricCard
+          label="Viewer-support contributions"
+          value={formatUsdFromCents(c.viewerSupportCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
+        <MetricCard
+          label="Withdrawals (external)"
+          value={formatUsdFromCents(c.externalWithdrawalsCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
+        <MetricCard
+          label="Dividends received"
+          value={formatUsdFromCents(p.dividendsReceivedCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
+        <MetricCard
+          label="Options income"
+          value={formatUsdFromCents(p.optionsIncomeReceivedCents)}
+          asOf={data.portfolio.currentValuationAt}
+        />
         <MetricCard
           label="Unrealized gain/loss"
           value={formatUsdFromCents(p.unrealizedGainLossCents)}
@@ -156,7 +137,7 @@ export default function PortfolioPage() {
       <section className="space-y-3">
         <h2 className="text-xl font-medium">Current holdings</h2>
         <DataTable
-          headers={["Ticker", "Shares", "Asset class", "Underlying", "Price", "Market value", "Look-through"]}
+          headers={["Ticker", "Shares", "Asset class", "Underlying", "Look-through"]}
           rows={data.portfolio.positions.map((pos) => [
             pos.ticker,
             formatShares(pos.shares),
@@ -164,8 +145,6 @@ export default function PortfolioPage() {
             pos.underlyingTicker
               ? `${pos.underlyingTicker}${pos.adrRatio ? ` (${pos.adrRatio}:1 ADR)` : ""}`
               : "—",
-            formatUsdFromCents(pos.priceCents),
-            formatUsdFromCents(pos.marketValueCents),
             pos.lookThroughEligible ? "Eligible" : "Excluded",
           ])}
         />
@@ -174,7 +153,6 @@ export default function PortfolioPage() {
 
       <div className="grid gap-4 lg:grid-cols-2">
         <PortfolioValueChart data={valueChart} />
-        <AllocationChart data={allocation} />
         <BenchmarkReturnChart data={returnChart} seriesKeys={returnSeriesKeys} />
         <CashFlowMatchedChart data={cashFlowChart} />
       </div>
@@ -182,7 +160,7 @@ export default function PortfolioPage() {
         <p className="text-sm text-[var(--muted)]">
           Benchmark session prices (BTC/SPY/GLD) are pending confirmation. Append them to{" "}
           <code className="text-[var(--accent)]">data/valuation-history.json</code> without inventing
-          figures.
+          figures. Historical charts use stored open/close marks.
         </p>
       ) : null}
 
@@ -192,7 +170,15 @@ export default function PortfolioPage() {
           <EmptyState message="No transactions recorded." />
         ) : (
           <DataTable
-            headers={["Timestamp", "Category", "Ticker", "Shares", "Amount", "External flow", "Note"]}
+            headers={[
+              "Timestamp",
+              "Category",
+              "Ticker",
+              "Shares",
+              "Amount",
+              "External flow",
+              "Note",
+            ]}
             rows={data.transactions.map((tx) => [
               tx.timestamp,
               tx.category,

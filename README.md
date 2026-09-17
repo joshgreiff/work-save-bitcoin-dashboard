@@ -49,10 +49,11 @@ Rules:
 ## Live quotes (informational)
 
 * Endpoint: `/api/live-quotes`
+* Live income (informational): `/api/live-income-model`
 * UI panel on home and portfolio pages
 * CLI: `npm run quotes`
-* Sources: Coinbase BTC-USD spot; Yahoo Finance chart for MSTR, ASST, MPJPY, SPY, GLD
-* Not used for official performance, episodes, or valuation-history unless you manually confirm and paste values
+* Sources: Coinbase BTC-USD spot; Yahoo Finance chart for equities/preferreds
+* Not written into official episodes or valuation-history unless you manually confirm and paste values
 
 ## Adding an episode
 

@@ -20,6 +20,7 @@ function formatQuoteAge(iso: string | null | undefined): string {
   return hours === 1 ? "1 hour ago" : `${hours} hours ago`;
 }
 
+/** Holdings and benchmark quotes only — portfolio value lives in the page header. */
 export function LiveMarkPanel() {
   const [data, setData] = useState<LiveQuotesResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +37,7 @@ export function LiveMarkPanel() {
           } | null;
           throw new Error(body?.error ?? `HTTP ${response.status}`);
         }
-        const payload = (await response.json()) as LiveQuotesResponse;
-        setData(payload);
+        setData((await response.json()) as LiveQuotesResponse);
       } catch (err) {
         setError(err instanceof Error ? err.message : String(err));
       }
@@ -62,14 +62,14 @@ export function LiveMarkPanel() {
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs uppercase tracking-[0.08em] text-[var(--muted)]">
-            Live mark (informational)
+            Market quotes
           </p>
           <h2 className="mt-1 text-lg font-medium text-[var(--foreground)]">
-            Market quotes
+            Holdings detail
           </h2>
           <p className="mt-2 max-w-2xl text-sm text-[var(--muted-foreground)]">
-            Auto-refreshed quotes for holdings and benchmarks. Official performance still uses
-            confirmed 4:00 p.m. Eastern closes only.
+            Live prices for the published share weights. Portfolio value above uses these same
+            marks.
           </p>
         </div>
         <button
@@ -90,20 +90,7 @@ export function LiveMarkPanel() {
 
       {data ? (
         <>
-          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <article className="border border-[var(--border)] px-3 py-3">
-              <p className="text-xs uppercase tracking-[0.08em] text-[var(--muted)]">
-                Live portfolio estimate
-              </p>
-              <p className="mt-2 text-2xl font-medium tabular-nums text-[var(--accent)]">
-                {formatUsdFromCents(data.mark.portfolioValueCents)}
-              </p>
-              <p className="mt-1 text-xs text-[var(--muted)]">
-                Shares × live quotes + recorded cash
-                {data.mark.complete ? "" : " (incomplete)"}
-              </p>
-              <AsOf value={data.mark.asOf} />
-            </article>
+          <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {(holdingQuotes ?? []).map((quote) => (
               <article key={quote.symbol} className="border border-[var(--border)] px-3 py-3">
                 <p className="text-xs uppercase tracking-[0.08em] text-[var(--muted)]">
@@ -125,8 +112,8 @@ export function LiveMarkPanel() {
                 <tr>
                   <th className="py-2 pr-4">Ticker</th>
                   <th className="py-2 pr-4">Shares</th>
-                  <th className="py-2 pr-4">Live price</th>
-                  <th className="py-2">Live value</th>
+                  <th className="py-2 pr-4">Price</th>
+                  <th className="py-2">Value</th>
                 </tr>
               </thead>
               <tbody>
@@ -167,7 +154,7 @@ export function LiveMarkPanel() {
             </ul>
           ) : null}
 
-          <p className="mt-4 text-xs leading-relaxed text-[var(--muted)]">{data.disclaimer}</p>
+          <AsOf value={data.mark.asOf} />
         </>
       ) : !error ? (
         <p className="mt-4 text-sm text-[var(--muted)]">Loading live quotes…</p>
