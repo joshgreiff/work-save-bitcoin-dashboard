@@ -27,7 +27,6 @@ export function SiteHeader() {
           <p className="text-sm font-semibold tracking-tight text-[var(--foreground)]">
             Work Save Bitcoin
           </p>
-          <p className="text-xs text-[var(--muted)]">Fiat Freedom Portfolio</p>
         </Link>
         <button
           type="button"
