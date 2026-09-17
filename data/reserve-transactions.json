@@ -1,5 +1,16 @@
 {
   "publicSupportAddress": "worksavebitcoin@coinos.io",
   "publicSupportQrUrl": null,
-  "transactions": []
+  "transactions": [
+    {
+      "id": "reserve-2026-09-16-anonymous-13215",
+      "timestamp": "2026-09-16T12:00:00-04:00",
+      "category": "contribution_received",
+      "sats": 13215,
+      "displayName": "Anonymous",
+      "episodeNumber": 1,
+      "publicNote": "First recorded reserve contribution.",
+      "affectsPortfolioPerformance": false
+    }
+  ]
 }

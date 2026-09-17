@@ -26,10 +26,16 @@ export default function PortfolioPage() {
   const c = data.portfolio.contributions;
   const p = data.portfolio.performance;
 
-  const episodeChart = data.episodes.map((ep) => ({
-    label: `Ep ${ep.episodeNumber}`,
-    value: ep.portfolioValueCents / 100,
-  }));
+  const episodeChart = [
+    ...data.episodes.map((ep) => ({
+      label: `Ep ${ep.episodeNumber} open`,
+      value: ep.portfolioValueCents / 100,
+    })),
+    {
+      label: "Sep 16 close",
+      value: data.portfolio.currentPortfolioValueCents / 100,
+    },
+  ];
 
   const allocation = data.portfolio.positions
     .filter((pos) => pos.marketValueCents != null)
@@ -56,12 +62,13 @@ export default function PortfolioPage() {
           label="Current value"
           value={formatUsdFromCents(data.portfolio.currentPortfolioValueCents)}
           asOf={data.portfolio.currentValuationAt}
+          hint="Official 4:00 p.m. ET regular-market close"
         />
         <MetricCard
           label="Cash balance"
           value={formatUsdFromCents(data.portfolio.cashBalanceCents)}
           asOf={data.portfolio.currentValuationAt}
-          hint="Seeded as $0 pending confirmation"
+          hint="Confirmed cash figure pending; buying power excluded"
         />
         <MetricCard
           label="Investment P&L"
@@ -70,6 +77,37 @@ export default function PortfolioPage() {
           asOf={data.portfolio.currentValuationAt}
         />
       </div>
+
+      {data.portfolio.afterHours ? (
+        <aside className="border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted-foreground)]">
+          <p className="font-medium text-[var(--foreground)]">After-hours mark (not official)</p>
+          <p className="mt-2">
+            {formatUsdFromCents(data.portfolio.afterHours.portfolioValueCents)} at{" "}
+            {data.portfolio.afterHours.asOf}. Position values below are after-hours only and are not
+            used for close, benchmarks, or returns.
+          </p>
+          <div className="mt-3 overflow-x-auto">
+            <table className="min-w-full text-left text-sm">
+              <thead className="text-xs uppercase tracking-wide text-[var(--muted)]">
+                <tr>
+                  <th className="py-2 pr-4">Ticker</th>
+                  <th className="py-2 pr-4">Shares</th>
+                  <th className="py-2">After-hours value</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.portfolio.afterHours.positions.map((pos) => (
+                  <tr key={pos.ticker} className="border-t border-[var(--border)]">
+                    <td className="py-2 pr-4">{pos.ticker}</td>
+                    <td className="py-2 pr-4 tabular-nums">{formatShares(pos.shares)}</td>
+                    <td className="py-2 tabular-nums">{formatUsdFromCents(pos.marketValueCents)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </aside>
+      ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <MetricCard label="Total external contributions" value={formatUsdFromCents(c.totalExternalContributionsCents)} asOf={data.portfolio.currentValuationAt} />

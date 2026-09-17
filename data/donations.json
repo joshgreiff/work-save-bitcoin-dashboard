@@ -1,0 +1,13 @@
+{
+  "bitcoin": [
+    {
+      "id": "btc-donation-2026-09-16-anonymous",
+      "timestamp": "2026-09-16T12:00:00-04:00",
+      "displayName": "Anonymous",
+      "sats": 13215,
+      "reserveTransactionId": "reserve-2026-09-16-anonymous-13215",
+      "publicNote": "First recorded WSB Strategic Bitcoin Reserve contribution."
+    }
+  ],
+  "fiat": []
+}

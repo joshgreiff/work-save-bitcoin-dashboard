@@ -1,14 +1,16 @@
-# Closing baseline checklist (after Sep 16, 2026 4:00 p.m. ET)
+# Closing baseline checklist
 
-Replace the Episode 1 opening seed with the first standardized close:
+## Completed — Sep 16, 2026 regular close
 
-1. Actual portfolio value at 4:00 p.m. Eastern
-2. Closing prices: MSTR, ASST, MPJPY
-3. BTC/USD at 4:00 p.m. Eastern
-4. SPY close
-5. GLD close
-6. MSTR diluted sats/share (cited)
-7. ASST diluted sats/share (cited)
-8. Metaplanet diluted sats/share applied 1:1 to MPJPY ADR
+- [x] Official close valuation: `2026-09-16T16:00:00-04:00`
+- [x] Portfolio value: `$1,996.92` (`199692` cents)
+- [x] Episode 1 opening preserved at `$1,999.91`
+- [x] Investment P&L: `-$2.99`
+- [x] After-hours `$2,006.94` stored as informational only
 
-Update `portfolio.json`, `episodes.json` Episode 1 snapshot, `market-prices.json`, and `issuer-metrics.json`. Keep historical integrity — this is the documented first closing baseline, not a silent rewrite of methodology.
+## Still pending
+
+- [ ] Official closing prices for MSTR, ASST, MPJPY
+- [ ] BTC/USD, SPY, and GLD at 4:00 p.m. Eastern
+- [ ] Diluted sats/share for MSTR, ASST, and Metaplanet/MPJPY
+- [ ] Confirmed regular-session cash balance (do not use buying power)

@@ -2,7 +2,13 @@
   "asOf": "2026-09-16T16:00:00-04:00",
   "wholeSharesOnly": false,
   "excludedCashCents": 0,
-  "milestonesMonthlyCents": [1000, 2500, 10000, 50000, 100000],
+  "milestonesMonthlyCents": [
+    1000,
+    2500,
+    10000,
+    50000,
+    100000
+  ],
   "securities": [],
   "notes": [
     "Income model is unconfigured at Episode 1 seed. Add modeled securities with target allocations totaling 100% once confirmed.",

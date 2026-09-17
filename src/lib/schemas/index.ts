@@ -6,4 +6,5 @@ export * from "./market-prices";
 export * from "./issuer-metrics";
 export * from "./reserve";
 export * from "./income-model";
+export * from "./donations";
 export * from "./site-config";

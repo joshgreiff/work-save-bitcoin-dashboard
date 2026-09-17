@@ -9,8 +9,13 @@ import {
   summarizeContributions,
 } from "@/lib/accounting/portfolio";
 import { summarizeReserve } from "@/lib/accounting/reserve";
+import {
+  buildBitcoinLeaderboard,
+  buildFiatLeaderboard,
+} from "@/lib/schemas/donations";
 import type { IssuerMetric } from "@/lib/schemas/issuer-metrics";
 import {
+  loadDonations,
   loadEpisodes,
   loadIncomeModel,
   loadIssuerMetrics,
@@ -38,6 +43,7 @@ export function buildPublicDashboard() {
   const marketPrices = loadMarketPrices();
   const issuerMetrics = loadIssuerMetrics();
   const reserve = loadReserve();
+  const donations = loadDonations();
   const incomeModel = loadIncomeModel();
 
   const contributions = summarizeContributions(transactionsFile.transactions);
@@ -112,6 +118,7 @@ export function buildPublicDashboard() {
       notes: portfolio.notes,
       contributions,
       performance,
+      afterHours: portfolio.afterHours ?? null,
     },
     lookThrough: {
       asOf: portfolio.currentValuationAt,
@@ -130,9 +137,16 @@ export function buildPublicDashboard() {
         timestamp: tx.timestamp,
         category: tx.category,
         sats: tx.sats,
+        displayName: tx.displayName ?? null,
         episodeNumber: tx.episodeNumber,
         publicNote: tx.publicNote,
       })),
+    },
+    donations: {
+      bitcoin: donations.bitcoin,
+      fiat: donations.fiat,
+      bitcoinLeaderboard: buildBitcoinLeaderboard(donations.bitcoin),
+      fiatLeaderboard: buildFiatLeaderboard(donations.fiat),
     },
     incomeModel: {
       asOf: incomeModel.asOf,

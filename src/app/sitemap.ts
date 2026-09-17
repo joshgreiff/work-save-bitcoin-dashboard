@@ -13,6 +13,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/episodes",
     "/bitcoin-exposure",
     "/reserve",
+    "/leaderboard",
     "/income-model",
     "/methodology",
     "/resources",

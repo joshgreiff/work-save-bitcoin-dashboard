@@ -66,10 +66,10 @@
         }
       ],
       "notes": [
-        "Day 1 of the Fiat Freedom Portfolio. Initial funding of $1,999.91.",
+        "Day 1 opening snapshot of the Fiat Freedom Portfolio. Initial funding of $1,999.91.",
         "Holdings at launch: 12.12 MSTR, 13.70 ASST, 59 MPJPY (Metaplanet Level I ADR, 1:1 vs TSE:3350).",
-        "This snapshot uses the Episode 1 publish window, not the 4:00 p.m. Eastern close. Replace with the first standardized closing valuation after market close.",
-        "Security prices and benchmark prices remain null until confirmed."
+        "This Episode 1 record is the opening snapshot and must remain $1,999.91. The first standardized 4:00 p.m. Eastern close is stored on the current portfolio valuation, not here.",
+        "Security prices and benchmark prices remain null until confirmed official closes are entered."
       ]
     }
   ]

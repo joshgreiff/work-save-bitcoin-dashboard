@@ -20,10 +20,16 @@ export default function HomePage() {
   const pnl = data.portfolio.performance.investmentPnLCents;
   const ret = data.portfolio.performance.returnSinceInception;
 
-  const episodeChart = data.episodes.map((ep) => ({
-    label: `Ep ${ep.episodeNumber}`,
-    value: ep.portfolioValueCents / 100,
-  }));
+  const episodeChart = [
+    ...data.episodes.map((ep) => ({
+      label: `Ep ${ep.episodeNumber} open`,
+      value: ep.portfolioValueCents / 100,
+    })),
+    {
+      label: "Sep 16 close",
+      value: data.portfolio.currentPortfolioValueCents / 100,
+    },
+  ];
 
   const allocation = data.portfolio.positions
     .filter((p) => p.marketValueCents != null)
@@ -75,9 +81,11 @@ export default function HomePage() {
           value={formatUsdFromCents(data.portfolio.currentPortfolioValueCents)}
           asOf={data.portfolio.currentValuationAt}
           hint={
-            data.portfolio.dataQuality === "seed"
-              ? "Opening seed — replace with 4:00 p.m. ET closing snapshot after market close"
-              : undefined
+            data.portfolio.dataQuality === "confirmed"
+              ? "Official 4:00 p.m. ET regular-market close"
+              : data.portfolio.dataQuality === "seed"
+                ? "Opening seed"
+                : undefined
           }
         />
         <MetricCard
@@ -105,7 +113,7 @@ export default function HomePage() {
         <MetricCard
           label="WSB Bitcoin Reserve"
           value={formatBtcFromSats(data.reserve.summary.currentReserveSats)}
-          hint="Separate from securities portfolio"
+          hint={formatSats(data.reserve.summary.currentReserveSats)}
           asOf={data.reserve.asOf}
           tone="accent"
         />
@@ -120,6 +128,16 @@ export default function HomePage() {
           asOf={data.incomeModel.asOf}
         />
       </section>
+
+      {data.portfolio.afterHours ? (
+        <section className="border border-[var(--border)] bg-[var(--surface)] p-4 text-sm text-[var(--muted-foreground)]">
+          <p className="font-medium text-[var(--foreground)]">After-hours (informational only)</p>
+          <p className="mt-2">
+            {formatUsdFromCents(data.portfolio.afterHours.portfolioValueCents)} as of{" "}
+            {data.portfolio.afterHours.asOf}. Not used for official performance or benchmarks.
+          </p>
+        </section>
+      ) : null}
 
       <section className="grid gap-4 lg:grid-cols-2">
         <PortfolioValueChart data={episodeChart} />
@@ -177,6 +195,9 @@ export default function HomePage() {
             </li>
             <li>
               <TextLink href="/reserve">WSB Strategic Bitcoin Reserve</TextLink>
+            </li>
+            <li>
+              <TextLink href="/leaderboard">Donation leaderboards</TextLink>
             </li>
             <li>
               <TextLink href="/income-model">Fiat Freedom Income Model</TextLink>

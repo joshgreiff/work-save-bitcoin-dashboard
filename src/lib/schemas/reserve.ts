@@ -13,6 +13,7 @@ export const reserveTransactionSchema = z.object({
   timestamp: isoDateTimeSchema,
   category: reserveTransactionCategorySchema,
   sats: nonNegativeSatsSchema,
+  displayName: z.string().min(1).optional(),
   episodeNumber: z.number().int().positive().optional(),
   publicNote: z.string().optional(),
   affectsPortfolioPerformance: z.literal(false).default(false),

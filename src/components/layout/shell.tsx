@@ -10,6 +10,7 @@ const NAV = [
   { href: "/episodes", label: "Episodes" },
   { href: "/bitcoin-exposure", label: "BTC Exposure" },
   { href: "/reserve", label: "BTC Reserve" },
+  { href: "/leaderboard", label: "Leaderboard" },
   { href: "/income-model", label: "Income Model" },
   { href: "/methodology", label: "Methodology" },
   { href: "/resources", label: "Resources" },

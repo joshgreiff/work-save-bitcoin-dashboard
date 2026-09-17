@@ -9,6 +9,7 @@ import {
   formatUsdFromCents,
   MetricCard,
   SectionIntro,
+  TextLink,
 } from "@/components/ui/primitives";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 import { reserveHistoryByDate } from "@/lib/accounting/reserve";
@@ -69,20 +70,32 @@ export default function ReservePage() {
       <ReserveGrowthChart data={history} />
 
       <section className="space-y-3">
+        <h2 className="text-xl font-medium">Bitcoin donation leaderboard</h2>
+        <DataTable
+          headers={["Rank", "Supporter", "Sats", "Contributions"]}
+          rows={data.donations.bitcoinLeaderboard.map((row) => [
+            row.rank,
+            row.displayName,
+            formatSats(row.sats),
+            row.contributionCount,
+          ])}
+        />
+        <TextLink href="/leaderboard">View full donation leaderboards →</TextLink>
+      </section>
+
+      <section className="space-y-3">
         <h2 className="text-xl font-medium">Contribution history</h2>
         <DataTable
-          headers={["Timestamp", "Category", "Sats", "Episode", "Note"]}
+          headers={["Timestamp", "Supporter", "Category", "Sats", "Episode", "Note"]}
           rows={data.reserve.transactions.map((tx) => [
             tx.timestamp,
+            tx.displayName ?? "Anonymous",
             tx.category,
             formatSats(tx.sats),
             tx.episodeNumber ?? "—",
             tx.publicNote ?? "",
           ])}
         />
-        {data.reserve.transactions.length === 0 ? (
-          <p className="text-sm text-[var(--muted)]">No reserve contributions recorded yet.</p>
-        ) : null}
       </section>
 
       <section className="border border-[var(--border)] bg-[var(--surface)] p-4">

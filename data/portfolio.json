@@ -4,15 +4,17 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-09-16T08:00:00-04:00",
-  "currentPortfolioValueCents": 199991,
+  "currentValuationAt": "2026-09-16T16:00:00-04:00",
+  "currentPortfolioValueCents": 199692,
   "cashBalanceCents": 0,
-  "dataQuality": "seed",
+  "dataQuality": "confirmed",
   "notes": [
-    "Episode 1 opening seed. Share counts and $1,999.91 starting value are confirmed from the Episode 1 publication record.",
-    "Valuation timestamps use the Episode 1 publish window (8:00 a.m. Eastern series schedule), not the 4:00 p.m. Eastern market close. The first standardized closing snapshot should replace these fields after the September 16, 2026 close.",
-    "cashBalanceCents is seeded as 0 pending confirmation.",
-    "Per-security prices, cost basis, and benchmark prices remain null until confirmed."
+    "Official current valuation is the September 16, 2026 4:00 p.m. Eastern regular-market close: $1,996.92.",
+    "Episode 1 remains the opening snapshot at $1,999.91 and is not overwritten by this close.",
+    "No new contributions, withdrawals, trades, dividends, or options income between open and close.",
+    "Investment P&L at close: -$2.99 (−0.15% vs net external contributions).",
+    "Official per-security closing prices are still pending confirmation and remain null. After-hours mark-to-market is stored separately and must not be used for benchmarks.",
+    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
     {
@@ -47,5 +49,21 @@
       "marketValueCents": null,
       "costBasisCents": null
     }
-  ]
+  ],
+  "afterHours": {
+    "asOf": "2026-09-16T16:31:00-04:00",
+    "portfolioValueCents": 200694,
+    "cashBalanceCents": null,
+    "positions": [
+      { "ticker": "MSTR", "shares": 12.12, "marketValueCents": 153700 },
+      { "ticker": "ASST", "shares": 13.7, "marketValueCents": 37961 },
+      { "ticker": "MPJPY", "shares": 59, "marketValueCents": 9027 }
+    ],
+    "notes": [
+      "Informational after-hours account value only ($2,006.94), including about $10.02 of after-hours movement.",
+      "Position values shown are after-hours and must not be presented as 4:00 p.m. closing values.",
+      "Displayed after-hours position values sum to $2,006.88; any residual cash (~$0.06) is unconfirmed.",
+      "Brokerage buying power is not cash and is excluded."
+    ]
+  }
 }

@@ -31,6 +31,21 @@ export const portfolioSchema = z.object({
   dataQuality: z.enum(["seed", "confirmed", "corrected"]),
   notes: z.array(z.string()).default([]),
   positions: z.array(positionSchema).min(1),
+  afterHours: z
+    .object({
+      asOf: isoDateTimeSchema,
+      portfolioValueCents: nonNegativeCentsSchema,
+      cashBalanceCents: nonNegativeCentsSchema.nullable(),
+      positions: z.array(
+        z.object({
+          ticker: z.string().min(1),
+          shares: z.number(),
+          marketValueCents: centsSchema.nullable(),
+        }),
+      ),
+      notes: z.array(z.string()).default([]),
+    })
+    .optional(),
 });
 
 export type PortfolioData = z.infer<typeof portfolioSchema>;

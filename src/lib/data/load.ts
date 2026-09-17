@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
+import { donationsFileSchema } from "@/lib/schemas/donations";
 import { episodesFileSchema } from "@/lib/schemas/episodes";
 import { incomeModelSchema } from "@/lib/schemas/income-model";
 import { issuerMetricsFileSchema } from "@/lib/schemas/issuer-metrics";
@@ -67,6 +68,13 @@ export function loadReserve() {
   );
 }
 
+export function loadDonations() {
+  return parseOrThrow(
+    "donations.json",
+    donationsFileSchema.safeParse(readJsonFile("donations.json")),
+  );
+}
+
 export function loadIncomeModel() {
   return parseOrThrow(
     "income-model.json",
@@ -82,5 +90,6 @@ export function validateAllDataFiles(): void {
   loadMarketPrices();
   loadIssuerMetrics();
   loadReserve();
+  loadDonations();
   loadIncomeModel();
 }
