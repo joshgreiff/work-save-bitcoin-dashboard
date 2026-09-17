@@ -4,6 +4,10 @@
 
 Static files keep the public ledger auditable, avoid secrets, and match episode-based publishing. `src/lib/data` isolates loading so a database can replace files later without rewriting UI.
 
+## Why open/close valuation history before a live ticker
+
+Append-only session marks (`data/valuation-history.json`) unlock time-series charts for portfolio value, contribution-adjusted returns, and cash-flow-matched BTC/SPY/GLD without brokerage APIs or invented prices. Live quotes can layer on later; official performance still uses confirmed 9:30 a.m. / 4:00 p.m. Eastern points only.
+
 ## Why no brokerage integration
 
 Credentials and account identifiers are explicitly out of scope. Manual snapshots prevent accidental exposure and keep the educational narrative intentional.
@@ -24,9 +28,9 @@ Dilution is material for treasury equities. Basic sats/share may be shown when a
 
 Version 1 answers “how much gross income could today’s liquidation value buy?” It does not invent a second historical track record for a hypothetical allocation.
 
-## Episode 1 valuation timestamp
+## Episode 1 valuation timestamps
 
-Episode 1 currently uses the series publish window (`2026-09-16T08:00:00-04:00`), not a fabricated 4:00 p.m. Eastern close. After the September 16, 2026 market close, replace current portfolio value and `valuationAt` fields with the real 4:00 p.m. Eastern account snapshot to establish the first standardized closing baseline.
+Episode 1 preserves the opening baseline at `$1,999.91`. The first official regular-market close is `$1,996.92` at `2026-09-16T16:00:00-04:00`. Both points are stored in `data/valuation-history.json` (open + close). Do not rewrite prior history unless correcting a documented error.
 
 ## MPJPY classification
 

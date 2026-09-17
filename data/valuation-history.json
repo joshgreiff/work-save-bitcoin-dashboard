@@ -1,0 +1,42 @@
+{
+  "points": [
+    {
+      "id": "vh-2026-09-16-open",
+      "asOf": "2026-09-16T09:30:00-04:00",
+      "session": "open",
+      "portfolioValueCents": 199991,
+      "prices": {
+        "BTCUSD": null,
+        "SPY": null,
+        "GLD": null,
+        "MSTR": null,
+        "ASST": null,
+        "MPJPY": null
+      },
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "Day 1 open baseline. Uses the confirmed inception / starting account value of $1,999.91. Exact 9:30 a.m. ET mark-to-market of each holding was not separately recorded. Benchmark and security prices pending confirmation."
+    },
+    {
+      "id": "vh-2026-09-16-close",
+      "asOf": "2026-09-16T16:00:00-04:00",
+      "session": "close",
+      "portfolioValueCents": 199692,
+      "prices": {
+        "BTCUSD": null,
+        "SPY": null,
+        "GLD": null,
+        "MSTR": null,
+        "ASST": null,
+        "MPJPY": null
+      },
+      "sourceName": null,
+      "sourceUrl": null,
+      "retrievedAt": null,
+      "manual": true,
+      "note": "First standardized regular-market close. Portfolio value confirmed at $1,996.92. BTC/SPY/GLD and holding closes pending confirmation — do not invent."
+    }
+  ]
+}

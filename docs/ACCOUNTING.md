@@ -63,3 +63,12 @@ Monthly income = annual income ÷ 12
 ```
 
 WSB Bitcoin Reserve is never deployable capital.
+
+## Valuation history (open / close)
+
+Official chart series come from append-only session points in `data/valuation-history.json`:
+
+* `portfolioValueCents` at each open/close is the stored account mark (not recomputed).
+* Contribution-adjusted portfolio return at each point uses the same P&L formula as the live portfolio, with contributions as of the ledger (currently cumulative through current transactions).
+* BTC / SPY / GLD percentage and cash-flow-matched legs appear only when confirmed `prices` exist for that session (or earlier sessions for cash-flow matching).
+* After-hours marks stay informational and must not be written as `session: "close"`.

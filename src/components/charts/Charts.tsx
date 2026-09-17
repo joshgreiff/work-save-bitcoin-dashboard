@@ -53,13 +53,14 @@ function ChartFrame({
 export function PortfolioValueChart({
   data,
 }: {
-  data: { label: string; value: number }[];
+  data: { label: string; value: number | null }[];
 }) {
+  const hasPoints = data.some((d) => d.value != null);
   return (
     <ChartFrame
-      title="Actual portfolio value by episode"
-      explanation="Actual published episode valuations. Historical values are not recomputed from current prices."
-      empty={data.length === 0}
+      title="Portfolio value (open / close)"
+      explanation="Append-only regular-session marks. Historical values are stored as published and are not recomputed from current prices."
+      empty={!hasPoints}
     >
       <ResponsiveContainer width="100%" height="100%">
         <AreaChart data={data}>
@@ -80,6 +81,7 @@ export function PortfolioValueChart({
             stroke="#F7931A"
             fill="rgba(247,147,26,0.15)"
             name="Portfolio ($)"
+            connectNulls={false}
           />
         </AreaChart>
       </ResponsiveContainer>
@@ -131,11 +133,14 @@ export function BenchmarkReturnChart({
   data: SeriesPoint[];
   seriesKeys: { key: string; label: string; color: string }[];
 }) {
+  const hasSeries = seriesKeys.some((series) =>
+    data.some((row) => row[series.key] != null),
+  );
   return (
     <ChartFrame
       title="Contribution-adjusted returns vs benchmarks"
-      explanation="Hypothetical percentage comparison normalized to 0% at inception. Requires confirmed benchmark prices."
-      empty={data.length === 0}
+      explanation="Portfolio return is contribution-adjusted. BTC/SPY/GLD percentage legs appear only when confirmed open/close prices exist in valuation history."
+      empty={!hasSeries}
     >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
@@ -171,13 +176,22 @@ export function BenchmarkReturnChart({
 export function CashFlowMatchedChart({
   data,
 }: {
-  data: { label: string; portfolio: number; btc: number | null; spy: number | null; gld: number | null }[];
+  data: {
+    label: string;
+    portfolio: number | null;
+    btc: number | null;
+    spy: number | null;
+    gld: number | null;
+  }[];
 }) {
+  const hasPoints = data.some(
+    (d) => d.portfolio != null || d.btc != null || d.spy != null || d.gld != null,
+  );
   return (
     <ChartFrame
       title="Cash-flow-matched benchmark values"
-      explanation="Hypothetical: same external cash flows allocated entirely to each benchmark. Not actual portfolio holdings."
-      empty={data.length === 0}
+      explanation="Hypothetical: same external cash flows allocated entirely to each benchmark at confirmed session prices. Not actual portfolio holdings."
+      empty={!hasPoints}
     >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data}>
@@ -192,7 +206,14 @@ export function CashFlowMatchedChart({
             }}
           />
           <Legend />
-          <Line type="monotone" dataKey="portfolio" name="Portfolio" stroke="#F7931A" dot={{ r: 3 }} />
+          <Line
+            type="monotone"
+            dataKey="portfolio"
+            name="Portfolio"
+            stroke="#F7931A"
+            dot={{ r: 3 }}
+            connectNulls={false}
+          />
           <Line type="monotone" dataKey="btc" name="Bitcoin" stroke="#E8E2D6" dot={{ r: 3 }} connectNulls={false} />
           <Line type="monotone" dataKey="spy" name="SPY" stroke="#7A8494" dot={{ r: 3 }} connectNulls={false} />
           <Line type="monotone" dataKey="gld" name="GLD" stroke="#A67C52" dot={{ r: 3 }} connectNulls={false} />

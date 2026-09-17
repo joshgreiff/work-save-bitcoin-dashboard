@@ -68,8 +68,82 @@
       "notes": [
         "Day 1 opening snapshot of the Fiat Freedom Portfolio. Initial funding of $1,999.91.",
         "Holdings at launch: 12.12 MSTR, 13.70 ASST, 59 MPJPY (Metaplanet Level I ADR, 1:1 vs TSE:3350).",
-        "This Episode 1 record is the opening snapshot and must remain $1,999.91. The first standardized 4:00 p.m. Eastern close is stored on the current portfolio valuation, not here.",
+        "This Episode 1 record is the opening snapshot and must remain $1,999.91. The first standardized 4:00 p.m. Eastern close is stored on Episode 2 and the current portfolio valuation.",
         "Security prices and benchmark prices remain null until confirmed official closes are entered."
+      ]
+    },
+    {
+      "episodeNumber": 2,
+      "slug": "episode-2-i-built-a-public-dashboard-for-my-bitcoin-portfolio",
+      "title": "I Built a Public Dashboard for My Bitcoin Portfolio",
+      "youtubeUrl": "https://www.youtube.com/watch?v=3FaQUml2dN0",
+      "thumbnailUrl": "https://i.ytimg.com/vi/3FaQUml2dN0/hqdefault.jpg",
+      "publishedAt": "2026-09-17T08:00:00-04:00",
+      "valuationAt": "2026-09-16T16:00:00-04:00",
+      "portfolioValueCents": 199692,
+      "cashBalanceCents": 0,
+      "cumulativeContributionsCents": 199991,
+      "cumulativeWithdrawalsCents": 0,
+      "cumulativeIncomeCents": 0,
+      "investmentPnLCents": -299,
+      "positions": [
+        {
+          "ticker": "MSTR",
+          "shares": 12.12,
+          "priceCents": null,
+          "marketValueCents": null,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "ASST",
+          "shares": 13.7,
+          "priceCents": null,
+          "marketValueCents": null,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "MPJPY",
+          "shares": 59,
+          "priceCents": null,
+          "marketValueCents": null,
+          "assetClass": "adr_common_equity",
+          "lookThroughEligible": true,
+          "underlyingTicker": "3350",
+          "adrRatio": 1
+        }
+      ],
+      "benchmarks": [
+        {
+          "symbol": "BTCUSD",
+          "label": "Bitcoin",
+          "priceCents": null,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "SPY",
+          "label": "S&P 500 (SPY)",
+          "priceCents": null,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "GLD",
+          "label": "Gold (GLD)",
+          "priceCents": null,
+          "units": null,
+          "valueCents": null
+        }
+      ],
+      "notes": [
+        "Day 2 episode documenting the public dashboard launch at https://www.worksavebitcoin.com/.",
+        "Reports the first tracked regular-market close: $1,996.92 on September 16, 2026 at 4:00 p.m. Eastern (−$2.99 / −0.15%).",
+        "No new securities transactions, contributions, withdrawals, dividends, or options income since Episode 1 opening.",
+        "Holdings unchanged: 12.12 MSTR, 13.70 ASST, 59 MPJPY.",
+        "First WSB Strategic Bitcoin Reserve contribution recorded: Anonymous, 13,215 sats (separate from securities performance).",
+        "Official per-security and benchmark closing prices remain null pending confirmation."
       ]
     }
   ]

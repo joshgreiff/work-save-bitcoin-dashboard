@@ -7,10 +7,11 @@
 - [x] Episode 1 opening preserved at `$1,999.91`
 - [x] Investment P&L: `-$2.99`
 - [x] After-hours `$2,006.94` stored as informational only
+- [x] Open + close rows seeded in `data/valuation-history.json`
 
 ## Still pending
 
 - [ ] Official closing prices for MSTR, ASST, MPJPY
-- [ ] BTC/USD, SPY, and GLD at 4:00 p.m. Eastern
+- [ ] BTC/USD, SPY, and GLD at 4:00 p.m. Eastern (append into `valuation-history.json` prices; do not invent)
 - [ ] Diluted sats/share for MSTR, ASST, and Metaplanet/MPJPY
 - [ ] Confirmed regular-session cash balance (do not use buying power)

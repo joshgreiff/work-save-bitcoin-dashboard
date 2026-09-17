@@ -1,5 +1,6 @@
 import {
   AllocationChart,
+  BenchmarkReturnChart,
   CashFlowMatchedChart,
   PortfolioValueChart,
 } from "@/components/charts/Charts";
@@ -19,17 +20,12 @@ export default function HomePage() {
   const data = buildPublicDashboard();
   const pnl = data.portfolio.performance.investmentPnLCents;
   const ret = data.portfolio.performance.returnSinceInception;
+  const series = data.valuationHistory.series;
 
-  const episodeChart = [
-    ...data.episodes.map((ep) => ({
-      label: `Ep ${ep.episodeNumber} open`,
-      value: ep.portfolioValueCents / 100,
-    })),
-    {
-      label: "Sep 16 close",
-      value: data.portfolio.currentPortfolioValueCents / 100,
-    },
-  ];
+  const valueChart = series.map((row) => ({
+    label: row.label,
+    value: row.portfolio,
+  }));
 
   const allocation = data.portfolio.positions
     .filter((p) => p.marketValueCents != null)
@@ -38,24 +34,31 @@ export default function HomePage() {
       value: (p.marketValueCents as number) / 100,
     }));
 
-  const cashFlowChart = [
-    {
-      label: "Current",
-      portfolio: data.portfolio.currentPortfolioValueCents / 100,
-      btc:
-        data.benchmarks.cashFlowMatched.find((b) => b.symbol === "BTCUSD")?.valueCents != null
-          ? (data.benchmarks.cashFlowMatched.find((b) => b.symbol === "BTCUSD")!.valueCents as number) /
-            100
-          : null,
-      spy:
-        data.benchmarks.cashFlowMatched.find((b) => b.symbol === "SPY")?.valueCents != null
-          ? (data.benchmarks.cashFlowMatched.find((b) => b.symbol === "SPY")!.valueCents as number) / 100
-          : null,
-      gld:
-        data.benchmarks.cashFlowMatched.find((b) => b.symbol === "GLD")?.valueCents != null
-          ? (data.benchmarks.cashFlowMatched.find((b) => b.symbol === "GLD")!.valueCents as number) / 100
-          : null,
-    },
+  const cashFlowChart = series.map((row) => ({
+    label: row.label,
+    portfolio: row.cashFlowPortfolio,
+    btc: row.cashFlowBtc,
+    spy: row.cashFlowSpy,
+    gld: row.cashFlowGld,
+  }));
+
+  const returnChart = series.map((row) => ({
+    label: row.label,
+    portfolio: row.portfolioReturn,
+    btc: row.btcReturn,
+    spy: row.spyReturn,
+    gld: row.gldReturn,
+  }));
+
+  const returnSeriesKeys = [
+    { key: "portfolio", label: "Portfolio", color: "#F7931A" },
+    ...(data.valuationHistory.hasBenchmarkPrices
+      ? [
+          { key: "btc", label: "Bitcoin", color: "#E8E2D6" },
+          { key: "spy", label: "SPY", color: "#7A8494" },
+          { key: "gld", label: "GLD", color: "#A67C52" },
+        ]
+      : []),
   ];
 
   return (
@@ -140,27 +143,18 @@ export default function HomePage() {
       ) : null}
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <PortfolioValueChart data={episodeChart} />
+        <PortfolioValueChart data={valueChart} />
         <AllocationChart data={allocation} />
         <CashFlowMatchedChart data={cashFlowChart} />
-        <div className="border border-[var(--border)] bg-[var(--surface)] p-4">
-          <h2 className="text-sm font-medium">Performance vs Bitcoin, SPY, GLD</h2>
-          <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-            Benchmark prices for Episode 1 are intentionally unset. Cash-flow-matched and percentage
-            comparisons will populate once confirmed BTC/USD, SPY, and GLD prices are added to{" "}
-            <code className="text-[var(--accent)]">data/market-prices.json</code>.
-          </p>
-          <ul className="mt-4 space-y-2 text-sm">
-            {data.benchmarks.cashFlowMatched.map((b) => (
-              <li key={b.symbol} className="flex justify-between gap-4 border-t border-[var(--border)] py-2">
-                <span>{b.symbol}</span>
-                <span className="tabular-nums text-[var(--muted)]">
-                  {b.available ? formatUsdFromCents(b.valueCents) : "Awaiting price data"}
-                </span>
-              </li>
-            ))}
-          </ul>
-          <AsOf value={data.benchmarks.asOf} />
+        <div className="space-y-3">
+          <BenchmarkReturnChart data={returnChart} seriesKeys={returnSeriesKeys} />
+          {!data.valuationHistory.hasBenchmarkPrices ? (
+            <p className="text-xs text-[var(--muted)]">
+              BTC/SPY/GLD session prices are still pending confirmation in{" "}
+              <code className="text-[var(--accent)]">data/valuation-history.json</code>. Portfolio
+              open/close marks are live.
+            </p>
+          ) : null}
         </div>
       </section>
 

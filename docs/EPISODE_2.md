@@ -55,6 +55,7 @@ In `data/portfolio.json`:
 
 ## 4. Optional companion updates
 
+* `data/valuation-history.json` — append open and/or close session points for the new day (required for charts)
 * `data/market-prices.json` — BTCUSD, SPY, GLD, and holding prices at the valuation timestamp
 * `data/issuer-metrics.json` — diluted sats/share with citations
 * `data/reserve-transactions.json` — any support received (never mark as portfolio performance)

@@ -31,6 +31,20 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Edit `data/portfolio.json` and `data/transactions.json`. Use integer cents. Mark unknown prices as `null`. Run `npm test` and `npm run build`.
 
+## Appending open / close valuation history
+
+Edit `data/valuation-history.json` (append-only). Each trading day that should appear on charts needs up to two points:
+
+1. **Open** — `session: "open"`, typically `09:30:00-04:00` (or `-05:00` in EST), with `portfolioValueCents` when known.
+2. **Close** — `session: "close"`, typically `16:00:00-04:00` / `-05:00`, matching the official regular-market account snapshot.
+
+Rules:
+
+* Unique `id` (e.g. `vh-2026-09-17-close`) and unique `asOf|session` pairs.
+* Set BTCUSD / SPY / GLD (and optional holding) prices only when confirmed; otherwise leave `null` — never invent.
+* Do not rewrite prior points unless correcting a documented error.
+* Charts and `/api/public-dashboard` derive series from this file.
+
 ## Adding an episode
 
 See [docs/EPISODE_2.md](docs/EPISODE_2.md) for the exact Episode 2 checklist.
@@ -38,8 +52,9 @@ See [docs/EPISODE_2.md](docs/EPISODE_2.md) for the exact Episode 2 checklist.
 1. Append a snapshot to `data/episodes.json` with a unique `episodeNumber` and `slug`.
 2. Add related rows to `data/transactions.json`.
 3. Update `data/portfolio.json` current valuation fields and positions.
-4. Optionally update `data/market-prices.json` and `data/issuer-metrics.json` with cited figures.
-5. Do **not** rewrite prior episode snapshots unless correcting a documented error.
+4. Append matching open/close rows to `data/valuation-history.json`.
+5. Optionally update `data/market-prices.json` and `data/issuer-metrics.json` with cited figures.
+6. Do **not** rewrite prior episode snapshots unless correcting a documented error.
 
 ## Updating issuer metrics
 

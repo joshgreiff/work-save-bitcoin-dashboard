@@ -51,10 +51,11 @@ export default function MethodologyPage() {
         <section className="space-y-2">
           <h2 className="text-xl font-medium text-[var(--foreground)]">Benchmarks</h2>
           <p>
-            Bitcoin (BTC/USD), SPY, and GLD are compared using the portfolio valuation timestamp
-            convention (prior 4:00 p.m. Eastern). Percentage view normalizes to 0% at inception using
-            contribution-adjusted portfolio performance. Cash-flow-matched view mirrors external
-            cash flows into each benchmark.
+            Bitcoin (BTC/USD), SPY, and GLD are compared at confirmed regular-session open and close
+            marks stored in valuation history (9:30 a.m. / 4:00 p.m. Eastern). Percentage view uses
+            contribution-adjusted portfolio performance; benchmark legs appear only when prices are
+            confirmed. Cash-flow-matched view mirrors external cash flows into each benchmark.
+            After-hours marks are informational only.
           </p>
         </section>
         <section className="space-y-2">

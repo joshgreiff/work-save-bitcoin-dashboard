@@ -9,6 +9,7 @@ import { portfolioSchema } from "@/lib/schemas/portfolio";
 import { reserveFileSchema } from "@/lib/schemas/reserve";
 import { siteConfigSchema } from "@/lib/schemas/site-config";
 import { transactionsFileSchema } from "@/lib/schemas/transactions";
+import { valuationHistoryFileSchema } from "@/lib/schemas/valuation-history";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -75,6 +76,13 @@ export function loadDonations() {
   );
 }
 
+export function loadValuationHistory() {
+  return parseOrThrow(
+    "valuation-history.json",
+    valuationHistoryFileSchema.safeParse(readJsonFile("valuation-history.json")),
+  );
+}
+
 export function loadIncomeModel() {
   return parseOrThrow(
     "income-model.json",
@@ -91,5 +99,6 @@ export function validateAllDataFiles(): void {
   loadIssuerMetrics();
   loadReserve();
   loadDonations();
+  loadValuationHistory();
   loadIncomeModel();
 }

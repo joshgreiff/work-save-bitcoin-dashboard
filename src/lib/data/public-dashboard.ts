@@ -10,6 +10,10 @@ import {
 } from "@/lib/accounting/portfolio";
 import { summarizeReserve } from "@/lib/accounting/reserve";
 import {
+  buildValuationChartSeries,
+  valuationHistoryHasBenchmarkPrices,
+} from "@/lib/accounting/valuation-history";
+import {
   buildBitcoinLeaderboard,
   buildFiatLeaderboard,
 } from "@/lib/schemas/donations";
@@ -24,6 +28,7 @@ import {
   loadReserve,
   loadSiteConfig,
   loadTransactions,
+  loadValuationHistory,
 } from "./load";
 
 function latestMetricForTicker(
@@ -44,6 +49,7 @@ export function buildPublicDashboard() {
   const issuerMetrics = loadIssuerMetrics();
   const reserve = loadReserve();
   const donations = loadDonations();
+  const valuationHistory = loadValuationHistory();
   const incomeModel = loadIncomeModel();
 
   const contributions = summarizeContributions(transactionsFile.transactions);
@@ -147,6 +153,14 @@ export function buildPublicDashboard() {
       fiat: donations.fiat,
       bitcoinLeaderboard: buildBitcoinLeaderboard(donations.bitcoin),
       fiatLeaderboard: buildFiatLeaderboard(donations.fiat),
+    },
+    valuationHistory: {
+      points: valuationHistory.points,
+      series: buildValuationChartSeries({
+        points: valuationHistory.points,
+        transactions: transactionsFile.transactions,
+      }),
+      hasBenchmarkPrices: valuationHistoryHasBenchmarkPrices(valuationHistory.points),
     },
     incomeModel: {
       asOf: incomeModel.asOf,

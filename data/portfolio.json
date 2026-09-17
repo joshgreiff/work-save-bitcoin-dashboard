@@ -10,8 +10,8 @@
   "dataQuality": "confirmed",
   "notes": [
     "Official current valuation is the September 16, 2026 4:00 p.m. Eastern regular-market close: $1,996.92.",
-    "Episode 1 remains the opening snapshot at $1,999.91 and is not overwritten by this close.",
-    "No new contributions, withdrawals, trades, dividends, or options income between open and close.",
+    "Episode 1 remains the opening snapshot at $1,999.91. Episode 2 documents this first close and the public dashboard launch.",
+    "No new contributions, withdrawals, trades, dividends, or options income between Episode 1 open and this close.",
     "Investment P&L at close: -$2.99 (−0.15% vs net external contributions).",
     "Official per-security closing prices are still pending confirmation and remain null. After-hours mark-to-market is stored separately and must not be used for benchmarks.",
     "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."

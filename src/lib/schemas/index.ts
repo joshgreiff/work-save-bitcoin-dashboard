@@ -8,3 +8,4 @@ export * from "./reserve";
 export * from "./income-model";
 export * from "./donations";
 export * from "./site-config";
+export * from "./valuation-history";

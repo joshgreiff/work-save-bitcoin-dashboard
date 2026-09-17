@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { validateAllDataFiles, loadPortfolio, loadEpisodes } from "@/lib/data/load";
+import {
+  validateAllDataFiles,
+  loadPortfolio,
+  loadEpisodes,
+  loadValuationHistory,
+} from "@/lib/data/load";
 
 describe("seed data files", () => {
   it("validates all public data files", () => {
@@ -15,5 +20,12 @@ describe("seed data files", () => {
 
     const episodes = loadEpisodes().episodes;
     expect(episodes[0]?.portfolioValueCents).toBe(199991);
+  });
+
+  it("seeds Day 1 open and close valuation history", () => {
+    const history = loadValuationHistory();
+    expect(history.points.map((p) => p.session)).toEqual(["open", "close"]);
+    expect(history.points[0]?.portfolioValueCents).toBe(199991);
+    expect(history.points[1]?.portfolioValueCents).toBe(199692);
   });
 });
