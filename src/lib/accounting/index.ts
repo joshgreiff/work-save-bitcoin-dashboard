@@ -9,3 +9,11 @@ export * from "./scenario-btc";
 export * from "./scenario-mstr";
 export * from "./scenario-preferred";
 export * from "./risk-metrics";
+export * from "./session-comparison";
+export {
+  bitcoinCoinsToSats,
+  preferDilutedSatsPerShare,
+  changeBetweenObservations,
+  historicalLookThroughSats,
+  calculateDilutedSatsPerShare as calculateIssuerDilutedSatsPerShare,
+} from "./issuer-bps";

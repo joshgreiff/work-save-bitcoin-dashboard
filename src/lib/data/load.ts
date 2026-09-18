@@ -7,7 +7,9 @@ import {
   incomeModelSchema,
   incomeSecuritiesFileSchema,
 } from "@/lib/schemas/income-model";
+import { issuerBitcoinPerShareFileSchema } from "@/lib/schemas/issuer-bps-history";
 import { issuerMetricsFileSchema } from "@/lib/schemas/issuer-metrics";
+import { marketObservationsFileSchema } from "@/lib/schemas/market-observations";
 import { marketPricesFileSchema } from "@/lib/schemas/market-prices";
 import { portfolioSchema } from "@/lib/schemas/portfolio";
 import { reserveFileSchema } from "@/lib/schemas/reserve";
@@ -108,6 +110,22 @@ export function loadIncomeHistory() {
   );
 }
 
+export function loadMarketObservations() {
+  return parseOrThrow(
+    "market-observations.json",
+    marketObservationsFileSchema.safeParse(readJsonFile("market-observations.json")),
+  );
+}
+
+export function loadIssuerBpsHistory() {
+  return parseOrThrow(
+    "issuer-bps-history.json",
+    issuerBitcoinPerShareFileSchema.safeParse(
+      readJsonFile("issuer-bps-history.json"),
+    ),
+  );
+}
+
 export function validateAllDataFiles(): void {
   loadSiteConfig();
   loadPortfolio();
@@ -118,6 +136,8 @@ export function validateAllDataFiles(): void {
   loadReserve();
   loadDonations();
   loadValuationHistory();
+  loadMarketObservations();
+  loadIssuerBpsHistory();
   loadIncomeModel();
   loadIncomeSecurities();
   loadIncomeHistory();

@@ -1,4 +1,6 @@
 import { LookThroughChart } from "@/components/charts/Charts";
+import { AmplificationEducationCard } from "@/components/AmplificationEducationCard";
+import { IssuerBpsHistory } from "@/components/IssuerBpsHistory";
 import {
   AsOf,
   DataTable,
@@ -13,7 +15,8 @@ import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 
 export const metadata = {
   title: "Bitcoin Exposure",
-  description: "Look-through Bitcoin exposure for treasury common-equity positions.",
+  description:
+    "Look-through Bitcoin exposure and diluted sats-per-share history for treasury common-equity positions.",
 };
 
 export default function BitcoinExposurePage() {
@@ -60,8 +63,16 @@ export default function BitcoinExposurePage() {
         })}
       />
 
+      <IssuerBpsHistory
+        observations={data.issuerBitcoinPerShare.observations}
+        latestByTicker={data.issuerBitcoinPerShare.latestByTicker}
+        notes={data.issuerBitcoinPerShare.notes}
+      />
+
+      <AmplificationEducationCard />
+
       <section className="space-y-3">
-        <h2 className="text-xl font-medium">Issuer metrics</h2>
+        <h2 className="text-xl font-medium">Issuer metrics (seed registry)</h2>
         <DataTable
           headers={[
             "Ticker",
@@ -81,23 +92,23 @@ export default function BitcoinExposurePage() {
             m.dilutedSharesOutstanding ?? "—",
             m.basicSatsPerShare ?? "—",
             m.dilutedSatsPerShare ?? "—",
-            m.sourceUrl ?? "Pending confirmation",
+            m.sourceUrl ?? "Pending primary source",
           ])}
         />
         <AsOf value={data.lookThrough.asOf} />
       </section>
 
       <LookThroughChart
-        data={data.episodes.map((ep) => ({
-          label: `Ep ${ep.episodeNumber}`,
-          sats: null,
+        data={data.lookThrough.positions.map((p) => ({
+          label: p.ticker,
+          sats: p.lookThroughSats,
         }))}
       />
 
       <Disclaimer>
         Look-through Bitcoin exposure is an analytical measure. Shareholders do not directly own or
-        have a claim on the issuer’s Bitcoin. The calculation does not fully account for debt,
-        preferred obligations, liabilities, operating businesses, dilution, custody risk, or other
+        have a claim on an issuer’s Bitcoin. The calculation does not fully account for debt,
+        preferred obligations, liabilities, operating businesses, dilution, custody risk or other
         features of the capital structure.
       </Disclaimer>
     </div>

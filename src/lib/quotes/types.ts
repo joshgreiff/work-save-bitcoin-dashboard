@@ -44,4 +44,5 @@ export type LiveQuotesResponse = {
   errors: { symbol: string; message: string }[];
   mark: LivePortfolioMark;
   disclaimer: string;
+  marketOpen?: boolean;
 };

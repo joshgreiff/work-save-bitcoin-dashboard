@@ -9,3 +9,5 @@ export * from "./income-model";
 export * from "./donations";
 export * from "./site-config";
 export * from "./valuation-history";
+export * from "./market-observations";
+export * from "./issuer-bps-history";

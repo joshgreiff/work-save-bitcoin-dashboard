@@ -8,9 +8,13 @@ Static files keep the public ledger auditable, avoid secrets, and match episode-
 
 Append-only session marks (`data/valuation-history.json`) unlock time-series charts for portfolio value, contribution-adjusted returns, and cash-flow-matched BTC/SPY/GLD without brokerage APIs or invented prices. Live quotes can layer on later; official performance still uses confirmed 9:30 a.m. / 4:00 p.m. Eastern points only.
 
-## Why live quotes stay informational
+## Why synchronized 4:00 p.m. Bitcoin closes
 
-`/api/live-quotes` pulls public market prints (Coinbase BTC spot; Yahoo Finance chart for equities/ETFs) so the dashboard can show a current mark without hand-editing prices every day. Those quotes must never replace official closes, episode snapshots, contribution-adjusted P&L, or cash-flow-matched benchmarks. No brokerage credentials are used.
+Equities and Bitcoin trade on different clocks. Daily MSTR-versus-Bitcoin narration uses Coinbase one-minute closes selected at or immediately before 4:00 p.m. America/New_York so both legs share one session window. Rolling 24-hour Bitcoin performance is never substituted into that comparison.
+
+## Why live marks stay transient
+
+During regular U.S. equity hours the dashboard may show one live regular-session portfolio mark. It is replaced on refresh, never appended to `market-observations.json` or episode snapshots, and disappears outside the session in favor of the latest official close.
 
 ## Why no brokerage integration
 

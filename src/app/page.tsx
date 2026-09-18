@@ -1,19 +1,27 @@
 import {
-  BenchmarkReturnChart,
   CashFlowMatchedChart,
   PortfolioValueChart,
 } from "@/components/charts/Charts";
-import { OverviewLiveSummary } from "@/components/OverviewLiveSummary";
+import { DailyVsBitcoin } from "@/components/DailyVsBitcoin";
+import { LiveBtcCard } from "@/components/LiveBtcCard";
+import { OverviewMarketSummary } from "@/components/OverviewMarketSummary";
 import {
   Disclaimer,
   formatUsdFromCents,
   TextLink,
 } from "@/components/ui/primitives";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
+import { formatEtTimestamp } from "@/lib/market/session";
 
 export default function HomePage() {
   const data = buildPublicDashboard();
   const series = data.valuationHistory.series;
+  const officialClose =
+    data.marketObservations.latestOfficialClose?.portfolioValueCents ??
+    data.portfolio.currentPortfolioValueCents;
+  const officialCloseAt =
+    data.marketObservations.latestOfficialClose?.timestamp ??
+    data.portfolio.currentValuationAt;
 
   const valueChart = series.map((row) => ({
     label: row.label,
@@ -27,25 +35,6 @@ export default function HomePage() {
     spy: row.cashFlowSpy,
     gld: row.cashFlowGld,
   }));
-
-  const returnChart = series.map((row) => ({
-    label: row.label,
-    portfolio: row.portfolioReturn,
-    btc: row.btcReturn,
-    spy: row.spyReturn,
-    gld: row.gldReturn,
-  }));
-
-  const returnSeriesKeys = [
-    { key: "portfolio", label: "Portfolio", color: "#F7931A" },
-    ...(data.valuationHistory.hasBenchmarkPrices
-      ? [
-          { key: "btc", label: "Bitcoin", color: "#E8E2D6" },
-          { key: "spy", label: "SPY", color: "#7A8494" },
-          { key: "gld", label: "GLD", color: "#A67C52" },
-        ]
-      : []),
-  ];
 
   return (
     <div className="space-y-10">
@@ -63,7 +52,9 @@ export default function HomePage() {
         </p>
       </section>
 
-      <OverviewLiveSummary
+      <LiveBtcCard />
+
+      <OverviewMarketSummary
         cashBalanceCents={data.portfolio.cashBalanceCents}
         positions={data.portfolio.positions.map((p) => ({
           ticker: p.ticker,
@@ -75,8 +66,8 @@ export default function HomePage() {
         netExternalContributionsCents={
           data.portfolio.contributions.netExternalContributionsCents
         }
-        fallbackValueCents={data.portfolio.currentPortfolioValueCents}
-        fallbackAsOf={data.portfolio.currentValuationAt}
+        officialCloseCents={officialClose}
+        officialCloseAt={officialCloseAt}
         lookThrough={{
           totalLookThroughSats: data.lookThrough.totalLookThroughSats,
           asOf: data.lookThrough.asOf,
@@ -92,20 +83,17 @@ export default function HomePage() {
         }}
       />
 
+      <DailyVsBitcoin marketObservations={data.marketObservations} />
+
       <section className="grid gap-4 lg:grid-cols-2">
         <PortfolioValueChart data={valueChart} />
         <CashFlowMatchedChart data={cashFlowChart} />
-        <div className="space-y-3 lg:col-span-2">
-          <BenchmarkReturnChart data={returnChart} seriesKeys={returnSeriesKeys} />
-          {!data.valuationHistory.hasBenchmarkPrices ? (
-            <p className="text-xs text-[var(--muted)]">
-              BTC/SPY/GLD session prices are still pending confirmation in{" "}
-              <code className="text-[var(--accent)]">data/valuation-history.json</code>. Historical
-              open/close marks remain the chart source of truth.
-            </p>
-          ) : null}
-        </div>
       </section>
+
+      <p className="text-xs text-[var(--muted)]">
+        Historical portfolio chart uses inception and official market-close observations only. Latest
+        official close: {formatEtTimestamp(officialCloseAt)}.
+      </p>
 
       <section className="grid gap-4 md:grid-cols-2">
         <article className="border border-[var(--border)] bg-[var(--surface)] p-4">
@@ -134,7 +122,7 @@ export default function HomePage() {
               <TextLink href="/portfolio">Portfolio details</TextLink>
             </li>
             <li>
-              <TextLink href="/bitcoin-exposure">Look-through Bitcoin exposure</TextLink>
+              <TextLink href="/bitcoin-exposure">Bitcoin exposure & sats/share history</TextLink>
             </li>
             <li>
               <TextLink href="/reserve">WSB Strategic Bitcoin Reserve</TextLink>
@@ -155,7 +143,8 @@ export default function HomePage() {
       <Disclaimer>
         Holdings shown are educational documentation of a public series portfolio. They are not a
         recommendation. The WSB Strategic Bitcoin Reserve is not part of securities-portfolio
-        performance. Live marks assume the published share weights have not changed.
+        performance. Live regular-session marks assume published share weights are unchanged until a
+        later transaction is entered.
       </Disclaimer>
     </div>
   );

@@ -48,7 +48,7 @@ describe("income model lab acceptance", () => {
     );
     expect(deployable).toBe(portfolio.currentPortfolioValueCents);
     // Reserve sats are a separate ledger — never added here.
-    expect(deployable).toBe(199692);
+    expect(deployable).toBe(208235);
   });
 
   it("does not treat external contributions as investment returns", () => {

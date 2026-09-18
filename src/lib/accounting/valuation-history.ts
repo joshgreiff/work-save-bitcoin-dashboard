@@ -31,7 +31,13 @@ function formatSessionLabel(point: ValuationHistoryPoint): string {
     month: "short",
     day: "numeric",
   }).format(new Date(point.asOf));
-  return `${date} ${point.session === "open" ? "open" : "close"}`;
+  const kind =
+    point.valuationType === "inception"
+      ? "inception"
+      : point.valuationType === "market_open"
+        ? "market open"
+        : "market close";
+  return `${date} ${kind}`;
 }
 
 function centsToDollars(cents: number | null | undefined): number | null {

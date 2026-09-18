@@ -21,17 +21,24 @@ import type { IssuerMetric } from "@/lib/schemas/issuer-metrics";
 import {
   loadDonations,
   loadEpisodes,
+  loadIncomeHistory,
   loadIncomeModel,
+  loadIncomeSecurities,
+  loadIssuerBpsHistory,
   loadIssuerMetrics,
+  loadMarketObservations,
   loadMarketPrices,
   loadPortfolio,
   loadReserve,
   loadSiteConfig,
   loadTransactions,
   loadValuationHistory,
-  loadIncomeSecurities,
-  loadIncomeHistory,
 } from "./load";
+import { buildSessionComparison } from "@/lib/accounting/session-comparison";
+import {
+  changeBetweenObservations,
+  preferDilutedSatsPerShare,
+} from "@/lib/accounting/issuer-bps";
 
 function latestMetricForTicker(
   metrics: IssuerMetric[],
@@ -52,6 +59,8 @@ export function buildPublicDashboard() {
   const reserve = loadReserve();
   const donations = loadDonations();
   const valuationHistory = loadValuationHistory();
+  const marketObservations = loadMarketObservations();
+  const issuerBpsHistory = loadIssuerBpsHistory();
   const incomeModel = loadIncomeModel();
   const incomeSecurities = loadIncomeSecurities();
   const incomeHistory = loadIncomeHistory();
@@ -109,6 +118,62 @@ export function buildPublicDashboard() {
     (a, b) => a.episodeNumber - b.episodeNumber,
   );
   const latestEpisode = episodes[episodes.length - 1] ?? null;
+
+  const closes = marketObservations.observations
+    .filter((o) => o.valuationType === "market_close")
+    .sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
+  const opens = marketObservations.observations
+    .filter((o) => o.valuationType === "market_open")
+    .sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
+  const inception = marketObservations.observations.find(
+    (o) => o.valuationType === "inception",
+  );
+  const latestClose = closes[closes.length - 1] ?? null;
+  const previousClose = closes.length >= 2 ? closes[closes.length - 2]! : null;
+  const latestOpen = opens[opens.length - 1] ?? null;
+  const sessionComparison = buildSessionComparison({
+    previous: previousClose,
+    latest: latestClose,
+  });
+
+  const bpsByTicker = new Map<string, typeof issuerBpsHistory.observations>();
+  for (const obs of issuerBpsHistory.observations) {
+    const list = bpsByTicker.get(obs.ticker) ?? [];
+    list.push(obs);
+    bpsByTicker.set(obs.ticker, list);
+  }
+  const issuerBpsLatest = [...bpsByTicker.entries()].map(([ticker, list]) => {
+    const sorted = [...list].sort(
+      (a, b) => Date.parse(a.asOf) - Date.parse(b.asOf),
+    );
+    const latest = sorted[sorted.length - 1]!;
+    const previous = sorted.length >= 2 ? sorted[sorted.length - 2]! : null;
+    const latestPref = preferDilutedSatsPerShare({
+      reportedSatsPerDilutedShare: latest.reportedSatsPerDilutedShare,
+      calculatedSatsPerDilutedShare: latest.calculatedSatsPerDilutedShare,
+    });
+    const previousPref = previous
+      ? preferDilutedSatsPerShare({
+          reportedSatsPerDilutedShare: previous.reportedSatsPerDilutedShare,
+          calculatedSatsPerDilutedShare: previous.calculatedSatsPerDilutedShare,
+        })
+      : { satsPerShare: null, status: "unavailable" as const };
+    const delta = changeBetweenObservations(
+      previousPref.satsPerShare,
+      latestPref.satsPerShare,
+    );
+    return {
+      ticker,
+      issuer: latest.issuer,
+      latest,
+      previous,
+      dilutedSatsPerShare: latestPref.satsPerShare,
+      status: latestPref.status,
+      change: delta.change,
+      changePct: delta.changePct,
+      observationCount: sorted.length,
+    };
+  });
 
   return {
     generatedAt: new Date().toISOString(),
@@ -169,6 +234,20 @@ export function buildPublicDashboard() {
         transactions: transactionsFile.transactions,
       }),
       hasBenchmarkPrices: valuationHistoryHasBenchmarkPrices(valuationHistory.points),
+    },
+    marketObservations: {
+      observations: marketObservations.observations,
+      notes: marketObservations.notes,
+      inception: inception ?? null,
+      latestOfficialClose: latestClose,
+      latestMarketOpen: latestOpen,
+      previousOfficialClose: previousClose,
+      sessionComparison,
+    },
+    issuerBitcoinPerShare: {
+      observations: issuerBpsHistory.observations,
+      notes: issuerBpsHistory.notes,
+      latestByTicker: issuerBpsLatest,
     },
     incomeModel: {
       asOf: incomeModel.asOf,

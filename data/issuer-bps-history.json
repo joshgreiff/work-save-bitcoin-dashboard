@@ -1,0 +1,10 @@
+{
+  "observations": [],
+  "notes": [
+    "Append-only diluted sats-per-share history from primary sources only (IR, SEC, company dashboards).",
+    "Prefer issuer-reported diluted sats/share when available; otherwise calculate from holdings ÷ diluted shares × 1e8 and label Calculated by Work Save Bitcoin.",
+    "Never interpolate daily values, never invent share counts, never mix basic and diluted numerators/denominators.",
+    "MPJPY is a 1:1 Level I ADR for Metaplanet (TSE:3350); apply Metaplanet per-share metrics only while adrRatio remains 1.",
+    "No verified observations seeded yet — look-through remains unavailable until primary disclosures are confirmed."
+  ]
+}

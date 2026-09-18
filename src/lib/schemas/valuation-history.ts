@@ -5,6 +5,7 @@ import {
   nonNegativeCentsSchema,
   provenanceSchema,
 } from "./common";
+import { historicalValuationTypeSchema } from "./market-observations";
 
 export const sessionSchema = z.enum(["open", "close"]);
 
@@ -12,6 +13,7 @@ export const valuationHistoryPointSchema = provenanceSchema.extend({
   id: z.string().min(1),
   asOf: isoDateTimeSchema,
   session: sessionSchema,
+  valuationType: historicalValuationTypeSchema.default("market_close"),
   portfolioValueCents: nonNegativeCentsSchema.nullable(),
   prices: z.object({
     BTCUSD: centsSchema.nullable(),
@@ -38,11 +40,11 @@ export const valuationHistoryFileSchema = z
         });
       }
       ids.add(point.id);
-      const key = `${point.asOf}|${point.session}`;
+      const key = `${point.asOf}|${point.valuationType}`;
       if (keys.has(key)) {
         ctx.addIssue({
           code: "custom",
-          message: `Duplicate valuation history session point: ${key}`,
+          message: `Duplicate valuation history point: ${key}`,
         });
       }
       keys.add(key);

@@ -10,8 +10,9 @@ import type { ValuationHistoryPoint } from "@/lib/schemas/valuation-history";
 const openCloseSeed: ValuationHistoryPoint[] = [
   {
     id: "vh-test-open",
-    asOf: "2026-09-16T09:30:00-04:00",
+    asOf: "2026-09-16T08:00:00-04:00",
     session: "open",
+    valuationType: "inception",
     portfolioValueCents: 199991,
     prices: { BTCUSD: null, SPY: null, GLD: null },
     sourceName: null,
@@ -24,6 +25,7 @@ const openCloseSeed: ValuationHistoryPoint[] = [
     id: "vh-test-close",
     asOf: "2026-09-16T16:00:00-04:00",
     session: "close",
+    valuationType: "market_close",
     portfolioValueCents: 199692,
     prices: { BTCUSD: null, SPY: null, GLD: null },
     sourceName: null,
@@ -42,8 +44,8 @@ describe("valuation history series", () => {
     });
 
     expect(series).toHaveLength(2);
-    expect(series[0]?.label).toMatch(/Sep 16 open/i);
-    expect(series[1]?.label).toMatch(/Sep 16 close/i);
+    expect(series[0]?.label).toMatch(/Sep 16 inception/i);
+    expect(series[1]?.label).toMatch(/Sep 16 market close/i);
     expect(series[0]?.portfolio).toBe(1999.91);
     expect(series[1]?.portfolio).toBe(1996.92);
     expect(series[0]?.portfolioReturn).toBe(0);
@@ -86,15 +88,20 @@ describe("valuation history series", () => {
 });
 
 describe("valuation history data wiring", () => {
-  it("loads seed open/close points and exposes them on the public dashboard", () => {
+  it("loads inception plus official closes and exposes them on the public dashboard", () => {
     const file = loadValuationHistory();
-    expect(file.points).toHaveLength(2);
+    expect(file.points).toHaveLength(3);
     expect(file.points[0]?.portfolioValueCents).toBe(199991);
+    expect(file.points[0]?.valuationType).toBe("inception");
     expect(file.points[1]?.portfolioValueCents).toBe(199692);
+    expect(file.points[1]?.valuationType).toBe("market_close");
+    expect(file.points[2]?.portfolioValueCents).toBe(208235);
+    expect(file.points[2]?.valuationType).toBe("market_close");
 
     const dashboard = buildPublicDashboard();
-    expect(dashboard.valuationHistory.series).toHaveLength(2);
-    expect(dashboard.valuationHistory.hasBenchmarkPrices).toBe(false);
+    expect(dashboard.valuationHistory.series).toHaveLength(3);
+    expect(dashboard.valuationHistory.hasBenchmarkPrices).toBe(true);
     expect(dashboard.valuationHistory.series[1]?.portfolio).toBe(1996.92);
+    expect(dashboard.valuationHistory.series[2]?.portfolio).toBe(2082.35);
   });
 });

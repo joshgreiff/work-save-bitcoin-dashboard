@@ -33,10 +33,10 @@ export function PortfolioLiveHeader(props: Props) {
     <div className="space-y-3">
       <p className="text-xs text-[var(--muted)]">
         {live.usingLive
-          ? "Current value marks unchanged holdings to live market quotes."
+          ? "Live regular-session portfolio mark. Assumes published share weights are unchanged."
           : live.isPending
             ? "Loading live quotes…"
-            : "Showing last stored valuation until live quotes are available."}
+            : "Showing latest official market close until a live regular-session mark is available."}
       </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
@@ -50,8 +50,8 @@ export function PortfolioLiveHeader(props: Props) {
           asOf={live.asOf}
           hint={
             live.usingLive
-              ? "Live mark · same share weights"
-              : "Stored valuation (live quotes unavailable)"
+              ? "Live regular-session portfolio mark — not historical"
+              : "Latest official market close"
           }
         />
         <MetricCard

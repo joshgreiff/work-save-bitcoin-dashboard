@@ -4,10 +4,13 @@ import type {
   LiveQuoteSymbol,
   LiveQuotesResponse,
 } from "./types";
+import { fetchCoinbaseBtcSpot } from "./providers";
+import { fetchEquityQuoteWithCache } from "./btc";
 import {
-  fetchCoinbaseBtcSpot,
-  fetchYahooEquityQuote,
-} from "./providers";
+  clearLivePortfolioTransient,
+  setLivePortfolioTransient,
+} from "./cache";
+import { isRegularEquitySession } from "@/lib/market/session";
 
 const EQUITY_SYMBOLS = [
   "MSTR",
@@ -22,6 +25,8 @@ const EQUITY_SYMBOLS = [
   "SATA",
   "IBIT",
 ] as const;
+
+const HOLDING_SYMBOLS = ["MSTR", "ASST", "MPJPY"] as const;
 
 type LiveMarkPortfolioInput = {
   cashBalanceCents: number;
@@ -82,15 +87,20 @@ export function buildLivePortfolioMark(args: {
 export async function fetchLiveQuotes(args: {
   portfolio: LiveMarkPortfolioInput;
   fetchImpl?: typeof fetch;
-}): Promise<LiveQuotesResponse> {
+  /** When false, skip equity fetches (outside regular session). BTC still fetched. */
+  includeEquities?: boolean;
+}): Promise<LiveQuotesResponse & { marketOpen: boolean }> {
   const fetchImpl = args.fetchImpl ?? fetch;
+  const marketOpen = args.includeEquities ?? isRegularEquitySession();
   const quotes: LiveQuote[] = [];
   const errors: { symbol: string; message: string }[] = [];
+  const freshness: Record<string, "live" | "last_available"> = {};
 
   const jobs: Array<Promise<void>> = [
     fetchCoinbaseBtcSpot(fetchImpl)
       .then((quote) => {
         quotes.push(quote);
+        freshness.BTCUSD = "live";
       })
       .catch((error: unknown) => {
         errors.push({
@@ -98,32 +108,61 @@ export async function fetchLiveQuotes(args: {
           message: error instanceof Error ? error.message : String(error),
         });
       }),
-    ...EQUITY_SYMBOLS.map((symbol) =>
-      fetchYahooEquityQuote(symbol, fetchImpl)
-        .then((quote) => {
-          quotes.push(quote);
-        })
-        .catch((error: unknown) => {
-          errors.push({
-            symbol,
-            message: error instanceof Error ? error.message : String(error),
-          });
-        }),
-    ),
   ];
 
-  await Promise.all(jobs);
+  if (marketOpen) {
+    for (const symbol of EQUITY_SYMBOLS) {
+      jobs.push(
+        fetchEquityQuoteWithCache(symbol, fetchImpl)
+          .then(({ quote, freshness: f }) => {
+            quotes.push(quote);
+            freshness[symbol] = f;
+          })
+          .catch((error: unknown) => {
+            errors.push({
+              symbol,
+              message: error instanceof Error ? error.message : String(error),
+            });
+          }),
+      );
+    }
+  }
 
+  await Promise.all(jobs);
   quotes.sort((a, b) => a.symbol.localeCompare(b.symbol));
+
+  const holdingQuotes = quotes.filter((q) =>
+    (HOLDING_SYMBOLS as readonly string[]).includes(q.symbol),
+  );
+  const mark = buildLivePortfolioMark({
+    portfolio: args.portfolio,
+    quotes: holdingQuotes,
+  });
+
+  if (marketOpen && mark.complete && mark.portfolioValueCents != null) {
+    setLivePortfolioTransient({
+      portfolioValueCents: mark.portfolioValueCents,
+      asOf: mark.asOf ?? mark.retrievedAt,
+      retrievedAt: mark.retrievedAt,
+      positions: mark.positions.map((p) => ({
+        ticker: p.ticker,
+        shares: p.shares,
+        priceCents: p.priceCents as number,
+        marketValueCents: p.marketValueCents as number,
+      })),
+    });
+  } else if (!marketOpen) {
+    clearLivePortfolioTransient();
+  }
 
   return {
     quotes,
     errors,
-    mark: buildLivePortfolioMark({
-      portfolio: args.portfolio,
-      quotes,
-    }),
+    mark,
+    marketOpen,
     disclaimer:
-      "Live quotes mark the published share weights to market. They are the current portfolio value while holdings are unchanged. Official episode snapshots and valuation-history open/close rows are still append-only confirmed marks and are not auto-overwritten.",
+      marketOpen
+        ? "Live regular-session portfolio mark — not historical. Assumes published share weights are unchanged until a later transaction is recorded. Never appended to official history."
+        : "Outside regular U.S. equity hours. Equity live marks are withheld; use the latest official market close. Bitcoin may still quote continuously as informational.",
   };
 }
