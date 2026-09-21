@@ -61,10 +61,11 @@ export default function MethodologyPage() {
         <section className="space-y-2">
           <h2 className="text-xl font-medium text-[var(--foreground)]">Live quotes</h2>
           <p>
-            During regular U.S. equity hours, overview ending values and portfolio marks use live
-            quotes from the prior official close through the current session. Those live marks are
-            informational only: they never replace official 4:00 p.m. Eastern closes in valuation
-            history or long-term charts, and never update episode snapshots without confirmation.
+            During regular U.S. equity hours, overview ending values, portfolio marks, and the
+            trailing tip on open/close charts use live quotes. Those live marks are informational
+            only: they never replace official 4:00 p.m. Eastern closes in valuation history, and
+            never update episode snapshots without confirmation. Historical chart points stay as
+            published.
           </p>
         </section>
         <section className="space-y-2">

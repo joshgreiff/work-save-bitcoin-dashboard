@@ -20,6 +20,10 @@ During regular U.S. equity hours the dashboard may show one live regular-session
 
 Intraday comparisons on the overview (Daily vs Bitcoin table, headline portfolio cards) use prior official close → live regular-session quotes so viewers see current prices. Official 4:00 p.m. Eastern synchronized closes remain the source for long-term charts, valuation history, and completed-session narration — never mixed into immutable history as live points.
 
+## Why charts append a live trailing tip
+
+Portfolio value and cash-flow-matched charts keep every published open/close point as stored. During regular U.S. equity hours they append one client-side live tip so the newest point tracks the current mark. That tip is never written to `valuation-history.json`.
+
 ## Why no brokerage integration
 
 Credentials and account identifiers are explicitly out of scope. Manual snapshots prevent accidental exposure and keep the educational narrative intentional.

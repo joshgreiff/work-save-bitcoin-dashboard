@@ -84,3 +84,4 @@ Official chart series come from append-only session points in `data/valuation-hi
 * Contribution-adjusted portfolio return at each point uses the same P&L formula as the live portfolio, with contributions as of the ledger (currently cumulative through current transactions).
 * BTC / SPY / GLD percentage and cash-flow-matched legs appear only when confirmed `prices` exist for that session (or earlier sessions for cash-flow matching).
 * After-hours marks stay informational and must not be written as `session: "close"`.
+* During regular U.S. equity hours the UI may append one live trailing tip to portfolio and cash-flow charts; that tip is never written into this file.

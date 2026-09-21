@@ -1,9 +1,8 @@
 import {
   BenchmarkReturnChart,
-  CashFlowMatchedChart,
-  PortfolioValueChart,
 } from "@/components/charts/Charts";
 import { LiveMarkPanel } from "@/components/LiveMarkPanel";
+import { LiveTrailingValuationCharts } from "@/components/LiveTrailingValuationCharts";
 import { PortfolioLiveHeader } from "@/components/PortfolioLiveHeader";
 import {
   AsOf,
@@ -14,6 +13,7 @@ import {
   MetricCard,
   SectionIntro,
 } from "@/components/ui/primitives";
+import { lastConfirmedBenchmarkPrices } from "@/lib/accounting/live-chart-trail";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 
 export const metadata = {
@@ -40,6 +40,8 @@ export default function PortfolioPage() {
     spy: row.cashFlowSpy,
     gld: row.cashFlowGld,
   }));
+
+  const lastBenchmarkPrices = lastConfirmedBenchmarkPrices(series);
 
   const returnChart = series.map((row) => ({
     label: row.label,
@@ -152,15 +154,19 @@ export default function PortfolioPage() {
       </section>
 
       <div className="grid gap-4 lg:grid-cols-2">
-        <PortfolioValueChart data={valueChart} />
+        <LiveTrailingValuationCharts
+          valueChart={valueChart}
+          cashFlowChart={cashFlowChart}
+          lastBenchmarkPrices={lastBenchmarkPrices}
+        />
         <BenchmarkReturnChart data={returnChart} seriesKeys={returnSeriesKeys} />
-        <CashFlowMatchedChart data={cashFlowChart} />
       </div>
       {!data.valuationHistory.hasBenchmarkPrices ? (
         <p className="text-sm text-[var(--muted)]">
           Benchmark session prices (BTC/SPY/GLD) are pending confirmation. Append them to{" "}
           <code className="text-[var(--accent)]">data/valuation-history.json</code> without inventing
-          figures. Historical charts use stored open/close marks.
+          figures. Historical charts keep stored open/close marks; the trailing point may still show
+          the live portfolio mark when the market is open.
         </p>
       ) : null}
 

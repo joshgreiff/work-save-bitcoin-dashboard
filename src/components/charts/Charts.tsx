@@ -52,14 +52,20 @@ function ChartFrame({
 
 export function PortfolioValueChart({
   data,
+  usingLive = false,
 }: {
   data: { label: string; value: number | null }[];
+  usingLive?: boolean;
 }) {
   const hasPoints = data.some((d) => d.value != null);
   return (
     <ChartFrame
-      title="Portfolio value (open / close)"
-      explanation="Append-only regular-session marks. Historical values are stored as published and are not recomputed from current prices."
+      title={usingLive ? "Portfolio value (open / close / live)" : "Portfolio value (open / close)"}
+      explanation={
+        usingLive
+          ? "Historical open/close marks stay as published. The latest point is the live regular-session mark."
+          : "Append-only regular-session marks. Historical values are stored as published and are not recomputed from current prices."
+      }
       empty={!hasPoints}
     >
       <ResponsiveContainer width="100%" height="100%">
@@ -175,6 +181,7 @@ export function BenchmarkReturnChart({
 
 export function CashFlowMatchedChart({
   data,
+  usingLive = false,
 }: {
   data: {
     label: string;
@@ -183,6 +190,7 @@ export function CashFlowMatchedChart({
     spy: number | null;
     gld: number | null;
   }[];
+  usingLive?: boolean;
 }) {
   const hasPoints = data.some(
     (d) => d.portfolio != null || d.btc != null || d.spy != null || d.gld != null,
@@ -190,7 +198,11 @@ export function CashFlowMatchedChart({
   return (
     <ChartFrame
       title="Cash-flow-matched benchmark values"
-      explanation="Hypothetical: same external cash flows allocated entirely to each benchmark at confirmed session prices. Not actual portfolio holdings."
+      explanation={
+        usingLive
+          ? "Historical points use confirmed session prices. The latest point marks the live portfolio and scales benchmark legs from the prior close using live quotes."
+          : "Hypothetical: same external cash flows allocated entirely to each benchmark at confirmed session prices. Not actual portfolio holdings."
+      }
       empty={!hasPoints}
     >
       <ResponsiveContainer width="100%" height="100%">

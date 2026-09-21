@@ -1,15 +1,13 @@
-import {
-  CashFlowMatchedChart,
-  PortfolioValueChart,
-} from "@/components/charts/Charts";
 import { DailyVsBitcoin } from "@/components/DailyVsBitcoin";
 import { LiveBtcCard } from "@/components/LiveBtcCard";
+import { LiveTrailingValuationCharts } from "@/components/LiveTrailingValuationCharts";
 import { OverviewMarketSummary } from "@/components/OverviewMarketSummary";
 import {
   Disclaimer,
   formatUsdFromCents,
   TextLink,
 } from "@/components/ui/primitives";
+import { lastConfirmedBenchmarkPrices } from "@/lib/accounting/live-chart-trail";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 import { formatEtTimestamp } from "@/lib/market/session";
 
@@ -35,6 +33,8 @@ export default function HomePage() {
     spy: row.cashFlowSpy,
     gld: row.cashFlowGld,
   }));
+
+  const lastBenchmarkPrices = lastConfirmedBenchmarkPrices(series);
 
   return (
     <div className="space-y-10">
@@ -86,13 +86,17 @@ export default function HomePage() {
       <DailyVsBitcoin marketObservations={data.marketObservations} />
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <PortfolioValueChart data={valueChart} />
-        <CashFlowMatchedChart data={cashFlowChart} />
+        <LiveTrailingValuationCharts
+          valueChart={valueChart}
+          cashFlowChart={cashFlowChart}
+          lastBenchmarkPrices={lastBenchmarkPrices}
+        />
       </section>
 
       <p className="text-xs text-[var(--muted)]">
-        Historical portfolio chart uses inception and official market-close observations only. Latest
-        official close: {formatEtTimestamp(officialCloseAt)}.
+        Chart history keeps inception and official market-close observations as published. During
+        regular hours the trailing point is the live mark. Latest official close:{" "}
+        {formatEtTimestamp(officialCloseAt)}.
       </p>
 
       <section className="grid gap-4 md:grid-cols-2">

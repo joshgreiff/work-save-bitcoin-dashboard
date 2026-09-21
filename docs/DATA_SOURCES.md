@@ -28,7 +28,7 @@ Every externally sourced figure should eventually include source name, URL, as-o
 * UI: home and portfolio pages show live regular-session marks when the U.S. equity market is open (overview ending values and portfolio header use prior close → live).
 * Live income: `/api/live-income-model` applies live quotes to the income-model allocation (informational; never mutates episodes).
 * Live values must never overwrite official episode / valuation-history / market-observation rows without human confirmation.
-* Long-term charts and normalized session paths stay on official market-close observations only.
+* Long-term chart history stays on official market-close observations; during regular hours a client-side live tip is appended as the newest point only.
 
 ## Synchronized BTC 4:00 p.m. Eastern selection
 
