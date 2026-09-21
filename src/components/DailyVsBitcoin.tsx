@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, useTransition } from "react";
 import {
   CartesianGrid,
   Legend,
@@ -12,8 +12,13 @@ import {
   YAxis,
 } from "recharts";
 import { formatPercent, formatUsdFromCents } from "@/components/ui/primitives";
+import {
+  buildSessionComparison,
+  type LiveSessionEnd,
+} from "@/lib/accounting/session-comparison";
 import type { PublicDashboard } from "@/lib/data/public-dashboard";
 import { formatEtTimestamp } from "@/lib/market/session";
+import type { LiveQuotesResponse } from "@/lib/quotes/types";
 
 type Props = {
   marketObservations: PublicDashboard["marketObservations"];
@@ -25,9 +30,65 @@ function pp(value: number | null): string {
   return `${sign}${(value * 100).toFixed(2)} pp`;
 }
 
+function liveSessionEndFromQuotes(
+  live: LiveQuotesResponse,
+): LiveSessionEnd | null {
+  if (live.marketOpen !== true || !live.mark.complete) return null;
+  const bySymbol = new Map(live.quotes.map((q) => [q.symbol, q]));
+  const btc = bySymbol.get("BTCUSD");
+  const mstr = bySymbol.get("MSTR");
+  if (!btc || !mstr || live.mark.portfolioValueCents == null) return null;
+
+  return {
+    asOf: live.mark.asOf ?? live.mark.retrievedAt,
+    prices: {
+      BTCUSD: btc.priceCents,
+      MSTR: mstr.priceCents,
+      ASST: bySymbol.get("ASST")?.priceCents ?? null,
+      MPJPY: bySymbol.get("MPJPY")?.priceCents ?? null,
+    },
+    portfolioValueCents: live.mark.portfolioValueCents,
+  };
+}
+
 export function DailyVsBitcoin({ marketObservations }: Props) {
-  const comparison = marketObservations.sessionComparison;
+  const [live, setLive] = useState<LiveQuotesResponse | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  const load = useCallback(() => {
+    startTransition(async () => {
+      try {
+        setError(null);
+        const response = await fetch("/api/live-quotes", { cache: "no-store" });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        setLive((await response.json()) as LiveQuotesResponse);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : String(err));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    load();
+    const id = window.setInterval(load, 60_000);
+    return () => window.clearInterval(id);
+  }, [load]);
+
+  const comparison = useMemo(() => {
+    const liveEnd = live ? liveSessionEndFromQuotes(live) : null;
+    if (liveEnd && marketObservations.latestOfficialClose) {
+      return buildSessionComparison({
+        previous: marketObservations.latestOfficialClose,
+        latest: null,
+        liveEnd,
+      });
+    }
+    return marketObservations.sessionComparison;
+  }, [live, marketObservations]);
+
+  const isLive = comparison.mode === "live";
 
   const normalized = useMemo(() => {
     const closes = marketObservations.observations
@@ -72,8 +133,9 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
       <div>
         <h2 className="text-xl font-medium">Daily performance vs Bitcoin</h2>
         <p className="mt-2 max-w-3xl text-sm text-[var(--muted-foreground)]">
-          Exact, defensible comparison using identical 4:00 p.m.-to-4:00 p.m. Eastern windows for
-          equities and Bitcoin. Rolling 24-hour Bitcoin returns are never substituted.
+          {isLive
+            ? "Live comparison from the latest official 4:00 p.m. Eastern close through current regular-session quotes. Historical charts below still use synchronized closes only."
+            : "Outside regular hours, ending values use the latest official synchronized 4:00 p.m. Eastern closes. Rolling 24-hour Bitcoin returns are never substituted."}
         </p>
       </div>
 
@@ -83,6 +145,15 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
         </p>
       ) : (
         <>
+          <div className="flex flex-wrap items-center gap-2 text-xs uppercase tracking-[0.12em] text-[var(--muted)]">
+            <span>
+              {isLive
+                ? "Ending values · live regular-session marks"
+                : "Ending values · latest official market close"}
+            </span>
+            {isPending ? <span>Refreshing…</span> : null}
+          </div>
+
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
               <thead className="text-xs uppercase tracking-wide text-[var(--muted)]">
@@ -123,19 +194,33 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
           </p>
 
           <article className="border border-[var(--border)] bg-[var(--surface)] p-4">
-            <h3 className="text-sm font-medium">Ready-to-read episode summary</h3>
+            <h3 className="text-sm font-medium">
+              {isLive ? "Live comparison summary" : "Ready-to-read episode summary"}
+            </h3>
             <p className="mt-3 text-sm leading-relaxed">{comparison.episodeSummary.text}</p>
             <button
               type="button"
               onClick={copySummary}
               className="mt-4 border border-[var(--border)] px-3 py-2 text-sm hover:border-[var(--accent)]"
             >
-              {copied ? "Copied" : "Copy episode summary"}
+              {copied ? "Copied" : isLive ? "Copy live summary" : "Copy episode summary"}
             </button>
           </article>
 
-          {marketObservations.previousOfficialClose &&
-          marketObservations.latestOfficialClose ? (
+          {isLive && marketObservations.latestOfficialClose && comparison.endAsOf ? (
+            <div className="space-y-1 text-xs text-[var(--muted)]">
+              <p>
+                Window: {formatEtTimestamp(marketObservations.latestOfficialClose.timestamp)}{" "}
+                (prior close) → {formatEtTimestamp(comparison.endAsOf)} (live)
+              </p>
+              <p>
+                Live equities: Yahoo regular-session quotes. Live Bitcoin: Coinbase spot
+                (informational; not the official 4:00 p.m. synchronized candle). Assumes published
+                share weights unchanged.
+              </p>
+            </div>
+          ) : marketObservations.previousOfficialClose &&
+            marketObservations.latestOfficialClose ? (
             <div className="space-y-1 text-xs text-[var(--muted)]">
               <p>
                 Window: {formatEtTimestamp(marketObservations.previousOfficialClose.timestamp)} →{" "}
@@ -159,6 +244,9 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
               </p>
             </div>
           ) : null}
+          {error ? (
+            <p className="text-xs text-[var(--negative)]">Live quotes unavailable: {error}</p>
+          ) : null}
         </>
       )}
 
@@ -166,7 +254,7 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <h3 className="text-sm font-medium">Normalized session path (official closes)</h3>
           <span className="text-[10px] uppercase tracking-[0.12em] text-[var(--muted)]">
-            Historical
+            Historical · market close only
           </span>
         </div>
         <div className="mt-4 h-56">
@@ -208,10 +296,10 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
       </div>
 
       <p className="text-xs leading-relaxed text-[var(--muted)]">
-        Bitcoin trades continuously while public equities trade during defined market sessions. This
-        comparison synchronizes Bitcoin to the equity market’s 4:00 p.m. Eastern close. Different
-        time windows may produce different results. Excess return is shown in percentage points, not
-        as a percent-of-percent figure.
+        Official long-term plots and completed-session narration synchronize Bitcoin to the equity
+        market’s 4:00 p.m. Eastern close. Live ending values on this page use current regular-session
+        quotes for intraday comparison only and are never appended to valuation history. Excess
+        return is shown in percentage points, not as a percent-of-percent figure.
       </p>
     </section>
   );

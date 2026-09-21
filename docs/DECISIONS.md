@@ -16,6 +16,10 @@ Equities and Bitcoin trade on different clocks. Daily MSTR-versus-Bitcoin narrat
 
 During regular U.S. equity hours the dashboard may show one live regular-session portfolio mark. It is replaced on refresh, never appended to `market-observations.json` or episode snapshots, and disappears outside the session in favor of the latest official close.
 
+## Why overview “ending values” use live marks
+
+Intraday comparisons on the overview (Daily vs Bitcoin table, headline portfolio cards) use prior official close → live regular-session quotes so viewers see current prices. Official 4:00 p.m. Eastern synchronized closes remain the source for long-term charts, valuation history, and completed-session narration — never mixed into immutable history as live points.
+
 ## Why no brokerage integration
 
 Credentials and account identifiers are explicitly out of scope. Manual snapshots prevent accidental exposure and keep the educational narrative intentional.

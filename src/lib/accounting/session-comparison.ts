@@ -20,6 +20,31 @@ export type EpisodeSummaryResult = {
   dateLabel: string;
 };
 
+/** Transient live end leg for prior-close → live comparisons (never stored). */
+export type LiveSessionEnd = {
+  asOf: string;
+  prices: {
+    BTCUSD: number | null;
+    MSTR: number | null;
+    ASST: number | null;
+    MPJPY: number | null;
+  };
+  portfolioValueCents: number | null;
+};
+
+export type SessionComparisonMode = "official_close" | "live" | "pending";
+
+export type SessionComparison = {
+  available: boolean;
+  pendingReason: string | null;
+  mode: SessionComparisonMode;
+  endAsOf: string | null;
+  assets: SessionAssetReturn[];
+  btcReturn: number | null;
+  amplification: AmplificationResult;
+  episodeSummary: EpisodeSummaryResult;
+};
+
 const AMPLIFICATION_BTC_THRESHOLD = 0.005;
 
 export function sessionReturn(
@@ -72,42 +97,63 @@ export function amplificationMultiple(
   };
 }
 
-export function buildSessionComparison(args: {
-  previous: SynchronizedMarketObservation | null;
-  latest: SynchronizedMarketObservation | null;
-}): {
-  available: boolean;
-  pendingReason: string | null;
-  assets: SessionAssetReturn[];
-  btcReturn: number | null;
-  amplification: AmplificationResult;
-  episodeSummary: EpisodeSummaryResult;
-} {
-  const { previous, latest } = args;
-  if (!previous || !latest) {
-    return {
+function pendingComparison(reason = "Exact BTC comparison pending"): SessionComparison {
+  return {
+    available: false,
+    pendingReason: reason,
+    mode: "pending",
+    endAsOf: null,
+    assets: [],
+    btcReturn: null,
+    amplification: amplificationMultiple(null, null),
+    episodeSummary: {
       available: false,
-      pendingReason: "Exact BTC comparison pending",
-      assets: [],
-      btcReturn: null,
-      amplification: amplificationMultiple(null, null),
-      episodeSummary: {
-        available: false,
-        text: "Exact BTC comparison pending",
-        dateLabel: "",
-      },
-    };
+      text: reason,
+      dateLabel: "",
+    },
+  };
+}
+
+export function buildSessionComparison(args: {
+  /** Start of the window — prior official close for live, or previous close for official. */
+  previous: SynchronizedMarketObservation | null;
+  /** End of an official close→close window. Ignored when `liveEnd` is provided. */
+  latest: SynchronizedMarketObservation | null;
+  /** When set, ending values come from live quotes (prior close → live). */
+  liveEnd?: LiveSessionEnd | null;
+}): SessionComparison {
+  const { previous, latest, liveEnd } = args;
+  const usingLive = liveEnd != null;
+
+  if (!previous) {
+    return pendingComparison();
+  }
+  if (!usingLive && !latest) {
+    return pendingComparison();
   }
 
+  const endPrices = usingLive
+    ? liveEnd.prices
+    : {
+        BTCUSD: latest!.prices.BTCUSD,
+        MSTR: latest!.prices.MSTR,
+        ASST: latest!.prices.ASST,
+        MPJPY: latest!.prices.MPJPY,
+      };
+  const endPortfolio = usingLive
+    ? liveEnd.portfolioValueCents
+    : latest!.portfolioValueCents;
+  const endAsOf = usingLive ? liveEnd.asOf : latest!.timestamp;
+
   const btcStart = previous.prices.BTCUSD;
-  const btcEnd = latest.prices.BTCUSD;
+  const btcEnd = endPrices.BTCUSD;
   const btcReturn = sessionReturn(btcStart, btcEnd);
 
   const symbols = ["BTCUSD", "MSTR", "ASST", "MPJPY", "PORTFOLIO"] as const;
   const assets: SessionAssetReturn[] = symbols.map((symbol) => {
     if (symbol === "PORTFOLIO") {
       const start = previous.portfolioValueCents;
-      const end = latest.portfolioValueCents;
+      const end = endPortfolio;
       const ret = sessionReturn(start, end);
       return {
         symbol: "Actual portfolio",
@@ -118,7 +164,7 @@ export function buildSessionComparison(args: {
       };
     }
     const start = previous.prices[symbol];
-    const end = latest.prices[symbol];
+    const end = endPrices[symbol];
     const ret = sessionReturn(start, end);
     return {
       symbol: symbol === "BTCUSD" ? "Bitcoin" : symbol,
@@ -142,7 +188,7 @@ export function buildSessionComparison(args: {
 
   const episodeSummary = syncReady
     ? buildEpisodeSummary({
-        asOf: latest.timestamp,
+        asOf: endAsOf,
         mstrStart: mstr!.startCents!,
         mstrEnd: mstr!.endCents!,
         mstrReturn: mstr!.sessionReturn!,
@@ -150,6 +196,7 @@ export function buildSessionComparison(args: {
         btcEnd: btcEnd!,
         btcReturn: btcReturn!,
         amplification,
+        windowKind: usingLive ? "live" : "official_close",
       })
     : {
         available: false,
@@ -160,6 +207,8 @@ export function buildSessionComparison(args: {
   return {
     available: syncReady,
     pendingReason: syncReady ? null : "Exact BTC comparison pending",
+    mode: syncReady ? (usingLive ? "live" : "official_close") : "pending",
+    endAsOf: syncReady ? endAsOf : null,
     assets,
     btcReturn,
     amplification,
@@ -187,6 +236,7 @@ export function buildEpisodeSummary(args: {
   btcEnd: number;
   btcReturn: number;
   amplification: AmplificationResult;
+  windowKind?: "official_close" | "live";
 }): EpisodeSummaryResult {
   const dateLabel = new Intl.DateTimeFormat("en-US", {
     timeZone: "America/New_York",
@@ -200,11 +250,16 @@ export function buildEpisodeSummary(args: {
   const vs =
     args.mstrReturn - args.btcReturn >= 0 ? "outperformed" : "underperformed";
   const excessPp = Math.abs((args.mstrReturn - args.btcReturn) * 100).toFixed(2);
+  const live = args.windowKind === "live";
 
-  let text = `On ${dateLabel}, MSTR ${mstrVerb} ${formatPct(args.mstrReturn)}% from ${formatUsd(args.mstrStart)} to ${formatUsd(args.mstrEnd)}. Over the same 4:00 p.m.-to-4:00 p.m. Eastern window, Bitcoin ${btcVerb} ${formatPct(args.btcReturn)}% from ${formatUsd(args.btcStart)} to ${formatUsd(args.btcEnd)}. MSTR ${vs} Bitcoin by ${excessPp} percentage points.`;
+  let text = live
+    ? `As of the live mark on ${dateLabel}, MSTR ${mstrVerb} ${formatPct(args.mstrReturn)}% from the prior 4:00 p.m. Eastern close of ${formatUsd(args.mstrStart)} to ${formatUsd(args.mstrEnd)}. Over the same prior-close-to-live window, Bitcoin ${btcVerb} ${formatPct(args.btcReturn)}% from ${formatUsd(args.btcStart)} to ${formatUsd(args.btcEnd)}. MSTR ${vs} Bitcoin by ${excessPp} percentage points.`
+    : `On ${dateLabel}, MSTR ${mstrVerb} ${formatPct(args.mstrReturn)}% from ${formatUsd(args.mstrStart)} to ${formatUsd(args.mstrEnd)}. Over the same 4:00 p.m.-to-4:00 p.m. Eastern window, Bitcoin ${btcVerb} ${formatPct(args.btcReturn)}% from ${formatUsd(args.btcStart)} to ${formatUsd(args.btcEnd)}. MSTR ${vs} Bitcoin by ${excessPp} percentage points.`;
 
   if (args.amplification.available && args.amplification.multiple != null) {
-    text += ` MSTR moved approximately ${Math.abs(args.amplification.multiple).toFixed(1)} times as much as Bitcoin during this session.`;
+    text += live
+      ? ` MSTR moved approximately ${Math.abs(args.amplification.multiple).toFixed(1)} times as much as Bitcoin from the prior close through this live mark.`
+      : ` MSTR moved approximately ${Math.abs(args.amplification.multiple).toFixed(1)} times as much as Bitcoin during this session.`;
   }
 
   return { available: true, text, dateLabel };

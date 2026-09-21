@@ -225,8 +225,51 @@ describe("synchronized comparisons", () => {
     });
     const comparison = buildSessionComparison({ previous: friday, latest: monday });
     expect(comparison.available).toBe(true);
+    expect(comparison.mode).toBe("official_close");
     expect(comparison.btcReturn).toBeCloseTo(0.01, 8);
     expect(sessionReturn(10000, 10500)).toBeCloseTo(0.05, 8);
+  });
+
+  it("uses live ending values from the prior official close when liveEnd is set", () => {
+    const priorClose = obs({
+      id: "close",
+      timestamp: "2026-09-17T16:00:00-04:00",
+      valuationType: "market_close",
+      prices: {
+        BTCUSD: 1000000,
+        MSTR: 10000,
+        ASST: 500,
+        MPJPY: 200,
+        SPY: null,
+        GLD: null,
+      },
+      portfolioValueCents: 200000,
+    });
+    const comparison = buildSessionComparison({
+      previous: priorClose,
+      latest: null,
+      liveEnd: {
+        asOf: "2026-09-18T11:30:00-04:00",
+        prices: {
+          BTCUSD: 1020000,
+          MSTR: 11000,
+          ASST: 510,
+          MPJPY: 210,
+        },
+        portfolioValueCents: 215000,
+      },
+    });
+    expect(comparison.available).toBe(true);
+    expect(comparison.mode).toBe("live");
+    expect(comparison.endAsOf).toBe("2026-09-18T11:30:00-04:00");
+    const mstr = comparison.assets.find((a) => a.symbol === "MSTR");
+    expect(mstr?.startCents).toBe(10000);
+    expect(mstr?.endCents).toBe(11000);
+    expect(mstr?.sessionReturn).toBeCloseTo(0.1, 8);
+    expect(comparison.btcReturn).toBeCloseTo(0.02, 8);
+    expect(comparison.episodeSummary.text).toContain("live mark");
+    expect(comparison.episodeSummary.text).toContain("prior-close-to-live");
+    expect(comparison.episodeSummary.text).not.toContain("4:00 p.m.-to-4:00 p.m.");
   });
 });
 
