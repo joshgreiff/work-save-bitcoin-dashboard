@@ -90,18 +90,18 @@ describe("valuation history series", () => {
 describe("valuation history data wiring", () => {
   it("loads inception plus official closes and exposes them on the public dashboard", () => {
     const file = loadValuationHistory();
-    expect(file.points).toHaveLength(3);
+    expect(file.points.length).toBeGreaterThanOrEqual(5);
     expect(file.points[0]?.portfolioValueCents).toBe(199991);
     expect(file.points[0]?.valuationType).toBe("inception");
-    expect(file.points[1]?.portfolioValueCents).toBe(199692);
-    expect(file.points[1]?.valuationType).toBe("market_close");
-    expect(file.points[2]?.portfolioValueCents).toBe(208235);
-    expect(file.points[2]?.valuationType).toBe("market_close");
+    expect(file.points.some((p) => p.portfolioValueCents === 199692)).toBe(true);
+    expect(file.points.some((p) => p.portfolioValueCents === 208235)).toBe(true);
+    expect(file.points.some((p) => p.portfolioValueCents === 237627)).toBe(true);
+    expect(file.points.some((p) => p.portfolioValueCents === 256748)).toBe(true);
 
     const dashboard = buildPublicDashboard();
-    expect(dashboard.valuationHistory.series).toHaveLength(3);
+    expect(dashboard.valuationHistory.series.length).toBe(file.points.length);
     expect(dashboard.valuationHistory.hasBenchmarkPrices).toBe(true);
-    expect(dashboard.valuationHistory.series[1]?.portfolio).toBe(1996.92);
-    expect(dashboard.valuationHistory.series[2]?.portfolio).toBe(2082.35);
+    expect(dashboard.latestEpisode?.episodeNumber).toBe(4);
+    expect(dashboard.youtubeFeed.pendingSeriesVideos).toEqual([]);
   });
 });

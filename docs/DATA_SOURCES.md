@@ -5,11 +5,12 @@ Version 1 keeps **official performance** in manually maintained JSON. Live quote
 | Dataset | File / endpoint | Status | Notes |
 | --- | --- | --- | --- |
 | Portfolio holdings & values | `data/portfolio.json` | Manual | Share counts and official close value; per-security close prices may be null |
-| Episodes | `data/episodes.json` | Manual | Historical snapshots |
+| Episodes | `data/episodes.json` | Manual + sync-assisted | Permanent portfolio snapshots; never rewrite history |
+| YouTube feed cache | `data/youtube-feed.json` | Automated via `npm run sync:episodes` | Channel Atom feed; series videos on/after 2026-09-16 |
 | Transactions | `data/transactions.json` | Manual | Securities ledger only |
 | Valuation history | `data/valuation-history.json` | Manual append-only | Official open/close marks for charts |
-| Market prices | `data/market-prices.json` | Confirmed | Latest official synchronized session prints (Sep 17 close) |
-| Market observations | `data/market-observations.json` | Append-only | Inception + Sep 16/17 market closes with synchronized BTC/equity prints |
+| Market prices | `data/market-prices.json` | Confirmed | Latest official synchronized session prints (Sep 21 close) |
+| Market observations | `data/market-observations.json` | Append-only | Inception + official market closes with synchronized BTC/equity prints |
 | Issuer BTC/share history | `data/issuer-bps-history.json` | Empty seed | Diluted sats/share from primary sources only; UI shows coming-soon when empty |
 | Live BTC card | `/api/live-btc` | Automated | Coinbase spot + 24h stats; cached fallback labeled Last available |
 | Live quotes | `/api/live-quotes` | Automated | Equities only during regular U.S. session; BTC 24/7 informational |

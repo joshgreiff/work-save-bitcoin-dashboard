@@ -22,15 +22,11 @@ describe("seed data files", () => {
     expect(episodes[0]?.portfolioValueCents).toBe(199991);
   });
 
-  it("seeds Day 1 inception plus Sep 16–17 official market-close valuation history", () => {
+  it("seeds Day 1 inception plus subsequent official market-close valuation history", () => {
     const history = loadValuationHistory();
-    expect(history.points.map((p) => p.valuationType)).toEqual([
-      "inception",
-      "market_close",
-      "market_close",
-    ]);
+    expect(history.points[0]?.valuationType).toBe("inception");
     expect(history.points[0]?.portfolioValueCents).toBe(199991);
-    expect(history.points[1]?.portfolioValueCents).toBe(199692);
-    expect(history.points[2]?.portfolioValueCents).toBe(208235);
+    expect(history.points.filter((p) => p.valuationType === "market_close").length).toBeGreaterThanOrEqual(4);
+    expect(history.points.some((p) => p.portfolioValueCents === 256748)).toBe(true);
   });
 });

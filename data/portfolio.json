@@ -4,8 +4,8 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-09-17T16:00:00-04:00",
-  "currentPortfolioValueCents": 208235,
+  "currentValuationAt": "2026-09-21T16:00:00-04:00",
+  "currentPortfolioValueCents": 256748,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
   "afterHours": {
@@ -34,16 +34,15 @@
       "Position values shown are after-hours and must not be presented as 4:00 p.m. closing values.",
       "Displayed after-hours position values sum to $2,006.88; any residual cash (~$0.06) is unconfirmed.",
       "Brokerage buying power is not cash and is excluded.",
-      "This after-hours mark is from September 16 only and is not the September 17 official close."
+      "This after-hours mark is from September 16 only and is not a later official close."
     ]
   },
   "notes": [
-    "Official current valuation is the September 17, 2026 4:00 p.m. Eastern regular-market close: $2,082.35.",
-    "Reconciled from published share counts × confirmed unadjusted closes: 12.12×$132.25 + 13.7×$28.28 + 59×$1.56.",
-    "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16). September 16 official close remains $1,996.92.",
-    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 17 close.",
-    "Investment P&L at September 17 close: +$82.44 (+4.12% vs net external contributions).",
-    "September 16 per-security closes are stored in market-observations.json for synchronized comparisons; do not reverse-engineer them from that day’s portfolio total.",
+    "Official current valuation is the September 21, 2026 4:00 p.m. Eastern regular-market close: $2,567.48.",
+    "Reconciled from published share counts × confirmed unadjusted closes: 12.12×$168.50 + 13.7×$30.33 + 59×$1.86.",
+    "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
+    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 21 close.",
+    "Investment P&L at September 21 close: +$567.57 (+28.38% vs net external contributions).",
     "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
@@ -53,8 +52,8 @@
       "assetClass": "common_equity",
       "shares": 12.12,
       "lookThroughEligible": true,
-      "priceCents": 13225,
-      "marketValueCents": 160287,
+      "priceCents": 16850,
+      "marketValueCents": 204222,
       "costBasisCents": null
     },
     {
@@ -63,8 +62,8 @@
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
-      "priceCents": 2828,
-      "marketValueCents": 38744,
+      "priceCents": 3033,
+      "marketValueCents": 41552,
       "costBasisCents": null
     },
     {
@@ -75,8 +74,8 @@
       "lookThroughEligible": true,
       "underlyingTicker": "3350",
       "adrRatio": 1,
-      "priceCents": 156,
-      "marketValueCents": 9204,
+      "priceCents": 186,
+      "marketValueCents": 10974,
       "costBasisCents": null
     }
   ]

@@ -68,8 +68,8 @@
       "notes": [
         "Day 1 opening snapshot of the Fiat Freedom Portfolio. Initial funding of $1,999.91.",
         "Holdings at launch: 12.12 MSTR, 13.70 ASST, 59 MPJPY (Metaplanet Level I ADR, 1:1 vs TSE:3350).",
-        "This Episode 1 record is the opening snapshot and must remain $1,999.91. The first standardized 4:00 p.m. Eastern close is stored on Episode 2 and the current portfolio valuation.",
-        "Security prices and benchmark prices remain null until confirmed official closes are entered."
+        "This Episode 1 record is the opening snapshot and must remain $1,999.91. Official market closes are stored on later episodes and in market-observations.json.",
+        "Per-security opening prints were not separately recorded at inception."
       ]
     },
     {
@@ -90,7 +90,7 @@
         {
           "ticker": "MSTR",
           "shares": 12.12,
-          "priceCents": null,
+          "priceCents": 12618,
           "marketValueCents": null,
           "assetClass": "common_equity",
           "lookThroughEligible": true
@@ -98,7 +98,7 @@
         {
           "ticker": "ASST",
           "shares": 13.7,
-          "priceCents": null,
+          "priceCents": 2741,
           "marketValueCents": null,
           "assetClass": "common_equity",
           "lookThroughEligible": true
@@ -106,7 +106,7 @@
         {
           "ticker": "MPJPY",
           "shares": 59,
-          "priceCents": null,
+          "priceCents": 153,
           "marketValueCents": null,
           "assetClass": "adr_common_equity",
           "lookThroughEligible": true,
@@ -118,21 +118,21 @@
         {
           "symbol": "BTCUSD",
           "label": "Bitcoin",
-          "priceCents": null,
+          "priceCents": 7598071,
           "units": null,
           "valueCents": null
         },
         {
           "symbol": "SPY",
           "label": "S&P 500 (SPY)",
-          "priceCents": null,
+          "priceCents": 75405,
           "units": null,
           "valueCents": null
         },
         {
           "symbol": "GLD",
           "label": "Gold (GLD)",
-          "priceCents": null,
+          "priceCents": 39174,
           "units": null,
           "valueCents": null
         }
@@ -140,10 +140,157 @@
       "notes": [
         "Day 2 episode documenting the public dashboard launch at https://www.worksavebitcoin.com/.",
         "Reports the first tracked regular-market close: $1,996.92 on September 16, 2026 at 4:00 p.m. Eastern (−$2.99 / −0.15%).",
+        "Security and benchmark closes confirmed from Yahoo unadjusted bars + Coinbase 4:00 p.m. ET BTC candle. Position market values remain null because the official portfolio total is not reverse-engineered into holdings.",
         "No new securities transactions, contributions, withdrawals, dividends, or options income since Episode 1 opening.",
         "Holdings unchanged: 12.12 MSTR, 13.70 ASST, 59 MPJPY.",
-        "First WSB Strategic Bitcoin Reserve contribution recorded: Anonymous, 13,215 sats (separate from securities performance).",
-        "Official per-security and benchmark closing prices remain null pending confirmation."
+        "First WSB Strategic Bitcoin Reserve contribution recorded: Anonymous, 13,215 sats (separate from securities performance)."
+      ]
+    },
+    {
+      "episodeNumber": 3,
+      "slug": "episode-3-will-mstr-outperform-bitcoin",
+      "title": "Will MSTR Outperform Bitcoin?",
+      "youtubeUrl": "https://www.youtube.com/watch?v=2Zrbtm5np5s",
+      "thumbnailUrl": "https://i.ytimg.com/vi/2Zrbtm5np5s/hqdefault.jpg",
+      "publishedAt": "2026-09-18T09:16:46-04:00",
+      "valuationAt": "2026-09-17T16:00:00-04:00",
+      "portfolioValueCents": 208235,
+      "cashBalanceCents": 0,
+      "cumulativeContributionsCents": 199991,
+      "cumulativeWithdrawalsCents": 0,
+      "cumulativeIncomeCents": 0,
+      "investmentPnLCents": 8244,
+      "positions": [
+        {
+          "ticker": "MSTR",
+          "shares": 12.12,
+          "priceCents": 13225,
+          "marketValueCents": 160287,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "ASST",
+          "shares": 13.7,
+          "priceCents": 2828,
+          "marketValueCents": 38744,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "MPJPY",
+          "shares": 59,
+          "priceCents": 156,
+          "marketValueCents": 9204,
+          "assetClass": "adr_common_equity",
+          "lookThroughEligible": true,
+          "underlyingTicker": "3350",
+          "adrRatio": 1
+        }
+      ],
+      "benchmarks": [
+        {
+          "symbol": "BTCUSD",
+          "label": "Bitcoin",
+          "priceCents": 7646621,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "SPY",
+          "label": "S&P 500 (SPY)",
+          "priceCents": 76260,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "GLD",
+          "label": "Gold (GLD)",
+          "priceCents": 39836,
+          "units": null,
+          "valueCents": null
+        }
+      ],
+      "notes": [
+        "Published the morning of September 18, 2026. Valuation uses the prior official close: September 17, 2026 at 4:00 p.m. Eastern ($2,082.35).",
+        "Reconciled from published shares × confirmed closes: 12.12×$132.25 + 13.7×$28.28 + 59×$1.56.",
+        "Investment P&L: +$82.44 (+4.12% vs net external contributions).",
+        "No new contributions, withdrawals, trades, dividends, or options income recorded through this close.",
+        "Discusses MSTR versus Bitcoin over synchronized 4:00 p.m. Eastern windows — see the Daily performance vs Bitcoin module."
+      ]
+    },
+    {
+      "episodeNumber": 4,
+      "slug": "episode-4-my-bitcoin-stock-portfolio-is-up-26-in-one-week",
+      "title": "My Bitcoin Stock Portfolio Is Up 26% in One Week",
+      "youtubeUrl": "https://www.youtube.com/watch?v=Y6O_zij1X4w",
+      "thumbnailUrl": "https://i.ytimg.com/vi/Y6O_zij1X4w/hqdefault.jpg",
+      "publishedAt": "2026-09-21T14:33:47-04:00",
+      "valuationAt": "2026-09-21T16:00:00-04:00",
+      "portfolioValueCents": 256748,
+      "cashBalanceCents": 0,
+      "cumulativeContributionsCents": 199991,
+      "cumulativeWithdrawalsCents": 0,
+      "cumulativeIncomeCents": 0,
+      "investmentPnLCents": 56757,
+      "positions": [
+        {
+          "ticker": "MSTR",
+          "shares": 12.12,
+          "priceCents": 16850,
+          "marketValueCents": 204222,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "ASST",
+          "shares": 13.7,
+          "priceCents": 3033,
+          "marketValueCents": 41552,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "MPJPY",
+          "shares": 59,
+          "priceCents": 186,
+          "marketValueCents": 10974,
+          "assetClass": "adr_common_equity",
+          "lookThroughEligible": true,
+          "underlyingTicker": "3350",
+          "adrRatio": 1
+        }
+      ],
+      "benchmarks": [
+        {
+          "symbol": "BTCUSD",
+          "label": "Bitcoin",
+          "priceCents": 8656231,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "SPY",
+          "label": "S&P 500 (SPY)",
+          "priceCents": 77350,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "GLD",
+          "label": "Gold (GLD)",
+          "priceCents": 39838,
+          "units": null,
+          "valueCents": null
+        }
+      ],
+      "notes": [
+        "Valuation uses the September 21, 2026 4:00 p.m. Eastern official close ($2,567.48), matching the episode’s completed-session week narrative.",
+        "Reconciled from published shares × confirmed closes: 12.12×$168.50 + 13.7×$30.33 + 59×$1.86.",
+        "Investment P&L: +$567.57 (+28.38% vs net external contributions of $1,999.91).",
+        "Approximate one-week mark-to-mark from the September 15 securities total ($2,041.68) is about +25.8%, aligning with the episode title’s ~26% framing. That September 15 total is derived from closes for context only and is not an official portfolio observation row.",
+        "Video published mid-session on September 21; this snapshot uses that day’s completed official close after 4:00 p.m. Eastern.",
+        "No new contributions, withdrawals, trades, dividends, or options income recorded through this close."
       ]
     }
   ]

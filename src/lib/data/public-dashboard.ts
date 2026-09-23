@@ -33,12 +33,14 @@ import {
   loadSiteConfig,
   loadTransactions,
   loadValuationHistory,
+  loadYoutubeFeed,
 } from "./load";
 import { buildSessionComparison } from "@/lib/accounting/session-comparison";
 import {
   changeBetweenObservations,
   preferDilutedSatsPerShare,
 } from "@/lib/accounting/issuer-bps";
+import { unmatchedSeriesVideos } from "@/lib/youtube/sync-episodes";
 
 function latestMetricForTicker(
   metrics: IssuerMetric[],
@@ -61,6 +63,7 @@ export function buildPublicDashboard() {
   const valuationHistory = loadValuationHistory();
   const marketObservations = loadMarketObservations();
   const issuerBpsHistory = loadIssuerBpsHistory();
+  const youtubeFeed = loadYoutubeFeed();
   const incomeModel = loadIncomeModel();
   const incomeSecurities = loadIncomeSecurities();
   const incomeHistory = loadIncomeHistory();
@@ -118,6 +121,10 @@ export function buildPublicDashboard() {
     (a, b) => a.episodeNumber - b.episodeNumber,
   );
   const latestEpisode = episodes[episodes.length - 1] ?? null;
+  const pendingYoutubeEpisodes = unmatchedSeriesVideos({
+    feed: youtubeFeed,
+    episodes,
+  });
 
   const closes = marketObservations.observations
     .filter((o) => o.valuationType === "market_close")
@@ -274,6 +281,14 @@ export function buildPublicDashboard() {
     },
     episodes,
     latestEpisode,
+    youtubeFeed: {
+      retrievedAt: youtubeFeed.retrievedAt,
+      channelUrl: youtubeFeed.channelUrl,
+      seriesStartPublishedAt: youtubeFeed.seriesStartPublishedAt,
+      videos: youtubeFeed.videos,
+      pendingSeriesVideos: pendingYoutubeEpisodes,
+      notes: youtubeFeed.notes,
+    },
     transactions: transactionsFile.transactions,
   };
 }

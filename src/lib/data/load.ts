@@ -16,6 +16,7 @@ import { reserveFileSchema } from "@/lib/schemas/reserve";
 import { siteConfigSchema } from "@/lib/schemas/site-config";
 import { transactionsFileSchema } from "@/lib/schemas/transactions";
 import { valuationHistoryFileSchema } from "@/lib/schemas/valuation-history";
+import { youtubeFeedFileSchema } from "@/lib/schemas/youtube-feed";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -126,6 +127,13 @@ export function loadIssuerBpsHistory() {
   );
 }
 
+export function loadYoutubeFeed() {
+  return parseOrThrow(
+    "youtube-feed.json",
+    youtubeFeedFileSchema.safeParse(readJsonFile("youtube-feed.json")),
+  );
+}
+
 export function validateAllDataFiles(): void {
   loadSiteConfig();
   loadPortfolio();
@@ -138,6 +146,7 @@ export function validateAllDataFiles(): void {
   loadValuationHistory();
   loadMarketObservations();
   loadIssuerBpsHistory();
+  loadYoutubeFeed();
   loadIncomeModel();
   loadIncomeSecurities();
   loadIncomeHistory();

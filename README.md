@@ -25,6 +25,8 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm run lint` | ESLint |
 | `npm test` | Vitest unit tests |
 | `npm run build` | Production build (also validates data files) |
+| `npm run quotes` | Print live Coinbase/Yahoo marks (informational) |
+| `npm run sync:episodes` | Refresh YouTube feed + report unmatched series videos (`--apply` drafts snapshots) |
 | `npm start` | Serve production build |
 
 ## Updating portfolio data
@@ -57,14 +59,28 @@ Rules:
 
 ## Adding an episode
 
-See [docs/EPISODE_2.md](docs/EPISODE_2.md) for the exact Episode 2 checklist.
+Manual checklist (still the source of truth for official values):
 
 1. Append a snapshot to `data/episodes.json` with a unique `episodeNumber` and `slug`.
-2. Add related rows to `data/transactions.json`.
+2. Add related rows to `data/transactions.json` when needed.
 3. Update `data/portfolio.json` current valuation fields and positions.
-4. Append matching open/close rows to `data/valuation-history.json`.
+4. Append matching close rows to `data/valuation-history.json` and `data/market-observations.json`.
 5. Optionally update `data/market-prices.json` and `data/issuer-metrics.json` with cited figures.
 6. Do **not** rewrite prior episode snapshots unless correcting a documented error.
+
+### Automatic YouTube sync
+
+```bash
+npm run sync:episodes              # refresh data/youtube-feed.json + list unmatched series videos
+npm run sync:episodes -- --apply   # also append draft episode snapshots from the latest official close ≤ publish time
+```
+
+Rules:
+
+* Series videos are channel uploads on/after `2026-09-16`.
+* `--apply` never invents closes — it requires a stored `market_close` observation at or before publish.
+* Draft notes should be reviewed; official narration can replace auto-draft text.
+* Historical episode values remain frozen.
 
 ## Updating issuer metrics
 

@@ -23,6 +23,18 @@
 - [x] Unadjusted equity closes: MSTR `$132.25`, ASST `$28.28`, MPJPY `$1.56`, SPY `$762.60`, GLD `$398.36`
 - [x] First synchronized MSTR-vs-BTC completed-session comparison populated
 
+## Completed — Sep 18, 2026 regular close
+
+- [x] Official close: `$2,376.27` (`237627` cents) = `12.12×$153.92 + 13.7×$30.09 + 59×$1.67`
+- [x] Synchronized BTC: `$81,055.26`
+- [x] Episode 3 (“Will MSTR Outperform Bitcoin?”) valued at Sep 17 close
+
+## Completed — Sep 21, 2026 regular close
+
+- [x] Official close: `$2,567.48` (`256748` cents) = `12.12×$168.50 + 13.7×$30.33 + 59×$1.86`
+- [x] Synchronized BTC: `$86,562.31`
+- [x] Episode 4 (“…Up 26% in One Week”) valued at Sep 21 close
+
 ## Still pending
 
 - [ ] Diluted sats/share for MSTR, ASST, and Metaplanet/MPJPY (primary IR/SEC sources)

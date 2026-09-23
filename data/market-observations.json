@@ -157,13 +157,147 @@
       },
       "portfolioValueCents": 208235,
       "netExternalContributionsCents": 199991,
-      "note": "Official market-close snapshot. Reconciled to published shares × confirmed closes: 12.12×$132.25 + 13.7×$28.28 + 59×$1.56 = $2,082.35 (cash $0)."
+      "note": "Official market-close snapshot. Reconciled to published shares \u00d7 confirmed closes: 12.12\u00d7$132.25 + 13.7\u00d7$28.28 + 59\u00d7$1.56 = $2,082.35 (cash $0)."
+    },
+    {
+      "id": "mo-2026-09-18-close",
+      "timestamp": "2026-09-18T16:00:00-04:00",
+      "timezone": "America/New_York",
+      "valuationType": "market_close",
+      "prices": {
+        "BTCUSD": 8105526,
+        "MSTR": 15392,
+        "ASST": 3009,
+        "MPJPY": 167,
+        "SPY": 76169,
+        "GLD": 40117
+      },
+      "sources": {
+        "BTCUSD": {
+          "name": "Coinbase Exchange BTC-USD 1-minute candle",
+          "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+          "observedAt": "2026-09-18T20:00:00.000Z",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Exact 4:00 p.m. Eastern (20:00 UTC) one-minute candle close $81,055.26"
+        },
+        "MSTR": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
+          "observedAt": "2026-09-18T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $153.92"
+        },
+        "ASST": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
+          "observedAt": "2026-09-18T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $30.09"
+        },
+        "MPJPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
+          "observedAt": "2026-09-18T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $1.67"
+        },
+        "SPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
+          "observedAt": "2026-09-18T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $761.69"
+        },
+        "GLD": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
+          "observedAt": "2026-09-18T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $401.17"
+        }
+      },
+      "portfolioValueCents": 237627,
+      "netExternalContributionsCents": 199991,
+      "note": "Official market-close snapshot. Reconciled from published shares \u00d7 confirmed closes: 12.12\u00d7$153.92 + 13.7\u00d7$30.09 + 59\u00d7$1.67 = $2,376.27 (cash $0)."
+    },
+    {
+      "id": "mo-2026-09-21-close",
+      "timestamp": "2026-09-21T16:00:00-04:00",
+      "timezone": "America/New_York",
+      "valuationType": "market_close",
+      "prices": {
+        "BTCUSD": 8656231,
+        "MSTR": 16850,
+        "ASST": 3033,
+        "MPJPY": 186,
+        "SPY": 77350,
+        "GLD": 39838
+      },
+      "sources": {
+        "BTCUSD": {
+          "name": "Coinbase Exchange BTC-USD 1-minute candle",
+          "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+          "observedAt": "2026-09-21T20:00:00.000Z",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Exact 4:00 p.m. Eastern (20:00 UTC) one-minute candle close $86,562.31"
+        },
+        "MSTR": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
+          "observedAt": "2026-09-21T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $168.50"
+        },
+        "ASST": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
+          "observedAt": "2026-09-21T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $30.33"
+        },
+        "MPJPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
+          "observedAt": "2026-09-21T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $1.86"
+        },
+        "SPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
+          "observedAt": "2026-09-21T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $773.50"
+        },
+        "GLD": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
+          "observedAt": "2026-09-21T16:00:00-04:00",
+          "retrievedAt": "2026-09-22T14:40:00.000Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $398.38"
+        }
+      },
+      "portfolioValueCents": 256748,
+      "netExternalContributionsCents": 199991,
+      "note": "Official market-close snapshot. Reconciled from published shares \u00d7 confirmed closes: 12.12\u00d7$168.50 + 13.7\u00d7$30.33 + 59\u00d7$1.86 = $2,567.48 (cash $0)."
     }
   ],
   "notes": [
     "Append-only synchronized observations. Never store live_transient here.",
     "Market-close (4:00 p.m. America/New_York) is the source of truth for official performance and daily vs-Bitcoin comparisons.",
-    "Episode 1 remains an inception observation at 8:00 a.m. Eastern — not a market open.",
+    "Episode 1 remains an inception observation at 8:00 a.m. Eastern \u2014 not a market open.",
     "BTC synchronized closes use Coinbase 4:00 p.m. Eastern minute candles (exact when available), never rolling 24h or UTC midnight."
   ]
 }

@@ -11,3 +11,4 @@ export * from "./site-config";
 export * from "./valuation-history";
 export * from "./market-observations";
 export * from "./issuer-bps-history";
+export * from "./youtube-feed";
