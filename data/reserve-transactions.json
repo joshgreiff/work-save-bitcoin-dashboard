@@ -11,6 +11,16 @@
       "episodeNumber": 1,
       "publicNote": "First recorded reserve contribution.",
       "affectsPortfolioPerformance": false
+    },
+    {
+      "id": "reserve-2026-09-22-anonymous-5790",
+      "timestamp": "2026-09-22T10:15:00-04:00",
+      "category": "contribution_received",
+      "sats": 5790,
+      "displayName": "Anonymous",
+      "episodeNumber": 4,
+      "publicNote": "Anonymous contribution received Sep 22, 2026 at 10:15 a.m. Eastern (~$5.00 at receipt).",
+      "affectsPortfolioPerformance": false
     }
   ]
 }

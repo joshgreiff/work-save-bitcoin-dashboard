@@ -28,13 +28,19 @@ describe("closing snapshot", () => {
 });
 
 describe("donations and reserve", () => {
-  it("records the anonymous Bitcoin donation in both ledgers", () => {
+  it("records anonymous Bitcoin donations in both ledgers without portfolio performance", () => {
     const donations = loadDonations();
     const reserve = loadReserve();
-    expect(donations.bitcoin[0]?.sats).toBe(13215);
-    expect(donations.bitcoin[0]?.displayName).toBe("Anonymous");
-    expect(reserve.transactions[0]?.sats).toBe(13215);
-    expect(buildBitcoinLeaderboard(donations.bitcoin)[0]?.rank).toBe(1);
+    expect(donations.bitcoin.map((d) => d.sats)).toEqual([13215, 5790]);
+    expect(donations.bitcoin.every((d) => d.displayName === "Anonymous")).toBe(true);
+    expect(reserve.transactions.map((tx) => tx.sats)).toEqual([13215, 5790]);
+    expect(reserve.transactions.every((tx) => tx.affectsPortfolioPerformance === false)).toBe(
+      true,
+    );
+    const board = buildBitcoinLeaderboard(donations.bitcoin);
+    expect(board[0]?.displayName).toBe("Anonymous");
+    expect(board[0]?.sats).toBe(19005);
+    expect(board[0]?.contributionCount).toBe(2);
     expect(buildFiatLeaderboard(donations.fiat)).toEqual([]);
   });
 });

@@ -7,6 +7,14 @@
       "sats": 13215,
       "reserveTransactionId": "reserve-2026-09-16-anonymous-13215",
       "publicNote": "First recorded WSB Strategic Bitcoin Reserve contribution."
+    },
+    {
+      "id": "btc-donation-2026-09-22-anonymous-5790",
+      "timestamp": "2026-09-22T10:15:00-04:00",
+      "displayName": "Anonymous",
+      "sats": 5790,
+      "reserveTransactionId": "reserve-2026-09-22-anonymous-5790",
+      "publicNote": "Anonymous contribution received Sep 22, 2026 at 10:15 a.m. Eastern (~$5.00 at receipt)."
     }
   ],
   "fiat": []
