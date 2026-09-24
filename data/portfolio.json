@@ -4,16 +4,16 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-09-23T16:00:00-04:00",
-  "currentPortfolioValueCents": 246863,
+  "currentValuationAt": "2026-09-24T16:00:00-04:00",
+  "currentPortfolioValueCents": 247863,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
   "notes": [
-    "Official current valuation is the September 23, 2026 4:00 p.m. Eastern regular-market close: $2,468.63.",
-    "Reconciled from published shares × confirmed closes: 12.12×$162.20 + 13.7×$28.99 + 59×$1.79 = $2,468.63 (cash $0.00).",
+    "Official current valuation is the September 24, 2026 4:00 p.m. Eastern regular-market close: $2,478.63.",
+    "Reconciled from published shares × confirmed closes: 12.12×$161.61 + 13.7×$29.94 + 59×$1.86 = $2,478.63 (cash $0.00).",
     "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 23, 2026 close.",
-    "Investment P&L at September 23, 2026 close: +$468.72 (23.44% vs net external contributions).",
+    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 24, 2026 close.",
+    "Investment P&L at September 24, 2026 close: +$478.72 (23.94% vs net external contributions).",
     "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
@@ -23,8 +23,8 @@
       "assetClass": "common_equity",
       "shares": 12.12,
       "lookThroughEligible": true,
-      "priceCents": 16220,
-      "marketValueCents": 196586,
+      "priceCents": 16161,
+      "marketValueCents": 195871,
       "costBasisCents": null
     },
     {
@@ -33,8 +33,8 @@
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
-      "priceCents": 2899,
-      "marketValueCents": 39716,
+      "priceCents": 2994,
+      "marketValueCents": 41018,
       "costBasisCents": null
     },
     {
@@ -45,8 +45,8 @@
       "lookThroughEligible": true,
       "underlyingTicker": "3350",
       "adrRatio": 1,
-      "priceCents": 179,
-      "marketValueCents": 10561,
+      "priceCents": 186,
+      "marketValueCents": 10974,
       "costBasisCents": null
     }
   ],
