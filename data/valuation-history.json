@@ -105,7 +105,7 @@
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
       "retrievedAt": "2026-09-24T01:40:07.022Z",
       "manual": false,
-      "note": "Official market-close snapshot. Portfolio $2,539.88 reconciled from published shares × confirmed closes.",
+      "note": "Official market-close snapshot. Portfolio $2,539.88 reconciled from published shares × confirmed closes. MPJPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
       "id": "vh-2026-09-22-close",
       "asOf": "2026-09-22T16:00:00-04:00",
       "session": "close",

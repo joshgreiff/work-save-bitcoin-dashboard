@@ -226,6 +226,14 @@ describe("public dashboard look-through API surface", () => {
     expect(serialized.toLowerCase()).not.toContain("seed");
   });
 
+  it("exposes a single lookThrough.positions array (no lookThroughPublicPositions)", () => {
+    const dashboard = buildPublicDashboard();
+    expect(dashboard.lookThrough).toHaveProperty("positions");
+    expect(dashboard.lookThrough).not.toHaveProperty("lookThroughPublicPositions");
+    expect(Array.isArray(dashboard.lookThrough.positions)).toBe(true);
+    expect(Object.keys(dashboard.lookThrough).filter((k) => k === "positions")).toHaveLength(1);
+  });
+
   it("does not interpolate missing chart observations across dates", () => {
     const series = buildIssuerBpsChartSeries({
       observations: [
@@ -250,5 +258,24 @@ describe("public dashboard look-through API surface", () => {
     expect(series[0]?.ASST).toBeNull();
     expect(series[1]?.ASST).toBe(26_317);
     expect(series[1]?.MSTR).toBeNull();
+  });
+
+  it("labels MPJPY prior-close carry-forward on the Sep 22 snapshot", () => {
+    const dashboard = buildPublicDashboard();
+    const sep22 = dashboard.marketObservations.priceCarryForwards.find(
+      (row) => row.observationId === "mo-2026-09-22-close",
+    );
+    expect(sep22?.labels).toEqual([
+      "MPJPY prior close carried forward due to no reported session print.",
+    ]);
+    const obs = dashboard.marketObservations.observations.find(
+      (o) => o.id === "mo-2026-09-22-close",
+    );
+    expect(obs?.note).toContain(
+      "MPJPY prior close carried forward due to no reported session print.",
+    );
+    expect(obs?.note).toContain(
+      "The total is still a valid market-close valuation, but one component is estimated from its last available close.",
+    );
   });
 });

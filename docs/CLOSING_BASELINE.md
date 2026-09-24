@@ -38,7 +38,7 @@
 ## Completed — Sep 22, 2026 regular close (automated)
 
 - [x] Official close: `$2,539.88` (`253988` cents) = `12.12×$167.33 + 13.7×$29.35 + 59×$1.86`
-- [x] MPJPY had no print; carried Sep 21 unadjusted close with `fallbackUsed: true`
+- [x] MPJPY prior close carried forward due to no reported session print (Sep 21 `$1.86`, `fallbackUsed: true`)
 - [x] Synchronized BTC: `$86,226.05`
 
 ## Completed — Sep 23, 2026 regular close (automated)

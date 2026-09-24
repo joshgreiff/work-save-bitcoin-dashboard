@@ -1,3 +1,4 @@
+import { priorCloseCarriedForwardLabel } from "@/lib/quotes/price-carry-forward";
 import { etCalendarDay } from "@/lib/market/session";
 
 function dollarsToCents(dollars: number): number {
@@ -131,7 +132,7 @@ export async function fetchYahooUnadjustedDailyClose(args: {
         retrievedAt,
         sourceName: "Yahoo Finance chart unadjusted daily close",
         fallbackUsed: true,
-        note: `No print on ${args.sessionDay}; carried prior unadjusted close from ${prior.day} $${(cents / 100).toFixed(2)}`,
+        note: `${priorCloseCarriedForwardLabel(args.symbol)} Carried ${prior.day} unadjusted close $${(cents / 100).toFixed(2)}.`,
       };
     }
   }

@@ -28,7 +28,7 @@ Every externally sourced figure should eventually include source name, URL, as-o
 Weekday after the U.S. equity close, `npm run close:append -- --write` (and the GitHub Action `.github/workflows/append-market-close.yml`) appends a fail-closed official snapshot:
 
 * Equities: Yahoo Finance **unadjusted** daily closes for MSTR, ASST, MPJPY, SPY, GLD
-* Thin listings with a session timestamp but no print (seen on MPJPY) may carry the prior unadjusted close with `fallbackUsed: true` and an explicit note — never invented mid-day prices
+* Thin listings with a session timestamp but no print (seen on MPJPY) may carry the prior unadjusted close with `fallbackUsed: true` and the visible snapshot label: “{TICKER} prior close carried forward due to no reported session print.” The close total remains valid; the labeled component is estimated from its last available close.
 * Bitcoin: Coinbase Exchange BTC-USD **4:00 p.m. Eastern** one-minute candle via `selectSynchronizedBtcCandle` (never spot, never rolling 24h)
 * Portfolio mark: published share counts × closes + cash (never reserve or income-model capital)
 * Provenance: `manual: false`, per-symbol `retrievedAt` / `observedAt` / source URLs

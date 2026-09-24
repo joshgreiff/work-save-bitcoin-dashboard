@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { formatPercent, formatUsdFromCents } from "@/components/ui/primitives";
+import { PriceCarryForwardNotice } from "@/components/PriceCarryForwardNotice";
 import {
   buildSessionComparison,
   type LiveSessionEnd,
@@ -247,6 +248,15 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
           {error ? (
             <p className="text-xs text-[var(--negative)]">Live quotes unavailable: {error}</p>
           ) : null}
+
+          <PriceCarryForwardNotice
+            rows={marketObservations.priceCarryForwards.filter(
+              (row) =>
+                row.observationId === marketObservations.latestOfficialClose?.id ||
+                row.observationId === marketObservations.previousOfficialClose?.id,
+            )}
+            title="Session price carry-forward notes"
+          />
         </>
       )}
 

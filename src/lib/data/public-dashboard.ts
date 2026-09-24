@@ -46,6 +46,7 @@ import {
   observationByAsOfDate,
   preferDilutedSatsPerShare,
 } from "@/lib/accounting/issuer-bps";
+import { equityCarryForwardLabels } from "@/lib/quotes/price-carry-forward";
 import { unmatchedSeriesVideos } from "@/lib/youtube/sync-episodes";
 
 function latestMetricForTicker(
@@ -93,9 +94,9 @@ export function buildPublicDashboard() {
       adrRatio: position.adrRatio ?? 1,
     };
   });
-  const lookThrough = calculatePositionLookThrough(lookThroughInputs);
+  const lookThroughResult = calculatePositionLookThrough(lookThroughInputs);
 
-  const eligibleAvailable = lookThrough.positions.filter(
+  const eligibleAvailable = lookThroughResult.positions.filter(
     (p) => p.available && p.lookThroughSats != null,
   );
   const latestMetricDates = issuerMetrics.metrics
@@ -107,7 +108,7 @@ export function buildPublicDashboard() {
       ? latestMetricDates[latestMetricDates.length - 1]!
       : null;
 
-  const lookThroughPublicPositions = lookThrough.positions.map((pos) => {
+  const positions = lookThroughResult.positions.map((pos) => {
     const metric = latestMetricForTicker(issuerMetrics.metrics, pos.ticker);
     const displayed =
       metric?.reportedDilutedSatsPerShare ??
@@ -136,7 +137,7 @@ export function buildPublicDashboard() {
         pos.lookThroughSats == null ? null : btcFromSats(pos.lookThroughSats),
       percentOfTotal: percentOfTotal(
         pos.lookThroughSats,
-        lookThrough.totalLookThroughSats,
+        lookThroughResult.totalLookThroughSats,
       ),
       available: pos.available,
       reason: pos.reason,
@@ -199,6 +200,16 @@ export function buildPublicDashboard() {
     previous: previousClose,
     latest: latestClose,
   });
+
+  const observationCarryForwards = marketObservations.observations.map((obs) => ({
+    observationId: obs.id,
+    asOf: obs.timestamp,
+    valuationType: obs.valuationType,
+    labels: equityCarryForwardLabels({ sources: obs.sources }),
+  }));
+  const latestCloseCarryForwards =
+    observationCarryForwards.find((row) => row.observationId === latestClose?.id)
+      ?.labels ?? [];
 
   const bpsByTicker = new Map<string, typeof issuerBpsHistory.observations>();
   for (const obs of issuerBpsHistory.observations) {
@@ -293,13 +304,13 @@ export function buildPublicDashboard() {
       label: "Analytical exposure",
       asOf: portfolio.currentValuationAt,
       latestMetricDate,
-      totalLookThroughSats: lookThrough.totalLookThroughSats,
+      totalLookThroughSats: lookThroughResult.totalLookThroughSats,
       totalLookThroughBtc:
-        lookThrough.totalLookThroughSats == null
+        lookThroughResult.totalLookThroughSats == null
           ? null
-          : btcFromSats(lookThrough.totalLookThroughSats),
+          : btcFromSats(lookThroughResult.totalLookThroughSats),
       eligibleHoldingsCount: eligibleAvailable.length,
-      positions: lookThroughPublicPositions,
+      positions,
       /** Full issuer metric registry (primary sources). No brokerage credentials. */
       metrics: issuerMetrics.metrics,
     },
@@ -341,6 +352,8 @@ export function buildPublicDashboard() {
       latestMarketOpen: latestOpen,
       previousOfficialClose: previousClose,
       sessionComparison,
+      priceCarryForwards: observationCarryForwards,
+      latestCloseCarryForwards,
     },
     issuerBitcoinPerShare: {
       observations: issuerBpsHistory.observations,

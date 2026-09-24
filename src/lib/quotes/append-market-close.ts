@@ -7,6 +7,10 @@ import {
 } from "@/lib/market/session-close";
 import { etCalendarDay } from "@/lib/market/session";
 import {
+  appendCarryForwardClarification,
+  equityCarryForwardLabels,
+} from "@/lib/quotes/price-carry-forward";
+import {
   fetchOfficialCloseSnapshot,
   type OfficialCloseSnapshot,
 } from "@/lib/quotes/official-close";
@@ -41,6 +45,17 @@ function formatLongDate(sessionDay: string): string {
     day: "numeric",
     year: "numeric",
   }).format(date);
+}
+
+function snapshotCarryForwardLabels(snapshot: OfficialCloseSnapshot): string[] {
+  return equityCarryForwardLabels({
+    sources: Object.fromEntries(
+      Object.entries(snapshot.sources).map(([ticker, source]) => [
+        ticker,
+        { fallbackUsed: source.fallbackUsed },
+      ]),
+    ),
+  });
 }
 
 export function observationAlreadyExists(
@@ -121,13 +136,18 @@ export function buildMarketObservation(
     },
     portfolioValueCents: snapshot.portfolioValueCents,
     netExternalContributionsCents: snapshot.netExternalContributionsCents,
-    note: snapshot.reconciliationNote,
+    note: appendCarryForwardClarification(
+      snapshot.reconciliationNote,
+      snapshotCarryForwardLabels(snapshot),
+    ),
   };
 }
 
 export function buildValuationHistoryPoint(
   snapshot: OfficialCloseSnapshot,
 ): ValuationHistoryPoint {
+  const carryLabels = snapshotCarryForwardLabels(snapshot);
+  const base = `Official market-close snapshot. Portfolio ${formatUsdFromCents(snapshot.portfolioValueCents)} reconciled from published shares × confirmed closes.`;
   return {
     id: `vh-${snapshot.sessionDay}-close`,
     asOf: snapshot.asOf,
@@ -146,7 +166,7 @@ export function buildValuationHistoryPoint(
     sourceUrl: "https://api.exchange.coinbase.com/products/BTC-USD/candles",
     retrievedAt: snapshot.retrievedAt,
     manual: false,
-    note: `Official market-close snapshot. Portfolio ${formatUsdFromCents(snapshot.portfolioValueCents)} reconciled from published shares × confirmed closes.`,
+    note: appendCarryForwardClarification(base, carryLabels),
   };
 }
 
@@ -180,6 +200,7 @@ export function applySnapshotToPortfolio(
     snapshot.netExternalContributionsCents === 0
       ? null
       : pnl / snapshot.netExternalContributionsCents;
+  const carryLabels = snapshotCarryForwardLabels(snapshot);
 
   return {
     ...portfolio,
@@ -198,6 +219,10 @@ export function applySnapshotToPortfolio(
     notes: [
       `Official current valuation is the ${longDate} 4:00 p.m. Eastern regular-market close: ${formatUsdFromCents(snapshot.portfolioValueCents)}.`,
       snapshot.reconciliationNote.replace(/^Official market-close snapshot\. Reconciled /, "Reconciled "),
+      ...carryLabels.map(
+        (label) =>
+          `${label} The total is still a valid market-close valuation, but one component is estimated from its last available close.`,
+      ),
       "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
       `No new contributions, withdrawals, trades, dividends, or options income recorded through the ${longDate} close.`,
       `Investment P&L at ${longDate} close: ${formatUsdFromCents(pnl, { showSign: true })}${pnlPct == null ? "" : ` (${(pnlPct * 100).toFixed(2)}% vs net external contributions)`}.`,

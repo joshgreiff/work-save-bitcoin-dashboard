@@ -13,6 +13,7 @@ import {
   MetricCard,
   SectionIntro,
 } from "@/components/ui/primitives";
+import { PriceCarryForwardNotice } from "@/components/PriceCarryForwardNotice";
 import { lastConfirmedBenchmarkPrices } from "@/lib/accounting/live-chart-trail";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 
@@ -82,6 +83,11 @@ export default function PortfolioPage() {
         inceptionValuationAt={data.portfolio.inceptionValuationAt}
         fallbackValueCents={data.portfolio.currentPortfolioValueCents}
         fallbackAsOf={data.portfolio.currentValuationAt}
+      />
+
+      <PriceCarryForwardNotice
+        rows={data.marketObservations.priceCarryForwards}
+        title="Official close price carry-forward notes"
       />
 
       <LiveMarkPanel />
