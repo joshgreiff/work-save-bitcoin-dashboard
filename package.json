@@ -11,6 +11,7 @@
     "test:watch": "vitest",
     "validate:data": "tsx scripts/validate-data.ts",
     "quotes": "tsx scripts/fetch-live-quotes.ts",
+    "close:append": "tsx scripts/append-market-close.ts",
     "sync:episodes": "tsx scripts/sync-youtube-episodes.ts",
     "format": "prettier --write ."
   },

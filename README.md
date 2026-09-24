@@ -26,6 +26,7 @@ Open [http://localhost:3000](http://localhost:3000).
 | `npm test` | Vitest unit tests |
 | `npm run build` | Production build (also validates data files) |
 | `npm run quotes` | Print live Coinbase/Yahoo marks (informational) |
+| `npm run close:append` | Dry-run catch-up of missing official closes (`--write` to persist) |
 | `npm run sync:episodes` | Refresh YouTube feed + report unmatched series videos (`--apply` drafts snapshots) |
 | `npm start` | Serve production build |
 
@@ -35,10 +36,12 @@ Edit `data/portfolio.json` and `data/transactions.json`. Use integer cents. Mark
 
 ## Appending open / close valuation history
 
-Edit `data/valuation-history.json` (append-only). Each trading day that should appear on charts needs up to two points:
+**Official closes are automated** via `npm run close:append -- --write` and the weekday GitHub Action `.github/workflows/append-market-close.yml`. The job appends Coinbase 4:00 p.m. Eastern BTC + Yahoo unadjusted equity closes, updates `portfolio.json` current marks, and sets `manual: false`. It is fail-closed and idempotent.
+
+Manual open points and corrections can still be edited in `data/valuation-history.json` (append-only):
 
 1. **Open** — `session: "open"`, typically `09:30:00-04:00` (or `-05:00` in EST), with `portfolioValueCents` when known.
-2. **Close** — `session: "close"`, typically `16:00:00-04:00` / `-05:00`, matching the official regular-market account snapshot.
+2. **Close** — normally written by `close:append`; do not invent prices.
 
 Rules:
 
@@ -46,7 +49,7 @@ Rules:
 * Set BTCUSD / SPY / GLD (and optional holding) prices only when confirmed; otherwise leave `null` — never invent.
 * Do not rewrite prior points unless correcting a documented error.
 * Charts and `/api/public-dashboard` derive series from this file.
-* Optional helper: `npm run quotes` prints live Coinbase/Yahoo marks for drafting a close — still confirm before writing history.
+* Live helper: `npm run quotes` remains informational and never overwrites official history.
 
 ## Live quotes (informational)
 

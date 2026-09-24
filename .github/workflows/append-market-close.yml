@@ -1,0 +1,58 @@
+name: Append market close
+
+on:
+  schedule:
+    # Weekdays ~5:30 p.m. Eastern (21:30 UTC during EDT, 4:30 p.m. during EST).
+    # Fail-closed script no-ops if the session bar is not available yet.
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Optional ET session day YYYY-MM-DD (default: catch up missing weekdays)"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  append-close:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Append official close
+        id: append
+        run: |
+          set -euo pipefail
+          if [ -n "${{ inputs.date }}" ]; then
+            npx tsx scripts/append-market-close.ts --date "${{ inputs.date }}" --write
+          else
+            npx tsx scripts/append-market-close.ts --write
+          fi
+
+      - name: Validate data
+        run: npm run validate:data
+
+      - name: Commit and push if changed
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- data/portfolio.json data/valuation-history.json data/market-observations.json data/market-prices.json; then
+            echo "No official-close data changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/portfolio.json data/valuation-history.json data/market-observations.json data/market-prices.json
+          git commit -m "Append automated official market-close snapshot."
+          git push

@@ -35,7 +35,18 @@
 - [x] Synchronized BTC: `$86,562.31`
 - [x] Episode 4 (“…Up 26% in One Week”) valued at Sep 21 close
 
+## Completed — Sep 22, 2026 regular close (automated)
+
+- [x] Official close: `$2,539.88` (`253988` cents) = `12.12×$167.33 + 13.7×$29.35 + 59×$1.86`
+- [x] MPJPY had no print; carried Sep 21 unadjusted close with `fallbackUsed: true`
+- [x] Synchronized BTC: `$86,226.05`
+
+## Completed — Sep 23, 2026 regular close (automated)
+
+- [x] Official close: `$2,468.63` (`246863` cents) = `12.12×$162.20 + 13.7×$28.99 + 59×$1.79`
+- [x] Synchronized BTC: `$84,535.51`
+- [x] Current portfolio mark advanced by `npm run close:append`
+
 ## Still pending
 
-- [ ] Diluted sats/share for MSTR, ASST, and Metaplanet/MPJPY (primary IR/SEC sources)
 - [ ] Confirmed regular-session cash balance (do not use buying power)

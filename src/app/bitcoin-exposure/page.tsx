@@ -35,6 +35,9 @@ export default function BitcoinExposurePage() {
     (r) => r.ticker === "MPJPY",
   );
   const asstMetric = lt.positions.find((p) => p.ticker === "ASST");
+  const newestIssuerAsOf =
+    [...lt.metrics].sort((a, b) => Date.parse(b.asOf) - Date.parse(a.asOf))[0]
+      ?.asOf ?? null;
 
   return (
     <div className="space-y-10">
@@ -61,7 +64,7 @@ export default function BitcoinExposurePage() {
                 ? "Unavailable"
                 : formatSats(lt.totalLookThroughSats)
             }
-            asOf={lt.latestMetricDate}
+            asOf={newestIssuerAsOf}
             hint="Eligible holdings only — excludes WSB Bitcoin Reserve"
             tone="accent"
           />
@@ -72,7 +75,7 @@ export default function BitcoinExposurePage() {
                 ? "Unavailable"
                 : `${lt.totalLookThroughBtc.toFixed(8)} BTC`
             }
-            asOf={lt.latestMetricDate}
+            asOf={newestIssuerAsOf}
           />
           <MetricCard
             label="Latest metric date"

@@ -4,10 +4,52 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-09-21T16:00:00-04:00",
-  "currentPortfolioValueCents": 256748,
+  "currentValuationAt": "2026-09-23T16:00:00-04:00",
+  "currentPortfolioValueCents": 246863,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
+  "notes": [
+    "Official current valuation is the September 23, 2026 4:00 p.m. Eastern regular-market close: $2,468.63.",
+    "Reconciled from published shares × confirmed closes: 12.12×$162.20 + 13.7×$28.99 + 59×$1.79 = $2,468.63 (cash $0.00).",
+    "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
+    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 23, 2026 close.",
+    "Investment P&L at September 23, 2026 close: +$468.72 (23.44% vs net external contributions).",
+    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
+  ],
+  "positions": [
+    {
+      "ticker": "MSTR",
+      "name": "Strategy (MicroStrategy)",
+      "assetClass": "common_equity",
+      "shares": 12.12,
+      "lookThroughEligible": true,
+      "priceCents": 16220,
+      "marketValueCents": 196586,
+      "costBasisCents": null
+    },
+    {
+      "ticker": "ASST",
+      "name": "Strive (ASST)",
+      "assetClass": "common_equity",
+      "shares": 13.7,
+      "lookThroughEligible": true,
+      "priceCents": 2899,
+      "marketValueCents": 39716,
+      "costBasisCents": null
+    },
+    {
+      "ticker": "MPJPY",
+      "name": "Metaplanet ADR",
+      "assetClass": "adr_common_equity",
+      "shares": 59,
+      "lookThroughEligible": true,
+      "underlyingTicker": "3350",
+      "adrRatio": 1,
+      "priceCents": 179,
+      "marketValueCents": 10561,
+      "costBasisCents": null
+    }
+  ],
   "afterHours": {
     "asOf": "2026-09-16T16:31:00-04:00",
     "portfolioValueCents": 200694,
@@ -36,47 +78,5 @@
       "Brokerage buying power is not cash and is excluded.",
       "This after-hours mark is from September 16 only and is not a later official close."
     ]
-  },
-  "notes": [
-    "Official current valuation is the September 21, 2026 4:00 p.m. Eastern regular-market close: $2,567.48.",
-    "Reconciled from published share counts × confirmed unadjusted closes: 12.12×$168.50 + 13.7×$30.33 + 59×$1.86.",
-    "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 21 close.",
-    "Investment P&L at September 21 close: +$567.57 (+28.38% vs net external contributions).",
-    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
-  ],
-  "positions": [
-    {
-      "ticker": "MSTR",
-      "name": "Strategy (MicroStrategy)",
-      "assetClass": "common_equity",
-      "shares": 12.12,
-      "lookThroughEligible": true,
-      "priceCents": 16850,
-      "marketValueCents": 204222,
-      "costBasisCents": null
-    },
-    {
-      "ticker": "ASST",
-      "name": "Strive (ASST)",
-      "assetClass": "common_equity",
-      "shares": 13.7,
-      "lookThroughEligible": true,
-      "priceCents": 3033,
-      "marketValueCents": 41552,
-      "costBasisCents": null
-    },
-    {
-      "ticker": "MPJPY",
-      "name": "Metaplanet ADR",
-      "assetClass": "adr_common_equity",
-      "shares": 59,
-      "lookThroughEligible": true,
-      "underlyingTicker": "3350",
-      "adrRatio": 1,
-      "priceCents": 186,
-      "marketValueCents": 10974,
-      "costBasisCents": null
-    }
-  ]
+  }
 }
