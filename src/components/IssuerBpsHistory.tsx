@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { formatPercent, formatSats } from "@/components/ui/primitives";
+import { chartTooltipProps } from "@/components/charts/Charts";
 import { buildIssuerBpsChartSeries } from "@/lib/accounting/issuer-bps";
 import type { PublicDashboard } from "@/lib/data/public-dashboard";
 import { formatEtTimestamp } from "@/lib/market/session";
@@ -38,16 +39,21 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
   const [enabled, setEnabled] = useState<Record<string, boolean>>({});
   const [mode, setMode] = useState<"level" | "change">("change");
 
-  const activeTickers = tickers.filter((t) => enabled[t] !== false);
+  const activeTickers = useMemo(
+    () => tickers.filter((t) => enabled[t] !== false),
+    [tickers, enabled],
+  );
 
   const chartData = useMemo(
     () =>
       buildIssuerBpsChartSeries({
-        observations,
+        // Only dates for enabled issuers — avoids null gaps that break strokes between
+        // disclosed points when another ticker reports on a different day.
+        observations: observations.filter((o) => activeTickers.includes(o.ticker)),
         mode,
         formatLabel: (asOf) => formatEtTimestamp(asOf),
       }),
-    [observations, mode],
+    [observations, mode, activeTickers],
   );
 
   return (
@@ -55,8 +61,8 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
       <div>
         <h2 className="text-xl font-medium">Diluted sats-per-share history</h2>
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-          Append-only primary-source observations. Missing dates are not interpolated — only
-          disclosed points are connected, each labeled with its actual date.
+          Append-only primary-source observations. Each issuer’s disclosed points are connected in
+          date order; dates with no disclosure for that issuer are not filled with invented values.
         </p>
       </div>
 
@@ -126,6 +132,7 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                     const point = payload?.[0]?.payload as { asOf?: string; label?: string } | undefined;
                     return point?.asOf ? formatEtTimestamp(point.asOf) : (point?.label ?? "");
                   }}
+                  {...chartTooltipProps}
                 />
                 <Legend
                   formatter={(value) => TICKER_LABELS[String(value)] ?? String(value)}
@@ -139,7 +146,9 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                     stroke={STROKES[index % STROKES.length]}
                     dot={{ r: 4 }}
                     activeDot={{ r: 5 }}
-                    connectNulls={false}
+                    // Connect consecutive disclosed points across dates where this issuer
+                    // has no observation (other issuers may still create x-axis rows).
+                    connectNulls
                     isAnimationActive={false}
                   />
                 ))}

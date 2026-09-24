@@ -17,6 +17,7 @@ import {
   calculateIncomeModel,
   resolveAnnualDistributionCentsPerShare,
 } from "@/lib/accounting/income-model";
+import { chartTooltipProps } from "@/components/charts/Charts";
 import { projectBitcoinPrices } from "@/lib/accounting/scenario-btc";
 import { amplifyCommonEquity, projectMstrNav } from "@/lib/accounting/scenario-mstr";
 import {
@@ -694,7 +695,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                 <CartesianGrid stroke="rgba(255,255,255,0.06)" />
                 <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
                 <YAxis stroke="#7A8494" fontSize={12} />
-                <Tooltip />
+                <Tooltip {...chartTooltipProps} />
                 <Area
                   type="monotone"
                   dataKey="annual"
@@ -916,7 +917,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <CartesianGrid stroke="rgba(255,255,255,0.06)" />
                   <XAxis dataKey="year" stroke="#7A8494" fontSize={12} />
                   <YAxis stroke="#7A8494" fontSize={12} />
-                  <Tooltip />
+                  <Tooltip {...chartTooltipProps} />
                   <Legend />
                   <Line dataKey="BTC" stroke="#E8E2D6" strokeDasharray="5 4" dot={false} />
                   <Line dataKey="MSTR" stroke="#F7931A" strokeDasharray="5 4" dot={false} />
@@ -938,7 +939,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <CartesianGrid stroke="rgba(255,255,255,0.06)" />
                   <XAxis dataKey="year" stroke="#7A8494" fontSize={12} />
                   <YAxis stroke="#7A8494" fontSize={12} />
-                  <Tooltip />
+                  <Tooltip {...chartTooltipProps} />
                   <Legend />
                   <Line dataKey="price" name="Nominal" stroke="#F7931A" strokeDasharray="4 3" />
                   <Line dataKey="real" name="Inflation-adj." stroke="#7A8494" strokeDasharray="2 3" />
@@ -959,7 +960,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <CartesianGrid stroke="rgba(255,255,255,0.06)" />
                   <XAxis dataKey="year" stroke="#7A8494" fontSize={12} />
                   <YAxis stroke="#7A8494" fontSize={12} />
-                  <Tooltip />
+                  <Tooltip {...chartTooltipProps} />
                   <Legend />
                   <Line dataKey="nav" name="Common NAV/sh" stroke="#E8E2D6" strokeDasharray="4 3" />
                   <Line dataKey="price" name="Proj. price" stroke="#F7931A" strokeDasharray="4 3" />
@@ -978,7 +979,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <CartesianGrid stroke="rgba(255,255,255,0.06)" />
                   <XAxis dataKey="year" stroke="#7A8494" fontSize={12} />
                   <YAxis stroke="#7A8494" fontSize={12} />
-                  <Tooltip />
+                  <Tooltip {...chartTooltipProps} />
                   <Line
                     dataKey="btcPerShare"
                     stroke="#F7931A"

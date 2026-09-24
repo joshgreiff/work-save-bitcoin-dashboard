@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { formatPercent, formatUsdFromCents } from "@/components/ui/primitives";
+import { chartTooltipProps } from "@/components/charts/Charts";
 import { PriceCarryForwardNotice } from "@/components/PriceCarryForwardNotice";
 import {
   buildSessionComparison,
@@ -292,6 +293,7 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
                   formatter={(value) =>
                     value == null ? "—" : `${(Number(value) * 100).toFixed(2)}%`
                   }
+                  {...chartTooltipProps}
                 />
                 <Legend />
                 <Line dataKey="Bitcoin" stroke="#E8E2D6" dot={{ r: 3 }} connectNulls={false} />

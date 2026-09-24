@@ -20,6 +20,23 @@ import {
 
 const COLORS = ["#F7931A", "#E8E2D6", "#7A8494", "#3D9B6E", "#C44C4C", "#A67C52"];
 
+/** Shared Recharts tooltip styles — dark surface with readable light text. */
+export const chartTooltipProps = {
+  contentStyle: {
+    background: "#141414",
+    border: "1px solid #2A2A2A",
+    borderRadius: 0,
+    color: "#F5F1EA",
+  },
+  labelStyle: {
+    color: "#F5F1EA",
+    marginBottom: 4,
+  },
+  itemStyle: {
+    color: "#E8E2D6",
+  },
+} as const;
+
 type SeriesPoint = Record<string, string | number | null>;
 
 function ChartFrame({
@@ -75,11 +92,7 @@ export function PortfolioValueChart({
           <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `$${v}`} />
           <Tooltip
             formatter={(value) => [`$${Number(value).toFixed(2)}`, "Portfolio"]}
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
+            {...chartTooltipProps}
           />
           <Area
             type="monotone"
@@ -118,13 +131,7 @@ export function AllocationChart({
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
-          <Tooltip
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
-          />
+          <Tooltip {...chartTooltipProps} />
           <Legend />
         </PieChart>
       </ResponsiveContainer>
@@ -155,11 +162,7 @@ export function BenchmarkReturnChart({
           <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`} />
           <Tooltip
             formatter={(value) => [`${(Number(value) * 100).toFixed(2)}%`]}
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
+            {...chartTooltipProps}
           />
           <Legend />
           {seriesKeys.map((series) => (
@@ -210,13 +213,7 @@ export function CashFlowMatchedChart({
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `$${v}`} />
-          <Tooltip
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
-          />
+          <Tooltip {...chartTooltipProps} />
           <Legend />
           <Line
             type="monotone"
@@ -251,13 +248,7 @@ export function ReserveGrowthChart({
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} />
-          <Tooltip
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
-          />
+          <Tooltip {...chartTooltipProps} />
           <Area type="monotone" dataKey="sats" stroke="#F7931A" fill="rgba(247,147,26,0.2)" name="Sats" />
         </AreaChart>
       </ResponsiveContainer>
@@ -281,13 +272,7 @@ export function IncomeProgressChart({
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `$${v}`} />
-          <Tooltip
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
-          />
+          <Tooltip {...chartTooltipProps} />
           <Bar dataKey="monthly" fill="#F7931A" name="Monthly $" />
         </BarChart>
       </ResponsiveContainer>
@@ -311,13 +296,7 @@ export function LookThroughChart({
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} />
-          <Tooltip
-            contentStyle={{
-              background: "#141414",
-              border: "1px solid #2A2A2A",
-              color: "#F5F1EA",
-            }}
-          />
+          <Tooltip {...chartTooltipProps} />
           <Line type="monotone" dataKey="sats" stroke="#F7931A" name="Look-through sats" connectNulls={false} />
         </LineChart>
       </ResponsiveContainer>
