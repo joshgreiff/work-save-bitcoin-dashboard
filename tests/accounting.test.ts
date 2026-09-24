@@ -61,6 +61,10 @@ describe("look-through BTC", () => {
     expect(calculateLookThroughSats(12.12, 100_000)).toBe(1_212_000);
   });
 
+  it("applies ADR ratio before rounding", () => {
+    expect(calculateLookThroughSats(59, 2_866.4587069984464, 1)).toBe(169_121);
+  });
+
   it("handles missing sats/share safely", () => {
     const result = calculatePositionLookThrough([
       {

@@ -11,10 +11,10 @@ Version 1 keeps **official performance** in manually maintained JSON. Live quote
 | Valuation history | `data/valuation-history.json` | Manual append-only | Official open/close marks for charts |
 | Market prices | `data/market-prices.json` | Confirmed | Latest official synchronized session prints (Sep 21 close) |
 | Market observations | `data/market-observations.json` | Append-only | Inception + official market closes with synchronized BTC/equity prints |
-| Issuer BTC/share history | `data/issuer-bps-history.json` | Empty seed | Diluted sats/share from primary sources only; UI shows coming-soon when empty |
+| Issuer BTC/share history | `data/issuer-bps-history.json` | Populated | Append-only diluted sats/share from Strategy, Strive SEC, Metaplanet tracker |
+| Issuer BTC metrics | `data/issuer-metrics.json` | Populated | Current look-through inputs with dilution scope and primary sources |
 | Live BTC card | `/api/live-btc` | Automated | Coinbase spot + 24h stats; cached fallback labeled Last available |
 | Live quotes | `/api/live-quotes` | Automated | Equities only during regular U.S. session; BTC 24/7 informational |
-| Issuer BTC metrics | `data/issuer-metrics.json` | Manual placeholders | Prefer IR → SEC → company dashboards |
 | Reserve | `data/reserve-transactions.json` | Manual | Empty at seed |
 | Income model | `data/income-model.json` | Illustrative preset | Editable allocations + scenario presets; never mutates portfolio |
 | Income securities catalog | `data/income-securities.json` | Seeded | STRF/STRC terms with sources; other preferreds pending confirmation |

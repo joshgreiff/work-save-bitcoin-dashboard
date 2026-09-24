@@ -12,6 +12,7 @@ import {
   YAxis,
 } from "recharts";
 import { formatPercent, formatSats } from "@/components/ui/primitives";
+import { buildIssuerBpsChartSeries } from "@/lib/accounting/issuer-bps";
 import type { PublicDashboard } from "@/lib/data/public-dashboard";
 import { formatEtTimestamp } from "@/lib/market/session";
 
@@ -21,53 +22,41 @@ type Props = {
   notes: string[];
 };
 
+const TICKER_LABELS: Record<string, string> = {
+  MSTR: "MSTR",
+  ASST: "ASST",
+  MPJPY: "Metaplanet",
+};
+
+const STROKES = ["#F7931A", "#E8E2D6", "#7A8494"];
+
 export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props) {
   const tickers = useMemo(
     () => [...new Set(observations.map((o) => o.ticker))].sort(),
     [observations],
   );
   const [enabled, setEnabled] = useState<Record<string, boolean>>({});
-  const [mode, setMode] = useState<"level" | "change">("level");
+  const [mode, setMode] = useState<"level" | "change">("change");
 
   const activeTickers = tickers.filter((t) => enabled[t] !== false);
 
-  const chartData = useMemo(() => {
-    if (observations.length === 0) return [];
-    const byDate = new Map<string, Record<string, string | number | null>>();
-    const firstByTicker = new Map<string, number>();
-
-    const sorted = [...observations].sort(
-      (a, b) => Date.parse(a.asOf) - Date.parse(b.asOf),
-    );
-    for (const obs of sorted) {
-      const key = obs.asOf;
-      const row = byDate.get(key) ?? { label: formatEtTimestamp(obs.asOf) };
-      const value =
-        obs.reportedSatsPerDilutedShare ?? obs.calculatedSatsPerDilutedShare;
-      if (value != null && !firstByTicker.has(obs.ticker)) {
-        firstByTicker.set(obs.ticker, value);
-      }
-      const first = firstByTicker.get(obs.ticker);
-      row[obs.ticker] =
-        value == null
-          ? null
-          : mode === "level"
-            ? value
-            : first
-              ? value / first - 1
-              : null;
-      byDate.set(key, row);
-    }
-    return [...byDate.values()];
-  }, [observations, mode]);
+  const chartData = useMemo(
+    () =>
+      buildIssuerBpsChartSeries({
+        observations,
+        mode,
+        formatLabel: (asOf) => formatEtTimestamp(asOf),
+      }),
+    [observations, mode],
+  );
 
   return (
     <section className="space-y-4">
       <div>
-        <h2 className="text-xl font-medium">Diluted sats per share history</h2>
+        <h2 className="text-xl font-medium">Diluted sats-per-share history</h2>
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-          Append-only primary-source observations. Values remain the latest reported metric until
-          another company disclosure — they do not change continuously every day.
+          Append-only primary-source observations. Missing dates are not interpolated — only
+          disclosed points are connected, each labeled with its actual date.
         </p>
       </div>
 
@@ -89,14 +78,14 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
               className={`border px-3 py-1.5 text-sm ${mode === "level" ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--border)]"}`}
               onClick={() => setMode("level")}
             >
-              Diluted sats per share
+              Absolute sats per share
             </button>
             <button
               type="button"
               className={`border px-3 py-1.5 text-sm ${mode === "change" ? "border-[var(--accent)] text-[var(--accent)]" : "border-[var(--border)]"}`}
               onClick={() => setMode("change")}
             >
-              Change since first observation
+              Percentage change from first observation
             </button>
           </div>
           <div className="flex flex-wrap gap-3 text-sm">
@@ -109,11 +98,11 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                     setEnabled((prev) => ({ ...prev, [ticker]: e.target.checked }))
                   }
                 />
-                {ticker}
+                {TICKER_LABELS[ticker] ?? ticker}
               </label>
             ))}
           </div>
-          <div className="h-64 border border-[var(--border)] bg-[var(--surface)] p-3">
+          <div className="h-72 border border-[var(--border)] bg-[var(--surface)] p-3">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={chartData}>
                 <CartesianGrid stroke="rgba(255,255,255,0.06)" />
@@ -125,16 +114,33 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                     mode === "change" ? `${(Number(v) * 100).toFixed(0)}%` : String(v)
                   }
                 />
-                <Tooltip />
-                <Legend />
+                <Tooltip
+                  formatter={(value, name) => {
+                    if (value == null) return ["Unavailable", String(name)];
+                    if (mode === "change") {
+                      return [formatPercent(Number(value), { showSign: true }), String(name)];
+                    }
+                    return [formatSats(Math.round(Number(value))), String(name)];
+                  }}
+                  labelFormatter={(_, payload) => {
+                    const point = payload?.[0]?.payload as { asOf?: string; label?: string } | undefined;
+                    return point?.asOf ? formatEtTimestamp(point.asOf) : (point?.label ?? "");
+                  }}
+                />
+                <Legend
+                  formatter={(value) => TICKER_LABELS[String(value)] ?? String(value)}
+                />
                 {activeTickers.map((ticker, index) => (
                   <Line
                     key={ticker}
-                    type="stepAfter"
+                    type="linear"
                     dataKey={ticker}
-                    stroke={["#F7931A", "#E8E2D6", "#7A8494"][index % 3]}
-                    dot={{ r: 3 }}
+                    name={ticker}
+                    stroke={STROKES[index % STROKES.length]}
+                    dot={{ r: 4 }}
+                    activeDot={{ r: 5 }}
                     connectNulls={false}
+                    isAnimationActive={false}
                   />
                 ))}
               </LineChart>
@@ -152,6 +158,8 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
               <th className="py-2 pr-3">Previous</th>
               <th className="py-2 pr-3">Change</th>
               <th className="py-2 pr-3">Change %</th>
+              <th className="py-2 pr-3">Vs Jun 30 2026</th>
+              <th className="py-2 pr-3">Vs Dec 31 2025</th>
               <th className="py-2 pr-3">As of</th>
               <th className="py-2">Source</th>
             </tr>
@@ -159,46 +167,75 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
           <tbody>
             {latestByTicker.length === 0 ? (
               <tr>
-                <td colSpan={7} className="py-4 text-[var(--muted)]">
+                <td colSpan={9} className="py-4 text-[var(--muted)]">
                   Verified historical observations coming soon — no invented sats-per-share rows.
                 </td>
               </tr>
             ) : (
-              latestByTicker.map((row) => (
-                <tr key={row.ticker} className="border-t border-[var(--border)]">
-                  <td className="py-2 pr-3">
-                    {row.ticker}
-                    <span className="block text-xs text-[var(--muted)]">{row.issuer}</span>
-                  </td>
-                  <td className="py-2 pr-3 tabular-nums">
-                    {row.dilutedSatsPerShare == null
-                      ? "—"
-                      : formatSats(Math.round(row.dilutedSatsPerShare))}
-                    <span className="block text-xs text-[var(--muted)]">{row.status}</span>
-                  </td>
-                  <td className="py-2 pr-3 tabular-nums">
-                    {row.previous
-                      ? formatSats(
-                          Math.round(
-                            (row.previous.reportedSatsPerDilutedShare ??
-                              row.previous.calculatedSatsPerDilutedShare ??
-                              0) as number,
-                          ),
-                        )
-                      : "—"}
-                  </td>
-                  <td className="py-2 pr-3 tabular-nums">
-                    {row.change == null ? "—" : formatSats(Math.round(row.change))}
-                  </td>
-                  <td className="py-2 pr-3 tabular-nums">
-                    {formatPercent(row.changePct, { showSign: true })}
-                  </td>
-                  <td className="py-2 pr-3">{formatEtTimestamp(row.latest.asOf)}</td>
-                  <td className="py-2 text-xs text-[var(--muted)]">
-                    {row.latest.sourceName ?? "—"}
-                  </td>
-                </tr>
-              ))
+              latestByTicker.map((row) => {
+                const previousValue =
+                  row.previous == null
+                    ? null
+                    : (row.previous.reportedSatsPerDilutedShare ??
+                      row.previous.calculatedSatsPerDilutedShare);
+                return (
+                  <tr key={row.ticker} className="border-t border-[var(--border)]">
+                    <td className="py-2 pr-3">
+                      {TICKER_LABELS[row.ticker] ?? row.ticker}
+                      <span className="block text-xs text-[var(--muted)]">{row.issuer}</span>
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">
+                      {row.dilutedSatsPerShare == null
+                        ? "Unavailable"
+                        : formatSats(Math.round(row.dilutedSatsPerShare))}
+                      <span className="block text-xs text-[var(--muted)]">{row.status}</span>
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">
+                      {previousValue == null
+                        ? "Unavailable"
+                        : formatSats(Math.round(previousValue))}
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">
+                      {row.change == null ? "Unavailable" : formatSats(Math.round(row.change))}
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">
+                      {formatPercent(row.changePct, {
+                        showSign: true,
+                        fallback: "Unavailable",
+                      })}
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">
+                      {formatPercent(row.changeSinceJun2026Pct, {
+                        showSign: true,
+                        fallback: "Unavailable",
+                      })}
+                    </td>
+                    <td className="py-2 pr-3 tabular-nums">
+                      {formatPercent(row.changeSinceDec2025Pct, {
+                        showSign: true,
+                        fallback: "Unavailable",
+                      })}
+                    </td>
+                    <td className="py-2 pr-3">
+                      {row.latest.metricDateLabel ?? formatEtTimestamp(row.latest.asOf)}
+                    </td>
+                    <td className="py-2 text-xs text-[var(--muted)]">
+                      {row.latest.sourceUrl ? (
+                        <a
+                          href={row.latest.sourceUrl}
+                          className="underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--accent)]"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          {row.latest.sourceName ?? "Source"}
+                        </a>
+                      ) : (
+                        (row.latest.sourceName ?? "Unavailable")
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
             )}
           </tbody>
         </table>

@@ -4,6 +4,7 @@ import {
   nonNegativeSatsSchema,
   provenanceSchema,
 } from "./common";
+import { dilutionScopeSchema } from "./issuer-metrics";
 
 export const issuerBpsSourceTypeSchema = z.enum([
   "company_release",
@@ -16,11 +17,15 @@ export const issuerBitcoinPerShareObservationSchema = provenanceSchema.extend({
   ticker: z.string().min(1),
   issuer: z.string().min(1),
   asOf: isoDateTimeSchema,
+  metricDateLabel: z.string().nullable().optional(),
+  asOfBasis: z.string().nullable().optional(),
   bitcoinHoldings: z.number().nonnegative().nullable(),
   /** BTC as whole coins when disclosed that way; sats preferred via bitcoinHoldingsSats. */
   bitcoinHoldingsSats: nonNegativeSatsSchema.nullable().optional(),
   basicSharesOutstanding: z.number().positive().nullable(),
   assumedDilutedSharesOutstanding: z.number().positive().nullable(),
+  dilutionScope: dilutionScopeSchema.nullable().optional(),
+  excludedTraditionalWarrants: z.number().nonnegative().nullable().optional(),
   reportedSatsPerBasicShare: z.number().nonnegative().nullable(),
   reportedSatsPerDilutedShare: z.number().nonnegative().nullable(),
   calculatedSatsPerBasicShare: z.number().nonnegative().nullable(),
@@ -48,21 +53,14 @@ export const issuerBitcoinPerShareFileSchema = z
       }
       ids.add(obs.id);
       if (
-        obs.reportedSatsPerDilutedShare != null &&
-        obs.calculatedSatsPerDilutedShare != null &&
-        obs.reportedSatsPerDilutedShare !== obs.calculatedSatsPerDilutedShare
-      ) {
-        // Allowed — both may be stored; UI prefers reported.
-      }
-      if (
-        (obs.basicSharesOutstanding == null) !==
-          (obs.calculatedSatsPerBasicShare == null) &&
-        obs.calculatedSatsPerBasicShare != null &&
-        (obs.bitcoinHoldingsSats == null && obs.bitcoinHoldings == null)
+        !obs.sourceUrl ||
+        !obs.sourceName ||
+        !obs.retrievedAt ||
+        !obs.asOf
       ) {
         ctx.addIssue({
           code: "custom",
-          message: `${obs.id}: calculated basic sats/share requires holdings and basic shares`,
+          message: `${obs.id}: every observation requires primary sourceName, sourceUrl, asOf, and retrievedAt`,
         });
       }
     }

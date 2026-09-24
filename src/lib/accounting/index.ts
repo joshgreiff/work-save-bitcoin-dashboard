@@ -13,7 +13,11 @@ export * from "./session-comparison";
 export {
   bitcoinCoinsToSats,
   preferDilutedSatsPerShare,
+  preferLookThroughDilutedSatsPerShare,
   changeBetweenObservations,
   historicalLookThroughSats,
+  buildIssuerBpsChartSeries,
+  observationByAsOfDate,
   calculateDilutedSatsPerShare as calculateIssuerDilutedSatsPerShare,
+  calculateDilutedSatsPerShareFromCoins,
 } from "./issuer-bps";

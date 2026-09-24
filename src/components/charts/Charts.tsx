@@ -302,8 +302,8 @@ export function LookThroughChart({
 }) {
   return (
     <ChartFrame
-      title="Look-through BTC exposure over time"
-      explanation="Derived analytical estimate using diluted sats per share. Not direct ownership of issuer Bitcoin."
+      title="Look-through BTC exposure by holding"
+      explanation="Derived analytical estimate using diluted sats per share × shares × ADR ratio. Not direct ownership of issuer Bitcoin. Separate from portfolio market value and the WSB Bitcoin Reserve."
       empty={data.every((d) => d.sats == null)}
     >
       <ResponsiveContainer width="100%" height="100%">

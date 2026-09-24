@@ -3,7 +3,12 @@ import {
   extractExternalCashFlows,
 } from "@/lib/accounting/benchmarks";
 import { calculateIncomeModel } from "@/lib/accounting/income-model";
-import { calculatePositionLookThrough } from "@/lib/accounting/lookthrough";
+import {
+  calculatePositionLookThrough,
+  displayDilutedSatsPerShare,
+  percentOfTotal,
+  btcFromSats,
+} from "@/lib/accounting/lookthrough";
 import {
   calculatePortfolioPerformance,
   summarizeContributions,
@@ -38,6 +43,7 @@ import {
 import { buildSessionComparison } from "@/lib/accounting/session-comparison";
 import {
   changeBetweenObservations,
+  observationByAsOfDate,
   preferDilutedSatsPerShare,
 } from "@/lib/accounting/issuer-bps";
 import { unmatchedSeriesVideos } from "@/lib/youtube/sync-episodes";
@@ -84,9 +90,60 @@ export function buildPublicDashboard() {
       shares: position.shares,
       lookThroughEligible: position.lookThroughEligible,
       dilutedSatsPerShare: metric?.dilutedSatsPerShare ?? null,
+      adrRatio: position.adrRatio ?? 1,
     };
   });
   const lookThrough = calculatePositionLookThrough(lookThroughInputs);
+
+  const eligibleAvailable = lookThrough.positions.filter(
+    (p) => p.available && p.lookThroughSats != null,
+  );
+  const latestMetricDates = issuerMetrics.metrics
+    .map((m) => m.metricDate)
+    .filter(Boolean)
+    .sort();
+  const latestMetricDate =
+    latestMetricDates.length > 0
+      ? latestMetricDates[latestMetricDates.length - 1]!
+      : null;
+
+  const lookThroughPublicPositions = lookThrough.positions.map((pos) => {
+    const metric = latestMetricForTicker(issuerMetrics.metrics, pos.ticker);
+    const displayed =
+      metric?.reportedDilutedSatsPerShare ??
+      displayDilutedSatsPerShare(pos.dilutedSatsPerShare);
+    return {
+      issuer: metric?.issuer ?? pos.ticker,
+      ticker: pos.ticker,
+      metricDate: metric?.metricDate ?? null,
+      metricDateLabel: metric?.metricDateLabel ?? null,
+      retrievalDate: metric?.retrievedAt ?? null,
+      bitcoinHoldings: metric?.bitcoinHoldings ?? null,
+      basicShares: metric?.basicSharesOutstanding ?? null,
+      assumedDilutedShares: metric?.dilutedSharesOutstanding ?? null,
+      dilutionScope: metric?.dilutionScope ?? null,
+      excludedTraditionalWarrants: metric?.excludedTraditionalWarrants ?? null,
+      basicSatsPerShare: metric?.basicSatsPerShare ?? null,
+      dilutedSatsPerShare: pos.dilutedSatsPerShare,
+      displayedDilutedSatsPerShare: displayed,
+      reportedDilutedSatsPerShare: metric?.reportedDilutedSatsPerShare ?? null,
+      sourceUrl: metric?.sourceUrl ?? null,
+      sourceName: metric?.sourceName ?? null,
+      portfolioShares: pos.shares,
+      adrRatio: pos.adrRatio,
+      lookThroughSats: pos.lookThroughSats,
+      lookThroughBtc:
+        pos.lookThroughSats == null ? null : btcFromSats(pos.lookThroughSats),
+      percentOfTotal: percentOfTotal(
+        pos.lookThroughSats,
+        lookThrough.totalLookThroughSats,
+      ),
+      available: pos.available,
+      reason: pos.reason,
+      note: metric?.note ?? null,
+      asOfBasis: metric?.asOfBasis ?? null,
+    };
+  });
 
   const reserveSummary = summarizeReserve(reserve.transactions);
   const btcPrice = marketPrices.prices.find(
@@ -169,6 +226,30 @@ export function buildPublicDashboard() {
       previousPref.satsPerShare,
       latestPref.satsPerShare,
     );
+
+    const jun2026 = observationByAsOfDate(sorted, ticker, "2026-06-30");
+    const dec2025 = observationByAsOfDate(sorted, ticker, "2025-12-31");
+    const junPref = jun2026
+      ? preferDilutedSatsPerShare({
+          reportedSatsPerDilutedShare: jun2026.reportedSatsPerDilutedShare,
+          calculatedSatsPerDilutedShare: jun2026.calculatedSatsPerDilutedShare,
+        })
+      : { satsPerShare: null };
+    const decPref = dec2025
+      ? preferDilutedSatsPerShare({
+          reportedSatsPerDilutedShare: dec2025.reportedSatsPerDilutedShare,
+          calculatedSatsPerDilutedShare: dec2025.calculatedSatsPerDilutedShare,
+        })
+      : { satsPerShare: null };
+    const vsJun2026 = changeBetweenObservations(
+      junPref.satsPerShare,
+      latestPref.satsPerShare,
+    );
+    const vsDec2025 = changeBetweenObservations(
+      decPref.satsPerShare,
+      latestPref.satsPerShare,
+    );
+
     return {
       ticker,
       issuer: latest.issuer,
@@ -178,6 +259,8 @@ export function buildPublicDashboard() {
       status: latestPref.status,
       change: delta.change,
       changePct: delta.changePct,
+      changeSinceJun2026Pct: vsJun2026.changePct,
+      changeSinceDec2025Pct: vsDec2025.changePct,
       observationCount: sorted.length,
     };
   });
@@ -207,9 +290,17 @@ export function buildPublicDashboard() {
       afterHours: portfolio.afterHours ?? null,
     },
     lookThrough: {
+      label: "Analytical exposure",
       asOf: portfolio.currentValuationAt,
+      latestMetricDate,
       totalLookThroughSats: lookThrough.totalLookThroughSats,
-      positions: lookThrough.positions,
+      totalLookThroughBtc:
+        lookThrough.totalLookThroughSats == null
+          ? null
+          : btcFromSats(lookThrough.totalLookThroughSats),
+      eligibleHoldingsCount: eligibleAvailable.length,
+      positions: lookThroughPublicPositions,
+      /** Full issuer metric registry (primary sources). No brokerage credentials. */
       metrics: issuerMetrics.metrics,
     },
     reserve: {

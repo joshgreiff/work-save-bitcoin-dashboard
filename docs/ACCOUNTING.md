@@ -30,16 +30,19 @@ If a dividend remains as cash in the account, it is already inside current portf
 ## Look-through Bitcoin exposure
 
 ```
-Look-through BTC exposure (sats)
-= shares owned × diluted sats per share
-```
+Issuer diluted sats per share (unrounded)
+= issuer BTC holdings × 100,000,000 ÷ assumed diluted shares
 
-```
+Position look-through sats
+= round(portfolio shares × unrounded diluted sats per share × ADR ratio)
+
 Total look-through exposure
 = sum of eligible positions’ look-through sats
 ```
 
-Preferred securities, ETFs, cash, and issuers without usable disclosures are excluded or marked unavailable.
+Prefer raw holdings and diluted share counts when both are available. Round only the final position exposure to the nearest satoshi. Preferred securities, ETFs, cash, and issuers without usable disclosures are excluded or marked unavailable — never shown as zero.
+
+Look-through is an analytical metric only. It is not Bitcoin owned directly, does not include the WSB Strategic Bitcoin Reserve, and never enters securities-portfolio market value or the Fiat Freedom Income Model.
 
 ## Bitcoin Reserve
 
