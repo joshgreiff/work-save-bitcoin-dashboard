@@ -493,6 +493,73 @@
       "portfolioValueCents": 247863,
       "netExternalContributionsCents": 199991,
       "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$161.61 + 13.7×$29.94 + 59×$1.86 = $2,478.63 (cash $0.00)."
+    },
+    {
+      "id": "mo-2026-09-25-close",
+      "timestamp": "2026-09-25T16:00:00-04:00",
+      "timezone": "America/New_York",
+      "valuationType": "market_close",
+      "prices": {
+        "BTCUSD": 8397671,
+        "MSTR": 16161,
+        "ASST": 2994,
+        "MPJPY": 185,
+        "SPY": 76718,
+        "GLD": 39169
+      },
+      "sources": {
+        "BTCUSD": {
+          "name": "Coinbase Exchange BTC-USD 1-minute candle",
+          "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+          "observedAt": "2026-09-25T20:00:00.000Z",
+          "retrievedAt": "2026-09-26T00:04:03.043Z",
+          "fallbackUsed": false,
+          "note": "Exact 4:00 p.m. Eastern one-minute candle close $83,976.71"
+        },
+        "MSTR": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
+          "observedAt": "2026-09-25T16:00:00-04:00",
+          "retrievedAt": "2026-09-26T00:04:03.044Z",
+          "fallbackUsed": true,
+          "note": "MSTR prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $161.61."
+        },
+        "ASST": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
+          "observedAt": "2026-09-25T16:00:00-04:00",
+          "retrievedAt": "2026-09-26T00:04:03.072Z",
+          "fallbackUsed": true,
+          "note": "ASST prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $29.94."
+        },
+        "MPJPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
+          "observedAt": "2026-09-25T16:00:00-04:00",
+          "retrievedAt": "2026-09-26T00:04:03.073Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $1.85"
+        },
+        "SPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
+          "observedAt": "2026-09-25T16:00:00-04:00",
+          "retrievedAt": "2026-09-26T00:04:03.074Z",
+          "fallbackUsed": true,
+          "note": "SPY prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $767.18."
+        },
+        "GLD": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
+          "observedAt": "2026-09-25T16:00:00-04:00",
+          "retrievedAt": "2026-09-26T00:04:03.075Z",
+          "fallbackUsed": true,
+          "note": "GLD prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $391.69."
+        }
+      },
+      "portfolioValueCents": 247804,
+      "netExternalContributionsCents": 199991,
+      "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$161.61 + 13.7×$29.94 + 59×$1.85 = $2,478.04 (cash $0.00). MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
     }
   ],
   "notes": [

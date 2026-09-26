@@ -141,6 +141,11 @@
       }
     },
     {
+      "sourceName": "Coinbase + Yahoo Finance chart",
+      "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+      "retrievedAt": "2026-09-24T23:58:05.953Z",
+      "manual": false,
+      "note": "Official market-close snapshot. Portfolio $2,478.63 reconciled from published shares × confirmed closes.",
       "id": "vh-2026-09-24-close",
       "asOf": "2026-09-24T16:00:00-04:00",
       "session": "close",
@@ -153,12 +158,27 @@
         "MSTR": 16161,
         "ASST": 2994,
         "MPJPY": 186
+      }
+    },
+    {
+      "id": "vh-2026-09-25-close",
+      "asOf": "2026-09-25T16:00:00-04:00",
+      "session": "close",
+      "valuationType": "market_close",
+      "portfolioValueCents": 247804,
+      "prices": {
+        "BTCUSD": 8397671,
+        "SPY": 76718,
+        "GLD": 39169,
+        "MSTR": 16161,
+        "ASST": 2994,
+        "MPJPY": 185
       },
       "sourceName": "Coinbase + Yahoo Finance chart",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-09-24T23:58:05.953Z",
+      "retrievedAt": "2026-09-26T00:04:03.043Z",
       "manual": false,
-      "note": "Official market-close snapshot. Portfolio $2,478.63 reconciled from published shares × confirmed closes."
+      "note": "Official market-close snapshot. Portfolio $2,478.04 reconciled from published shares × confirmed closes. MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
     }
   ]
 }

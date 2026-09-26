@@ -2,63 +2,63 @@
   "prices": [
     {
       "symbol": "BTCUSD",
-      "asOf": "2026-09-24T16:00:00-04:00",
-      "priceCents": 8437441,
+      "asOf": "2026-09-25T16:00:00-04:00",
+      "priceCents": 8397671,
       "sourceName": "Coinbase Exchange BTC-USD 1-minute candle",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-09-24T23:58:05.953Z",
+      "retrievedAt": "2026-09-26T00:04:03.043Z",
       "manual": false,
-      "note": "Exact 4:00 p.m. Eastern one-minute candle close $84,374.41."
+      "note": "Exact 4:00 p.m. Eastern one-minute candle close $83,976.71."
     },
     {
       "symbol": "SPY",
-      "asOf": "2026-09-24T16:00:00-04:00",
+      "asOf": "2026-09-25T16:00:00-04:00",
       "priceCents": 76718,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
-      "retrievedAt": "2026-09-24T23:58:05.976Z",
+      "retrievedAt": "2026-09-26T00:04:03.074Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $767.18."
+      "note": "SPY prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $767.18.."
     },
     {
       "symbol": "GLD",
-      "asOf": "2026-09-24T16:00:00-04:00",
+      "asOf": "2026-09-25T16:00:00-04:00",
       "priceCents": 39169,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
-      "retrievedAt": "2026-09-24T23:58:05.977Z",
+      "retrievedAt": "2026-09-26T00:04:03.075Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $391.69."
+      "note": "GLD prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $391.69.."
     },
     {
       "symbol": "MSTR",
-      "asOf": "2026-09-24T16:00:00-04:00",
+      "asOf": "2026-09-25T16:00:00-04:00",
       "priceCents": 16161,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
-      "retrievedAt": "2026-09-24T23:58:05.953Z",
+      "retrievedAt": "2026-09-26T00:04:03.044Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $161.61."
+      "note": "MSTR prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $161.61.."
     },
     {
       "symbol": "ASST",
-      "asOf": "2026-09-24T16:00:00-04:00",
+      "asOf": "2026-09-25T16:00:00-04:00",
       "priceCents": 2994,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
-      "retrievedAt": "2026-09-24T23:58:05.975Z",
+      "retrievedAt": "2026-09-26T00:04:03.072Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $29.94."
+      "note": "ASST prior close carried forward due to no reported session print. Carried 2026-09-24 unadjusted close $29.94.."
     },
     {
       "symbol": "MPJPY",
-      "asOf": "2026-09-24T16:00:00-04:00",
-      "priceCents": 186,
+      "asOf": "2026-09-25T16:00:00-04:00",
+      "priceCents": 185,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
-      "retrievedAt": "2026-09-24T23:58:05.976Z",
+      "retrievedAt": "2026-09-26T00:04:03.073Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $1.86."
+      "note": "Unadjusted regular-session close $1.85."
     }
   ]
 }
