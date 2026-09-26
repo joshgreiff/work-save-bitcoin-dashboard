@@ -2,6 +2,8 @@ import type { SubstackFeedResult, SubstackPost } from "@/lib/schemas/substack";
 
 export const DEFAULT_SUBSTACK_FEED_URL = "https://joshgreiff.substack.com/feed";
 export const DEFAULT_SUBSTACK_PUBLICATION_URL = "https://joshgreiff.substack.com";
+/** Plain-text summary length after tag stripping (consistent clamp). */
+export const SUBSTACK_SUMMARY_MAX_CHARS = 160;
 
 type CacheEntry = {
   value: SubstackFeedResult;
@@ -27,17 +29,42 @@ function decodeXmlEntities(value: string): string {
     .trim();
 }
 
-function stripTags(value: string): string {
+/** Strip markup and normalize whitespace for safe plain-text display. */
+export function sanitizeSubstackPlainText(value: string): string {
   return decodeXmlEntities(value)
+    .replace(/<script[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[\s\S]*?<\/style>/gi, " ")
     .replace(/<[^>]+>/g, " ")
+    .replace(/[\u0000-\u001F\u007F]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
+}
+
+export function clampSubstackSummary(value: string | null | undefined): string | null {
+  if (!value) return null;
+  const cleaned = sanitizeSubstackPlainText(value);
+  if (!cleaned) return null;
+  if (cleaned.length <= SUBSTACK_SUMMARY_MAX_CHARS) return cleaned;
+  const truncated = cleaned.slice(0, SUBSTACK_SUMMARY_MAX_CHARS - 1).trimEnd();
+  return `${truncated}…`;
+}
+
+export function isSafeSubstackUrl(url: string): boolean {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "https:") return false;
+    if (parsed.username || parsed.password) return false;
+    const host = parsed.hostname.toLowerCase();
+    return host === "substack.com" || host.endsWith(".substack.com");
+  } catch {
+    return false;
+  }
 }
 
 function firstMatch(block: string, pattern: RegExp): string | null {
   const match = block.match(pattern);
   if (!match?.[1]) return null;
-  return decodeXmlEntities(match[1]);
+  return match[1];
 }
 
 function pubDateToIso(pubDate: string): string | null {
@@ -54,25 +81,29 @@ export function parseSubstackRss(xml: string): {
 } {
   const channel = xml.match(/<channel>([\s\S]*?)<item>/)?.[1] ?? xml;
   const publicationTitle =
-    firstMatch(channel, /<title>([\s\S]*?)<\/title>/) ?? "Work, Save, Bitcoin";
+    sanitizeSubstackPlainText(firstMatch(channel, /<title>([\s\S]*?)<\/title>/) ?? "") ||
+    "Work, Save, Bitcoin";
+  const rawPublicationUrl = firstMatch(channel, /<link>([^<]+)<\/link>/)?.trim();
   const publicationUrl =
-    firstMatch(channel, /<link>([^<]+)<\/link>/) ?? DEFAULT_SUBSTACK_PUBLICATION_URL;
+    rawPublicationUrl && isSafeSubstackUrl(rawPublicationUrl)
+      ? rawPublicationUrl
+      : DEFAULT_SUBSTACK_PUBLICATION_URL;
 
   const posts = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)]
     .map((m) => m[1] ?? "")
     .map((item): SubstackPost | null => {
-      const title = firstMatch(item, /<title>([\s\S]*?)<\/title>/);
-      const url = firstMatch(item, /<link>([^<]+)<\/link>/);
-      const pubDate = firstMatch(item, /<pubDate>([^<]+)<\/pubDate>/);
+      const title = sanitizeSubstackPlainText(firstMatch(item, /<title>([\s\S]*?)<\/title>/) ?? "");
+      const url = firstMatch(item, /<link>([^<]+)<\/link>/)?.trim() ?? "";
+      const pubDate = firstMatch(item, /<pubDate>([^<]+)<\/pubDate>/)?.trim() ?? "";
       const rawSummary = firstMatch(item, /<description>([\s\S]*?)<\/description>/);
       if (!title || !url || !pubDate) return null;
+      if (!isSafeSubstackUrl(url)) return null;
       const publishedAt = pubDateToIso(pubDate);
       if (!publishedAt) return null;
-      const summary = rawSummary ? stripTags(rawSummary) : null;
       return {
         title,
         url,
-        summary: summary && summary.length > 0 ? summary.slice(0, 280) : null,
+        summary: clampSubstackSummary(rawSummary),
         publishedAt,
       };
     })

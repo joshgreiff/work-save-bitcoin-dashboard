@@ -136,9 +136,10 @@ export default async function LearnHubPage() {
             href={site.youtubeChannelUrl}
             className="text-[var(--accent)] underline-offset-2 hover:underline"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
-            YouTube channel →
+            YouTube channel ↗
+            <span className="sr-only"> (external link, opens in a new tab)</span>
           </a>
         ) : null}
         {site.substackUrl ? (
@@ -146,9 +147,10 @@ export default async function LearnHubPage() {
             href={site.substackUrl}
             className="text-[var(--accent)] underline-offset-2 hover:underline"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
-            Substack →
+            Substack ↗
+            <span className="sr-only"> (external link, opens in a new tab)</span>
           </a>
         ) : null}
       </section>

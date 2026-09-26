@@ -25,8 +25,11 @@ import { formatViewerDate, formatViewerTimestamp } from "@/lib/market/session";
 import { formatAsOf } from "@/lib/accounting/format";
 import {
   clearSubstackFeedCache,
+  clampSubstackSummary,
   fetchSubstackFeed,
+  isSafeSubstackUrl,
   parseSubstackRss,
+  SUBSTACK_SUMMARY_MAX_CHARS,
 } from "@/lib/learn/substack-feed";
 
 describe("learn calculators", () => {
@@ -191,6 +194,47 @@ describe("substack feed", () => {
     expect(parsed.posts[0]?.title).toBe("What If America Never Left the Gold Standard?");
     expect(parsed.posts[0]?.summary).toBe("celebrating 55 years of fiat currency!");
     expect(parsed.posts[0]?.url).toContain("/p/what-if-america-never-left-the-gold");
+    expect(parsed.posts[0]?.publishedAt).toBe("2026-08-21T15:35:18.000Z");
+  });
+
+  it("sanitizes HTML summaries, clamps length, and rejects unsafe links", () => {
+    const longHtml =
+      `<p><script>alert(1)</script>${"word ".repeat(80)}extra</p>`;
+    const clamped = clampSubstackSummary(longHtml);
+    expect(clamped).not.toMatch(/</);
+    expect(clamped).not.toMatch(/script/i);
+    expect(clamped?.endsWith("…")).toBe(true);
+    expect(clamped!.length).toBeLessThanOrEqual(SUBSTACK_SUMMARY_MAX_CHARS);
+
+    const xml = `<?xml version="1.0"?>
+      <rss version="2.0"><channel>
+        <title>Work, Save, Bitcoin</title>
+        <link>https://joshgreiff.substack.com</link>
+        <item>
+          <title><![CDATA[Safe post]]></title>
+          <description><![CDATA[${longHtml}]]></description>
+          <link>https://joshgreiff.substack.com/p/safe-post</link>
+          <pubDate>Fri, 21 Aug 2026 15:35:18 GMT</pubDate>
+        </item>
+        <item>
+          <title>Bad link</title>
+          <description>nope</description>
+          <link>javascript:alert(1)</link>
+          <pubDate>Fri, 21 Aug 2026 15:35:18 GMT</pubDate>
+        </item>
+        <item>
+          <title>Off-site</title>
+          <description>nope</description>
+          <link>https://evil.example/phish</link>
+          <pubDate>Fri, 21 Aug 2026 15:35:18 GMT</pubDate>
+        </item>
+      </channel></rss>`;
+    const parsed = parseSubstackRss(xml);
+    expect(parsed.posts).toHaveLength(1);
+    expect(parsed.posts[0]?.summary).not.toMatch(/</);
+    expect(parsed.posts[0]?.summary?.length).toBeLessThanOrEqual(SUBSTACK_SUMMARY_MAX_CHARS);
+    expect(isSafeSubstackUrl("https://joshgreiff.substack.com/p/x")).toBe(true);
+    expect(isSafeSubstackUrl("https://evil.example")).toBe(false);
   });
 
   it("returns unavailable freshness when the feed fetch fails", async () => {

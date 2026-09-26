@@ -1,5 +1,30 @@
+import type { ReactNode } from "react";
 import { formatViewerDate, formatViewerTimestamp } from "@/lib/market/session";
 import type { SubstackFeedResult } from "@/lib/schemas/substack";
+
+const EXTERNAL_REL = "noopener noreferrer";
+
+function ExternalSubstackLink({
+  href,
+  children,
+  className,
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel={EXTERNAL_REL}
+      className={className}
+    >
+      {children}
+      <span className="sr-only"> (external link, opens in a new tab)</span>
+    </a>
+  );
+}
 
 export function SubstackReadingList({ feed }: { feed: SubstackFeedResult }) {
   return (
@@ -8,18 +33,16 @@ export function SubstackReadingList({ feed }: { feed: SubstackFeedResult }) {
         <div>
           <h2 className="text-xl font-medium">From the newsletter</h2>
           <p className="mt-1 max-w-2xl text-sm text-[var(--muted-foreground)]">
-            Longer essays from {feed.publicationTitle} on Substack. Opens on Substack — full posts
-            stay there.
+            Longer essays from {feed.publicationTitle} on Substack. Links open externally — full
+            posts stay on Substack.
           </p>
         </div>
-        <a
+        <ExternalSubstackLink
           href={feed.publicationUrl}
-          target="_blank"
-          rel="noreferrer"
           className="text-sm text-[var(--accent)] underline-offset-2 hover:underline"
         >
-          Open Substack →
-        </a>
+          Open Substack ↗
+        </ExternalSubstackLink>
       </div>
 
       {feed.posts.length === 0 ? (
@@ -33,25 +56,21 @@ export function SubstackReadingList({ feed }: { feed: SubstackFeedResult }) {
               key={post.url}
               className="flex flex-col gap-2 border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row sm:items-start sm:justify-between"
             >
-              <div className="min-w-0">
+              <div className="min-w-0 flex-1">
                 <p className="text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
-                  {formatViewerDate(post.publishedAt)}
+                  Published {formatViewerDate(post.publishedAt)}
                 </p>
                 <h3 className="mt-1 text-lg font-medium text-[var(--foreground)]">{post.title}</h3>
-                {post.summary ? (
-                  <p className="mt-1 max-w-2xl text-sm text-[var(--muted-foreground)]">
-                    {post.summary}
-                  </p>
-                ) : null}
+                <p className="mt-1 line-clamp-2 min-h-[2.75rem] max-w-2xl text-sm leading-relaxed text-[var(--muted-foreground)]">
+                  {post.summary ?? "Read the full essay on Substack."}
+                </p>
               </div>
-              <a
+              <ExternalSubstackLink
                 href={post.url}
-                target="_blank"
-                rel="noreferrer"
                 className="shrink-0 text-sm text-[var(--accent)] underline-offset-2 hover:underline"
               >
-                Read on Substack →
-              </a>
+                Read on Substack ↗
+              </ExternalSubstackLink>
             </li>
           ))}
         </ul>
