@@ -7,6 +7,7 @@ export const siteConfigSchema = z.object({
   canonicalBaseUrl: z.string().url(),
   timezone: z.literal("America/New_York"),
   youtubeChannelUrl: z.string().url().nullable(),
+  substackUrl: z.string().url().nullable().default(null),
   xUrl: z.string().url().nullable(),
   contactEmail: z.string().email().nullable(),
   bitcoinSupportAddress: z.string().nullable(),

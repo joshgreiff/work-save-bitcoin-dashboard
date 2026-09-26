@@ -23,6 +23,11 @@ import {
 } from "@/lib/data/load";
 import { formatViewerDate, formatViewerTimestamp } from "@/lib/market/session";
 import { formatAsOf } from "@/lib/accounting/format";
+import {
+  clearSubstackFeedCache,
+  fetchSubstackFeed,
+  parseSubstackRss,
+} from "@/lib/learn/substack-feed";
 
 describe("learn calculators", () => {
   it("computes nominal earnings and purchasing power", () => {
@@ -156,5 +161,45 @@ describe("learn content validation", () => {
   it("hides save-your-time video while videoUrl is null", () => {
     const lesson = loadLearnLessons().lessons.find((l) => l.slug === "save-your-time");
     expect(lesson?.videoUrl).toBeNull();
+  });
+
+  it("lists the Work Save Bitcoin Substack in curated resources", () => {
+    const substack = loadLearnResources().resources.find(
+      (r) => r.id === "work-save-bitcoin-substack",
+    );
+    expect(substack?.url).toBe("https://joshgreiff.substack.com");
+    expect(substack?.pendingUrlConfirmation).toBe(false);
+  });
+});
+
+describe("substack feed", () => {
+  it("parses Substack RSS items without inventing posts", () => {
+    const xml = `<?xml version="1.0"?>
+      <rss version="2.0"><channel>
+        <title><![CDATA[Work, Save, Bitcoin]]></title>
+        <link>https://joshgreiff.substack.com</link>
+        <item>
+          <title><![CDATA[What If America Never Left the Gold Standard?]]></title>
+          <description><![CDATA[celebrating 55 years of fiat currency!]]></description>
+          <link>https://joshgreiff.substack.com/p/what-if-america-never-left-the-gold</link>
+          <pubDate>Fri, 21 Aug 2026 15:35:18 GMT</pubDate>
+        </item>
+      </channel></rss>`;
+    const parsed = parseSubstackRss(xml);
+    expect(parsed.publicationTitle).toBe("Work, Save, Bitcoin");
+    expect(parsed.posts).toHaveLength(1);
+    expect(parsed.posts[0]?.title).toBe("What If America Never Left the Gold Standard?");
+    expect(parsed.posts[0]?.summary).toBe("celebrating 55 years of fiat currency!");
+    expect(parsed.posts[0]?.url).toContain("/p/what-if-america-never-left-the-gold");
+  });
+
+  it("returns unavailable freshness when the feed fetch fails", async () => {
+    clearSubstackFeedCache();
+    const result = await fetchSubstackFeed({
+      fetchImpl: vi.fn(async () => new Response("nope", { status: 500 })) as unknown as typeof fetch,
+      limit: 3,
+    });
+    expect(result.freshness).toBe("unavailable");
+    expect(result.posts).toEqual([]);
   });
 });

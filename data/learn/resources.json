@@ -94,6 +94,15 @@
       "pendingUrlConfirmation": false
     },
     {
+      "id": "work-save-bitcoin-substack",
+      "title": "Work, Save, Bitcoin (Substack)",
+      "url": "https://joshgreiff.substack.com",
+      "category": "books_podcasts",
+      "summary": "Josh’s long-form essays on money, Bitcoin, and saving your time — the Work Save Bitcoin newsletter home.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
       "id": "what-is-money",
       "title": "What Is Money? (podcast)",
       "url": "https://www.whatismoneypodcast.com/",

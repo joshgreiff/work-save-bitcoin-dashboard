@@ -2,11 +2,15 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { SectionIntro, TextLink } from "@/components/ui/primitives";
 import { NewsletterSignup } from "@/components/learn/NewsletterSignup";
+import { SubstackReadingList } from "@/components/learn/SubstackReadingList";
 import {
   loadLearnLessons,
   loadNewsletterConfig,
   loadSiteConfig,
 } from "@/lib/data/load";
+import { fetchSubstackFeed } from "@/lib/learn/substack-feed";
+
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Learn",
@@ -20,7 +24,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function LearnHubPage() {
+export default async function LearnHubPage() {
   const lessonsFile = loadLearnLessons();
   const newsletter = loadNewsletterConfig();
   const site = loadSiteConfig();
@@ -31,6 +35,10 @@ export default function LearnHubPage() {
     (a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt),
   );
   const latest = lessons[0] ?? null;
+  const substackFeed = await fetchSubstackFeed({
+    feedUrl: site.substackUrl ? `${site.substackUrl.replace(/\/$/, "")}/feed` : undefined,
+    limit: 6,
+  });
 
   return (
     <div className="space-y-10">
@@ -117,6 +125,8 @@ export default function LearnHubPage() {
         </ul>
       </section>
 
+      <SubstackReadingList feed={substackFeed} />
+
       <section className="flex flex-wrap gap-4 text-sm">
         <TextLink href="/learn/glossary">Glossary →</TextLink>
         <TextLink href="/learn/resources">Curated resources →</TextLink>
@@ -129,6 +139,16 @@ export default function LearnHubPage() {
             rel="noreferrer"
           >
             YouTube channel →
+          </a>
+        ) : null}
+        {site.substackUrl ? (
+          <a
+            href={site.substackUrl}
+            className="text-[var(--accent)] underline-offset-2 hover:underline"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Substack →
           </a>
         ) : null}
       </section>
