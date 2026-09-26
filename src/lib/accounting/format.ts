@@ -1,3 +1,5 @@
+import { formatViewerTimestamp } from "@/lib/market/session";
+
 const SATS_PER_BTC = 100_000_000;
 
 export function formatUsdFromCents(
@@ -52,22 +54,10 @@ export function formatShares(shares: number | null | undefined): string {
   }).format(shares);
 }
 
-export function formatAsOf(
-  value: string | null | undefined,
-  timeZone = "America/New_York",
-): string {
+export function formatAsOf(value: string | null | undefined): string {
   if (!value) return "As of: unavailable";
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return "As of: unavailable";
-  const formatted = new Intl.DateTimeFormat("en-US", {
-    timeZone,
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-    hour: "numeric",
-    minute: "2-digit",
-    timeZoneName: "short",
-  }).format(date);
+  const formatted = formatViewerTimestamp(value);
+  if (formatted === "—") return "As of: unavailable";
   return `As of ${formatted}`;
 }
 

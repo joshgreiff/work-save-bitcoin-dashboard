@@ -21,6 +21,8 @@ import {
   loadTreasuryDebtFallback,
   validateAllDataFiles,
 } from "@/lib/data/load";
+import { formatViewerDate, formatViewerTimestamp } from "@/lib/market/session";
+import { formatAsOf } from "@/lib/accounting/format";
 
 describe("learn calculators", () => {
   it("computes nominal earnings and purchasing power", () => {
@@ -66,6 +68,26 @@ describe("learn calculators", () => {
     });
     expect(purchase.satsToday).toBe(5_000);
     expect(purchase.monthlyContributionUsd).toBeCloseTo(5 * (52 / 12), 10);
+  });
+});
+
+describe("viewer timestamps", () => {
+  it("formats America/New_York timestamps without raw ISO", () => {
+    const formatted = formatViewerTimestamp("2026-09-26T11:35:00-04:00");
+    expect(formatted).toBe("Sep. 26, 2026 at 11:35 a.m. ET");
+    expect(formatted).not.toMatch(/T\d{2}:\d{2}/);
+    expect(formatViewerTimestamp(null)).toBe("—");
+    expect(formatViewerTimestamp("not-a-date")).toBe("—");
+  });
+
+  it("formats date-only values for source as-of labels", () => {
+    expect(formatViewerDate("2026-09-24")).toBe("Sep. 24, 2026");
+  });
+
+  it("keeps MetricCard as-of labels in the same ET style", () => {
+    expect(formatAsOf("2026-09-26T11:35:00-04:00")).toBe(
+      "As of Sep. 26, 2026 at 11:35 a.m. ET",
+    );
   });
 });
 
@@ -129,5 +151,10 @@ describe("learn content validation", () => {
     const forrest = loadLearnResources().resources.find((r) => r.id === "forresthodl");
     expect(forrest?.pendingUrlConfirmation).toBe(true);
     expect(forrest?.url).toBeNull();
+  });
+
+  it("hides save-your-time video while videoUrl is null", () => {
+    const lesson = loadLearnLessons().lessons.find((l) => l.slug === "save-your-time");
+    expect(lesson?.videoUrl).toBeNull();
   });
 });

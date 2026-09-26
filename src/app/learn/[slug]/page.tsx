@@ -43,6 +43,9 @@ export default async function LearnLessonPage({ params }: Props) {
   if (!lesson) notFound();
 
   const newsletter = loadNewsletterConfig();
+  const newsletterSignupEnabled =
+    newsletter.provider !== "none" &&
+    Boolean(process.env[newsletter.endpointEnvVar]?.trim());
   const fallback = loadTreasuryDebtFallback().observation;
   const debt = await fetchTreasuryDebt({ fallback });
 
@@ -74,6 +77,7 @@ export default async function LearnLessonPage({ params }: Props) {
           debt={debt}
           btc={btc}
           newsletter={newsletter}
+          newsletterSignupEnabled={newsletterSignupEnabled}
         />
       ) : (
         <p className="text-sm text-[var(--muted)]">

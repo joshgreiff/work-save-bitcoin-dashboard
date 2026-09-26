@@ -24,6 +24,9 @@ export default function LearnHubPage() {
   const lessonsFile = loadLearnLessons();
   const newsletter = loadNewsletterConfig();
   const site = loadSiteConfig();
+  const newsletterSignupEnabled =
+    newsletter.provider !== "none" &&
+    Boolean(process.env[newsletter.endpointEnvVar]?.trim());
   const lessons = [...lessonsFile.lessons].sort(
     (a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt),
   );
@@ -130,7 +133,11 @@ export default function LearnHubPage() {
         ) : null}
       </section>
 
-      <NewsletterSignup config={newsletter} sourcePage="/learn" />
+      <NewsletterSignup
+        config={newsletter}
+        sourcePage="/learn"
+        signupEnabled={newsletterSignupEnabled}
+      />
     </div>
   );
 }

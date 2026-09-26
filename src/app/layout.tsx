@@ -18,6 +18,9 @@ const mono = IBM_Plex_Mono({
 
 const site = loadSiteConfig();
 const newsletter = loadNewsletterConfig();
+const newsletterSignupEnabled =
+  newsletter.provider !== "none" &&
+  Boolean(process.env[newsletter.endpointEnvVar]?.trim());
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.canonicalBaseUrl),
@@ -50,7 +53,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col antialiased">
         <SiteHeader />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:py-10">{children}</main>
-        <SiteFooter newsletter={newsletter} />
+        <SiteFooter
+          newsletter={newsletter}
+          newsletterSignupEnabled={newsletterSignupEnabled}
+        />
       </body>
     </html>
   );

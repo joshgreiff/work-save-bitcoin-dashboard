@@ -19,6 +19,15 @@ const NAV = [
   { href: "/resources", label: "Resources" },
 ];
 
+/** Pages that already render an inline newsletter block. */
+function pageHasInlineNewsletter(pathname: string): boolean {
+  return (
+    pathname === "/learn" ||
+    pathname === "/learn/resources" ||
+    pathname === "/learn/save-your-time"
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -70,11 +79,26 @@ export function SiteHeader() {
   );
 }
 
-export function SiteFooter({ newsletter }: { newsletter: NewsletterConfig }) {
+export function SiteFooter({
+  newsletter,
+  newsletterSignupEnabled,
+}: {
+  newsletter: NewsletterConfig;
+  newsletterSignupEnabled: boolean;
+}) {
+  const pathname = usePathname();
+  const showNewsletter = !pageHasInlineNewsletter(pathname);
+
   return (
     <footer className="mt-auto border-t border-[var(--border)]">
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8">
-        <NewsletterSignup config={newsletter} sourcePage="footer" />
+        {showNewsletter ? (
+          <NewsletterSignup
+            config={newsletter}
+            sourcePage="footer"
+            signupEnabled={newsletterSignupEnabled}
+          />
+        ) : null}
         <div className="flex flex-col gap-2 text-sm text-[var(--muted)]">
           <p>Work Save Bitcoin — Fiat Freedom Portfolio dashboard and Bitcoin education.</p>
           <p>

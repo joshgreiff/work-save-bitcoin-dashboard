@@ -7,25 +7,27 @@ import type { NewsletterConfig } from "@/lib/schemas/learn";
 type Props = {
   config: NewsletterConfig;
   sourcePage: string;
+  /** True only when provider is configured and NEWSLETTER_ENDPOINT (or env var) is set. */
+  signupEnabled?: boolean;
 };
 
-export function NewsletterSignup({ config, sourcePage }: Props) {
+export function NewsletterSignup({
+  config,
+  sourcePage,
+  signupEnabled = false,
+}: Props) {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [message, setMessage] = useState<string | null>(null);
   const [pending, startTransition] = useTransition();
 
-  const providerReady = config.provider !== "none";
-
   const helper = useMemo(() => {
-    if (!providerReady) {
-      return "Newsletter delivery is not connected yet. Your interest is recorded locally only when a provider endpoint is configured.";
-    }
+    if (!signupEnabled) return null;
     return config.doubleOptIn
       ? "If the provider supports it, you will receive a confirmation email before regular messages begin."
       : null;
-  }, [config.doubleOptIn, providerReady]);
+  }, [config.doubleOptIn, signupEnabled]);
 
   function onSubmit(event: React.FormEvent) {
     event.preventDefault();
@@ -55,6 +57,20 @@ export function NewsletterSignup({ config, sourcePage }: Props) {
         setMessage(error instanceof Error ? error.message : "Signup failed.");
       }
     });
+  }
+
+  if (!signupEnabled) {
+    return (
+      <section className="border border-[var(--border)] bg-[var(--surface)] p-5">
+        <h2 className="text-lg font-medium text-[var(--foreground)]">{config.headline}</h2>
+        <p className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
+          {config.description}
+        </p>
+        <p className="mt-4 text-sm text-[var(--muted)]">
+          Work Save Bitcoin Weekly is coming soon.
+        </p>
+      </section>
+    );
   }
 
   return (

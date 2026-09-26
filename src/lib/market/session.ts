@@ -87,15 +87,59 @@ export function etFourPmIso(calendarDay: string): string {
 
 export function formatEtTimestamp(iso: string | null | undefined): string {
   if (!iso) return "—";
-  return new Intl.DateTimeFormat("en-US", {
+  return formatViewerTimestamp(iso);
+}
+
+/**
+ * Viewer-facing Eastern timestamp, e.g. "Sep. 26, 2026 at 11:35 a.m. ET".
+ * Never return raw ISO strings from this helper.
+ */
+export function formatViewerTimestamp(iso: string | null | undefined): string {
+  if (!iso) return "—";
+  const date = new Date(iso);
+  if (Number.isNaN(date.getTime())) return "—";
+
+  const parts = new Intl.DateTimeFormat("en-US", {
     timeZone: NY_TZ,
     month: "short",
     day: "numeric",
     year: "numeric",
     hour: "numeric",
     minute: "2-digit",
-    timeZoneName: "short",
-  }).format(new Date(iso));
+    hour12: true,
+  }).formatToParts(date);
+
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? "";
+
+  const month = `${get("month")}.`;
+  const day = get("day");
+  const year = get("year");
+  const hour = get("hour");
+  const minute = get("minute");
+  const dayPeriod = get("dayPeriod").toLowerCase().replace(/^am$/, "a.m.").replace(/^pm$/, "p.m.");
+
+  return `${month} ${day}, ${year} at ${hour}:${minute} ${dayPeriod} ET`;
+}
+
+/** Date-only Eastern calendar label, e.g. "Sep. 24, 2026". */
+export function formatViewerDate(isoDateOrDateTime: string | null | undefined): string {
+  if (!isoDateOrDateTime) return "—";
+  const normalized =
+    /^\d{4}-\d{2}-\d{2}$/.test(isoDateOrDateTime)
+      ? `${isoDateOrDateTime}T12:00:00-04:00`
+      : isoDateOrDateTime;
+  const date = new Date(normalized);
+  if (Number.isNaN(date.getTime())) return "—";
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: NY_TZ,
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).formatToParts(date);
+  const get = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? "";
+  return `${get("month")}. ${get("day")}, ${get("year")}`;
 }
 
 export { NY_TZ };

@@ -31,6 +31,9 @@ const CATEGORY_LABEL: Record<(typeof CATEGORY_ORDER)[number], string> = {
 export default function LearnResourcesPage() {
   const file = loadLearnResources();
   const newsletter = loadNewsletterConfig();
+  const newsletterSignupEnabled =
+    newsletter.provider !== "none" &&
+    Boolean(process.env[newsletter.endpointEnvVar]?.trim());
 
   return (
     <div className="space-y-8">
@@ -55,7 +58,11 @@ export default function LearnResourcesPage() {
         );
       })}
 
-      <NewsletterSignup config={newsletter} sourcePage="/learn/resources" />
+      <NewsletterSignup
+        config={newsletter}
+        sourcePage="/learn/resources"
+        signupEnabled={newsletterSignupEnabled}
+      />
     </div>
   );
 }

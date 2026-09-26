@@ -8,6 +8,7 @@ import {
   satsFromRecurringPurchase,
 } from "@/lib/learn/calculators";
 import { ClaimBadge } from "@/components/learn/ClaimBadge";
+import { formatViewerTimestamp } from "@/lib/market/session";
 
 function money(value: number): string {
   if (!Number.isFinite(value)) return "—";
@@ -240,7 +241,7 @@ export function SatsCalculator(props: {
         {props.btcUsdPrice == null
           ? "unavailable"
           : money(props.btcUsdPrice)}
-        {props.priceAsOf ? ` · as of ${props.priceAsOf}` : null}
+        {props.priceAsOf ? ` · as of ${formatViewerTimestamp(props.priceAsOf)}` : null}
         {props.sourceName ? ` · ${props.sourceName}` : null}. Does not project future Bitcoin prices
         or investment returns.
       </p>

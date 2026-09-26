@@ -8,14 +8,14 @@ describe("closing snapshot", () => {
     const episodes = loadEpisodes().episodes;
     const portfolio = loadPortfolio();
     expect(episodes[0]?.portfolioValueCents).toBe(199991);
-    expect(portfolio.currentValuationAt).toBe("2026-09-23T16:00:00-04:00");
-    expect(portfolio.currentPortfolioValueCents).toBe(246863);
+    expect(portfolio.currentValuationAt).toBe("2026-09-25T16:00:00-04:00");
+    expect(portfolio.currentPortfolioValueCents).toBe(247804);
     expect(
       calculateInvestmentPnL({
         currentPortfolioValueCents: portfolio.currentPortfolioValueCents,
         totalExternalContributionsCents: 199991,
       }),
-    ).toBe(46872);
+    ).toBe(47813);
   });
 
   it("stores after-hours separately from the official close", () => {

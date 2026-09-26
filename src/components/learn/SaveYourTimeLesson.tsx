@@ -10,6 +10,7 @@ import {
 import { NewsletterSignup } from "@/components/learn/NewsletterSignup";
 import type { NewsletterConfig } from "@/lib/schemas/learn";
 import Link from "next/link";
+import { formatViewerDate, formatViewerTimestamp } from "@/lib/market/session";
 
 type Props = {
   lesson: LearnLessonMeta;
@@ -20,9 +21,16 @@ type Props = {
     sourceName: string | null;
   };
   newsletter: NewsletterConfig;
+  newsletterSignupEnabled: boolean;
 };
 
-export function SaveYourTimeLesson({ lesson, debt, btc, newsletter }: Props) {
+export function SaveYourTimeLesson({
+  lesson,
+  debt,
+  btc,
+  newsletter,
+  newsletterSignupEnabled,
+}: Props) {
   return (
     <article className="space-y-10">
       <header className="space-y-4">
@@ -43,14 +51,7 @@ export function SaveYourTimeLesson({ lesson, debt, btc, newsletter }: Props) {
               allowFullScreen
             />
           </div>
-        ) : (
-          <aside className="max-w-3xl border border-dashed border-[var(--border)] p-4 text-sm text-[var(--muted-foreground)]">
-            Video embed pending confirmation of the official YouTube URL for{" "}
-            <span className="text-[var(--foreground)]">“Bitcoin Is How You Save Your Time.”</span>{" "}
-            Set <code className="text-[var(--foreground)]">videoUrl</code> in{" "}
-            <code className="text-[var(--foreground)]">data/learn/lessons.json</code> when ready.
-          </aside>
-        )}
+        ) : null}
       </header>
 
       <section className="space-y-3">
@@ -147,7 +148,8 @@ export function SaveYourTimeLesson({ lesson, debt, btc, newsletter }: Props) {
             })}
           </p>
           <p className="mt-3 text-sm text-[var(--muted-foreground)]">
-            Record date {debt.recordDate} · Retrieved {new Date(debt.retrievedAt).toLocaleString("en-US")} ·{" "}
+            Record date {formatViewerDate(debt.recordDate)} · Retrieved{" "}
+            {formatViewerTimestamp(debt.retrievedAt)} ·{" "}
             {debt.freshness === "live" ? "Live Treasury feed" : "Last verified observation"}
           </p>
           <p className="mt-2 text-xs text-[var(--muted)]">
@@ -237,7 +239,7 @@ export function SaveYourTimeLesson({ lesson, debt, btc, newsletter }: Props) {
               <a href={source.url} className="text-[var(--accent)] underline-offset-2 hover:underline" target="_blank" rel="noreferrer">
                 {source.label}
               </a>
-              {source.asOf ? ` · as of ${source.asOf}` : null}
+              {source.asOf ? ` · as of ${formatViewerDate(source.asOf)}` : null}
               {source.note ? ` — ${source.note}` : null}
             </li>
           ))}
@@ -249,7 +251,11 @@ export function SaveYourTimeLesson({ lesson, debt, btc, newsletter }: Props) {
         </ul>
       </section>
 
-      <NewsletterSignup config={newsletter} sourcePage={`/learn/${lesson.slug}`} />
+      <NewsletterSignup
+        config={newsletter}
+        sourcePage={`/learn/${lesson.slug}`}
+        signupEnabled={newsletterSignupEnabled}
+      />
     </article>
   );
 }

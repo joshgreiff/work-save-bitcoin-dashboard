@@ -21,11 +21,13 @@ export async function POST(request: Request) {
   }
 
   if (config.provider === "none") {
-    return NextResponse.json({
-      ok: true,
-      message:
-        "Thanks — newsletter delivery is not connected yet. No account was created and no credentials were stored.",
-    });
+    return NextResponse.json(
+      {
+        ok: false,
+        message: "Work Save Bitcoin Weekly is coming soon.",
+      },
+      { status: 503 },
+    );
   }
 
   const endpoint = process.env[config.endpointEnvVar];
@@ -33,7 +35,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         ok: false,
-        message: `Newsletter provider is configured as ${config.provider}, but ${config.endpointEnvVar} is not set.`,
+        message: "Work Save Bitcoin Weekly is coming soon.",
       },
       { status: 503 },
     );
