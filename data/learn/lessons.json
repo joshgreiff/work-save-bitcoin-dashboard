@@ -1,0 +1,60 @@
+{
+  "paths": {
+    "money": {
+      "title": "Money",
+      "summary": "What money does, how purchasing power changes, and why your paycheck is really stored time."
+    },
+    "bitcoin": {
+      "title": "Bitcoin",
+      "summary": "Fixed supply, satoshis, volatility versus monetary rules, and how small recurring purchases work."
+    },
+    "ownership": {
+      "title": "Ownership",
+      "summary": "Custody choices, wallet basics, seed-phrase safety, and how to avoid common scams."
+    }
+  },
+  "lessons": [
+    {
+      "title": "Save Your Time",
+      "slug": "save-your-time",
+      "summary": "Your labor is paid in time. Money is supposed to carry that time into the future — and Bitcoin gives ordinary savers a harder monetary rule than endlessly expandable currency.",
+      "publishedAt": "2026-09-26T10:00:00-04:00",
+      "updatedAt": "2026-09-26T10:00:00-04:00",
+      "category": "money",
+      "difficulty": "intro",
+      "readingMinutes": 18,
+      "videoUrl": null,
+      "thumbnailUrl": null,
+      "sources": [
+        {
+          "label": "U.S. Treasury Fiscal Data — Debt to the Penny",
+          "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny",
+          "asOf": "2026-09-24"
+        },
+        {
+          "label": "Federal Reserve H.4.1 statistical release",
+          "url": "https://www.federalreserve.gov/releases/h41/",
+          "asOf": "2020-06-25",
+          "note": "Used for 2020 balance-sheet illustrations only."
+        },
+        {
+          "label": "Bitcoin whitepaper",
+          "url": "https://bitcoin.org/bitcoin.pdf",
+          "asOf": "2008-10-31"
+        }
+      ],
+      "relatedLessons": [],
+      "disclosures": [
+        "Educational content only. Not investment, tax, or legal advice.",
+        "Calculators are illustrative estimates, not forecasts.",
+        "Do not enter seed phrases into this website or any ordinary web form."
+      ],
+      "featured": true,
+      "pathOrder": 1
+    }
+  ],
+  "notes": [
+    "Lesson bodies live as typed React modules keyed by slug so interactive tools stay first-class.",
+    "videoUrl for save-your-time is null until Josh confirms the official YouTube URL for “Bitcoin Is How You Save Your Time.”"
+  ]
+}

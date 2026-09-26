@@ -17,6 +17,12 @@ export default function ResourcesPage() {
         description="Educational references and voluntary support options. Support never buys ownership of the reserve or portfolio."
       />
 
+      <p className="text-sm text-[var(--muted-foreground)]">
+        Looking for structured Bitcoin education? Start at{" "}
+        <TextLink href="/learn">Learn</TextLink> or the curated{" "}
+        <TextLink href="/learn/resources">Learn resources</TextLink> page.
+      </p>
+
       <section className="space-y-3">
         <h2 className="text-xl font-medium">Channel links</h2>
         <ul className="space-y-2 text-sm">

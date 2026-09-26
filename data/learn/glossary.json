@@ -1,0 +1,127 @@
+{
+  "terms": [
+    {
+      "id": "medium-of-exchange",
+      "term": "Medium of exchange",
+      "definition": "Something widely accepted in trade so you can sell your work and buy what you need without bartering directly.",
+      "category": "money",
+      "relatedTerms": ["unit-of-account", "store-of-value"],
+      "sources": []
+    },
+    {
+      "id": "unit-of-account",
+      "term": "Unit of account",
+      "definition": "A shared measuring stick for prices, wages, debts, and accounting — the yardstick money provides.",
+      "category": "money",
+      "relatedTerms": ["medium-of-exchange", "store-of-value"],
+      "sources": []
+    },
+    {
+      "id": "store-of-value",
+      "term": "Store of value",
+      "definition": "The ability of money to carry purchasing power from today into the future so saved work is not silently eroded.",
+      "category": "money",
+      "relatedTerms": ["purchasing-power", "inflation"],
+      "sources": []
+    },
+    {
+      "id": "purchasing-power",
+      "term": "Purchasing power",
+      "definition": "How many goods and services a unit of money can buy. A wage can stay the same in dollars while buying less.",
+      "category": "money",
+      "relatedTerms": ["inflation", "store-of-value"],
+      "sources": []
+    },
+    {
+      "id": "inflation",
+      "term": "Inflation",
+      "definition": "A sustained rise in the general price level, which reduces the purchasing power of unchanged cash balances.",
+      "category": "money",
+      "relatedTerms": ["monetary-debasement", "purchasing-power"],
+      "sources": []
+    },
+    {
+      "id": "monetary-debasement",
+      "term": "Monetary debasement",
+      "definition": "Weakening a money’s scarcity or credibility — historically by diluting coin metal, today often by expanding currency and credit supply.",
+      "category": "money",
+      "relatedTerms": ["inflation", "fiscal-policy", "monetary-policy"],
+      "sources": []
+    },
+    {
+      "id": "fiscal-policy",
+      "term": "Fiscal policy",
+      "definition": "Government taxing and spending decisions, typically made by Congress and the Treasury — distinct from central-bank monetary policy.",
+      "category": "money",
+      "relatedTerms": ["monetary-policy"],
+      "sources": []
+    },
+    {
+      "id": "monetary-policy",
+      "term": "Monetary policy",
+      "definition": "Central-bank actions that influence money, credit, and interest rates — for example Federal Reserve balance-sheet operations.",
+      "category": "money",
+      "relatedTerms": ["fiscal-policy"],
+      "sources": []
+    },
+    {
+      "id": "satoshi",
+      "term": "Satoshi (sat)",
+      "definition": "The smallest common unit of Bitcoin. One bitcoin equals 100,000,000 satoshis, so small budgets can still buy measurable amounts.",
+      "category": "bitcoin",
+      "relatedTerms": ["fixed-supply"],
+      "sources": [{ "label": "Bitcoin whitepaper", "url": "https://bitcoin.org/bitcoin.pdf", "asOf": "2008-10-31" }]
+    },
+    {
+      "id": "fixed-supply",
+      "term": "Fixed supply",
+      "definition": "Bitcoin’s issuance is capped by protocol rules near 21 million BTC. Ownership can still be concentrated, and price can still be volatile.",
+      "category": "bitcoin",
+      "relatedTerms": ["satoshi"],
+      "sources": [{ "label": "Bitcoin whitepaper", "url": "https://bitcoin.org/bitcoin.pdf", "asOf": "2008-10-31" }]
+    },
+    {
+      "id": "volatility",
+      "term": "Volatility",
+      "definition": "How much price moves over time. Bitcoin’s price can swing sharply even while its monetary issuance rules remain predictable.",
+      "category": "bitcoin",
+      "relatedTerms": ["fixed-supply"],
+      "sources": []
+    },
+    {
+      "id": "self-custody",
+      "term": "Self-custody",
+      "definition": "Holding Bitcoin with keys you control (typically via a wallet you manage), instead of leaving coins on an exchange or other custodian.",
+      "category": "ownership",
+      "relatedTerms": ["custodial", "seed-phrase", "hardware-wallet"],
+      "sources": []
+    },
+    {
+      "id": "custodial",
+      "term": "Custodial Bitcoin",
+      "definition": "Bitcoin an exchange or service holds for you. Convenient for beginners, but you rely on that company for access and solvency.",
+      "category": "ownership",
+      "relatedTerms": ["self-custody"],
+      "sources": []
+    },
+    {
+      "id": "seed-phrase",
+      "term": "Seed phrase",
+      "definition": "A recovery word list that can restore wallet keys. Treat it like cash and keys combined — never type it into a website.",
+      "category": "ownership",
+      "relatedTerms": ["self-custody", "hardware-wallet"],
+      "sources": []
+    },
+    {
+      "id": "hardware-wallet",
+      "term": "Hardware wallet",
+      "definition": "A dedicated device that stores keys offline and signs transactions without exposing the seed to your everyday computer or phone.",
+      "category": "ownership",
+      "relatedTerms": ["self-custody", "seed-phrase"],
+      "sources": []
+    }
+  ],
+  "notes": [
+    "Definitions are plain-language teaching aids, not legal or investment advice."
+  ]
+}

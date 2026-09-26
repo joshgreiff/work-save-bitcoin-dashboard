@@ -19,7 +19,14 @@ Version 1 keeps **official performance** in manually maintained JSON. Live quote
 | Income model | `data/income-model.json` | Illustrative preset | Editable allocations + scenario presets; never mutates portfolio |
 | Income securities catalog | `data/income-securities.json` | Seeded | STRF/STRC terms with sources; other preferreds pending confirmation |
 | Income history | `data/income-history.json` | Empty | Historical total-return series for Sharpe/Sortino when available |
-| Site/referrals | `data/site-config.json` | Manual | Links and disclaimers |
+| Learn lessons catalog | `data/learn/lessons.json` | Seeded | Validated lesson metadata; bodies rendered by slug modules |
+| Learn glossary | `data/learn/glossary.json` | Seeded | Plain-language terms by Money / Bitcoin / Ownership |
+| Learn resources | `data/learn/resources.json` | Seeded | Curated links; referrals labeled; ForrestHODL URL pending |
+| Treasury debt fallback | `data/learn/treasury-debt-fallback.json` | Verified | Used when Fiscal Data API is unavailable |
+| Newsletter config | `data/learn/newsletter.json` | Seeded | Provider-agnostic; endpoint via env var |
+| Learn hub | `/learn` | App route | Education paths + lesson index |
+| Treasury debt API | `/api/treasury-debt` | Automated | Debt to the Penny with cache + fallback |
+| Newsletter API | `/api/newsletter` | Automated | Consent required; no credentials in repo |
 
 Every externally sourced figure should eventually include source name, URL, as-of timestamp, retrieved-at timestamp, and manual/automated flag.
 

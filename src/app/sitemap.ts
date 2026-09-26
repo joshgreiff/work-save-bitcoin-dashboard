@@ -1,14 +1,18 @@
 import type { MetadataRoute } from "next";
-import { loadSiteConfig } from "@/lib/data/load";
-import { loadEpisodes } from "@/lib/data/load";
+import { loadSiteConfig, loadEpisodes, loadLearnLessons } from "@/lib/data/load";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const site = loadSiteConfig();
   const base = site.canonicalBaseUrl.replace(/\/$/, "");
   const episodes = loadEpisodes().episodes;
+  const lessons = loadLearnLessons().lessons;
 
   const staticRoutes = [
     "",
+    "/learn",
+    "/learn/glossary",
+    "/learn/resources",
+    "/privacy",
     "/portfolio",
     "/episodes",
     "/bitcoin-exposure",
@@ -24,7 +28,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${base}${route || "/"}`,
       lastModified: new Date(),
       changeFrequency: "weekly" as const,
-      priority: route === "" ? 1 : 0.7,
+      priority: route === "" ? 1 : route.startsWith("/learn") ? 0.85 : 0.7,
+    })),
+    ...lessons.map((lesson) => ({
+      url: `${base}/learn/${lesson.slug}`,
+      lastModified: new Date(lesson.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
     })),
     ...episodes.map((ep) => ({
       url: `${base}/episodes/${ep.slug}`,

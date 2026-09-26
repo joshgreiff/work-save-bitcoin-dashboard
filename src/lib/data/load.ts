@@ -17,6 +17,13 @@ import { siteConfigSchema } from "@/lib/schemas/site-config";
 import { transactionsFileSchema } from "@/lib/schemas/transactions";
 import { valuationHistoryFileSchema } from "@/lib/schemas/valuation-history";
 import { youtubeFeedFileSchema } from "@/lib/schemas/youtube-feed";
+import {
+  glossaryFileSchema,
+  learnLessonsFileSchema,
+  learnResourcesFileSchema,
+  newsletterConfigSchema,
+  treasuryDebtFallbackFileSchema,
+} from "@/lib/schemas/learn";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -134,6 +141,43 @@ export function loadYoutubeFeed() {
   );
 }
 
+export function loadLearnLessons() {
+  return parseOrThrow(
+    "learn/lessons.json",
+    learnLessonsFileSchema.safeParse(readJsonFile("learn/lessons.json")),
+  );
+}
+
+export function loadLearnGlossary() {
+  return parseOrThrow(
+    "learn/glossary.json",
+    glossaryFileSchema.safeParse(readJsonFile("learn/glossary.json")),
+  );
+}
+
+export function loadLearnResources() {
+  return parseOrThrow(
+    "learn/resources.json",
+    learnResourcesFileSchema.safeParse(readJsonFile("learn/resources.json")),
+  );
+}
+
+export function loadTreasuryDebtFallback() {
+  return parseOrThrow(
+    "learn/treasury-debt-fallback.json",
+    treasuryDebtFallbackFileSchema.safeParse(
+      readJsonFile("learn/treasury-debt-fallback.json"),
+    ),
+  );
+}
+
+export function loadNewsletterConfig() {
+  return parseOrThrow(
+    "learn/newsletter.json",
+    newsletterConfigSchema.safeParse(readJsonFile("learn/newsletter.json")),
+  );
+}
+
 export function validateAllDataFiles(): void {
   loadSiteConfig();
   loadPortfolio();
@@ -147,6 +191,11 @@ export function validateAllDataFiles(): void {
   loadMarketObservations();
   loadIssuerBpsHistory();
   loadYoutubeFeed();
+  loadLearnLessons();
+  loadLearnGlossary();
+  loadLearnResources();
+  loadTreasuryDebtFallback();
+  loadNewsletterConfig();
   loadIncomeModel();
   loadIncomeSecurities();
   loadIncomeHistory();

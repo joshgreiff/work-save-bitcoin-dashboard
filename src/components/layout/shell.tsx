@@ -3,9 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { NewsletterSignup } from "@/components/learn/NewsletterSignup";
+import type { NewsletterConfig } from "@/lib/schemas/learn";
 
 const NAV = [
   { href: "/", label: "Overview" },
+  { href: "/learn", label: "Learn" },
   { href: "/portfolio", label: "Portfolio" },
   { href: "/episodes", label: "Episodes" },
   { href: "/bitcoin-exposure", label: "BTC Exposure" },
@@ -67,15 +70,32 @@ export function SiteHeader() {
   );
 }
 
-export function SiteFooter() {
+export function SiteFooter({ newsletter }: { newsletter: NewsletterConfig }) {
   return (
     <footer className="mt-auto border-t border-[var(--border)]">
-      <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-[var(--muted)]">
-        <p>Work Save Bitcoin — Fiat Freedom Portfolio dashboard.</p>
-        <p>
-          Educational content only. Not investment, tax, or legal advice. The Bitcoin Reserve is
-          separate from the securities portfolio.
-        </p>
+      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-8">
+        <NewsletterSignup config={newsletter} sourcePage="footer" />
+        <div className="flex flex-col gap-2 text-sm text-[var(--muted)]">
+          <p>Work Save Bitcoin — Fiat Freedom Portfolio dashboard and Bitcoin education.</p>
+          <p>
+            Educational content only. Not investment, tax, or legal advice. The Bitcoin Reserve is
+            separate from the securities portfolio.
+          </p>
+          <p className="flex flex-wrap gap-3">
+            <Link href="/learn" className="text-[var(--accent)] underline-offset-2 hover:underline">
+              Learn
+            </Link>
+            <Link href="/privacy" className="text-[var(--accent)] underline-offset-2 hover:underline">
+              Privacy
+            </Link>
+            <Link
+              href="/learn/rss.xml"
+              className="text-[var(--accent)] underline-offset-2 hover:underline"
+            >
+              RSS
+            </Link>
+          </p>
+        </div>
       </div>
     </footer>
   );

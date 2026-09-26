@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "worksavebitcoin.com" }],
+      "destination": "https://www.worksavebitcoin.com/:path*",
+      "permanent": true
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "headline": "Work Save Bitcoin Weekly",
+  "description": "One useful Bitcoin idea, one practical action, and the latest project update.",
+  "privacyPolicyPath": "/privacy",
+  "provider": "none",
+  "endpointEnvVar": "NEWSLETTER_ENDPOINT",
+  "doubleOptIn": true,
+  "consentText": "I agree to receive occasional emails from Work Save Bitcoin. I can unsubscribe anytime. This does not enroll me in any other product or community account."
+}

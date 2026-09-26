@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { SiteFooter, SiteHeader } from "@/components/layout/shell";
-import { loadSiteConfig } from "@/lib/data/load";
+import { loadNewsletterConfig, loadSiteConfig } from "@/lib/data/load";
 import "./globals.css";
 
 const sans = IBM_Plex_Sans({
@@ -17,6 +17,7 @@ const mono = IBM_Plex_Mono({
 });
 
 const site = loadSiteConfig();
+const newsletter = loadNewsletterConfig();
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.canonicalBaseUrl),
@@ -30,6 +31,7 @@ export const metadata: Metadata = {
     description: site.siteDescription,
     type: "website",
     siteName: site.siteName,
+    url: site.canonicalBaseUrl,
   },
   twitter: {
     card: "summary_large_image",
@@ -40,9 +42,6 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  alternates: {
-    canonical: "/",
-  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -51,7 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-full flex-col antialiased">
         <SiteHeader />
         <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8 md:py-10">{children}</main>
-        <SiteFooter />
+        <SiteFooter newsletter={newsletter} />
       </body>
     </html>
   );

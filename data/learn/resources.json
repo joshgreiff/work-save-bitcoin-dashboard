@@ -1,0 +1,110 @@
+{
+  "resources": [
+    {
+      "id": "river",
+      "title": "River",
+      "url": "https://river.com/signup?r=NLSDT4EX",
+      "category": "buying_bitcoin",
+      "summary": "Buy Bitcoin with zero fees and earn interest on cash, paid in Bitcoin.",
+      "referral": true,
+      "referralDisclosure": "Affiliate link — Work Save Bitcoin may be compensated at no additional cost to you.",
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "strike",
+      "title": "Strike",
+      "url": "https://invite.strike.me/OD1BYU",
+      "category": "buying_bitcoin",
+      "summary": "Buy Bitcoin with reduced fees and send Lightning payments.",
+      "referral": true,
+      "referralDisclosure": "Affiliate link — Work Save Bitcoin may be compensated at no additional cost to you.",
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "bitcoin-org-wallets",
+      "title": "Bitcoin.org — Choose your wallet",
+      "url": "https://bitcoin.org/en/choose-your-wallet",
+      "category": "wallets_self_custody",
+      "summary": "Primary-site overview of wallet types and trade-offs.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "forresthodl",
+      "title": "ForrestHODL — wallet & self-custody tutorials",
+      "url": null,
+      "category": "wallets_self_custody",
+      "summary": "Recommended for practical wallet and self-custody walkthroughs.",
+      "referral": false,
+      "pendingUrlConfirmation": true,
+      "pendingNote": "Waiting on Josh for the exact official ForrestHODL channel URL. Do not guess."
+    },
+    {
+      "id": "bitcoin-core",
+      "title": "Bitcoin Core",
+      "url": "https://bitcoincore.org/",
+      "category": "bitcoin_nodes",
+      "summary": "Reference implementation for running a full Bitcoin node.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "umbrel",
+      "title": "Umbrel",
+      "url": "https://umbrel.com/",
+      "category": "bitcoin_nodes",
+      "summary": "Home-server software commonly used to run Bitcoin and Lightning apps.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "home-mining-primer",
+      "title": "Home mining overview (educational)",
+      "url": "https://www.bitcoinminingcouncil.com/",
+      "category": "home_mining",
+      "summary": "Industry education on Bitcoin mining energy and operations. Home mining is optional and not required to save in Bitcoin.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "bitcoin-whitepaper",
+      "title": "Bitcoin whitepaper",
+      "url": "https://bitcoin.org/bitcoin.pdf",
+      "category": "monetary_education",
+      "summary": "Satoshi Nakamoto’s original technical introduction to Bitcoin.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "fed-h41",
+      "title": "Federal Reserve H.4.1 releases",
+      "url": "https://www.federalreserve.gov/releases/h41/",
+      "category": "monetary_education",
+      "summary": "Primary source for Federal Reserve balance-sheet statistics.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "treasury-debt",
+      "title": "U.S. Treasury — Debt to the Penny",
+      "url": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny",
+      "category": "monetary_education",
+      "summary": "Official daily total public debt outstanding.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    },
+    {
+      "id": "what-is-money",
+      "title": "What Is Money? (podcast)",
+      "url": "https://www.whatismoneypodcast.com/",
+      "category": "books_podcasts",
+      "summary": "Long-form interviews on money, Bitcoin, and related ideas.",
+      "referral": false,
+      "pendingUrlConfirmation": false
+    }
+  ],
+  "notes": [
+    "River and Strike appear only with visible referral disclosures.",
+    "ForrestHODL is listed pending Josh’s official URL confirmation."
+  ]
+}

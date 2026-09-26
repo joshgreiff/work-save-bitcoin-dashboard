@@ -1,0 +1,16 @@
+{
+  "observation": {
+    "recordDate": "2026-09-24",
+    "totalPublicDebtUsd": 40068807991924.84,
+    "debtHeldByPublicUsd": 32362728656693.39,
+    "intragovernmentalUsd": 7706079335231.45,
+    "sourceName": "U.S. Treasury Fiscal Data — Debt to the Penny",
+    "sourceUrl": "https://fiscaldata.treasury.gov/datasets/debt-to-the-penny/debt-to-the-penny",
+    "retrievedAt": "2026-09-26T14:00:00.000Z",
+    "freshness": "last_verified",
+    "note": "Verified observation used when the live Treasury endpoint is unavailable."
+  },
+  "notes": [
+    "Never invent a live debt figure. Prefer the Fiscal Data API; fall back to this file."
+  ]
+}
