@@ -1,0 +1,211 @@
+{
+  "pillars": [
+    {
+      "slug": "money-and-human-time",
+      "title": "Money and Human Time",
+      "description": "Your wage is paid for hours of your life. This pillar looks at how prices, wages, and savings turn those hours into purchasing power — and why saving money is really saving time.",
+      "topics": [
+        "Inflation and purchasing power",
+        "Money as stored labor",
+        "Wages, savings, and productivity",
+        "Why saving money means saving time"
+      ],
+      "questions": [
+        {
+          "question": "Is 2% inflation necessary for economic growth?",
+          "researchSlug": "is-two-percent-inflation-necessary"
+        },
+        { "question": "When productivity rises, who captures the gain: wage earners, savers, borrowers, or asset owners?" },
+        { "question": "How many hours of work does a typical household basket cost today compared with past decades?" },
+        { "question": "How much purchasing power does a cash emergency fund lose over a typical decade?" }
+      ],
+      "relatedTools": [
+        {
+          "label": "Wage purchasing-power calculator",
+          "href": "/learn/save-your-time#wage-calculator",
+          "description": "See what past earnings buy after inflation."
+        },
+        {
+          "label": "Inflation calculator",
+          "href": "/learn/save-your-time#inflation-calculator",
+          "description": "Project a basket price at a chosen inflation rate."
+        }
+      ],
+      "relatedVideos": [],
+      "relatedNewsletterEssays": []
+    },
+    {
+      "slug": "institutions-and-power",
+      "title": "Institutions and Power",
+      "description": "Who decides the supply and price of money? This pillar covers central banking, deficits and public debt, and monetary policy — and what those decisions mean for ordinary savers.",
+      "topics": [
+        "Central banking",
+        "Fiscal deficits and public debt",
+        "Monetary policy",
+        "Who controls the price and supply of money?"
+      ],
+      "questions": [
+        {
+          "question": "Why does the Federal Reserve target 2% inflation instead of stable or gently falling prices?",
+          "researchSlug": "is-two-percent-inflation-necessary"
+        },
+        { "question": "How independent is the Federal Reserve in practice?" },
+        { "question": "How do persistent fiscal deficits affect future inflation and interest rates?" },
+        { "question": "What changed for the dollar after gold convertibility was suspended in 1971?" }
+      ],
+      "relatedTools": [
+        {
+          "label": "Federal debt (Treasury Fiscal Data)",
+          "href": "/learn/save-your-time#federal-debt",
+          "description": "Total public debt outstanding with its record date."
+        }
+      ],
+      "relatedVideos": [],
+      "relatedNewsletterEssays": [
+        {
+          "title": "What If America Never Left the Gold Standard?",
+          "url": "https://joshgreiff.substack.com/p/what-if-america-never-left-the-gold",
+          "publishedAt": "2026-08-21T15:35:18Z"
+        },
+        {
+          "title": "The Fed is Not Independent",
+          "url": "https://joshgreiff.substack.com/p/the-fed-is-not-independent",
+          "publishedAt": "2026-02-20T19:20:44Z"
+        }
+      ]
+    },
+    {
+      "slug": "bitcoin-as-an-alternative",
+      "title": "Bitcoin as an Alternative",
+      "description": "What a predictable supply and self-custody offer an ordinary saver — weighed honestly against volatility and adoption risk.",
+      "topics": [
+        "Predictable supply",
+        "Self-custody",
+        "Volatility and adoption risk",
+        "Bitcoin as a monetary backup plan"
+      ],
+      "questions": [
+        { "question": "Does a predictable issuance schedule translate into long-run purchasing power?" },
+        { "question": "What would it take for Bitcoin to work as a household's monetary backup plan?" },
+        { "question": "How should a beginner weigh custodial convenience against self-custody risk?" }
+      ],
+      "relatedTools": [
+        {
+          "label": "Sats calculator",
+          "href": "/learn/save-your-time#sats-calculator",
+          "description": "Convert a dollar amount or recurring purchase into satoshis."
+        },
+        {
+          "label": "Glossary",
+          "href": "/learn/glossary",
+          "description": "Plain-language Bitcoin and ownership terms."
+        }
+      ],
+      "relatedVideos": [],
+      "relatedNewsletterEssays": [
+        {
+          "title": "Why Everything You Know About Bitcoin Is Probably Wrong",
+          "url": "https://joshgreiff.substack.com/p/why-everything-you-know-about-bitcoin",
+          "publishedAt": "2025-01-31T17:57:56Z"
+        }
+      ]
+    },
+    {
+      "slug": "bitcoin-capital-markets",
+      "title": "Bitcoin Capital Markets",
+      "description": "How public companies raise capital to hold Bitcoin, how Bitcoin per share is measured, and how preferred equities, leverage, and income models change the risk.",
+      "topics": [
+        "Treasury companies",
+        "Bitcoin per share",
+        "Preferred equities",
+        "Leverage, amplification, and income models"
+      ],
+      "questions": [
+        { "question": "When does issuing equity to buy Bitcoin increase Bitcoin per share, and when does it dilute holders?" },
+        { "question": "How do preferred-dividend obligations hold up during a long Bitcoin drawdown?" },
+        { "question": "Can Bitcoin-linked securities fund living expenses without selling Bitcoin?" }
+      ],
+      "relatedTools": [
+        {
+          "label": "Bitcoin exposure and sats per share",
+          "href": "/bitcoin-exposure",
+          "description": "Look-through Bitcoin exposure of the actual Fiat Freedom Portfolio."
+        },
+        {
+          "label": "Fiat Freedom Portfolio",
+          "href": "/portfolio",
+          "description": "The actual public portfolio — one Work Save Bitcoin project."
+        },
+        {
+          "label": "Fiat Freedom Income Model (hypothetical)",
+          "href": "/income-model",
+          "description": "A modeled income scenario, kept separate from actual performance."
+        }
+      ],
+      "relatedVideos": [
+        {
+          "title": "Episode 1 — I’m Building a Portfolio So I Never Have to Sell My Bitcoin",
+          "url": "https://www.youtube.com/watch?v=Z2IPGIUr8DA",
+          "publishedAt": "2026-09-16T08:00:00-04:00"
+        },
+        {
+          "title": "Episode 2 — I Built a Public Dashboard for My Bitcoin Portfolio",
+          "url": "https://www.youtube.com/watch?v=3FaQUml2dN0",
+          "publishedAt": "2026-09-17T08:00:00-04:00"
+        },
+        {
+          "title": "Episode 3 — Will MSTR Outperform Bitcoin?",
+          "url": "https://www.youtube.com/watch?v=2Zrbtm5np5s",
+          "publishedAt": "2026-09-18T09:16:46-04:00"
+        },
+        {
+          "title": "Episode 4 — My Bitcoin Stock Portfolio Is Up 26% in One Week",
+          "url": "https://www.youtube.com/watch?v=Y6O_zij1X4w",
+          "publishedAt": "2026-09-21T14:33:47-04:00"
+        }
+      ],
+      "relatedNewsletterEssays": [
+        {
+          "title": "Is Twenty One ($XXI) Undervalued After Jack Mallers Stepped Down?",
+          "url": "https://joshgreiff.substack.com/p/is-twenty-one-xxi-undervalued-after",
+          "publishedAt": "2026-08-12T17:00:57Z"
+        },
+        {
+          "title": "26% of Tesla's 2024 Q4 profits came from their Bitcoin holdings",
+          "url": "https://joshgreiff.substack.com/p/26-of-teslas-2024-q4-profits-came",
+          "publishedAt": "2025-02-04T19:10:33Z"
+        }
+      ]
+    },
+    {
+      "slug": "technology-and-sovereignty",
+      "title": "Technology and Sovereignty",
+      "description": "Software and AI now shape how we work and think. This pillar asks how individuals can keep control of their attention, data, tools, and money.",
+      "topics": [
+        "Cognitive self-custody",
+        "Local and open-source AI",
+        "Private infrastructure",
+        "Data ownership and disclosure boundaries"
+      ],
+      "questions": [
+        { "question": "What does cognitive self-custody look like in daily practice?" },
+        { "question": "When is local, open-source AI a practical alternative to cloud services?" },
+        { "question": "What personal infrastructure can an ordinary household realistically run?" },
+        { "question": "Where should the line sit between public transparency and private financial data?" }
+      ],
+      "relatedTools": [
+        {
+          "label": "Methodology and disclosures",
+          "href": "/methodology",
+          "description": "How this site separates public figures from private financial data."
+        }
+      ],
+      "relatedVideos": [],
+      "relatedNewsletterEssays": []
+    }
+  ],
+  "notes": [
+    "Five research pillars organize Learn. Lessons and research notes each belong to exactly one pillar; questions may link to a note in another pillar.",
+    "Related videos and newsletter essays list only published items with confirmed URLs and dates. Empty lists stay empty until real content exists."
+  ]
+}

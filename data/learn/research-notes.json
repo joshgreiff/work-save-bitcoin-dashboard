@@ -1,0 +1,431 @@
+{
+  "notes": [
+    {
+      "slug": "is-two-percent-inflation-necessary",
+      "title": "Is 2% Inflation Necessary for Economic Growth?",
+      "summary": "The Federal Reserve targets 2% inflation. Productivity lets society produce more with less work — so why is a steadily rising price level treated as the goal? We compare the standard case for a positive target with the hard-money critique and test both against historical evidence.",
+      "pillar": "money-and-human-time",
+      "status": "needs_review",
+      "publishedAt": null,
+      "updatedAt": "2026-09-28T10:00:00-04:00",
+      "centralQuestion": "If productivity allows society to produce more with less labor, should many goods naturally become cheaper over time? If so, why are continuously rising consumer prices treated as the normal objective?",
+      "workingThesis": "Productivity growth can support gently falling prices without signaling economic collapse, and the historical record does not show that falling goods prices by themselves cause depressions. The strongest arguments for a positive target — the interest-rate lower bound, sticky wages, and nominal debt — are real, but they are arguments about managing a debt-heavy financial system, not proof that rising prices are required for growth. Under a 2% target, people holding cash savings do not receive productivity gains as lower prices, which is one reason an asset with a predictable issuance schedule is worth studying as an alternative way to save.",
+      "mainstreamView": {
+        "title": "The standard case for a positive inflation target",
+        "summary": "Central banks argue that low, stable, positive inflation supports employment and gives policy room to respond to recessions. Supporters point to the interest-rate floor, sticky wages, debt burdens, and measurement bias.",
+        "claims": [
+          {
+            "kind": "established_fact",
+            "text": "The Federal Reserve says that when households and businesses can expect inflation to stay low and stable, they can make sound decisions about saving, borrowing, and investment.",
+            "sourceIds": ["fed-faq-two-percent"]
+          },
+          {
+            "kind": "interpretation",
+            "text": "Buffer against the interest-rate floor: keeping inflation above zero in normal times leaves room to cut interest rates in a downturn. In 2002, then-Governor Ben Bernanke argued for such a “buffer zone,” noting that central banks with explicit targets generally set them between 1 and 3 percent.",
+            "sourceIds": ["bernanke-2002-deflation"]
+          },
+          {
+            "kind": "interpretation",
+            "text": "Debt burdens: when prices fall unexpectedly, borrowers must repay debts in dollars worth more than when they borrowed. Irving Fisher’s debt-deflation theory described how over-indebtedness and falling prices can reinforce each other.",
+            "sourceIds": ["fisher-1933-debt-deflation", "bernanke-2002-deflation"]
+          },
+          {
+            "kind": "disputed",
+            "text": "Sticky wages: workers resist nominal pay cuts, so modest inflation lets real wages adjust without cutting paychecks. Akerlof, Dickens, and Perry (1996) argued that pushing inflation to zero would permanently raise unemployment. How strong this effect is remains debated.",
+            "sourceIds": ["akerlof-dickens-perry-1996"]
+          },
+          {
+            "kind": "established_fact",
+            "text": "Official price indexes can overstate true cost-of-living increases. The 1996 Boskin Commission estimated the CPI’s upward bias at about 1.1 percentage points per year (plausible range 0.8 to 1.6).",
+            "sourceIds": ["boskin-1996"],
+            "note": "BLS has changed CPI methods since 1996, so this estimate should not be applied to today’s index without further research."
+          },
+          {
+            "kind": "disputed",
+            "text": "Some mainstream economists argue the target should be higher, not lower. Blanchard, Dell’Ariccia, and Mauro (2010) asked whether a 4 percent target would give policy more room after large shocks.",
+            "sourceIds": ["blanchard-2010-rethinking"]
+          }
+        ]
+      },
+      "alternativeView": {
+        "title": "The Austrian and hard-money critique",
+        "summary": "Critics argue that a growing economy should see prices drift down as productivity rises, and that engineering steady inflation keeps those gains from reaching people as lower prices while risking distorted investment.",
+        "claims": [
+          {
+            "kind": "interpretation",
+            "text": "Friedrich Hayek argued in Prices and Production (1931) that when the money supply stays the same and production increases, the resulting fall of prices “proportionate to the increase in productivity” is “not only entirely harmless but is in fact the only means of avoiding misdirections of production.”",
+            "sourceIds": ["hayek-1931-prices-and-production"]
+          },
+          {
+            "kind": "interpretation",
+            "text": "Hayek also argued that “the simple fact of an increase of production and trade forms no justification for an expansion of credit.” In the preface to Monetary Theory and the Trade Cycle, reprinted in the same volume, he called his critique of the “stabilizers” — who believed stabilizing the price level would remove monetary disturbances — “in many ways the central theme” of that book.",
+            "sourceIds": ["hayek-1931-prices-and-production"]
+          },
+          {
+            "kind": "interpretation",
+            "text": "George Selgin’s related “productivity norm” proposal would let the price level fall as unit production costs fall, so productivity gains reach people as lower prices while nominal wages stay roughly stable.",
+            "sourceIds": ["selgin-1997-less-than-zero"]
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "id": "what-the-target-means",
+          "heading": "What the 2% target means",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "The Federal Open Market Committee (FOMC) adopted an explicit longer-run inflation goal in January 2012: 2 percent, measured by the annual change in the price index for personal consumption expenditures (PCE).",
+              "sourceIds": ["fomc-2012-press-release"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "The FOMC’s Statement on Longer-Run Goals and Monetary Policy Strategy, most recently reaffirmed effective January 27, 2026, states that 2 percent PCE inflation is “most consistent over the longer run” with the Fed’s maximum-employment and price-stability mandates.",
+              "sourceIds": ["fomc-longer-run-goals-2026"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "The target applies to a broad price index, not to every price. Some prices can fall while the overall index rises. Bernanke noted in 2002 that sector-specific price declines driven by productivity “are generally not a problem for the economy as a whole and do not constitute deflation.”",
+              "sourceIds": ["bernanke-2002-deflation"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "At a steady 2 percent a year, the general price level roughly doubles in about 35 years, so an unchanged cash balance loses about half of its purchasing power over that span.",
+              "sourceIds": ["fomc-longer-run-goals-2026"],
+              "note": "Derived calculation: 1.02^35 ≈ 2.00, using the Learn inflation calculator formula."
+            }
+          ]
+        },
+        {
+          "id": "productivity-and-falling-prices",
+          "heading": "Productivity can lower prices without economic collapse",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "Falling prices can come from supply as well as weak demand. Productivity improvements, more competition, or cheaper inputs can push prices down while raising incomes and output.",
+              "sourceIds": ["bis-2015-costs-of-deflations"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Across 17 countries and more than 100 years, Atkeson and Kehoe (2004) found virtually no link between deflation and depression outside the Great Depression of 1929–34.",
+              "sourceIds": ["atkeson-kehoe-2004"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Borio and co-authors at the BIS (2015) studied up to 38 economies from 1870 to 2013 and found only a weak link between falling goods-and-services prices and output growth, driven largely by the Great Depression.",
+              "sourceIds": ["bis-2015-costs-of-deflations"]
+            },
+            {
+              "kind": "interpretation",
+              "text": "Selgin’s IEA paper points to 1873–1896, when British wholesale prices fell by about a third while real incomes rose, as evidence that a falling price level “is not necessarily a sign or source of depression.”",
+              "sourceIds": ["selgin-1997-less-than-zero"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Productivity still grows today. The Bureau of Labor Statistics reported that total factor productivity in the U.S. private nonfarm business sector rose 0.8 percent in 2025, as output grew 2.6 percent and combined inputs grew 1.7 percent (release dated March 19, 2026).",
+              "sourceIds": ["bls-productivity"]
+            }
+          ]
+        },
+        {
+          "id": "good-versus-debt-deflation",
+          "heading": "Productivity-driven price declines versus destructive debt deflation",
+          "claims": [
+            {
+              "kind": "interpretation",
+              "text": "Fisher’s debt-deflation theory holds that when many borrowers are over-indebted, forced selling pushes prices down, which raises the real burden of the debt that remains — a self-reinforcing spiral.",
+              "sourceIds": ["fisher-1933-debt-deflation"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "The BIS study found the most damaging historical combination was falling property prices together with high private debt. It did not find that high debt made falling goods-and-services prices more costly.",
+              "sourceIds": ["bis-2015-costs-of-deflations"]
+            },
+            {
+              "kind": "interpretation",
+              "text": "The cause matters. Prices falling because each hour of work produces more is different from prices falling because demand collapses and debtors are forced to liquidate. Calling both “deflation” hides that difference.",
+              "sourceIds": ["bis-2015-costs-of-deflations", "bernanke-2002-deflation"]
+            }
+          ]
+        },
+        {
+          "id": "who-receives-productivity-gains",
+          "heading": "Does inflation keep productivity gains from reaching savers?",
+          "claims": [
+            {
+              "kind": "interpretation",
+              "text": "Under a 2 percent target, productivity gains tend to show up as nominal wages rising faster than prices, not as falling prices. Wage earners can still gain in real terms, but cash savings lose purchasing power every year.",
+              "sourceIds": ["fomc-longer-run-goals-2026", "selgin-1997-less-than-zero"]
+            },
+            {
+              "kind": "interpretation",
+              "text": "The IEA summary of Selgin’s argument estimates that under a productivity norm, U.S. consumer prices in the 30 years after World War II would have halved instead of almost tripling. That is a counterfactual estimate, not an observed outcome.",
+              "sourceIds": ["selgin-1997-less-than-zero"]
+            },
+            {
+              "kind": "disputed",
+              "text": "How much inflation actually keeps ordinary people from capturing productivity gains depends on who holds cash versus interest-bearing assets or debt, how wages respond, and how accurately prices are measured. The sources here do not settle it.",
+              "sourceIds": ["akerlof-dickens-perry-1996", "boskin-1996"]
+            },
+            {
+              "kind": "interpretation",
+              "text": "Inflation is one factor among many. Technology, trade, housing supply, regulation, demographics, and taxes also shape living standards. This note does not claim that inflation alone explains changes in living standards.",
+              "sourceIds": []
+            }
+          ]
+        },
+        {
+          "id": "bitcoin-issuance",
+          "heading": "Bitcoin as an alternative savings system",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "Bitcoin’s block subsidy started at 50 BTC and is cut in half every 210,000 blocks — roughly every four years — until it reaches zero. That schedule caps total issuance just under 21 million BTC.",
+              "sourceIds": ["bitcoin-core-subsidy", "bitcoin-core-halving-interval"]
+            },
+            {
+              "kind": "interpretation",
+              "text": "This makes Bitcoin a savings option whose issuance policy is known in advance. The FOMC, by contrast, reviews its framework each year and undertakes a thorough public review roughly every five years.",
+              "sourceIds": ["bitcoin-core-subsidy", "fomc-longer-run-goals-2026"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "A predictable supply does not mean a stable price. The SEC describes bitcoin as highly speculative and warns that its price can fluctuate widely.",
+              "sourceIds": ["sec-2024-bitcoin-etp-bulletin"]
+            },
+            {
+              "kind": "open_question",
+              "text": "Whether a fixed-supply asset can work as everyday money, not only as savings, in a growing economy has not been tested at scale.",
+              "sourceIds": []
+            }
+          ]
+        },
+        {
+          "id": "counterarguments",
+          "heading": "Important counterarguments",
+          "claims": [
+            {
+              "kind": "disputed",
+              "text": "Interest-rate floor: if prices and wages fall, interest rates may hit zero, limiting a central bank’s ability to fight recessions. Hard-money critics answer that central banks should not be relied on for that role in the first place.",
+              "sourceIds": ["bernanke-2002-deflation", "blanchard-2010-rethinking"]
+            },
+            {
+              "kind": "disputed",
+              "text": "Sticky wages could make even productivity-driven deflation costly if employers have to cut nominal pay rather than hold it flat.",
+              "sourceIds": ["akerlof-dickens-perry-1996"]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Most debts are written in fixed dollar amounts, so unexpected deflation raises their real burden and shifts wealth from borrowers to lenders.",
+              "sourceIds": ["bernanke-2002-deflation", "fisher-1933-debt-deflation"]
+            },
+            {
+              "kind": "interpretation",
+              "text": "Much of the evidence for benign deflation comes from gold-standard eras with different financial systems, debt levels, and labor markets. The BIS authors themselves caution against applying their findings directly to today.",
+              "sourceIds": ["bis-2015-costs-of-deflations"]
+            }
+          ]
+        }
+      ],
+      "openQuestions": [
+        "How much of recent U.S. productivity growth has shown up as lower prices in specific sectors versus higher nominal wages?",
+        "Would a productivity-norm or fixed-supply regime handle a financial crisis better or worse than a 2% target?",
+        "How large is CPI measurement bias today, after the methodology changes BLS has made since 1996?",
+        "Who bears the cost of 2% inflation in practice: holders of cash, wage earners, borrowers, or retirees?",
+        "Could Bitcoin’s volatility fall enough for it to serve as a savings benchmark for ordinary households?"
+      ],
+      "sources": [
+        {
+          "id": "fomc-2012-press-release",
+          "title": "Federal Reserve issues FOMC statement of longer-run goals and policy strategy",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "url": "https://www.federalreserve.gov/newsevents/pressreleases/monetary20120125c.htm",
+          "publishedAt": "2012-01-25",
+          "type": "primary",
+          "note": "First explicit 2 percent PCE longer-run inflation goal."
+        },
+        {
+          "id": "fomc-longer-run-goals-2026",
+          "title": "Statement on Longer-Run Goals and Monetary Policy Strategy",
+          "publisher": "Federal Open Market Committee",
+          "url": "https://www.federalreserve.gov/monetarypolicy/files/FOMC_LongerRunGoals.pdf",
+          "publishedAt": "2026-01-27",
+          "type": "primary",
+          "note": "Current statement (adopted effective January 24, 2012; reaffirmed effective January 27, 2026). Source for the 2 percent goal and the annual and five-year review schedule."
+        },
+        {
+          "id": "fed-faq-two-percent",
+          "title": "Why does the Federal Reserve aim for inflation of 2 percent over the longer run?",
+          "publisher": "Board of Governors of the Federal Reserve System",
+          "url": "https://www.federalreserve.gov/faqs/economy_14400.htm",
+          "publishedAt": null,
+          "type": "primary",
+          "note": "The Fed’s own plain-language rationale. Page shows no publication date."
+        },
+        {
+          "id": "bernanke-2002-deflation",
+          "title": "Deflation: Making Sure “It” Doesn’t Happen Here",
+          "publisher": "Ben S. Bernanke, Federal Reserve Board (speech)",
+          "url": "https://www.federalreserve.gov/boarddocs/speeches/2002/20021121/default.htm",
+          "publishedAt": "2002-11-21",
+          "type": "primary",
+          "note": "Mainstream case for an inflation buffer; distinguishes sector-specific productivity price declines from general deflation."
+        },
+        {
+          "id": "blanchard-2010-rethinking",
+          "title": "Rethinking Macroeconomic Policy (IMF Staff Position Note SPN/10/03)",
+          "publisher": "Olivier Blanchard, Giovanni Dell’Ariccia, and Paolo Mauro — International Monetary Fund",
+          "url": "https://www.imf.org/external/pubs/ft/spn/2010/spn1003.pdf",
+          "publishedAt": "2010-02-12",
+          "type": "academic",
+          "note": "Raises whether a 4 percent target would give more room at the zero lower bound."
+        },
+        {
+          "id": "akerlof-dickens-perry-1996",
+          "title": "The Macroeconomics of Low Inflation",
+          "publisher": "George A. Akerlof, William T. Dickens, and George L. Perry — Brookings Papers on Economic Activity",
+          "url": "https://www.brookings.edu/articles/the-macroeconomics-of-low-inflation/",
+          "publishedAt": "1996",
+          "type": "academic",
+          "note": "Downward nominal wage rigidity argument against zero inflation."
+        },
+        {
+          "id": "boskin-1996",
+          "title": "Toward a More Accurate Measure of the Cost of Living (Boskin Commission report)",
+          "publisher": "Advisory Commission to Study the Consumer Price Index, U.S. Senate Finance Committee",
+          "url": "https://www.ssa.gov/history/reports/boskinrpt.html",
+          "publishedAt": "1996-12",
+          "type": "primary",
+          "note": "Estimated CPI upward bias of about 1.1 percentage points per year at the time."
+        },
+        {
+          "id": "hayek-1931-prices-and-production",
+          "title": "Prices and Production (in Prices and Production and Other Works)",
+          "publisher": "Friedrich A. Hayek — Ludwig von Mises Institute edition",
+          "url": "https://mises.org/library/book/prices-and-production-and-other-works",
+          "publishedAt": "1931",
+          "type": "primary",
+          "note": "Primary text of the Austrian critique of price-level stabilization. Quotations are from Prices and Production, Lecture 4 (second edition, 1935), and the preface to Monetary Theory and the Trade Cycle, both reprinted in the 2008 Mises Institute collection."
+        },
+        {
+          "id": "selgin-1997-less-than-zero",
+          "title": "Less Than Zero: The Case for a Falling Price Level in a Growing Economy (Hobart Paper 132)",
+          "publisher": "George Selgin — Institute of Economic Affairs",
+          "url": "https://iea.org.uk/publications/research/less-zero/",
+          "publishedAt": "1997-04",
+          "type": "academic",
+          "note": "Productivity-norm argument. The 1873–1896 and post-war counterfactual figures appear in the foreword summarizing Selgin’s findings."
+        },
+        {
+          "id": "fisher-1933-debt-deflation",
+          "title": "The Debt-Deflation Theory of Great Depressions",
+          "publisher": "Irving Fisher — Econometrica 1(4): 337–357",
+          "url": "https://doi.org/10.2307/1907327",
+          "publishedAt": "1933-10",
+          "type": "academic",
+          "note": "Classic account of how over-indebtedness and falling prices interact."
+        },
+        {
+          "id": "atkeson-kehoe-2004",
+          "title": "Deflation and Depression: Is There an Empirical Link?",
+          "publisher": "Andrew Atkeson and Patrick J. Kehoe — American Economic Review 94(2): 99–103",
+          "url": "https://doi.org/10.1257/0002828041301588",
+          "publishedAt": "2004-05",
+          "type": "academic",
+          "note": "17 countries, 100+ years; link between deflation and depression found mainly in 1929–34."
+        },
+        {
+          "id": "bis-2015-costs-of-deflations",
+          "title": "The costs of deflations: a historical perspective",
+          "publisher": "Claudio Borio, Magdalena Erdem, Andrew Filardo, and Boris Hofmann — BIS Quarterly Review",
+          "url": "https://www.bis.org/publ/qtrpdf/r_qt1503e.htm",
+          "publishedAt": "2015-03",
+          "type": "academic",
+          "note": "Up to 38 economies, 1870–2013. Separates goods-price deflation from asset-price and debt effects."
+        },
+        {
+          "id": "bls-productivity",
+          "title": "Productivity (Office of Productivity and Technology)",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/productivity/",
+          "publishedAt": "2026-03-19",
+          "type": "official_data",
+          "note": "Total factor productivity release for 2025, dated March 19, 2026; retrieved September 28, 2026."
+        },
+        {
+          "id": "bitcoin-core-subsidy",
+          "title": "Bitcoin Core source code — GetBlockSubsidy (src/validation.cpp)",
+          "publisher": "Bitcoin Core project",
+          "url": "https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp",
+          "publishedAt": null,
+          "type": "primary",
+          "note": "Subsidy starts at 50 BTC, halves each interval, and is forced to zero after 64 halvings. Living source code; retrieved September 28, 2026."
+        },
+        {
+          "id": "bitcoin-core-halving-interval",
+          "title": "Bitcoin Core source code — mainnet consensus parameters (src/kernel/chainparams.cpp)",
+          "publisher": "Bitcoin Core project",
+          "url": "https://github.com/bitcoin/bitcoin/blob/master/src/kernel/chainparams.cpp",
+          "publishedAt": null,
+          "type": "primary",
+          "note": "nSubsidyHalvingInterval = 210000. Living source code; retrieved September 28, 2026."
+        },
+        {
+          "id": "sec-2024-bitcoin-etp-bulletin",
+          "title": "Exchange-Traded Products (ETPs) Providing Exposure to Bitcoin and Ether – Investor Bulletin",
+          "publisher": "U.S. Securities and Exchange Commission, Office of Investor Education and Advocacy",
+          "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/ETPBulletinSeptember2024",
+          "publishedAt": "2024-09-09",
+          "type": "primary",
+          "note": "Official investor warning on bitcoin price volatility."
+        }
+      ],
+      "relatedLessonSlugs": ["save-your-time"],
+      "relatedVideoUrl": null,
+      "relatedNewsletterUrl": null,
+      "relatedTools": [
+        {
+          "label": "Inflation calculator",
+          "href": "/learn/save-your-time#inflation-calculator",
+          "description": "Try different inflation rates and time horizons."
+        },
+        {
+          "label": "Wage purchasing-power calculator",
+          "href": "/learn/save-your-time#wage-calculator",
+          "description": "What past earnings buy after inflation."
+        },
+        {
+          "label": "Sats calculator",
+          "href": "/learn/save-your-time#sats-calculator",
+          "description": "Convert dollars into satoshis at the current price."
+        }
+      ],
+      "glossaryTermIds": [
+        "inflation",
+        "deflation",
+        "productivity",
+        "purchasing-power",
+        "monetary-policy",
+        "zero-lower-bound",
+        "fixed-supply"
+      ],
+      "nextResearchSlugs": [],
+      "disclosures": [
+        "Educational research only. Not investment, tax, or legal advice.",
+        "The working thesis reflects Work Save Bitcoin’s current reading of the evidence and may change as research continues.",
+        "Research questions may be prompted by podcasts, social posts, or creator commentary. Those discussions are not cited as evidence here."
+      ],
+      "revisions": [
+        {
+          "date": "2026-09-28",
+          "note": "First draft posted for editorial review. Not yet published."
+        }
+      ]
+    }
+  ],
+  "policy": [
+    "Append-only: add new notes and revision entries; do not silently rewrite published conclusions.",
+    "Established facts must cite primary, academic, or official-data sources. Commentary may inspire questions but is never the sole support for a factual claim.",
+    "Label every claim as an established fact, interpretation, disputed claim, or open question."
+  ]
+}

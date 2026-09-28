@@ -20,8 +20,10 @@ import { youtubeFeedFileSchema } from "@/lib/schemas/youtube-feed";
 import {
   glossaryFileSchema,
   learnLessonsFileSchema,
+  learnPillarsFileSchema,
   learnResourcesFileSchema,
   newsletterConfigSchema,
+  researchNotesFileSchema,
   treasuryDebtFallbackFileSchema,
 } from "@/lib/schemas/learn";
 
@@ -178,6 +180,64 @@ export function loadNewsletterConfig() {
   );
 }
 
+export function loadLearnPillars() {
+  return parseOrThrow(
+    "learn/pillars.json",
+    learnPillarsFileSchema.safeParse(readJsonFile("learn/pillars.json")),
+  );
+}
+
+export function loadResearchNotes() {
+  return parseOrThrow(
+    "learn/research-notes.json",
+    researchNotesFileSchema.safeParse(readJsonFile("learn/research-notes.json")),
+  );
+}
+
+/** Every slug or term id referenced across Learn content must resolve. */
+export function validateLearnCrossReferences(): void {
+  const lessons = loadLearnLessons().lessons;
+  const notes = loadResearchNotes().notes;
+  const glossary = loadLearnGlossary().terms;
+  const pillars = loadLearnPillars().pillars;
+
+  const lessonSlugs = new Set(lessons.map((l) => l.slug));
+  const noteSlugs = new Set(notes.map((n) => n.slug));
+  const termIds = new Set(glossary.map((t) => t.id));
+  const problems: string[] = [];
+
+  for (const lesson of lessons) {
+    for (const slug of lesson.relatedResearchSlugs) {
+      if (!noteSlugs.has(slug)) problems.push(`lesson ${lesson.slug} → missing research note ${slug}`);
+    }
+    for (const id of lesson.glossaryTermIds) {
+      if (!termIds.has(id)) problems.push(`lesson ${lesson.slug} → missing glossary term ${id}`);
+    }
+  }
+  for (const note of notes) {
+    for (const slug of note.relatedLessonSlugs) {
+      if (!lessonSlugs.has(slug)) problems.push(`note ${note.slug} → missing lesson ${slug}`);
+    }
+    for (const slug of note.nextResearchSlugs) {
+      if (!noteSlugs.has(slug)) problems.push(`note ${note.slug} → missing research note ${slug}`);
+    }
+    for (const id of note.glossaryTermIds) {
+      if (!termIds.has(id)) problems.push(`note ${note.slug} → missing glossary term ${id}`);
+    }
+  }
+  for (const pillar of pillars) {
+    for (const q of pillar.questions) {
+      if (q.researchSlug && !noteSlugs.has(q.researchSlug)) {
+        problems.push(`pillar ${pillar.slug} → missing research note ${q.researchSlug}`);
+      }
+    }
+  }
+
+  if (problems.length > 0) {
+    throw new Error(`Invalid Learn cross-references:\n${problems.join("\n")}`);
+  }
+}
+
 export function validateAllDataFiles(): void {
   loadSiteConfig();
   loadPortfolio();
@@ -196,6 +256,9 @@ export function validateAllDataFiles(): void {
   loadLearnResources();
   loadTreasuryDebtFallback();
   loadNewsletterConfig();
+  loadLearnPillars();
+  loadResearchNotes();
+  validateLearnCrossReferences();
   loadIncomeModel();
   loadIncomeSecurities();
   loadIncomeHistory();

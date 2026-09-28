@@ -1,15 +1,24 @@
 import type { MetadataRoute } from "next";
-import { loadSiteConfig, loadEpisodes, loadLearnLessons } from "@/lib/data/load";
+import {
+  loadSiteConfig,
+  loadEpisodes,
+  loadLearnLessons,
+  loadLearnPillars,
+  loadResearchNotes,
+} from "@/lib/data/load";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const site = loadSiteConfig();
   const base = site.canonicalBaseUrl.replace(/\/$/, "");
   const episodes = loadEpisodes().episodes;
   const lessons = loadLearnLessons().lessons;
+  const pillars = loadLearnPillars().pillars;
+  const notes = loadResearchNotes().notes;
 
   const staticRoutes = [
     "",
     "/learn",
+    "/learn/research",
     "/learn/glossary",
     "/learn/resources",
     "/privacy",
@@ -30,9 +39,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly" as const,
       priority: route === "" ? 1 : route.startsWith("/learn") ? 0.85 : 0.7,
     })),
+    ...pillars.map((pillar) => ({
+      url: `${base}/learn/pillars/${pillar.slug}`,
+      lastModified: new Date(),
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    })),
     ...lessons.map((lesson) => ({
       url: `${base}/learn/${lesson.slug}`,
       lastModified: new Date(lesson.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: 0.8,
+    })),
+    ...notes.map((note) => ({
+      url: `${base}/learn/research/${note.slug}`,
+      lastModified: new Date(note.updatedAt),
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),

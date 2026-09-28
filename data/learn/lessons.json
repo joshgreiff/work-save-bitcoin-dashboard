@@ -1,18 +1,4 @@
 {
-  "paths": {
-    "money": {
-      "title": "Money",
-      "summary": "What money does, how purchasing power changes, and why your paycheck is really stored time."
-    },
-    "bitcoin": {
-      "title": "Bitcoin",
-      "summary": "Fixed supply, satoshis, volatility versus monetary rules, and how small recurring purchases work."
-    },
-    "ownership": {
-      "title": "Ownership",
-      "summary": "Custody choices, wallet basics, seed-phrase safety, and how to avoid common scams."
-    }
-  },
   "lessons": [
     {
       "title": "Save Your Time",
@@ -21,10 +7,14 @@
       "publishedAt": "2026-09-26T10:00:00-04:00",
       "updatedAt": "2026-09-26T10:00:00-04:00",
       "category": "money",
+      "pillar": "money-and-human-time",
       "difficulty": "intro",
       "readingMinutes": 18,
       "videoUrl": null,
       "thumbnailUrl": null,
+      "relatedNewsletterUrl": null,
+      "glossaryTermIds": ["purchasing-power", "inflation", "store-of-value", "satoshi", "fixed-supply"],
+      "relatedResearchSlugs": ["is-two-percent-inflation-necessary"],
       "sources": [
         {
           "label": "U.S. Treasury Fiscal Data — Debt to the Penny",
@@ -55,6 +45,7 @@
   ],
   "notes": [
     "Lesson bodies live as typed React modules keyed by slug so interactive tools stay first-class.",
+    "Each lesson belongs to one research pillar (see pillars.json). Optional links (newsletter, tools, glossary terms, research notes) stay null or empty until the real content exists.",
     "videoUrl for save-your-time is null until Josh confirms the official YouTube URL for “Bitcoin Is How You Save Your Time.”"
   ]
 }

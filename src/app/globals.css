@@ -9,6 +9,7 @@
   --surface-elevated: #171717;
   --border: #2a2a2a;
   --accent: #f7931a;
+  --accent-hover: #ffb14d;
   --positive: #3d9b6e;
   --negative: #c44c4c;
 }
@@ -38,6 +39,55 @@ body {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/*
+ * Opt-in link treatments. These stay unlayered like the `a` reset above so they
+ * win over it; Tailwind color utilities on anchors cannot.
+ */
+.action-link {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 150ms ease;
+}
+
+.action-link:hover {
+  color: var(--accent-hover);
+  text-decoration-line: underline;
+}
+
+.title-link {
+  text-underline-offset: 4px;
+  transition: color 150ms ease;
+}
+
+.title-link:hover {
+  color: var(--accent);
+  text-decoration-line: underline;
+}
+
+.action-link:focus-visible,
+.title-link:focus-visible {
+  color: var(--accent-hover);
+  text-decoration-line: underline;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.action-row {
+  transition: background-color 150ms ease;
+}
+
+.action-row:hover {
+  background-color: var(--surface);
+}
+
+.action-row:focus-visible {
+  background-color: var(--surface);
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .tabular-nums {

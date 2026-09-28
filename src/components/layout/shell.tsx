@@ -100,7 +100,7 @@ export function SiteFooter({
           />
         ) : null}
         <div className="flex flex-col gap-2 text-sm text-[var(--muted)]">
-          <p>Work Save Bitcoin — Fiat Freedom Portfolio dashboard and Bitcoin education.</p>
+          <p>Work Save Bitcoin — research, education, and the Fiat Freedom Portfolio public experiment.</p>
           <p>
             Educational content only. Not investment, tax, or legal advice. The Bitcoin Reserve is
             separate from the securities portfolio.
@@ -108,6 +108,12 @@ export function SiteFooter({
           <p className="flex flex-wrap gap-3">
             <Link href="/learn" className="text-[var(--accent)] underline-offset-2 hover:underline">
               Learn
+            </Link>
+            <Link
+              href="/learn/research"
+              className="text-[var(--accent)] underline-offset-2 hover:underline"
+            >
+              Research
             </Link>
             <Link href="/privacy" className="text-[var(--accent)] underline-offset-2 hover:underline">
               Privacy

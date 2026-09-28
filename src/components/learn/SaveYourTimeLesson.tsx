@@ -54,6 +54,20 @@ export function SaveYourTimeLesson({
         ) : null}
       </header>
 
+      <aside
+        aria-label="Your time can leak twice"
+        className="max-w-3xl border-l-2 border-[var(--accent)] bg-[var(--surface)] px-5 py-4"
+      >
+        <p className="text-lg font-medium text-[var(--foreground)]">Your time can leak twice:</p>
+        <ol className="mt-2 space-y-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
+          <li>First, when you give your attention away for free.</li>
+          <li>Then, when you save your work in money that loses purchasing power.</li>
+        </ol>
+        <p className="mt-3 text-sm font-medium text-[var(--accent)]">
+          Create something. Earn something. Save some of it in Bitcoin.
+        </p>
+      </aside>
+
       <section className="space-y-3">
         <h2 className="text-2xl font-medium">Three functions of money</h2>
         <div className="grid gap-3 md:grid-cols-3">
@@ -86,8 +100,12 @@ export function SaveYourTimeLesson({
         <WorkToMoneyFlow />
       </section>
 
-      <WagePurchasingPowerCalculator />
-      <InflationCalculatorTool />
+      <div id="wage-calculator" className="scroll-mt-24">
+        <WagePurchasingPowerCalculator />
+      </div>
+      <div id="inflation-calculator" className="scroll-mt-24">
+        <InflationCalculatorTool />
+      </div>
 
       <section className="space-y-3">
         <div className="flex flex-wrap items-center gap-2">
@@ -131,7 +149,7 @@ export function SaveYourTimeLesson({
         </p>
       </section>
 
-      <section className="space-y-3">
+      <section id="federal-debt" className="scroll-mt-24 space-y-3">
         <div className="flex flex-wrap items-center gap-2">
           <h2 className="text-2xl font-medium">Federal debt</h2>
           <ClaimBadge kind="verified_fact" />
@@ -204,11 +222,13 @@ export function SaveYourTimeLesson({
         </p>
       </section>
 
-      <SatsCalculator
-        btcUsdPrice={btc.priceUsd}
-        priceAsOf={btc.asOf}
-        sourceName={btc.sourceName}
-      />
+      <div id="sats-calculator" className="scroll-mt-24">
+        <SatsCalculator
+          btcUsdPrice={btc.priceUsd}
+          priceAsOf={btc.asOf}
+          sourceName={btc.sourceName}
+        />
+      </div>
 
       <section className="space-y-3">
         <h2 className="text-2xl font-medium">Next steps</h2>

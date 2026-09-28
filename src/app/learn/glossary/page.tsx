@@ -36,7 +36,11 @@ export default function LearnGlossaryPage() {
             <h2 className="text-xl font-medium">{CATEGORY_LABEL[category]}</h2>
             <dl className="space-y-3">
               {terms.map((term) => (
-                <div key={term.id} className="border border-[var(--border)] bg-[var(--surface)] p-4">
+                <div
+                  key={term.id}
+                  id={term.id}
+                  className="scroll-mt-24 border border-[var(--border)] bg-[var(--surface)] p-4 target:border-[var(--accent)]"
+                >
                   <dt className="font-medium text-[var(--foreground)]">{term.term}</dt>
                   <dd className="mt-2 text-sm leading-relaxed text-[var(--muted-foreground)]">
                     {term.definition}

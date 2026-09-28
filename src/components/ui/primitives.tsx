@@ -122,7 +122,7 @@ export function TextLink({ href, children }: { href: string; children: React.Rea
   return (
     <Link
       href={href}
-      className="inline-flex items-center gap-2 text-sm font-medium text-[var(--accent)] underline-offset-4 hover:underline"
+      className="action-link inline-flex items-center gap-2 text-sm font-medium"
     >
       {children}
     </Link>

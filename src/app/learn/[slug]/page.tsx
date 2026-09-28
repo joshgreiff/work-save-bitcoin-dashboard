@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { RelatedContent } from "@/components/learn/RelatedContent";
 import { SaveYourTimeLesson } from "@/components/learn/SaveYourTimeLesson";
 import {
+  loadLearnGlossary,
   loadLearnLessons,
   loadNewsletterConfig,
+  loadResearchNotes,
   loadTreasuryDebtFallback,
 } from "@/lib/data/load";
+import { pickInOrder } from "@/lib/learn/content";
 import { fetchTreasuryDebt } from "@/lib/learn/treasury-debt";
 import { fetchCoinbaseBtcCard } from "@/lib/quotes/btc";
 
@@ -65,8 +69,12 @@ export default async function LearnLessonPage({ params }: Props) {
     // Leave unavailable — never invent a price.
   }
 
-  const related = lessonsFile.lessons.filter((l) =>
-    lesson.relatedLessons.includes(l.slug),
+  const related = pickInOrder(lesson.relatedLessons, lessonsFile.lessons, (l) => l.slug);
+  const glossaryTerms = pickInOrder(lesson.glossaryTermIds, loadLearnGlossary().terms, (t) => t.id);
+  const researchNotes = pickInOrder(
+    lesson.relatedResearchSlugs,
+    loadResearchNotes().notes,
+    (n) => n.slug,
   );
 
   return (
@@ -85,23 +93,14 @@ export default async function LearnLessonPage({ params }: Props) {
         </p>
       )}
 
-      {related.length > 0 ? (
-        <section className="space-y-3">
-          <h2 className="text-xl font-medium">Related lessons</h2>
-          <ul className="space-y-2 text-sm">
-            {related.map((item) => (
-              <li key={item.slug}>
-                <Link
-                  href={`/learn/${item.slug}`}
-                  className="text-[var(--accent)] underline-offset-2 hover:underline"
-                >
-                  {item.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ) : null}
+      <RelatedContent
+        videoUrl={lesson.videoUrl}
+        newsletterUrl={lesson.relatedNewsletterUrl}
+        tools={lesson.relatedTools}
+        glossaryTerms={glossaryTerms}
+        lessons={related}
+        researchNotes={researchNotes}
+      />
 
       <nav className="flex flex-wrap gap-4 text-sm">
         <Link href="/learn" className="text-[var(--accent)] underline-offset-2 hover:underline">

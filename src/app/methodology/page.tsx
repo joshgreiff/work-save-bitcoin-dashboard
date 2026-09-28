@@ -1,8 +1,10 @@
+import { ResearchMethodology } from "@/components/learn/ResearchMethodology";
 import { SectionIntro, Disclaimer } from "@/components/ui/primitives";
 
 export const metadata = {
   title: "Methodology & Disclosures",
-  description: "How the Fiat Freedom Portfolio dashboard calculates and presents figures.",
+  description:
+    "How the Fiat Freedom Portfolio dashboard calculates and presents figures, and how Work Save Bitcoin research notes are sourced.",
 };
 
 export default function MethodologyPage() {
@@ -103,6 +105,24 @@ export default function MethodologyPage() {
           <p>
             Episode 1 seed omits confirmed security prices, cost basis, benchmark prices, and issuer
             Bitcoin-per-share metrics. Income model securities are unconfigured until confirmed.
+          </p>
+        </section>
+        <section id="research-notes" className="scroll-mt-24 space-y-3">
+          <h2 className="text-xl font-medium text-[var(--foreground)]">Research notes</h2>
+          <ResearchMethodology />
+          <p>
+            Research notes are stored as validated data in <code>data/learn/research-notes.json</code>.
+            Every claim carries one of four labels: <em>established fact</em>,{" "}
+            <em>interpretation</em>, <em>disputed</em>, or <em>open question</em>. An established
+            fact must cite at least one primary, academic, or official-data source; the build fails
+            otherwise. Podcasts, social posts, and creator commentary may be listed as commentary but
+            are never used as primary evidence.
+          </p>
+          <p>
+            Each note shows its status (question, researching, published, or needs editorial review),
+            publication and update dates, and a working thesis that is labeled as a working
+            conclusion rather than a settled fact. Notes are revised by appending dated entries to the
+            revision history; earlier revisions are not silently rewritten.
           </p>
         </section>
         <section className="space-y-2">

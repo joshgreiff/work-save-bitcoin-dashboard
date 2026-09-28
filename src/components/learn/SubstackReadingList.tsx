@@ -39,7 +39,7 @@ export function SubstackReadingList({ feed }: { feed: SubstackFeedResult }) {
         </div>
         <ExternalSubstackLink
           href={feed.publicationUrl}
-          className="text-sm text-[var(--accent)] underline-offset-2 hover:underline"
+          className="action-link text-sm font-medium"
         >
           Open Substack ↗
         </ExternalSubstackLink>
@@ -67,7 +67,7 @@ export function SubstackReadingList({ feed }: { feed: SubstackFeedResult }) {
               </div>
               <ExternalSubstackLink
                 href={post.url}
-                className="shrink-0 text-sm text-[var(--accent)] underline-offset-2 hover:underline"
+                className="action-link shrink-0 text-sm font-medium"
               >
                 Read on Substack ↗
               </ExternalSubstackLink>

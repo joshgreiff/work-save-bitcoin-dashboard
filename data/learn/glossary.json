@@ -49,6 +49,30 @@
       "sources": []
     },
     {
+      "id": "deflation",
+      "term": "Deflation",
+      "definition": "A sustained fall in the general price level. It can come from collapsing demand and debt distress, or from rising productivity that makes goods cheaper to produce — the causes matter.",
+      "category": "money",
+      "relatedTerms": ["inflation", "productivity", "purchasing-power"],
+      "sources": []
+    },
+    {
+      "id": "productivity",
+      "term": "Productivity",
+      "definition": "How much output is produced per unit of input — for example, per hour of work. Higher productivity means the same work can produce more.",
+      "category": "money",
+      "relatedTerms": ["deflation", "purchasing-power"],
+      "sources": [{ "label": "U.S. Bureau of Labor Statistics — Productivity", "url": "https://www.bls.gov/productivity/" }]
+    },
+    {
+      "id": "zero-lower-bound",
+      "term": "Zero lower bound",
+      "definition": "The practical floor near zero for short-term interest rates. When rates are already near zero, a central bank has less room to cut them in a downturn.",
+      "category": "money",
+      "relatedTerms": ["monetary-policy", "deflation"],
+      "sources": []
+    },
+    {
       "id": "fiscal-policy",
       "term": "Fiscal policy",
       "definition": "Government taxing and spending decisions, typically made by Congress and the Treasury — distinct from central-bank monetary policy.",

@@ -7,12 +7,15 @@ import {
   formatUsdFromCents,
   TextLink,
 } from "@/components/ui/primitives";
+import Link from "next/link";
 import { lastConfirmedBenchmarkPrices } from "@/lib/accounting/live-chart-trail";
+import { loadLearnPillars } from "@/lib/data/load";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 import { formatEtTimestamp } from "@/lib/market/session";
 
 export default function HomePage() {
   const data = buildPublicDashboard();
+  const pillars = loadLearnPillars().pillars;
   const series = data.valuationHistory.series;
   const officialClose =
     data.marketObservations.latestOfficialClose?.portfolioValueCents ??
@@ -38,17 +41,65 @@ export default function HomePage() {
 
   return (
     <div className="space-y-10">
-      <section className="max-w-3xl">
+      <section className="space-y-6">
+        <div className="max-w-3xl">
+          <p className="text-xs uppercase tracking-[0.14em] text-[var(--accent)]">
+            Work Save Bitcoin
+          </p>
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
+            Protect your time and energy by saving in Bitcoin, no matter your budget.
+          </h1>
+          <p className="mt-4 text-base leading-relaxed text-[var(--muted-foreground)]">
+            Research and practical tools for understanding how money, institutions, Bitcoin, and
+            technology affect the value of your time.
+          </p>
+          <div className="mt-5 flex flex-wrap gap-x-6 gap-y-2">
+            <TextLink href="/learn">Start learning →</TextLink>
+            <TextLink href="/learn/research">Read the research →</TextLink>
+          </div>
+        </div>
+        <nav aria-label="Research pillars">
+          <ol className="grid border-t border-[var(--border)] sm:grid-cols-5">
+            {pillars.map((pillar, index) => (
+              <li
+                key={pillar.slug}
+                className="border-b border-[var(--border)] sm:border-r sm:last:border-r-0"
+              >
+                <Link
+                  href={`/learn/pillars/${pillar.slug}`}
+                  className="action-row group flex min-h-11 items-center gap-3 px-2 py-3 text-sm sm:h-full sm:flex-col sm:items-start sm:gap-1 sm:px-3"
+                >
+                  <span className="tabular-nums text-[var(--muted)]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="flex flex-1 items-baseline justify-between gap-2 font-medium text-[var(--accent)] group-hover:underline group-hover:underline-offset-4 sm:block">
+                    <span>{pillar.title}</span>
+                    <span
+                      aria-hidden="true"
+                      className="inline-block transition-transform group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5 sm:ml-1.5"
+                    >
+                      →
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ol>
+        </nav>
+      </section>
+
+      <section className="max-w-3xl border-t border-[var(--border)] pt-8">
         <p className="text-xs uppercase tracking-[0.14em] text-[var(--accent)]">
-          Fiat Freedom Portfolio
+          Project · Fiat Freedom Portfolio
         </p>
-        <h1 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
+        <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
           Tracking a real portfolio at the intersection of Bitcoin, public markets, and fiat
           income.
-        </h1>
+        </h2>
         <p className="mt-4 text-base leading-relaxed text-[var(--muted-foreground)]">
-          Three separate ledgers: the actual securities portfolio, the WSB Strategic Bitcoin
-          Reserve, and a hypothetical Fiat Freedom Income Model.
+          A public experiment within Work Save Bitcoin. Three separate ledgers: the actual
+          securities portfolio, the WSB Strategic Bitcoin Reserve, and a hypothetical Fiat Freedom
+          Income Model.
         </p>
       </section>
 
