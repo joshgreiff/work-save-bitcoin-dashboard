@@ -135,10 +135,12 @@ describe("2% inflation research note", () => {
     expect(note.title).toBe("Is 2% Inflation Necessary for Economic Growth?");
   });
 
-  it("stays unpublished while awaiting editorial review", () => {
+  it("is published with a publication timestamp and a revision entry", () => {
     const note = twoPercentNote();
-    expect(note.status).toBe("needs_review");
-    expect(note.publishedAt).toBeNull();
+    expect(note.status).toBe("published");
+    expect(note.publishedAt).not.toBeNull();
+    expect(Date.parse(note.updatedAt)).toBeGreaterThanOrEqual(Date.parse(note.publishedAt!));
+    expect(note.revisions.length).toBeGreaterThanOrEqual(2);
   });
 
   it("backs every established fact with a non-commentary source", () => {

@@ -5,11 +5,11 @@
       "title": "Is 2% Inflation Necessary for Economic Growth?",
       "summary": "The Federal Reserve targets 2% inflation. Productivity lets society produce more with less work — so why is a steadily rising price level treated as the goal? We compare the standard case for a positive target with the hard-money critique and test both against historical evidence.",
       "pillar": "money-and-human-time",
-      "status": "needs_review",
-      "publishedAt": null,
-      "updatedAt": "2026-09-28T10:00:00-04:00",
+      "status": "published",
+      "publishedAt": "2026-09-28T10:18:00-04:00",
+      "updatedAt": "2026-09-28T10:18:00-04:00",
       "centralQuestion": "If productivity allows society to produce more with less labor, should many goods naturally become cheaper over time? If so, why are continuously rising consumer prices treated as the normal objective?",
-      "workingThesis": "Productivity growth can support gently falling prices without signaling economic collapse, and the historical record does not show that falling goods prices by themselves cause depressions. The strongest arguments for a positive target — the interest-rate lower bound, sticky wages, and nominal debt — are real, but they are arguments about managing a debt-heavy financial system, not proof that rising prices are required for growth. Under a 2% target, people holding cash savings do not receive productivity gains as lower prices, which is one reason an asset with a predictable issuance schedule is worth studying as an alternative way to save.",
+      "workingThesis": "Productivity growth can coexist with gently falling prices without signaling economic collapse, and the historical record does not support treating every decline in goods-and-services prices as a depression. The mainstream case for a positive inflation target rests on substantive concerns including the effective lower bound on interest rates, downward nominal-wage rigidity, nominal debt contracts, and measurement error. These are arguments about economic adjustment and monetary stabilization under the current financial system, rather than proof that economic growth requires a continuously rising price level. Under a 2% target, productivity gains generally reach households through higher real incomes instead of a broadly falling price level, while non-interest-bearing cash loses purchasing power when inflation averages the target. That makes assets with predictable issuance worth studying as alternative savings instruments, although Bitcoin’s volatility and adoption risks prevent treating it as a stable cash substitute today.",
       "mainstreamView": {
         "title": "The standard case for a positive inflation target",
         "summary": "Central banks argue that low, stable, positive inflation supports employment and gives policy room to respond to recessions. Supporters point to the interest-rate floor, sticky wages, debt burdens, and measurement bias.",
@@ -17,33 +17,46 @@
           {
             "kind": "established_fact",
             "text": "The Federal Reserve says that when households and businesses can expect inflation to stay low and stable, they can make sound decisions about saving, borrowing, and investment.",
-            "sourceIds": ["fed-faq-two-percent"]
+            "sourceIds": [
+              "fed-faq-two-percent"
+            ]
           },
           {
             "kind": "interpretation",
             "text": "Buffer against the interest-rate floor: keeping inflation above zero in normal times leaves room to cut interest rates in a downturn. In 2002, then-Governor Ben Bernanke argued for such a “buffer zone,” noting that central banks with explicit targets generally set them between 1 and 3 percent.",
-            "sourceIds": ["bernanke-2002-deflation"]
+            "sourceIds": [
+              "bernanke-2002-deflation"
+            ]
           },
           {
             "kind": "interpretation",
             "text": "Debt burdens: when prices fall unexpectedly, borrowers must repay debts in dollars worth more than when they borrowed. Irving Fisher’s debt-deflation theory described how over-indebtedness and falling prices can reinforce each other.",
-            "sourceIds": ["fisher-1933-debt-deflation", "bernanke-2002-deflation"]
+            "sourceIds": [
+              "fisher-1933-debt-deflation",
+              "bernanke-2002-deflation"
+            ]
           },
           {
             "kind": "disputed",
             "text": "Sticky wages: workers resist nominal pay cuts, so modest inflation lets real wages adjust without cutting paychecks. Akerlof, Dickens, and Perry (1996) argued that pushing inflation to zero would permanently raise unemployment. How strong this effect is remains debated.",
-            "sourceIds": ["akerlof-dickens-perry-1996"]
+            "sourceIds": [
+              "akerlof-dickens-perry-1996"
+            ]
           },
           {
             "kind": "established_fact",
-            "text": "Official price indexes can overstate true cost-of-living increases. The 1996 Boskin Commission estimated the CPI’s upward bias at about 1.1 percentage points per year (plausible range 0.8 to 1.6).",
-            "sourceIds": ["boskin-1996"],
+            "text": "The 1996 Boskin Commission concluded that the CPI methodology used at that time overstated increases in the cost of living by about 1.1 percentage points per year, with a plausible range of 0.8 to 1.6 percentage points.",
+            "sourceIds": [
+              "boskin-1996"
+            ],
             "note": "BLS has changed CPI methods since 1996, so this estimate should not be applied to today’s index without further research."
           },
           {
             "kind": "disputed",
             "text": "Some mainstream economists argue the target should be higher, not lower. Blanchard, Dell’Ariccia, and Mauro (2010) asked whether a 4 percent target would give policy more room after large shocks.",
-            "sourceIds": ["blanchard-2010-rethinking"]
+            "sourceIds": [
+              "blanchard-2010-rethinking"
+            ]
           }
         ]
       },
@@ -54,17 +67,23 @@
           {
             "kind": "interpretation",
             "text": "Friedrich Hayek argued in Prices and Production (1931) that when the money supply stays the same and production increases, the resulting fall of prices “proportionate to the increase in productivity” is “not only entirely harmless but is in fact the only means of avoiding misdirections of production.”",
-            "sourceIds": ["hayek-1931-prices-and-production"]
+            "sourceIds": [
+              "hayek-1931-prices-and-production"
+            ]
           },
           {
             "kind": "interpretation",
             "text": "Hayek also argued that “the simple fact of an increase of production and trade forms no justification for an expansion of credit.” In the preface to Monetary Theory and the Trade Cycle, reprinted in the same volume, he called his critique of the “stabilizers” — who believed stabilizing the price level would remove monetary disturbances — “in many ways the central theme” of that book.",
-            "sourceIds": ["hayek-1931-prices-and-production"]
+            "sourceIds": [
+              "hayek-1931-prices-and-production"
+            ]
           },
           {
             "kind": "interpretation",
             "text": "George Selgin’s related “productivity norm” proposal would let the price level fall as unit production costs fall, so productivity gains reach people as lower prices while nominal wages stay roughly stable.",
-            "sourceIds": ["selgin-1997-less-than-zero"]
+            "sourceIds": [
+              "selgin-1997-less-than-zero"
+            ]
           }
         ]
       },
@@ -76,22 +95,30 @@
             {
               "kind": "established_fact",
               "text": "The Federal Open Market Committee (FOMC) adopted an explicit longer-run inflation goal in January 2012: 2 percent, measured by the annual change in the price index for personal consumption expenditures (PCE).",
-              "sourceIds": ["fomc-2012-press-release"]
+              "sourceIds": [
+                "fomc-2012-press-release"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "The FOMC’s Statement on Longer-Run Goals and Monetary Policy Strategy, most recently reaffirmed effective January 27, 2026, states that 2 percent PCE inflation is “most consistent over the longer run” with the Fed’s maximum-employment and price-stability mandates.",
-              "sourceIds": ["fomc-longer-run-goals-2026"]
+              "sourceIds": [
+                "fomc-longer-run-goals-2026"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "The target applies to a broad price index, not to every price. Some prices can fall while the overall index rises. Bernanke noted in 2002 that sector-specific price declines driven by productivity “are generally not a problem for the economy as a whole and do not constitute deflation.”",
-              "sourceIds": ["bernanke-2002-deflation"]
+              "sourceIds": [
+                "bernanke-2002-deflation"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "At a steady 2 percent a year, the general price level roughly doubles in about 35 years, so an unchanged cash balance loses about half of its purchasing power over that span.",
-              "sourceIds": ["fomc-longer-run-goals-2026"],
+              "sourceIds": [
+                "fomc-longer-run-goals-2026"
+              ],
               "note": "Derived calculation: 1.02^35 ≈ 2.00, using the Learn inflation calculator formula."
             }
           ]
@@ -103,27 +130,37 @@
             {
               "kind": "established_fact",
               "text": "Falling prices can come from supply as well as weak demand. Productivity improvements, more competition, or cheaper inputs can push prices down while raising incomes and output.",
-              "sourceIds": ["bis-2015-costs-of-deflations"]
+              "sourceIds": [
+                "bis-2015-costs-of-deflations"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "Across 17 countries and more than 100 years, Atkeson and Kehoe (2004) found virtually no link between deflation and depression outside the Great Depression of 1929–34.",
-              "sourceIds": ["atkeson-kehoe-2004"]
+              "sourceIds": [
+                "atkeson-kehoe-2004"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "Borio and co-authors at the BIS (2015) studied up to 38 economies from 1870 to 2013 and found only a weak link between falling goods-and-services prices and output growth, driven largely by the Great Depression.",
-              "sourceIds": ["bis-2015-costs-of-deflations"]
+              "sourceIds": [
+                "bis-2015-costs-of-deflations"
+              ]
             },
             {
               "kind": "interpretation",
               "text": "Selgin’s IEA paper points to 1873–1896, when British wholesale prices fell by about a third while real incomes rose, as evidence that a falling price level “is not necessarily a sign or source of depression.”",
-              "sourceIds": ["selgin-1997-less-than-zero"]
+              "sourceIds": [
+                "selgin-1997-less-than-zero"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "Productivity still grows today. The Bureau of Labor Statistics reported that total factor productivity in the U.S. private nonfarm business sector rose 0.8 percent in 2025, as output grew 2.6 percent and combined inputs grew 1.7 percent (release dated March 19, 2026).",
-              "sourceIds": ["bls-productivity"]
+              "sourceIds": [
+                "bls-productivity"
+              ]
             }
           ]
         },
@@ -134,17 +171,24 @@
             {
               "kind": "interpretation",
               "text": "Fisher’s debt-deflation theory holds that when many borrowers are over-indebted, forced selling pushes prices down, which raises the real burden of the debt that remains — a self-reinforcing spiral.",
-              "sourceIds": ["fisher-1933-debt-deflation"]
+              "sourceIds": [
+                "fisher-1933-debt-deflation"
+              ]
             },
             {
               "kind": "established_fact",
               "text": "The BIS study found the most damaging historical combination was falling property prices together with high private debt. It did not find that high debt made falling goods-and-services prices more costly.",
-              "sourceIds": ["bis-2015-costs-of-deflations"]
+              "sourceIds": [
+                "bis-2015-costs-of-deflations"
+              ]
             },
             {
               "kind": "interpretation",
               "text": "The cause matters. Prices falling because each hour of work produces more is different from prices falling because demand collapses and debtors are forced to liquidate. Calling both “deflation” hides that difference.",
-              "sourceIds": ["bis-2015-costs-of-deflations", "bernanke-2002-deflation"]
+              "sourceIds": [
+                "bis-2015-costs-of-deflations",
+                "bernanke-2002-deflation"
+              ]
             }
           ]
         },
@@ -154,18 +198,26 @@
           "claims": [
             {
               "kind": "interpretation",
-              "text": "Under a 2 percent target, productivity gains tend to show up as nominal wages rising faster than prices, not as falling prices. Wage earners can still gain in real terms, but cash savings lose purchasing power every year.",
-              "sourceIds": ["fomc-longer-run-goals-2026", "selgin-1997-less-than-zero"]
+              "text": "Under a 2% target, productivity gains may reach households through nominal incomes rising faster than prices rather than through a broadly falling price level. Wage earners can still gain in real terms, while non-interest-bearing cash loses purchasing power when inflation is positive.",
+              "sourceIds": [
+                "fomc-longer-run-goals-2026",
+                "selgin-1997-less-than-zero"
+              ]
             },
             {
               "kind": "interpretation",
               "text": "The IEA summary of Selgin’s argument estimates that under a productivity norm, U.S. consumer prices in the 30 years after World War II would have halved instead of almost tripling. That is a counterfactual estimate, not an observed outcome.",
-              "sourceIds": ["selgin-1997-less-than-zero"]
+              "sourceIds": [
+                "selgin-1997-less-than-zero"
+              ]
             },
             {
               "kind": "disputed",
               "text": "How much inflation actually keeps ordinary people from capturing productivity gains depends on who holds cash versus interest-bearing assets or debt, how wages respond, and how accurately prices are measured. The sources here do not settle it.",
-              "sourceIds": ["akerlof-dickens-perry-1996", "boskin-1996"]
+              "sourceIds": [
+                "akerlof-dickens-perry-1996",
+                "boskin-1996"
+              ]
             },
             {
               "kind": "interpretation",
@@ -180,18 +232,25 @@
           "claims": [
             {
               "kind": "established_fact",
-              "text": "Bitcoin’s block subsidy started at 50 BTC and is cut in half every 210,000 blocks — roughly every four years — until it reaches zero. That schedule caps total issuance just under 21 million BTC.",
-              "sourceIds": ["bitcoin-core-subsidy", "bitcoin-core-halving-interval"]
+              "text": "Under Bitcoin’s current consensus rules, the block subsidy began at 50 BTC and is cut in half every 210,000 blocks until the subsidy reaches zero. Because the subsidy is denominated in whole satoshis, this schedule limits total issuance to slightly less than 21 million BTC.",
+              "sourceIds": [
+                "bitcoin-core-subsidy",
+                "bitcoin-core-halving-interval"
+              ]
             },
             {
               "kind": "interpretation",
-              "text": "This makes Bitcoin a savings option whose issuance policy is known in advance. The FOMC, by contrast, reviews its framework each year and undertakes a thorough public review roughly every five years.",
-              "sourceIds": ["bitcoin-core-subsidy", "fomc-longer-run-goals-2026"]
+              "text": "Bitcoin therefore offers savers an issuance schedule encoded in publicly auditable consensus rules and known in advance. Changing those rules would require adoption of new software rules across the network. The Federal Reserve’s monetary-policy framework is instead administered institutionally, reconsidered at its annual organizational meeting, and subjected to a broader public review roughly every five years.",
+              "sourceIds": [
+                "fomc-longer-run-goals-2026"
+              ]
             },
             {
               "kind": "established_fact",
-              "text": "A predictable supply does not mean a stable price. The SEC describes bitcoin as highly speculative and warns that its price can fluctuate widely.",
-              "sourceIds": ["sec-2024-bitcoin-etp-bulletin"]
+              "text": "A predictable issuance schedule does not produce a stable market price. In January 2024, then-SEC Chair Gary Gensler described Bitcoin as “primarily a speculative, volatile asset” and urged investors to remain cautious about its risks.",
+              "sourceIds": [
+                "gensler-2024-spot-bitcoin-etp-statement"
+              ]
             },
             {
               "kind": "open_question",
@@ -206,23 +265,35 @@
           "claims": [
             {
               "kind": "disputed",
-              "text": "Interest-rate floor: if prices and wages fall, interest rates may hit zero, limiting a central bank’s ability to fight recessions. Hard-money critics answer that central banks should not be relied on for that role in the first place.",
-              "sourceIds": ["bernanke-2002-deflation", "blanchard-2010-rethinking"]
+              "text": "Interest-rate floor: if prices and wages fall, interest rates may hit zero, limiting a central bank’s ability to fight recessions. Critics of discretionary monetary policy question whether central-bank stabilization offsets downturns effectively enough to justify maintaining a positive inflation target.",
+              "sourceIds": [
+                "bernanke-2002-deflation",
+                "blanchard-2010-rethinking",
+                "hayek-1931-prices-and-production",
+                "selgin-1997-less-than-zero"
+              ]
             },
             {
               "kind": "disputed",
               "text": "Sticky wages could make even productivity-driven deflation costly if employers have to cut nominal pay rather than hold it flat.",
-              "sourceIds": ["akerlof-dickens-perry-1996"]
+              "sourceIds": [
+                "akerlof-dickens-perry-1996"
+              ]
             },
             {
               "kind": "established_fact",
-              "text": "Most debts are written in fixed dollar amounts, so unexpected deflation raises their real burden and shifts wealth from borrowers to lenders.",
-              "sourceIds": ["bernanke-2002-deflation", "fisher-1933-debt-deflation"]
+              "text": "Many household, business, and government debts contain obligations fixed in nominal dollar terms, so unexpected deflation can increase their real burden and shift wealth from borrowers toward lenders.",
+              "sourceIds": [
+                "bernanke-2002-deflation",
+                "fisher-1933-debt-deflation"
+              ]
             },
             {
               "kind": "interpretation",
               "text": "Much of the evidence for benign deflation comes from gold-standard eras with different financial systems, debt levels, and labor markets. The BIS authors themselves caution against applying their findings directly to today.",
-              "sourceIds": ["bis-2015-costs-of-deflations"]
+              "sourceIds": [
+                "bis-2015-costs-of-deflations"
+              ]
             }
           ]
         }
@@ -359,7 +430,7 @@
           "url": "https://github.com/bitcoin/bitcoin/blob/master/src/validation.cpp",
           "publishedAt": null,
           "type": "primary",
-          "note": "Subsidy starts at 50 BTC, halves each interval, and is forced to zero after 64 halvings. Living source code; retrieved September 28, 2026."
+          "note": "Subsidy starts at 50 BTC, halves each interval, and is forced to zero after 64 halvings. Bitcoin Core is the most widely used implementation of the network’s consensus rules; it documents those rules but does not unilaterally set them. Living source code; retrieved September 28, 2026."
         },
         {
           "id": "bitcoin-core-halving-interval",
@@ -371,16 +442,18 @@
           "note": "nSubsidyHalvingInterval = 210000. Living source code; retrieved September 28, 2026."
         },
         {
-          "id": "sec-2024-bitcoin-etp-bulletin",
-          "title": "Exchange-Traded Products (ETPs) Providing Exposure to Bitcoin and Ether – Investor Bulletin",
-          "publisher": "U.S. Securities and Exchange Commission, Office of Investor Education and Advocacy",
-          "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/ETPBulletinSeptember2024",
-          "publishedAt": "2024-09-09",
+          "id": "gensler-2024-spot-bitcoin-etp-statement",
+          "title": "Statement on the Approval of Spot Bitcoin Exchange-Traded Products",
+          "publisher": "Gary Gensler, Chair, U.S. Securities and Exchange Commission",
+          "url": "https://www.sec.gov/newsroom/speeches-statements/gensler-statement-spot-bitcoin-011023",
+          "publishedAt": "2024-01-10",
           "type": "primary",
-          "note": "Official investor warning on bitcoin price volatility."
+          "note": "Official statement accompanying the spot bitcoin ETP approvals; describes bitcoin as “primarily a speculative, volatile asset” and urges investors to remain cautious."
         }
       ],
-      "relatedLessonSlugs": ["save-your-time"],
+      "relatedLessonSlugs": [
+        "save-your-time"
+      ],
       "relatedVideoUrl": null,
       "relatedNewsletterUrl": null,
       "relatedTools": [
@@ -419,6 +492,10 @@
         {
           "date": "2026-09-28",
           "note": "First draft posted for editorial review. Not yet published."
+        },
+        {
+          "date": "2026-09-28",
+          "note": "Editorially approved and published. Revised the working thesis, the Boskin, productivity-and-savings, and Bitcoin-issuance claims, and two counterarguments; replaced the SEC source with Chair Gensler’s Jan. 10, 2024 spot bitcoin ETP statement."
         }
       ]
     }
