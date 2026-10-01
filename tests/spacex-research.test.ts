@@ -7,6 +7,7 @@ import {
 } from "@/lib/accounting/research-issuer";
 import { loadResearchNotes, loadResearchSnapshots } from "@/lib/data/load";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
+import { GET } from "@/app/learn/rss.xml/route";
 import { claimKindsUsed, SITE_RESEARCH_LINKS } from "@/lib/learn/content";
 import { isNavItemActive, MORE_NAV, PRIMARY_NAV } from "@/lib/navigation";
 import { researchNoteSchema, type ResearchNote } from "@/lib/schemas/learn";
@@ -71,16 +72,24 @@ describe("SpaceX research snapshot calculations", () => {
 });
 
 describe("SpaceX research note", () => {
-  it("validates and awaits editorial review", () => {
+  it("validates and is published", () => {
     const note = spacexNote();
     expect(researchNoteSchema.safeParse(note).success).toBe(true);
-    expect(note.status).toBe("needs_review");
-    expect(note.publishedAt).toBeNull();
+    expect(note.status).toBe("published");
+    expect(note.publishedAt).not.toBeNull();
+    expect(Date.parse(note.updatedAt)).toBeGreaterThanOrEqual(Date.parse(note.publishedAt!));
     expect(note.pillar).toBe("bitcoin-capital-markets");
     expect(note.issuerSnapshot?.snapshotId).toBe("spacex-2026-06-30");
     expect(note.workingThesis).toMatch(
       /^SpaceX is not currently a meaningful source of Bitcoin amplification\./,
     );
+  });
+
+  it("appears in the Learn RSS feed with its publication date", async () => {
+    const note = spacexNote();
+    const xml = await (await GET()).text();
+    expect(xml).toContain(`/learn/research/${SLUG}</link>`);
+    expect(xml).toContain(`<pubDate>${new Date(note.publishedAt!).toUTCString()}</pubDate>`);
   });
 
   it("separates established facts, company targets, and speculation", () => {

@@ -504,9 +504,9 @@
       "title": "Can SpaceX Help a Bitcoin Portfolio Outperform?",
       "summary": "SpaceX holds 18,712 BTC, but at its June 30, 2026 market value that Bitcoin was about 0.05% of the company. If SPCX helps a Bitcoin-focused portfolio outperform, it will be through launch, Starlink, and Starship economics — not Bitcoin per share. This note separates reported facts, company targets, and speculation.",
       "pillar": "bitcoin-capital-markets",
-      "status": "needs_review",
-      "publishedAt": null,
-      "updatedAt": "2026-09-30T23:30:00-04:00",
+      "status": "published",
+      "publishedAt": "2026-10-01T09:41:00-04:00",
+      "updatedAt": "2026-10-01T09:41:00-04:00",
       "centralQuestion": "Could a SpaceX (SPCX) position help a Bitcoin-focused portfolio outperform — and if so, through which source of equity return?",
       "workingThesis": "SpaceX is not currently a meaningful source of Bitcoin amplification. Its 18,712 BTC represented approximately 0.05% of its June 30 market value. A position would primarily be a bet on launch, Starlink, Starship, and future infrastructure—with incidental Bitcoin exposure.",
       "mainstreamView": {
@@ -918,6 +918,10 @@
         {
           "date": "2026-09-30",
           "note": "Tightened the working thesis and clarified that Bitcoin value per share is a June 30, 2026 snapshot."
+        },
+        {
+          "date": "2026-10-01",
+          "note": "Editorially approved and published."
         }
       ],
       "issuerSnapshot": {
