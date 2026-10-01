@@ -1,10 +1,13 @@
 import { RESEARCH_WORKFLOW_STEPS } from "@/lib/learn/content";
 
-export function ResearchMethodology() {
+/** `embedded` drops the frame when rendered inside another container. */
+export function ResearchMethodology({ embedded = false }: { embedded?: boolean }) {
   return (
     <aside
       aria-label="Research method"
-      className="border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3"
+      className={
+        embedded ? "" : "border border-[var(--border)] bg-[var(--surface-elevated)] px-4 py-3"
+      }
     >
       <p className="text-[10px] uppercase tracking-[0.14em] text-[var(--muted)]">How we research</p>
       <ol className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-[var(--foreground)]">

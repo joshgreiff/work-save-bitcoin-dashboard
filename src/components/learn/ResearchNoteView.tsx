@@ -4,7 +4,13 @@ import {
   ResearchStatusBadge,
   SourceTypeBadge,
 } from "@/components/learn/ResearchBadges";
+import {
+  AllocationIllustration,
+  IssuerSnapshotMetrics,
+  type IssuerSnapshotView,
+} from "@/components/learn/IssuerSnapshotPanels";
 import { ResearchMethodology } from "@/components/learn/ResearchMethodology";
+import { Expandable } from "@/components/ui/primitives";
 import { RelatedContent } from "@/components/learn/RelatedContent";
 import {
   RESEARCH_CLAIM_DESCRIPTION,
@@ -14,12 +20,13 @@ import {
   sourceCitationNumbers,
 } from "@/lib/learn/content";
 import { formatViewerDate } from "@/lib/market/session";
-import type {
-  GlossaryTerm,
-  LearnLessonMeta,
-  LearnPillarDefinition,
-  ResearchClaim,
-  ResearchNote,
+import {
+  RESEARCH_CLAIM_KIND_ORDER,
+  type GlossaryTerm,
+  type LearnLessonMeta,
+  type LearnPillarDefinition,
+  type ResearchClaim,
+  type ResearchNote,
 } from "@/lib/schemas/learn";
 
 const LINK_CLASS = "action-link";
@@ -30,6 +37,7 @@ type Props = {
   relatedLessons: LearnLessonMeta[];
   glossaryTerms: GlossaryTerm[];
   nextNotes: ResearchNote[];
+  issuerSnapshot?: IssuerSnapshotView | null;
 };
 
 function ClaimList({
@@ -71,7 +79,14 @@ function ClaimList({
   );
 }
 
-export function ResearchNoteView({ note, pillar, relatedLessons, glossaryTerms, nextNotes }: Props) {
+export function ResearchNoteView({
+  note,
+  pillar,
+  relatedLessons,
+  glossaryTerms,
+  nextNotes,
+  issuerSnapshot = null,
+}: Props) {
   const citations = sourceCitationNumbers(note);
   const kindsUsed = claimKindsUsed(note);
 
@@ -111,30 +126,11 @@ export function ResearchNoteView({ note, pillar, relatedLessons, glossaryTerms, 
         ) : null}
       </header>
 
-      <ResearchMethodology />
-
       <section className="space-y-2 border-l-2 border-[var(--accent)] pl-4">
         <h2 className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">Central question</h2>
         <blockquote className="max-w-3xl text-xl leading-relaxed text-[var(--foreground)]">
           {note.centralQuestion}
         </blockquote>
-      </section>
-
-      <section className="space-y-3">
-        <h2 className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">How claims are labeled</h2>
-        <dl className="grid gap-2 sm:grid-cols-2">
-          {(["established_fact", "interpretation", "disputed", "open_question"] as const)
-            .filter((kind) => kindsUsed.has(kind))
-            .map((kind) => (
-              <div key={kind} className="flex items-start gap-2 text-sm">
-                <dt>
-                  <ResearchClaimBadge kind={kind} />
-                  <span className="sr-only">{RESEARCH_CLAIM_LABEL[kind]}</span>
-                </dt>
-                <dd className="text-[var(--muted-foreground)]">{RESEARCH_CLAIM_DESCRIPTION[kind]}</dd>
-              </div>
-            ))}
-        </dl>
       </section>
 
       <section className="space-y-2 border border-[var(--border)] bg-[var(--surface-elevated)] p-5">
@@ -146,6 +142,32 @@ export function ResearchNoteView({ note, pillar, relatedLessons, glossaryTerms, 
           {note.workingThesis}
         </p>
       </section>
+
+      <Expandable
+        id="how-to-read"
+        title="How to read this research"
+        description="Our research method and what each claim label means"
+      >
+        <ResearchMethodology embedded />
+        <div className="space-y-2">
+          <h2 className="text-xs uppercase tracking-[0.14em] text-[var(--muted)]">
+            How claims are labeled
+          </h2>
+          <dl className="grid gap-2 sm:grid-cols-2">
+            {RESEARCH_CLAIM_KIND_ORDER.filter((kind) => kindsUsed.has(kind)).map((kind) => (
+              <div key={kind} className="flex items-start gap-2 text-sm">
+                <dt>
+                  <ResearchClaimBadge kind={kind} />
+                  <span className="sr-only">{RESEARCH_CLAIM_LABEL[kind]}</span>
+                </dt>
+                <dd className="text-[var(--muted-foreground)]">
+                  {RESEARCH_CLAIM_DESCRIPTION[kind]}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </Expandable>
 
       <div className="grid gap-8 lg:grid-cols-2">
         {[note.mainstreamView, note.alternativeView].map((view) => (
@@ -161,6 +183,12 @@ export function ResearchNoteView({ note, pillar, relatedLessons, glossaryTerms, 
         <section key={section.id} id={section.id} className="scroll-mt-24 space-y-3">
           <h2 className="text-2xl font-medium">{section.heading}</h2>
           <ClaimList claims={section.claims} citations={citations} />
+          {issuerSnapshot && note.issuerSnapshot?.metricsAfterSectionId === section.id ? (
+            <IssuerSnapshotMetrics view={issuerSnapshot} />
+          ) : null}
+          {issuerSnapshot && note.issuerSnapshot?.illustrationAfterSectionId === section.id ? (
+            <AllocationIllustration view={issuerSnapshot} />
+          ) : null}
         </section>
       ))}
 

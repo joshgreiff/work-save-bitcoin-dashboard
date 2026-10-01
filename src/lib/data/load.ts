@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { donationsFileSchema } from "@/lib/schemas/donations";
 import { episodesFileSchema } from "@/lib/schemas/episodes";
@@ -12,6 +12,7 @@ import { issuerMetricsFileSchema } from "@/lib/schemas/issuer-metrics";
 import { marketObservationsFileSchema } from "@/lib/schemas/market-observations";
 import { marketPricesFileSchema } from "@/lib/schemas/market-prices";
 import { portfolioSchema } from "@/lib/schemas/portfolio";
+import { researchIssuerSnapshotsFileSchema } from "@/lib/schemas/research-snapshots";
 import { reserveFileSchema } from "@/lib/schemas/reserve";
 import { siteConfigSchema } from "@/lib/schemas/site-config";
 import { transactionsFileSchema } from "@/lib/schemas/transactions";
@@ -26,6 +27,7 @@ import {
   researchNotesFileSchema,
   treasuryDebtFallbackFileSchema,
 } from "@/lib/schemas/learn";
+import { SITE_RESEARCH_LINKS } from "@/lib/learn/content";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -194,17 +196,75 @@ export function loadResearchNotes() {
   );
 }
 
-/** Every slug or term id referenced across Learn content must resolve. */
+export function loadResearchSnapshots() {
+  return parseOrThrow(
+    "learn/research-snapshots.json",
+    researchIssuerSnapshotsFileSchema.safeParse(readJsonFile("learn/research-snapshots.json")),
+  );
+}
+
+const APP_DIR = path.join(process.cwd(), "src", "app");
+
+/**
+ * Resolve an internal href (path only; hash and query ignored) against Learn content and the
+ * static App Router tree. Returns a problem description or null.
+ */
+function internalHrefProblem(
+  href: string,
+  known: { lessonSlugs: Set<string>; noteSlugs: Set<string>; pillarSlugs: Set<string> },
+): string | null {
+  if (!href.startsWith("/")) return null;
+  const pathname = href.split(/[?#]/)[0]!.replace(/\/$/, "") || "/";
+  const research = pathname.match(/^\/learn\/research\/([^/]+)$/);
+  if (research) return known.noteSlugs.has(research[1]!) ? null : `missing research note ${research[1]}`;
+  const pillar = pathname.match(/^\/learn\/pillars\/([^/]+)$/);
+  if (pillar) return known.pillarSlugs.has(pillar[1]!) ? null : `missing pillar ${pillar[1]}`;
+  const staticPage = path.join(APP_DIR, pathname, "page.tsx");
+  if (existsSync(staticPage)) return null;
+  const lesson = pathname.match(/^\/learn\/([^/]+)$/);
+  if (lesson && known.lessonSlugs.has(lesson[1]!)) return null;
+  return `unresolved internal link ${href}`;
+}
+
+/** Every slug, term id, snapshot id, or internal link referenced across Learn content must resolve. */
 export function validateLearnCrossReferences(): void {
   const lessons = loadLearnLessons().lessons;
   const notes = loadResearchNotes().notes;
   const glossary = loadLearnGlossary().terms;
   const pillars = loadLearnPillars().pillars;
+  const snapshotIds = new Set(loadResearchSnapshots().snapshots.map((s) => s.id));
 
   const lessonSlugs = new Set(lessons.map((l) => l.slug));
   const noteSlugs = new Set(notes.map((n) => n.slug));
   const termIds = new Set(glossary.map((t) => t.id));
+  const pillarSlugs = new Set<string>(pillars.map((p) => p.slug));
+  const known = { lessonSlugs, noteSlugs, pillarSlugs };
   const problems: string[] = [];
+
+  for (const [key, slug] of Object.entries(SITE_RESEARCH_LINKS)) {
+    if (!noteSlugs.has(slug)) problems.push(`site research link ${key} → missing research note ${slug}`);
+  }
+  for (const note of notes) {
+    if (note.issuerSnapshot && !snapshotIds.has(note.issuerSnapshot.snapshotId)) {
+      problems.push(`note ${note.slug} → missing research snapshot ${note.issuerSnapshot.snapshotId}`);
+    }
+    for (const tool of note.relatedTools) {
+      const problem = internalHrefProblem(tool.href, known);
+      if (problem) problems.push(`note ${note.slug} → ${problem}`);
+    }
+  }
+  for (const lesson of lessons) {
+    for (const tool of lesson.relatedTools) {
+      const problem = internalHrefProblem(tool.href, known);
+      if (problem) problems.push(`lesson ${lesson.slug} → ${problem}`);
+    }
+  }
+  for (const pillar of pillars) {
+    for (const tool of pillar.relatedTools) {
+      const problem = internalHrefProblem(tool.href, known);
+      if (problem) problems.push(`pillar ${pillar.slug} → ${problem}`);
+    }
+  }
 
   for (const lesson of lessons) {
     for (const slug of lesson.relatedResearchSlugs) {
@@ -258,6 +318,7 @@ export function validateAllDataFiles(): void {
   loadNewsletterConfig();
   loadLearnPillars();
   loadResearchNotes();
+  loadResearchSnapshots();
   validateLearnCrossReferences();
   loadIncomeModel();
   loadIncomeSecurities();

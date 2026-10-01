@@ -11,7 +11,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { formatPercent, formatSats } from "@/components/ui/primitives";
+import { Expandable, formatPercent, formatSats } from "@/components/ui/primitives";
 import { chartTooltipProps } from "@/components/charts/Charts";
 import { buildIssuerBpsChartSeries } from "@/lib/accounting/issuer-bps";
 import type { PublicDashboard } from "@/lib/data/public-dashboard";
@@ -250,11 +250,18 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
         </table>
       </div>
 
-      <ul className="list-disc space-y-1 pl-5 text-xs text-[var(--muted)]">
-        {notes.map((note) => (
-          <li key={note}>{note}</li>
-        ))}
-      </ul>
+      {notes.length > 0 ? (
+        <Expandable
+          title="History methodology notes"
+          description="How observations are recorded, dated, and compared"
+        >
+          <ul className="list-disc space-y-1 pl-5 text-xs text-[var(--muted)]">
+            {notes.map((note) => (
+              <li key={note}>{note}</li>
+            ))}
+          </ul>
+        </Expandable>
+      ) : null}
     </section>
   );
 }

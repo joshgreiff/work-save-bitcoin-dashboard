@@ -1,0 +1,38 @@
+{
+  "snapshots": [
+    {
+      "id": "spacex-2026-06-30",
+      "issuer": "Space Exploration Technologies Corp.",
+      "displayName": "SpaceX",
+      "ticker": "SPCX",
+      "asOf": "2026-06-30",
+      "bitcoinHoldings": 18712,
+      "bitcoinCostBasisUsd": 661000000,
+      "bitcoinFairValueUsd": 1098000000,
+      "commonSharesOutstanding": 13176000000,
+      "commonSharesNote": "Class A and Class B common stock outstanding at June 30, 2026, as reported (in millions) in the condensed consolidated statement of shareholders' equity.",
+      "potentiallyDilutiveAwards": 564000000,
+      "conditionalPerformanceAwards": 1331000000,
+      "filingSourceUrl": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/spcx-20260630.htm",
+      "sharePrice": {
+        "closeUsd": 170.86,
+        "sessionDate": "2026-06-30",
+        "sourceName": "Yahoo Finance (unadjusted daily close, NasdaqGS)",
+        "sourceUrl": "https://finance.yahoo.com/quote/SPCX/history/",
+        "retrievedAt": "2026-09-30T22:55:00-04:00",
+        "note": "Class A close applied to all Class A and Class B shares to approximate market value; Class B shares do not trade. Nasdaq's historical-quote endpoint returned no data when retrieved."
+      },
+      "allocationIllustration": {
+        "portfolioValueUsd": 10000,
+        "allocations": [0, 0.05, 0.1],
+        "equityMove": 0.5,
+        "bitcoinMove": 0.1
+      }
+    }
+  ],
+  "notes": [
+    "Research-only issuer snapshots used by Learn research notes.",
+    "Never part of the Fiat Freedom Portfolio, valuation history, market observations, or Bitcoin look-through totals.",
+    "Derived values are calculated in src/lib/accounting/research-issuer.ts."
+  ]
+}

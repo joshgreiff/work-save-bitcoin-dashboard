@@ -17,13 +17,19 @@ export const RESEARCH_STATUS_LABEL: Record<ResearchStatus, string> = {
 
 export const RESEARCH_CLAIM_LABEL: Record<ResearchClaimKind, string> = {
   established_fact: "Established fact",
+  company_target: "Company target",
+  speculative: "Speculative",
   interpretation: "Interpretation",
   disputed: "Disputed",
   open_question: "Open question",
 };
 
 export const RESEARCH_CLAIM_DESCRIPTION: Record<ResearchClaimKind, string> = {
-  established_fact: "Supported by official data, original texts, or peer-reviewed research.",
+  established_fact:
+    "Supported by official data, original texts, filings, market data, or peer-reviewed research.",
+  company_target:
+    "A goal or expectation stated by the company in its own filings or webcasts — not a result.",
+  speculative: "A possible future scenario that has not been demonstrated. Not a forecast.",
   interpretation: "A reading of the evidence — reasonable people may weigh it differently.",
   disputed: "Actively contested by credible researchers.",
   open_question: "Not yet answered by the evidence reviewed here.",
@@ -33,8 +39,14 @@ export const RESEARCH_SOURCE_TYPE_LABEL: Record<ResearchSourceType, string> = {
   primary: "Primary",
   academic: "Academic",
   official_data: "Official data",
+  market_data: "Market data",
   commentary: "Commentary",
 };
+
+/** Research notes linked from site pages outside Learn; validated against notes at build time. */
+export const SITE_RESEARCH_LINKS = {
+  operatingCompanyGrowth: "can-spacex-help-a-bitcoin-portfolio-outperform",
+} as const;
 
 export const RESEARCH_WORKFLOW_STEPS = [
   "Question",

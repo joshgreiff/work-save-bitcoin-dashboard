@@ -75,7 +75,8 @@ export default function MethodologyPage() {
           <p>
             Look-through sats = shares owned × diluted sats per share. Diluted sats per share is the
             primary metric. Preferreds, ETFs, cash, and issuers without usable disclosures are
-            excluded or marked unavailable.
+            excluded or marked unavailable. Only actual portfolio holdings enter look-through
+            totals; research examples discussed in Learn notes do not.
           </p>
         </section>
         <section className="space-y-2">
@@ -112,11 +113,24 @@ export default function MethodologyPage() {
           <ResearchMethodology />
           <p>
             Research notes are stored as validated data in <code>data/learn/research-notes.json</code>.
-            Every claim carries one of four labels: <em>established fact</em>,{" "}
-            <em>interpretation</em>, <em>disputed</em>, or <em>open question</em>. An established
-            fact must cite at least one primary, academic, or official-data source; the build fails
-            otherwise. Podcasts, social posts, and creator commentary may be listed as commentary but
-            are never used as primary evidence.
+            Every claim carries one of six labels: <em>established fact</em>,{" "}
+            <em>company target</em>, <em>speculative</em>, <em>interpretation</em>,{" "}
+            <em>disputed</em>, or <em>open question</em>. An established fact must cite at least one
+            primary, academic, official-data, or market-data source. A company target must cite the
+            company’s own primary source, and a speculative scenario must cite who proposed it. The
+            build fails otherwise. Podcasts, social posts, and creator commentary may be listed as
+            commentary but are never used as primary evidence.
+          </p>
+          <p>
+            Some notes use research-only issuer snapshots stored in{" "}
+            <code>data/learn/research-snapshots.json</code>. Derived figures are calculated in a
+            shared utility: basic sats per share = Bitcoin held × 100,000,000 ÷ reported common
+            shares; diluted sats per share adds potentially dilutive awards; conditional performance
+            awards are disclosed separately. Bitcoin value per share = reported Bitcoin fair value ÷
+            reported common shares. Approximate market value applies one closing price to all
+            reported common shares. These snapshots never enter the Fiat Freedom Portfolio,
+            valuation history, market observations, or look-through totals, and any allocation
+            illustration is hypothetical.
           </p>
           <p>
             Each note shows its status (question, researching, published, or needs editorial review),

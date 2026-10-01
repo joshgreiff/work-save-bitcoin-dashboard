@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { IssuerSnapshotView } from "@/components/learn/IssuerSnapshotPanels";
 import { ResearchNoteView } from "@/components/learn/ResearchNoteView";
+import {
+  calculateAllocationIllustration,
+  calculateResearchIssuerMetrics,
+} from "@/lib/accounting/research-issuer";
 import {
   loadLearnGlossary,
   loadLearnLessons,
   loadLearnPillars,
   loadResearchNotes,
+  loadResearchSnapshots,
 } from "@/lib/data/load";
 import { pickInOrder, pillarBySlug } from "@/lib/learn/content";
 
@@ -54,6 +60,19 @@ export default async function ResearchNotePage({ params }: Props) {
   const glossaryTerms = pickInOrder(note.glossaryTermIds, loadLearnGlossary().terms, (t) => t.id);
   const nextNotes = pickInOrder(note.nextResearchSlugs, notes, (n) => n.slug);
 
+  const snapshot = note.issuerSnapshot
+    ? loadResearchSnapshots().snapshots.find((s) => s.id === note.issuerSnapshot!.snapshotId)
+    : undefined;
+  let issuerSnapshot: IssuerSnapshotView | null = null;
+  if (snapshot) {
+    const metrics = calculateResearchIssuerMetrics(snapshot);
+    issuerSnapshot = {
+      snapshot,
+      metrics,
+      illustration: calculateAllocationIllustration(snapshot, metrics),
+    };
+  }
+
   return (
     <>
       <ResearchNoteView
@@ -62,6 +81,7 @@ export default async function ResearchNotePage({ params }: Props) {
         relatedLessons={relatedLessons}
         glossaryTerms={glossaryTerms}
         nextNotes={nextNotes}
+        issuerSnapshot={issuerSnapshot}
       />
       <script
         type="application/ld+json"

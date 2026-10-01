@@ -2,17 +2,22 @@ import { AmplificationEducationCard } from "@/components/AmplificationEducationC
 import { BitcoinPerShareEducation } from "@/components/BitcoinPerShareEducation";
 import { LookThroughChart } from "@/components/charts/Charts";
 import { IssuerBpsHistory } from "@/components/IssuerBpsHistory";
+import { SourcesOfEquityReturn } from "@/components/SourcesOfEquityReturn";
 import {
   AsOf,
   DataTable,
   Disclaimer,
+  Expandable,
   formatPercent,
   formatSats,
   formatShares,
   MetricCard,
   SectionIntro,
 } from "@/components/ui/primitives";
+import { calculateResearchIssuerMetrics } from "@/lib/accounting/research-issuer";
+import { loadResearchNotes, loadResearchSnapshots } from "@/lib/data/load";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
+import { SITE_RESEARCH_LINKS } from "@/lib/learn/content";
 
 export const metadata = {
   title: "Bitcoin Exposure",
@@ -25,9 +30,28 @@ function formatMetricNumber(value: number | null | undefined): string {
   return new Intl.NumberFormat("en-US", { maximumFractionDigits: 4 }).format(value);
 }
 
+/** Research-only example for the operating-company card; never enters look-through totals. */
+function loadOperatingCompanyExample() {
+  const note = loadResearchNotes().notes.find(
+    (n) => n.slug === SITE_RESEARCH_LINKS.operatingCompanyGrowth,
+  );
+  const snapshot = loadResearchSnapshots().snapshots.find(
+    (s) => s.id === note?.issuerSnapshot?.snapshotId,
+  );
+  if (!snapshot) return null;
+  return {
+    displayName: snapshot.displayName,
+    ticker: snapshot.ticker,
+    bitcoinHoldings: snapshot.bitcoinHoldings,
+    btcShareOfMarketValue: calculateResearchIssuerMetrics(snapshot).btcShareOfMarketValue,
+    asOf: snapshot.asOf,
+  };
+}
+
 export default function BitcoinExposurePage() {
   const data = buildPublicDashboard();
   const lt = data.lookThrough;
+  const operatingExample = loadOperatingCompanyExample();
   const mstrLatest = data.issuerBitcoinPerShare.latestByTicker.find(
     (r) => r.ticker === "MSTR",
   );
@@ -121,7 +145,6 @@ export default function BitcoinExposurePage() {
             "BTC equiv.",
             "% of total",
             "Metric date",
-            "Source",
           ]}
           rows={lt.positions.map((pos) => [
             pos.issuer,
@@ -139,9 +162,15 @@ export default function BitcoinExposurePage() {
               : `${pos.lookThroughBtc.toFixed(8)} BTC`,
             formatPercent(pos.percentOfTotal, { fallback: "Unavailable" }),
             pos.metricDateLabel ?? pos.metricDate ?? "Unavailable",
-            pos.sourceUrl ?? "Unavailable",
           ])}
         />
+        <p className="text-xs text-[var(--muted)]">
+          Issuer sources, retrieval dates, and dilution scope are listed under{" "}
+          <a href="#advanced-methodology" className="action-link">
+            Advanced methodology
+          </a>
+          .
+        </p>
         <LookThroughChart
           data={lt.positions.map((p) => ({
             label: p.ticker,
@@ -149,6 +178,8 @@ export default function BitcoinExposurePage() {
           }))}
         />
       </section>
+
+      <SourcesOfEquityReturn operatingExample={operatingExample} />
 
       {/* 3. Diluted sats-per-share history */}
       <IssuerBpsHistory
@@ -191,150 +222,195 @@ export default function BitcoinExposurePage() {
       ) : null}
 
       {/* 4. How Bitcoin per share changes */}
-      <BitcoinPerShareEducation />
-      <AmplificationEducationCard />
+      <div id="bitcoin-per-share-examples" className="scroll-mt-24">
+        <BitcoinPerShareEducation />
+      </div>
+      <div id="amplification-example" className="scroll-mt-24">
+        <AmplificationEducationCard />
+      </div>
 
-      {/* 5. Issuer methodology and dilution notes */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-medium">Issuer methodology and dilution notes</h2>
-        <DataTable
-          headers={[
-            "Issuer",
-            "BTC holdings",
-            "Basic shares",
-            "Assumed diluted",
-            "Dilution scope",
-            "Basic sats/share",
-            "Diluted sats/share",
-            "Retrieved",
-          ]}
-          rows={lt.metrics.map((m) => [
-            `${m.issuer} (${m.ticker})`,
-            m.bitcoinHoldings == null ? "Unavailable" : formatMetricNumber(m.bitcoinHoldings),
-            m.basicSharesOutstanding == null
-              ? "Unavailable"
-              : formatMetricNumber(m.basicSharesOutstanding),
-            m.dilutedSharesOutstanding == null
-              ? "Unavailable"
-              : formatMetricNumber(m.dilutedSharesOutstanding),
-            m.dilutionScope ?? "Unavailable",
-            m.basicSatsPerShare == null
-              ? "Unavailable"
-              : formatMetricNumber(m.reportedBasicSatsPerShare ?? Math.round(m.basicSatsPerShare)),
-            m.dilutedSatsPerShare == null
-              ? "Unavailable"
-              : formatMetricNumber(
-                  m.reportedDilutedSatsPerShare ?? Math.round(m.dilutedSatsPerShare),
-                ),
-            m.retrievedAt ?? "Unavailable",
-          ])}
-        />
+      {/* 5. Limitations (always visible) */}
+      <Disclaimer>
+        Look-through Bitcoin exposure is an analytical measure. Shareholders do not directly own
+        or have a claim on issuer Bitcoin. It does not fully account for debt, preferred-stock
+        claims, operating businesses, taxes, custody risk, dilution, warrants, convertibles,
+        financing costs or other liabilities.
+      </Disclaimer>
 
-        <div className="space-y-3 text-sm leading-relaxed text-[var(--muted-foreground)]">
-          <p>
-            <span className="font-medium text-[var(--foreground)]">Strategy / MSTR.</span> Assumed
-            diluted shares are defined by Strategy as basic shares plus assumed conversion of
-            convertible instruments, options, restricted stock units and performance stock units.
-            Sources:{" "}
-            <a
-              className="underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--accent)]"
-              href="https://www.strategy.com/shares"
-              target="_blank"
-              rel="noreferrer"
-            >
-              strategy.com/shares
-            </a>
-            ,{" "}
-            <a
-              className="underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--accent)]"
-              href="https://www.strategy.com/btc"
-              target="_blank"
-              rel="noreferrer"
-            >
-              strategy.com/btc
-            </a>
-            .
-          </p>
-          <p>
-            <span className="font-medium text-[var(--foreground)]">Strive / ASST.</span>{" "}
-            {asstMetric?.note ??
-              "Issuer-defined assumed fully diluted includes effective common, options and unvested employee awards."}
-            {asstMetric?.excludedTraditionalWarrants != null ? (
-              <>
-                {" "}
-                Excluded traditional warrants:{" "}
-                {formatMetricNumber(asstMetric.excludedTraditionalWarrants)}.
-              </>
-            ) : null}{" "}
-            Strive’s assumed fully diluted figure includes effective common shares, options and
-            unvested employee awards, but excludes separately disclosed traditional warrants. A
-            broader treasury-adjusted dilution calculation could therefore produce a lower
-            sats-per-share figure. Source:{" "}
-            <a
-              className="underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--accent)]"
-              href="https://www.sec.gov/Archives/edgar/data/1920406/000162828026062806/asst-20260921.htm"
-              target="_blank"
-              rel="noreferrer"
-            >
-              SEC filing
-            </a>
-            .
-          </p>
-          <p>
-            <span className="font-medium text-[var(--foreground)]">Metaplanet / MPJPY.</span> MPJPY
-            represents Metaplanet ordinary shares at a 1:1 ADR ratio. The analytics tracker labels
-            the latest row as “Current”; the stored metric date is the retrieval date and does not
-            imply a new corporate action. Look-through uses unrounded holdings ÷ assumed diluted
-            shares when raw inputs are available (reported rounded diluted sats/share is 2,866).
-            Source:{" "}
-            <a
-              className="underline decoration-[var(--border)] underline-offset-2 hover:text-[var(--accent)]"
-              href="https://analytics.metaplanet.jp/?tab=shares"
-              target="_blank"
-              rel="noreferrer"
-            >
-              analytics.metaplanet.jp
-            </a>
-            .
-          </p>
-          <p>
-            Position look-through sats = portfolio shares × unrounded issuer diluted sats per share
-            × ADR ratio, rounded only at the end to the nearest satoshi. Missing metrics display as
-            Unavailable, never as zero.
+      {/* 6. Advanced methodology (expandable) */}
+      <section id="advanced-methodology" className="scroll-mt-24 space-y-3">
+        <div>
+          <h2 className="text-xl font-medium">Advanced methodology</h2>
+          <p className="mt-1 text-sm text-[var(--muted-foreground)]">
+            Issuer dilution inputs, calculation rules, limitations, and primary sources. Expand any
+            section for detail.
           </p>
         </div>
-      </section>
 
-      {/* 6. Limitations and primary sources */}
-      <section className="space-y-4">
-        <h2 className="text-xl font-medium">Limitations and primary sources</h2>
-        <Disclaimer>
-          Look-through Bitcoin exposure is an analytical measure. Shareholders do not directly own
-          or have a claim on issuer Bitcoin. It does not fully account for debt, preferred-stock
-          claims, operating businesses, taxes, custody risk, dilution, warrants, convertibles,
-          financing costs or other liabilities.
-        </Disclaimer>
-        <ul className="list-disc space-y-2 pl-5 text-sm text-[var(--muted-foreground)]">
-          <li>Sats per share is not the same as net asset value.</li>
-          <li>Sats-per-share growth does not guarantee share-price appreciation.</li>
-          <li>Historical issuer observations remain append-only.</li>
-          <li>Historical values are never replaced with the latest current value.</li>
-          <li>Third-party estimates are never used when a usable primary disclosure exists.</li>
-          <li>Every metric shows its issuer date and retrieval date.</li>
-          <li>
-            WSB Strategic Bitcoin Reserve sats never enter this look-through total; look-through
-            never enters actual portfolio market value.
-          </li>
-        </ul>
-        <DataTable
-          headers={["Issuer", "Metric date", "Retrieved", "Source"]}
-          rows={lt.positions.map((pos) => [
-            `${pos.issuer} (${pos.ticker})`,
-            pos.metricDateLabel ?? pos.metricDate ?? "Unavailable",
-            pos.retrievalDate ?? "Unavailable",
-            pos.sourceUrl ?? "Unavailable",
-          ])}
-        />
+        <Expandable
+          id="issuer-dilution"
+          title="Issuer methodology and dilution notes"
+          description="Holdings, basic and assumed diluted shares, dilution scope, and per-issuer notes"
+        >
+          <DataTable
+            headers={[
+              "Issuer",
+              "BTC holdings",
+              "Basic shares",
+              "Assumed diluted",
+              "Dilution scope",
+              "Basic sats/share",
+              "Diluted sats/share",
+              "Retrieved",
+            ]}
+            rows={lt.metrics.map((m) => [
+              `${m.issuer} (${m.ticker})`,
+              m.bitcoinHoldings == null ? "Unavailable" : formatMetricNumber(m.bitcoinHoldings),
+              m.basicSharesOutstanding == null
+                ? "Unavailable"
+                : formatMetricNumber(m.basicSharesOutstanding),
+              m.dilutedSharesOutstanding == null
+                ? "Unavailable"
+                : formatMetricNumber(m.dilutedSharesOutstanding),
+              m.dilutionScope ?? "Unavailable",
+              m.basicSatsPerShare == null
+                ? "Unavailable"
+                : formatMetricNumber(m.reportedBasicSatsPerShare ?? Math.round(m.basicSatsPerShare)),
+              m.dilutedSatsPerShare == null
+                ? "Unavailable"
+                : formatMetricNumber(
+                    m.reportedDilutedSatsPerShare ?? Math.round(m.dilutedSatsPerShare),
+                  ),
+              m.retrievedAt ?? "Unavailable",
+            ])}
+          />
+
+          <div className="space-y-3 text-sm leading-relaxed text-[var(--muted-foreground)]">
+            <p>
+              <span className="font-medium text-[var(--foreground)]">Strategy / MSTR.</span> Assumed
+              diluted shares are defined by Strategy as basic shares plus assumed conversion of
+              convertible instruments, options, restricted stock units and performance stock units.
+              Sources:{" "}
+              <a
+                className="action-link underline"
+                href="https://www.strategy.com/shares"
+                target="_blank"
+                rel="noreferrer"
+              >
+                strategy.com/shares
+              </a>
+              ,{" "}
+              <a
+                className="action-link underline"
+                href="https://www.strategy.com/btc"
+                target="_blank"
+                rel="noreferrer"
+              >
+                strategy.com/btc
+              </a>
+              .
+            </p>
+            <p>
+              <span className="font-medium text-[var(--foreground)]">Strive / ASST.</span>{" "}
+              {asstMetric?.note ??
+                "Issuer-defined assumed fully diluted includes effective common, options and unvested employee awards."}
+              {asstMetric?.excludedTraditionalWarrants != null ? (
+                <>
+                  {" "}
+                  Excluded traditional warrants:{" "}
+                  {formatMetricNumber(asstMetric.excludedTraditionalWarrants)}.
+                </>
+              ) : null}{" "}
+              Strive’s assumed fully diluted figure includes effective common shares, options and
+              unvested employee awards, but excludes separately disclosed traditional warrants. A
+              broader treasury-adjusted dilution calculation could therefore produce a lower
+              sats-per-share figure. Source:{" "}
+              <a
+                className="action-link underline"
+                href="https://www.sec.gov/Archives/edgar/data/1920406/000162828026062806/asst-20260921.htm"
+                target="_blank"
+                rel="noreferrer"
+              >
+                SEC filing
+              </a>
+              .
+            </p>
+            <p>
+              <span className="font-medium text-[var(--foreground)]">Metaplanet / MPJPY.</span> MPJPY
+              represents Metaplanet ordinary shares at a 1:1 ADR ratio. The analytics tracker labels
+              the latest row as “Current”; the stored metric date is the retrieval date and does not
+              imply a new corporate action. Look-through uses unrounded holdings ÷ assumed diluted
+              shares when raw inputs are available (reported rounded diluted sats/share is 2,866).
+              Source:{" "}
+              <a
+                className="action-link underline"
+                href="https://analytics.metaplanet.jp/?tab=shares"
+                target="_blank"
+                rel="noreferrer"
+              >
+                analytics.metaplanet.jp
+              </a>
+              .
+            </p>
+          </div>
+        </Expandable>
+
+        <Expandable
+          id="calculation-rules"
+          title="Calculation rules"
+          description="How look-through sats are calculated, rounded, and kept separate"
+        >
+          <ul className="list-disc space-y-2 pl-5 text-sm text-[var(--muted-foreground)]">
+            <li>
+              Position look-through sats = portfolio shares × unrounded issuer diluted sats per share
+              × ADR ratio, rounded only at the end to the nearest satoshi. Missing metrics display as
+              Unavailable, never as zero.
+            </li>
+            <li>Historical issuer observations remain append-only.</li>
+            <li>Historical values are never replaced with the latest current value.</li>
+            <li>Third-party estimates are never used when a usable primary disclosure exists.</li>
+            <li>Every metric shows its issuer date and retrieval date.</li>
+            <li>
+              WSB Strategic Bitcoin Reserve sats never enter this look-through total; look-through
+              never enters actual portfolio market value.
+            </li>
+            <li>
+              Research-only examples, such as SPCX in Sources of equity return, never enter the
+              portfolio, valuation history, market observations, or look-through totals.
+            </li>
+          </ul>
+        </Expandable>
+
+        <Expandable
+          id="limitations"
+          title="Limitations"
+          description="What sats per share does and does not measure"
+        >
+          <ul className="list-disc space-y-2 pl-5 text-sm text-[var(--muted-foreground)]">
+            <li>Sats per share is not the same as net asset value.</li>
+            <li>Sats-per-share growth does not guarantee share-price appreciation.</li>
+            <li>
+              Gross diluted sats per share does not subtract debt, preferred liquidation preferences,
+              or other senior obligations.
+            </li>
+          </ul>
+        </Expandable>
+
+        <Expandable
+          id="source-registry"
+          title="Primary source registry"
+          description="Issuer metric dates, retrieval dates, and source URLs"
+        >
+          <DataTable
+            headers={["Issuer", "Metric date", "Retrieved", "Source"]}
+            rows={lt.positions.map((pos) => [
+              `${pos.issuer} (${pos.ticker})`,
+              pos.metricDateLabel ?? pos.metricDate ?? "Unavailable",
+              pos.retrievalDate ?? "Unavailable",
+              pos.sourceUrl ?? "Unavailable",
+            ])}
+          />
+        </Expandable>
       </section>
     </div>
   );

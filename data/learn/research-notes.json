@@ -498,6 +498,433 @@
           "note": "Editorially approved and published. Revised the working thesis, the Boskin, productivity-and-savings, and Bitcoin-issuance claims, and two counterarguments; replaced the SEC source with Chair Gensler’s Jan. 10, 2024 spot bitcoin ETP statement."
         }
       ]
+    },
+    {
+      "slug": "can-spacex-help-a-bitcoin-portfolio-outperform",
+      "title": "Can SpaceX Help a Bitcoin Portfolio Outperform?",
+      "summary": "SpaceX holds 18,712 BTC, but at its June 30, 2026 market value that Bitcoin was about 0.05% of the company. If SPCX helps a Bitcoin-focused portfolio outperform, it will be through launch, Starlink, and Starship economics — not Bitcoin per share. This note separates reported facts, company targets, and speculation.",
+      "pillar": "bitcoin-capital-markets",
+      "status": "needs_review",
+      "publishedAt": null,
+      "updatedAt": "2026-09-30T23:30:00-04:00",
+      "centralQuestion": "Could a SpaceX (SPCX) position help a Bitcoin-focused portfolio outperform — and if so, through which source of equity return?",
+      "workingThesis": "SpaceX is not currently a meaningful source of Bitcoin amplification. Its 18,712 BTC represented approximately 0.05% of its June 30 market value. A position would primarily be a bet on launch, Starlink, Starship, and future infrastructure—with incidental Bitcoin exposure.",
+      "mainstreamView": {
+        "title": "The operating-company case",
+        "summary": "Supporters see a dominant launch provider whose Starlink business is already growing profitably, with Starship as the step change in cost and capacity.",
+        "claims": [
+          {
+            "kind": "interpretation",
+            "text": "Starlink is the part of the case already visible in reported results: subscribers doubled year over year and the Connectivity segment earned $1.656 billion of operating income in Q2 2026.",
+            "sourceIds": [
+              "spacex-10q-q2-2026"
+            ]
+          },
+          {
+            "kind": "company_target",
+            "text": "SpaceX expects Starship to deploy next-generation V3 Starlink satellites with far more capacity per launch than Falcon 9, lowering the cost of adding network capacity.",
+            "sourceIds": [
+              "spacex-prospectus-2026"
+            ]
+          },
+          {
+            "kind": "interpretation",
+            "text": "If those targets are met, Starlink could keep adding subscribers without a proportional rise in launch costs — the core of the bull case for the operating company.",
+            "sourceIds": [
+              "spacex-prospectus-2026"
+            ]
+          }
+        ]
+      },
+      "alternativeView": {
+        "title": "The skeptical case",
+        "summary": "Skeptics note that the valuation already prices in large future success, that capital spending and AI losses are heavy, and that key targets depend on technology not yet demonstrated at scale.",
+        "claims": [
+          {
+            "kind": "interpretation",
+            "text": "At the June 30 close, an approximate $2.25 trillion market value compared with $12.508 billion of first-half 2026 revenue — a price that already assumes much of the growth bulls expect.",
+            "sourceIds": [
+              "spacex-10q-q2-2026",
+              "spcx-close-2026-06-30"
+            ]
+          },
+          {
+            "kind": "established_fact",
+            "text": "SpaceX reported a first-half 2026 net loss of $4.817 billion and $28.476 billion of capital expenditures, $23.551 billion of it in the AI segment.",
+            "sourceIds": [
+              "spacex-10q-q2-2026"
+            ]
+          },
+          {
+            "kind": "interpretation",
+            "text": "Rapid reuse, V3 capacity, and orbital compute are still targets or plans; a valuation that depends on them carries execution risk that Starlink’s current results do not remove.",
+            "sourceIds": [
+              "spacex-prospectus-2026",
+              "spacex-starship-flight-14"
+            ]
+          }
+        ]
+      },
+      "evidence": [
+        {
+          "id": "bitcoin-on-the-balance-sheet",
+          "heading": "Bitcoin on the balance sheet",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "SpaceX held 18,712 BTC as of June 30, 2026, with a cost basis of $661 million and a fair value of $1.098 billion — down from $1.637 billion for the same holdings on Dec. 31, 2025.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "SpaceX reported 13.176 billion shares of Class A and Class B common stock outstanding at June 30, 2026.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "The 10-Q lists 564 million potentially dilutive share-based compensation awards. It separately excludes 1.331 billion share-based awards subject to performance and market conditions that were not met as of June 30, 2026.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "That is approximately 142 sats per share on reported common shares (18,712 BTC ÷ 13.176 billion) and approximately 136 sats per share after adding the 564 million potentially dilutive awards.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ],
+              "note": "Derived calculation. Adding the 1.331 billion conditional performance awards as well would lower the figure to about 124 sats per share; it is disclosed separately because those awards vest only if performance and market conditions are met."
+            },
+            {
+              "kind": "established_fact",
+              "text": "Bitcoin value per share was about $0.0833 ($1.098 billion ÷ 13.176 billion shares), and the Bitcoin was about 0.05% of SPCX’s approximate $2.25 trillion market value at the June 30 close of $170.86.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spcx-close-2026-06-30"
+              ],
+              "note": "Derived calculation. The $0.0833 of Bitcoin per share is synchronized to June 30, 2026. Its dollar value changes with Bitcoin’s price, while sats per share changes only when SpaceX’s Bitcoin holdings or diluted share count changes. Market value applies the Class A close to all 13.176 billion Class A and Class B shares; Class B shares do not trade, so this is an approximation."
+            },
+            {
+              "kind": "interpretation",
+              "text": "At that scale, doubling Bitcoin’s price would add roughly 0.05% to SpaceX’s market value, all else equal. Bitcoin per share is not a material driver of SPCX returns.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spcx-close-2026-06-30"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "launch",
+          "heading": "Launch: what has been delivered",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "SpaceX reports launching more than 80% of global mass to orbit each year since 2023, including over 2,200 metric tons in 2025.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ],
+              "note": "Company-reported market share; not independently verified in this note."
+            },
+            {
+              "kind": "established_fact",
+              "text": "SpaceX reported 78 launches and 1,041 metric tons delivered to orbit in the first half of 2026.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spacex-q2-2026-release"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Both figures were lower than in the first half of 2025, when SpaceX reported 84 launches and 1,102 metric tons.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spacex-q2-2026-release"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "starlink",
+          "heading": "Starlink: the profitable engine today",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "Starlink had 12.0 million subscribers on June 30, 2026, double the 6.0 million a year earlier and up from 10.3 million on March 31, 2026.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spacex-q2-2026-release"
+              ],
+              "note": "SpaceX’s subscriber count excludes managed enterprise and government contracts such as aviation, maritime, and government customers."
+            },
+            {
+              "kind": "established_fact",
+              "text": "Connectivity segment revenue rose about 66% year over year in Q2 2026, to $4.291 billion from $2.588 billion, and segment operating income rose about 79%, to $1.656 billion from $923 million.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spacex-q2-2026-release"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Starlink subscriber ARPU fell to $66 per month in Q2 2026 from $85 a year earlier, which SpaceX attributes primarily to international expansion and lower-priced service plans.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "starship-and-v3",
+          "heading": "Starship and V3: targets versus results",
+          "claims": [
+            {
+              "kind": "company_target",
+              "text": "SpaceX says each V3 satellite is designed to offer roughly one Tbps of downlink capacity, and expects a single Starship launch to deploy up to 60 of them — a potential twenty-fold increase in Starlink downlink capacity deployed per launch compared with Falcon 9.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "On Sept. 28, 2026, Flight 14 became Starship’s first orbital flight and deployed 26 V3 Starlink satellites, which SpaceX says will complete on-orbit checkouts before serving customers.",
+              "sourceIds": [
+                "spacex-starship-flight-14"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "Flight 14’s ship ended with a splashdown in the Pacific Ocean rather than a tower catch. As of this note, SpaceX has not caught or reflown a Starship upper stage.",
+              "sourceIds": [
+                "spacex-starship-flight-14",
+                "spacex-q2-2026-webcast"
+              ]
+            },
+            {
+              "kind": "company_target",
+              "text": "On the Q2 webcast, Elon Musk said SpaceX does not see technical obstacles to full and rapid reusability, and that Starlink needs a critical mass of roughly 1,000 V3 satellites, which he estimated around the second quarter of 2027.",
+              "sourceIds": [
+                "spacex-q2-2026-webcast"
+              ]
+            },
+            {
+              "kind": "interpretation",
+              "text": "Flight 14 carried 26 satellites, not the 60-satellite target. Reaching about 1,000 V3 satellites at 60 per launch would take roughly 17 fully loaded launches — a cadence that depends on rapid reuse.",
+              "sourceIds": [
+                "spacex-starship-flight-14",
+                "spacex-prospectus-2026",
+                "spacex-q2-2026-webcast"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "orbital-compute",
+          "heading": "Orbital compute: speculative",
+          "claims": [
+            {
+              "kind": "speculative",
+              "text": "SpaceX says it expects to begin deploying orbital AI compute satellites as early as 2028, and describes potential constellations of millions of satellites serving as orbital data centers.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            },
+            {
+              "kind": "established_fact",
+              "text": "The prospectus warns that orbital AI compute initiatives are in early stages and “have not yet been proven at commercial scale, or at all,” and that AI compute satellites at scale need full Starship reusability to be economically compelling.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "technical-counterarguments",
+          "heading": "Technical counterarguments",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "SpaceX’s own risk factors state that if Starship does not achieve full reusability or rapid turnaround, it may face higher per-launch costs, slower constellation deployment, delayed revenue growth, and higher capital requirements.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            },
+            {
+              "kind": "interpretation",
+              "text": "One Tbps per satellite is a design specification. Capacity customers actually experience also depends on spectrum, ground stations, terminals, and demand, so per-launch capacity may not translate one for one into revenue.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            },
+            {
+              "kind": "interpretation",
+              "text": "Orbital compute adds unproven engineering problems — power, heat rejection in space, radiation, and servicing — on top of the reuse it already depends on.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "financial-counterarguments",
+          "heading": "Financial counterarguments",
+          "claims": [
+            {
+              "kind": "established_fact",
+              "text": "Counting both the 564 million potentially dilutive awards and the 1.331 billion conditional performance awards, up to about 1.9 billion additional shares could be issued — about 14% of the 13.176 billion reported common shares.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ],
+              "note": "Derived calculation from 10-Q figures; conditional awards vest only if their performance and market conditions are met."
+            },
+            {
+              "kind": "established_fact",
+              "text": "The prospectus states that Elon Musk would hold approximately 82.4% of the voting power of SpaceX common stock after the offering, limiting outside shareholders’ influence.",
+              "sourceIds": [
+                "spacex-prospectus-2026"
+              ]
+            },
+            {
+              "kind": "interpretation",
+              "text": "Starlink revenue growth has come with falling ARPU, and AI-segment spending dwarfs Connectivity operating income; outperformance requires those investments to earn returns that are not yet visible in reported results.",
+              "sourceIds": [
+                "spacex-10q-q2-2026"
+              ]
+            },
+            {
+              "kind": "interpretation",
+              "text": "As a Bitcoin vehicle, SPCX is inefficient: a dollar in SPCX carries about 0.05 cents of Bitcoin exposure, so holders who want Bitcoin exposure get almost none of it here.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spcx-close-2026-06-30"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "allocation-illustration",
+          "heading": "A 0%, 5%, and 10% allocation illustration",
+          "claims": [
+            {
+              "kind": "interpretation",
+              "text": "In a hypothetical $10,000 portfolio, a 10% SPCX position carries about 797 sats of look-through Bitcoin worth about $0.49 at June 30 values; the same $1,000 in Bitcoin would have bought about 1.7 million sats. The allocation’s effect on the portfolio comes almost entirely from SPCX’s operating-company share price.",
+              "sourceIds": [
+                "spacex-10q-q2-2026",
+                "spcx-close-2026-06-30"
+              ],
+              "note": "Hypothetical illustration using June 30, 2026 values. Not a recommendation, not a forecast, and separate from the actual Fiat Freedom Portfolio."
+            }
+          ]
+        }
+      ],
+      "openQuestions": [
+        "Can SpaceX catch and reuse the Starship upper stage at the turnaround times its cost targets assume?",
+        "Will V3 satellites deliver close to their designed capacity in service, and how quickly can SpaceX reach the roughly 1,000 V3 satellites Musk called critical mass?",
+        "Will Starlink ARPU stabilize as the subscriber base keeps growing internationally?",
+        "Can AI-segment capital spending earn returns that justify its scale?",
+        "Will SpaceX add to, hold, or sell its Bitcoin, and how will changes be disclosed?"
+      ],
+      "sources": [
+        {
+          "id": "spacex-10q-q2-2026",
+          "title": "Form 10-Q for the quarter ended June 30, 2026",
+          "publisher": "Space Exploration Technologies Corp. (SEC EDGAR)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052535/spcx-20260630.htm",
+          "publishedAt": "2026-08-04",
+          "type": "primary",
+          "note": "Bitcoin holdings and fair value (Note 7), shares outstanding (statement of shareholders’ equity), dilutive and conditional awards (Note 13), segment results, capex, and key business metrics."
+        },
+        {
+          "id": "spacex-q2-2026-release",
+          "title": "SpaceX Reports Second Quarter 2026 Results (Exhibit 99.1 to Form 8-K)",
+          "publisher": "Space Exploration Technologies Corp. (SEC EDGAR)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026052515/earningsreleaseq22608042.htm",
+          "publishedAt": "2026-08-04",
+          "type": "primary"
+        },
+        {
+          "id": "spacex-q2-2026-webcast",
+          "title": "SpaceX Second Quarter 2026 Webcast — Edited Transcript",
+          "publisher": "SpaceX Investor Relations",
+          "url": "https://s21.q4cdn.com/184289198/files/doc_financials/2026/q2/SpaceX-Q2-2026-Earnings_Transcript-FINAL.pdf",
+          "publishedAt": "2026-08-04",
+          "type": "primary",
+          "note": "Company-published transcript; SpaceX notes it may contain transcription errors. Statements about future plans are forward-looking."
+        },
+        {
+          "id": "spacex-prospectus-2026",
+          "title": "Prospectus (Form 424(b)(4))",
+          "publisher": "Space Exploration Technologies Corp. (SEC EDGAR)",
+          "url": "https://www.sec.gov/Archives/edgar/data/1181412/000162828026042639/spaceexplorationtechnologi.htm",
+          "publishedAt": "2026-06-12",
+          "type": "primary",
+          "note": "Business description, Starlink V3 and Starship expectations, orbital AI compute plans, risk factors, and post-offering voting power."
+        },
+        {
+          "id": "spacex-starship-flight-14",
+          "title": "Starship Flight 14",
+          "publisher": "SpaceX",
+          "url": "https://www.spacex.com/launches/starship-flight-14/",
+          "publishedAt": "2026-09-28",
+          "type": "primary"
+        },
+        {
+          "id": "spcx-close-2026-06-30",
+          "title": "SPCX historical prices — June 30, 2026 close ($170.86)",
+          "publisher": "Yahoo Finance",
+          "url": "https://finance.yahoo.com/quote/SPCX/history/",
+          "publishedAt": "2026-06-30",
+          "type": "market_data",
+          "note": "Unadjusted daily close retrieved Sept. 30, 2026. Nasdaq’s historical-quote endpoint returned no data at retrieval; confirm against Nasdaq before publication."
+        }
+      ],
+      "relatedLessonSlugs": [],
+      "relatedVideoUrl": null,
+      "relatedNewsletterUrl": null,
+      "relatedTools": [
+        {
+          "label": "BTC Exposure — sources of equity return",
+          "href": "/bitcoin-exposure#sources-of-equity-return",
+          "description": "How Bitcoin-per-share growth, residual-equity amplification, and operating-company growth differ."
+        },
+        {
+          "label": "Methodology",
+          "href": "/methodology",
+          "description": "How the dashboard calculates look-through Bitcoin and why research snapshots stay separate."
+        }
+      ],
+      "glossaryTermIds": [
+        "satoshi",
+        "volatility"
+      ],
+      "nextResearchSlugs": [],
+      "disclosures": [
+        "Educational research, not investment advice or a recommendation to buy or sell SPCX or any other security.",
+        "SPCX is not a holding of the Fiat Freedom Portfolio. It is excluded from the official portfolio, valuation history, market observations, and Bitcoin look-through totals on this site.",
+        "Company targets and plans come from SpaceX’s filings and webcast. They are forward-looking statements and may not be achieved.",
+        "Speculative scenarios are labeled as such and are not forecasts.",
+        "The allocation illustration is hypothetical, uses June 30, 2026 values, ignores taxes, fees, and later price changes, and is separate from the actual portfolio’s performance.",
+        "Market value is approximated by applying the Class A closing price to all reported Class A and Class B shares."
+      ],
+      "revisions": [
+        {
+          "date": "2026-09-30",
+          "note": "Drafted for editorial review."
+        },
+        {
+          "date": "2026-09-30",
+          "note": "Tightened the working thesis and clarified that Bitcoin value per share is a June 30, 2026 snapshot."
+        }
+      ],
+      "issuerSnapshot": {
+        "snapshotId": "spacex-2026-06-30",
+        "metricsAfterSectionId": "bitcoin-on-the-balance-sheet",
+        "illustrationAfterSectionId": "allocation-illustration"
+      }
     }
   ],
   "policy": [

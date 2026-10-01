@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { formatViewerDate, formatViewerTimestamp } from "@/lib/market/session";
+import { formatViewerDate } from "@/lib/market/session";
 import type { SubstackFeedResult } from "@/lib/schemas/substack";
 
 const EXTERNAL_REL = "noopener noreferrer";
@@ -78,8 +78,7 @@ export function SubstackReadingList({ feed }: { feed: SubstackFeedResult }) {
 
       {feed.freshness === "live" ? (
         <p className="text-xs text-[var(--muted)]">
-          Feed checked {formatViewerTimestamp(feed.retrievedAt)}. Titles and summaries link out; we
-          do not republish full essays here.
+          Titles and summaries link out; we do not republish full essays here.
         </p>
       ) : (
         <p className="text-xs text-[var(--muted)]">

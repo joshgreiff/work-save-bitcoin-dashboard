@@ -123,7 +123,11 @@
       "questions": [
         { "question": "When does issuing equity to buy Bitcoin increase Bitcoin per share, and when does it dilute holders?" },
         { "question": "How do preferred-dividend obligations hold up during a long Bitcoin drawdown?" },
-        { "question": "Can Bitcoin-linked securities fund living expenses without selling Bitcoin?" }
+        { "question": "Can Bitcoin-linked securities fund living expenses without selling Bitcoin?" },
+        {
+          "question": "Can an operating company like SpaceX help a Bitcoin portfolio outperform?",
+          "researchSlug": "can-spacex-help-a-bitcoin-portfolio-outperform"
+        }
       ],
       "relatedTools": [
         {

@@ -2,22 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { NewsletterSignup } from "@/components/learn/NewsletterSignup";
+import { isNavItemActive, MORE_NAV, PRIMARY_NAV, type NavItem } from "@/lib/navigation";
 import type { NewsletterConfig } from "@/lib/schemas/learn";
-
-const NAV = [
-  { href: "/", label: "Overview" },
-  { href: "/learn", label: "Learn" },
-  { href: "/portfolio", label: "Portfolio" },
-  { href: "/episodes", label: "Episodes" },
-  { href: "/bitcoin-exposure", label: "BTC Exposure" },
-  { href: "/reserve", label: "BTC Reserve" },
-  { href: "/leaderboard", label: "Leaderboard" },
-  { href: "/income-model", label: "Income Model" },
-  { href: "/methodology", label: "Methodology" },
-  { href: "/resources", label: "Resources" },
-];
 
 /** Pages that already render an inline newsletter block. */
 function pageHasInlineNewsletter(pathname: string): boolean {
@@ -28,9 +16,95 @@ function pageHasInlineNewsletter(pathname: string): boolean {
   );
 }
 
+function NavLink({
+  item,
+  pathname,
+  onNavigate,
+}: {
+  item: NavItem;
+  pathname: string;
+  onNavigate: () => void;
+}) {
+  const active = isNavItemActive(pathname, item.href);
+  return (
+    <Link
+      href={item.href}
+      onClick={onNavigate}
+      aria-current={active ? "page" : undefined}
+      className="nav-link flex min-h-11 items-center px-3 py-2 text-sm"
+    >
+      {item.label}
+    </Link>
+  );
+}
+
+/** Desktop "More" disclosure: Escape or focus leaving the menu closes it. */
+function MoreMenu({ pathname }: { pathname: string }) {
+  const [open, setOpen] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const moreActive = MORE_NAV.some((item) => isNavItemActive(pathname, item.href));
+
+  useEffect(() => {
+    if (!open) return;
+    function onPointerDown(event: PointerEvent) {
+      if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
+    }
+    document.addEventListener("pointerdown", onPointerDown);
+    return () => document.removeEventListener("pointerdown", onPointerDown);
+  }, [open]);
+
+  return (
+    <div
+      ref={containerRef}
+      className="relative"
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && open) {
+          event.stopPropagation();
+          setOpen(false);
+          buttonRef.current?.focus();
+        }
+      }}
+      onBlur={(event) => {
+        if (!containerRef.current?.contains(event.relatedTarget as Node | null)) setOpen(false);
+      }}
+    >
+      <button
+        ref={buttonRef}
+        type="button"
+        aria-expanded={open}
+        aria-controls="more-nav"
+        onClick={() => setOpen((value) => !value)}
+        className={`nav-menu-button flex min-h-11 items-center gap-1 px-3 py-2 text-sm ${
+          moreActive || open
+            ? "text-[var(--accent)]"
+            : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+        }`}
+      >
+        More
+        <span aria-hidden="true" className={`text-xs transition-transform ${open ? "rotate-180" : ""}`}>
+          ▾
+        </span>
+      </button>
+      <ul
+        id="more-nav"
+        className={`${open ? "block" : "hidden"} absolute right-0 top-full z-30 mt-1 min-w-48 border border-[var(--border)] bg-[var(--background)] py-1 shadow-lg`}
+      >
+        {MORE_NAV.map((item) => (
+          <li key={item.href}>
+            <NavLink item={item} pathname={pathname} onNavigate={() => setOpen(false)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const close = () => setOpen(false);
 
   return (
     <header className="relative border-b border-[var(--border)] bg-[var(--background)]/95 backdrop-blur">
@@ -40,39 +114,61 @@ export function SiteHeader() {
             Work Save Bitcoin
           </p>
         </Link>
+
+        <nav aria-label="Primary" className="hidden md:block">
+          <ul className="flex items-center gap-1">
+            {PRIMARY_NAV.map((item) => (
+              <li key={item.href}>
+                <NavLink item={item} pathname={pathname} onNavigate={close} />
+              </li>
+            ))}
+            <li>
+              <MoreMenu pathname={pathname} />
+            </li>
+          </ul>
+        </nav>
+
         <button
+          ref={menuButtonRef}
           type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center border border-[var(--border)] px-3 py-2 text-sm text-[var(--foreground)] md:hidden"
+          className="nav-menu-button inline-flex min-h-11 min-w-11 items-center justify-center border border-[var(--border)] px-3 py-2 text-sm text-[var(--foreground)] md:hidden"
           aria-expanded={open}
-          aria-controls="primary-nav"
+          aria-controls="mobile-nav"
           onClick={() => setOpen((value) => !value)}
         >
           Menu
         </button>
         <nav
-          id="primary-nav"
-          className={`${open ? "flex" : "hidden"} absolute left-0 right-0 top-full z-20 flex-col border-b border-[var(--border)] bg-[var(--background)] px-4 py-3 md:static md:flex md:flex-row md:flex-wrap md:items-center md:gap-1 md:border-0 md:bg-transparent md:p-0`}
+          id="mobile-nav"
+          aria-label="Primary"
+          className={`${open ? "block" : "hidden"} absolute left-0 right-0 top-full z-20 border-b border-[var(--border)] bg-[var(--background)] px-4 py-3 md:hidden`}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") {
+              setOpen(false);
+              menuButtonRef.current?.focus();
+            }
+          }}
         >
-          {NAV.map((item) => {
-            const active =
-              item.href === "/"
-                ? pathname === "/"
-                : pathname === item.href || pathname.startsWith(`${item.href}/`);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className={`min-h-11 px-3 py-3 text-sm md:py-2 ${
-                  active
-                    ? "text-[var(--accent)]"
-                    : "text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
-                }`}
-              >
-                {item.label}
-              </Link>
-            );
-          })}
+          <ul>
+            {PRIMARY_NAV.map((item) => (
+              <li key={item.href}>
+                <NavLink item={item} pathname={pathname} onNavigate={close} />
+              </li>
+            ))}
+          </ul>
+          <p
+            id="mobile-more-heading"
+            className="mt-2 border-t border-[var(--border)] px-3 pt-3 text-xs uppercase tracking-[0.12em] text-[var(--muted)]"
+          >
+            More
+          </p>
+          <ul aria-labelledby="mobile-more-heading" className="grid grid-cols-2">
+            {MORE_NAV.map((item) => (
+              <li key={item.href}>
+                <NavLink item={item} pathname={pathname} onNavigate={close} />
+              </li>
+            ))}
+          </ul>
         </nav>
       </div>
     </header>

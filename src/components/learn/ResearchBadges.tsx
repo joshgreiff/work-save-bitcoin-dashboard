@@ -14,6 +14,8 @@ const BADGE_BASE =
 
 const CLAIM_TONE: Record<ResearchClaimKind, string> = {
   established_fact: "border-[var(--positive)] text-[var(--positive)]",
+  company_target: "border-[var(--foreground)] text-[var(--foreground)]",
+  speculative: "border-dashed border-[var(--accent)] text-[var(--accent)]",
   interpretation: "border-[var(--border)] text-[var(--muted-foreground)]",
   disputed: "border-[var(--accent)] text-[var(--accent)]",
   open_question: "border-dashed border-[var(--muted)] text-[var(--muted)]",

@@ -229,6 +229,74 @@ describe("research note schema", () => {
     ).toBe(true);
   });
 
+  it("requires company targets to cite a primary source", () => {
+    const withTarget = (sourceIds: string[]) =>
+      minimalNote({
+        evidence: [
+          {
+            id: "targets",
+            heading: "Targets",
+            claims: [{ kind: "company_target", text: "We expect 60 per launch.", sourceIds }],
+          },
+        ],
+      });
+    expect(researchNoteSchema.safeParse(withTarget(["podcast"])).success).toBe(false);
+    expect(researchNoteSchema.safeParse(withTarget(["fed"])).success).toBe(true);
+  });
+
+  it("requires speculative scenarios to cite who proposed them", () => {
+    const withSpeculation = (sourceIds: string[]) =>
+      minimalNote({
+        evidence: [
+          {
+            id: "scenarios",
+            heading: "Scenarios",
+            claims: [{ kind: "speculative", text: "Data centers in orbit.", sourceIds }],
+          },
+        ],
+      });
+    expect(researchNoteSchema.safeParse(withSpeculation([])).success).toBe(false);
+    expect(researchNoteSchema.safeParse(withSpeculation(["podcast"])).success).toBe(true);
+  });
+
+  it("accepts market data as evidence for an established fact", () => {
+    const result = researchNoteSchema.safeParse(
+      minimalNote({
+        sources: [
+          {
+            id: "close",
+            title: "Daily close",
+            publisher: "Exchange data",
+            url: "https://example.com/close",
+            publishedAt: "2026-06-30",
+            type: "market_data",
+          },
+        ],
+        evidence: [
+          {
+            id: "price",
+            heading: "Price",
+            claims: [{ kind: "established_fact", text: "Closed at $1.", sourceIds: ["close"] }],
+          },
+        ],
+      }),
+    );
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects issuer snapshot panels that target unknown sections", () => {
+    const result = researchNoteSchema.safeParse(
+      minimalNote({
+        issuerSnapshot: {
+          snapshotId: "x",
+          metricsAfterSectionId: "context",
+          illustrationAfterSectionId: "missing",
+        },
+      }),
+    );
+    expect(result.success).toBe(false);
+  });
+
   it("rejects duplicate note slugs", () => {
     const note = minimalNote();
     expect(researchNotesFileSchema.safeParse({ notes: [note, note] }).success).toBe(false);

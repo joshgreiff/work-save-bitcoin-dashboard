@@ -219,6 +219,7 @@ export const researchSourceTypeSchema = z.enum([
   "primary",
   "academic",
   "official_data",
+  "market_data",
   "commentary",
 ]);
 
@@ -239,10 +240,14 @@ export const researchSourceSchema = z.object({
 
 export const researchClaimKindSchema = z.enum([
   "established_fact",
+  "company_target",
+  "speculative",
   "interpretation",
   "disputed",
   "open_question",
 ]);
+
+export const RESEARCH_CLAIM_KIND_ORDER = researchClaimKindSchema.options;
 
 export const researchClaimSchema = z.object({
   kind: researchClaimKindSchema,
@@ -266,6 +271,13 @@ export const researchSectionSchema = z.object({
 export const researchRevisionSchema = z.object({
   date: isoDateSchema,
   note: z.string().min(1),
+});
+
+/** Links a note to a research-only issuer snapshot (never portfolio data) and places its panels. */
+export const researchIssuerSnapshotLinkSchema = z.object({
+  snapshotId: slugSchema,
+  metricsAfterSectionId: slugSchema,
+  illustrationAfterSectionId: slugSchema,
 });
 
 export const researchNoteSchema = z
@@ -292,6 +304,7 @@ export const researchNoteSchema = z
     nextResearchSlugs: z.array(slugSchema).default([]),
     disclosures: z.array(z.string().min(1)).default([]),
     revisions: z.array(researchRevisionSchema).default([]),
+    issuerSnapshot: researchIssuerSnapshotLinkSchema.nullable().default(null),
   })
   .superRefine((note, ctx) => {
     if (note.status === "published" && note.publishedAt == null) {
@@ -320,6 +333,7 @@ export const researchNoteSchema = z
           ctx.addIssue({ code: "custom", message: `${note.slug}: claim cites unknown source ${id}` });
         }
       }
+      const excerpt = `"${claim.text.slice(0, 60)}…"`;
       if (claim.kind === "established_fact") {
         const hasEvidenceSource = claim.sourceIds.some((id) => {
           const type = sourceById.get(id)?.type;
@@ -328,7 +342,37 @@ export const researchNoteSchema = z
         if (!hasEvidenceSource) {
           ctx.addIssue({
             code: "custom",
-            message: `${note.slug}: established facts must cite a primary, academic, or official-data source — "${claim.text.slice(0, 60)}…"`,
+            message: `${note.slug}: established facts must cite a primary, academic, official-data, or market-data source — ${excerpt}`,
+          });
+        }
+      }
+      if (
+        claim.kind === "company_target" &&
+        !claim.sourceIds.some((id) => sourceById.get(id)?.type === "primary")
+      ) {
+        ctx.addIssue({
+          code: "custom",
+          message: `${note.slug}: company targets must cite the company's own primary source — ${excerpt}`,
+        });
+      }
+      if (claim.kind === "speculative" && claim.sourceIds.length === 0) {
+        ctx.addIssue({
+          code: "custom",
+          message: `${note.slug}: speculative scenarios must cite who proposed them — ${excerpt}`,
+        });
+      }
+    }
+
+    if (note.issuerSnapshot) {
+      const sectionIds = new Set(note.evidence.map((section) => section.id));
+      for (const sectionId of [
+        note.issuerSnapshot.metricsAfterSectionId,
+        note.issuerSnapshot.illustrationAfterSectionId,
+      ]) {
+        if (!sectionIds.has(sectionId)) {
+          ctx.addIssue({
+            code: "custom",
+            message: `${note.slug}: issuer snapshot panel targets unknown section ${sectionId}`,
           });
         }
       }

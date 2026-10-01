@@ -47,12 +47,11 @@ export default async function LearnHubPage() {
   const lessons = [...lessonsFile.lessons].sort(
     (a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt),
   );
-  const latest = lessons[0] ?? null;
   const pillars = loadLearnPillars().pillars;
   const notes = sortResearchNotes(loadResearchNotes().notes);
   const substackFeed = await fetchSubstackFeed({
     feedUrl: site.substackUrl ? `${site.substackUrl.replace(/\/$/, "")}/feed` : undefined,
-    limit: 6,
+    limit: 3,
   });
 
   return (
@@ -65,63 +64,37 @@ export default async function LearnHubPage() {
 
       <DisclaimerStrip />
 
-      {latest ? (
-        <section className="border border-[var(--accent)] bg-[var(--surface)] p-5">
-          <p className="text-xs uppercase tracking-[0.12em] text-[var(--accent)]">Latest lesson</p>
-          <h2 className="mt-2 text-2xl font-medium">{latest.title}</h2>
-          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-[var(--muted-foreground)]">
-            {latest.summary}
-          </p>
-          <div className="mt-4">
-            <TextLink href={`/learn/${latest.slug}`}>Continue learning →</TextLink>
-          </div>
-        </section>
-      ) : null}
-
-      <section id="research-pillars" className="scroll-mt-24 space-y-4">
-        <div className="max-w-3xl">
-          <h2 className="text-xl font-medium">Research pillars</h2>
-          <p className="mt-1 text-sm leading-relaxed text-[var(--muted-foreground)]">
-            Five areas of research, each with lessons, sourced notes, and the questions we are
-            still working through.
-          </p>
-        </div>
-        <ol className="border-b border-[var(--border)]">
-          {pillars.map((pillar, index) => {
-            const lessonCount = lessonsForPillar(lessons, pillar.slug).length;
-            const noteCount = researchNotesForPillar(notes, pillar.slug).length;
+      <section aria-labelledby="lessons-heading" className="space-y-3">
+        <h2 id="lessons-heading" className="text-xl font-medium">
+          Lessons
+        </h2>
+        <ul className="space-y-3">
+          {lessons.map((lesson, index) => {
+            const isLatest = index === 0;
             return (
-              <li key={pillar.slug} className="border-t border-[var(--border)]">
-                <Link
-                  href={`/learn/pillars/${pillar.slug}`}
-                  className="action-row group grid gap-2 px-2 py-5 sm:grid-cols-[3rem_1fr_auto] sm:items-baseline sm:gap-4 sm:px-3"
-                >
-                  <span className="text-sm tabular-nums text-[var(--accent)]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                  <span>
-                    <span className="block text-lg font-medium group-hover:text-[var(--accent)] group-focus-visible:text-[var(--accent)]">
-                      {pillar.title}
-                    </span>
-                    <span className="mt-1 block max-w-3xl text-sm leading-relaxed text-[var(--muted-foreground)]">
-                      {pillar.description}
-                    </span>
-                    <span className="mt-2 block text-xs text-[var(--muted)]">
-                      {countLabel(lessonCount, "lesson")} · {countLabel(noteCount, "research note")}{" "}
-                      · {countLabel(pillar.questions.length, "open question")}
-                    </span>
-                  </span>
-                  <span
-                    aria-hidden="true"
-                    className="text-sm font-medium text-[var(--accent)] underline-offset-4 group-hover:underline group-focus-visible:underline"
-                  >
-                    Explore →
-                  </span>
-                </Link>
+              <li
+                key={lesson.slug}
+                className={`flex flex-col gap-3 border bg-[var(--surface)] p-4 sm:flex-row sm:items-center sm:justify-between ${isLatest ? "border-[var(--accent)]" : "border-[var(--border)]"}`}
+              >
+                <div>
+                  <p className="text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
+                    {isLatest ? <span className="text-[var(--accent)]">Latest · </span> : null}
+                    {pillarBySlug(pillars, lesson.pillar)?.title ?? lesson.category} ·{" "}
+                    {lesson.difficulty} · {lesson.readingMinutes} min
+                  </p>
+                  <h3 className="mt-1 text-lg font-medium">{lesson.title}</h3>
+                  <p className="mt-1 max-w-2xl text-sm text-[var(--muted-foreground)]">
+                    {lesson.summary}
+                  </p>
+                </div>
+                <TextLink href={`/learn/${lesson.slug}`}>
+                  {isLatest ? "Start lesson" : "Open"} →
+                  <span className="sr-only">: {lesson.title}</span>
+                </TextLink>
               </li>
             );
           })}
-        </ol>
+        </ul>
       </section>
 
       {notes.length > 0 ? (
@@ -142,28 +115,39 @@ export default async function LearnHubPage() {
         </section>
       ) : null}
 
-      <section className="space-y-4">
-        <h2 className="text-xl font-medium">Lesson index</h2>
-        <ul className="space-y-3">
-          {lessons.map((lesson) => (
-            <li
-              key={lesson.slug}
-              className="flex flex-col gap-2 border border-[var(--border)] bg-[var(--surface)] p-4 sm:flex-row sm:items-center sm:justify-between"
-            >
-              <div>
-                <p className="text-xs uppercase tracking-[0.1em] text-[var(--muted)]">
-                  {pillarBySlug(pillars, lesson.pillar)?.title ?? lesson.category} ·{" "}
-                  {lesson.difficulty} · {lesson.readingMinutes} min
-                </p>
-                <h3 className="mt-1 text-lg font-medium">{lesson.title}</h3>
-                <p className="mt-1 max-w-2xl text-sm text-[var(--muted-foreground)]">
-                  {lesson.summary}
-                </p>
-              </div>
-              <TextLink href={`/learn/${lesson.slug}`}>Open →</TextLink>
-            </li>
-          ))}
-        </ul>
+      <section id="research-pillars" aria-labelledby="pillars-heading" className="scroll-mt-24 space-y-2">
+        <h2 id="pillars-heading" className="text-xl font-medium">
+          Research pillars
+        </h2>
+        <ol className="border-b border-[var(--border)]">
+          {pillars.map((pillar, index) => {
+            const lessonCount = lessonsForPillar(lessons, pillar.slug).length;
+            const noteCount = researchNotesForPillar(notes, pillar.slug).length;
+            return (
+              <li key={pillar.slug} className="border-t border-[var(--border)]">
+                <Link
+                  href={`/learn/pillars/${pillar.slug}`}
+                  className="action-row group flex min-h-11 items-center gap-3 px-2 py-3 sm:px-3"
+                >
+                  <span className="w-6 shrink-0 text-sm tabular-nums text-[var(--accent)]">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <span className="min-w-0 flex-1 sm:flex sm:items-baseline sm:gap-3">
+                    <span className="block font-medium group-hover:text-[var(--accent)] group-focus-visible:text-[var(--accent)]">
+                      {pillar.title}
+                    </span>
+                    <span className="block text-xs text-[var(--muted)]">
+                      {countLabel(lessonCount, "lesson")} · {countLabel(noteCount, "note")}
+                    </span>
+                  </span>
+                  <span aria-hidden="true" className="shrink-0 text-sm text-[var(--accent)]">
+                    →
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
+        </ol>
       </section>
 
       <SubstackReadingList feed={substackFeed} />

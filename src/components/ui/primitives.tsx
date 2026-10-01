@@ -118,6 +118,39 @@ export function DataTable({
   );
 }
 
+/** Native disclosure (keyboard- and screen-reader-accessible) for advanced detail. */
+export function Expandable({
+  id,
+  title,
+  description,
+  children,
+}: {
+  id?: string;
+  title: string;
+  description?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <details id={id} className="scroll-mt-24 border border-[var(--border)] bg-[var(--surface)]">
+      <summary className="disclosure-summary flex min-h-11 items-center justify-between gap-3 px-4 py-3">
+        <span>
+          <span className="block text-sm font-medium text-[var(--foreground)]">{title}</span>
+          {description ? (
+            <span className="mt-0.5 block text-xs text-[var(--muted)]">{description}</span>
+          ) : null}
+        </span>
+        <span
+          aria-hidden="true"
+          className="disclosure-icon shrink-0 text-lg leading-none text-[var(--accent)] transition-transform"
+        >
+          +
+        </span>
+      </summary>
+      <div className="space-y-4 border-t border-[var(--border)] p-4">{children}</div>
+    </details>
+  );
+}
+
 export function TextLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
