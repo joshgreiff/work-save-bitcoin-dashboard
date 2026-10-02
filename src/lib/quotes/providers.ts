@@ -30,6 +30,7 @@ const YAHOO_SYMBOLS: Record<Exclude<LiveQuoteSymbol, "BTCUSD">, string> = {
   MSTR: "MSTR",
   ASST: "ASST",
   MPJPY: "MPJPY",
+  SPCX: "SPCX",
   SPY: "SPY",
   GLD: "GLD",
   STRF: "STRF",

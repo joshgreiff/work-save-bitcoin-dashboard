@@ -117,6 +117,12 @@ export default function HomePage() {
         netExternalContributionsCents={
           data.portfolio.contributions.netExternalContributionsCents
         }
+        liveTotalExternalContributionsCents={
+          data.portfolio.contributionsToDate.totalExternalContributionsCents
+        }
+        liveNetExternalContributionsCents={
+          data.portfolio.contributionsToDate.netExternalContributionsCents
+        }
         officialCloseCents={officialClose}
         officialCloseAt={officialCloseAt}
         lookThrough={{

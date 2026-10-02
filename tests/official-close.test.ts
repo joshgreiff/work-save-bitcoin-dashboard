@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { computeOfficialPortfolioMark } from "@/lib/quotes/official-close";
+import {
+  computeOfficialPortfolioMark,
+  OFFICIAL_CLOSE_EQUITY_SYMBOLS,
+} from "@/lib/quotes/official-close";
 import {
   buildMarketObservation,
   buildValuationHistoryPoint,
   observationAlreadyExists,
+  portfolioActivityNote,
 } from "@/lib/quotes/append-market-close";
+import { fetchYahooUnadjustedDailyClose } from "@/lib/quotes/yahoo-daily-close";
 import {
   etFourPmOffsetStamp,
   etWeekdaysAfterThrough,
@@ -129,6 +134,7 @@ describe("append builders", () => {
       MPJPY: 190,
       SPY: 77400,
       GLD: 39900,
+      SPCX: 15900,
     },
     sources: {
       BTCUSD: {
@@ -191,6 +197,16 @@ describe("append builders", () => {
         fallbackUsed: false,
         note: "Unadjusted regular-session close $399.00",
       },
+      SPCX: {
+        symbol: "SPCX",
+        priceCents: 15900,
+        sourceName: "Yahoo Finance chart unadjusted daily close",
+        sourceUrl: "https://query1.finance.yahoo.com/v8/finance/chart/SPCX?interval=1d&range=1mo",
+        observedAt: "2026-09-22T16:00:00-04:00",
+        retrievedAt: "2026-09-23T01:00:00.000Z",
+        fallbackUsed: false,
+        note: "Unadjusted regular-session close $159.00",
+      },
     },
     portfolioValueCents: 260000,
     netExternalContributionsCents: 199991,
@@ -211,5 +227,145 @@ describe("append builders", () => {
     const obs = buildMarketObservation(snapshot);
     expect(observationAlreadyExists([obs], "2026-09-22")).toBe(true);
     expect(observationAlreadyExists([obs], "2026-09-23")).toBe(false);
+  });
+
+  it("writes every official-close symbol with its source", () => {
+    const obs = buildMarketObservation(snapshot);
+    for (const symbol of ["BTCUSD", ...OFFICIAL_CLOSE_EQUITY_SYMBOLS]) {
+      expect(obs.prices[symbol as keyof typeof obs.prices], symbol).toBe(
+        snapshot.prices[symbol as keyof typeof snapshot.prices],
+      );
+      expect(obs.sources[symbol as keyof typeof obs.sources]?.name, symbol).toBeTruthy();
+    }
+    expect(buildValuationHistoryPoint(snapshot).prices.SPCX).toBe(15900);
+  });
+});
+
+describe("portfolio activity note", () => {
+  const base = {
+    inceptionAt: "2026-09-16T08:00:00-04:00",
+    asOf: "2026-10-02T16:00:00-04:00",
+    longDate: "October 2, 2026",
+  };
+
+  it("keeps the no-activity sentence when nothing happened after inception", () => {
+    expect(portfolioActivityNote({ ...base, transactions: [] })).toBe(
+      "No new contributions, withdrawals, trades, dividends, or options income recorded through the October 2, 2026 close.",
+    );
+  });
+
+  it("lists contributions and trades after inception through the close only", () => {
+    const note = portfolioActivityNote({
+      ...base,
+      transactions: [
+        {
+          id: "c",
+          timestamp: "2026-10-02T14:39:00-04:00",
+          category: "personal_contribution",
+          amountCents: 15837,
+          externalCashFlow: true,
+        },
+        {
+          id: "b",
+          timestamp: "2026-10-02T14:39:00-04:00",
+          category: "security_purchase",
+          ticker: "SPCX",
+          shares: 1,
+          priceCents: 15837,
+          amountCents: 15837,
+          externalCashFlow: false,
+        },
+        {
+          id: "later",
+          timestamp: "2026-10-05T10:00:00-04:00",
+          category: "personal_contribution",
+          amountCents: 100,
+          externalCashFlow: true,
+        },
+      ],
+    });
+    expect(note).toBe(
+      "Recorded since Episode 1 through the October 2, 2026 close: personal contribution of $158.37 (2026-10-02); bought 1 SPCX at $158.37 (2026-10-02). Contributions are excluded from investment P&L.",
+    );
+  });
+});
+
+describe("Yahoo daily close after the bell", () => {
+  function chart(args: { bars: Array<[string, number | null]>; meta?: Record<string, number> }) {
+    return {
+      chart: {
+        result: [
+          {
+            timestamp: args.bars.map(([iso]) => Date.parse(iso) / 1000),
+            indicators: { quote: [{ close: args.bars.map(([, c]) => c) }] },
+            meta: args.meta ?? {},
+          },
+        ],
+      },
+    };
+  }
+  const fetchJson = (body: unknown) =>
+    (async () => new Response(JSON.stringify(body), { status: 200 })) as unknown as typeof fetch;
+
+  it("uses the chart's regular-market close when the session bar is not yet published", async () => {
+    const result = await fetchYahooUnadjustedDailyClose({
+      symbol: "MSTR",
+      sessionDay: "2026-10-01",
+      allowPriorCloseFallback: true,
+      fetchImpl: fetchJson(
+        chart({
+          bars: [
+            ["2026-09-30T13:30:00Z", 153.09],
+            ["2026-10-01T13:30:00Z", null],
+          ],
+          meta: {
+            regularMarketPrice: 160.5,
+            regularMarketTime: Date.parse("2026-10-01T20:00:00Z") / 1000,
+          },
+        }),
+      ),
+    });
+    expect(result.priceCents).toBe(16050);
+    expect(result.fallbackUsed).toBe(false);
+    expect(result.barSessionDay).toBe("2026-10-01");
+  });
+
+  it("does not treat an intraday regular-market price as the close", async () => {
+    const result = await fetchYahooUnadjustedDailyClose({
+      symbol: "MSTR",
+      sessionDay: "2026-10-01",
+      allowPriorCloseFallback: true,
+      fetchImpl: fetchJson(
+        chart({
+          bars: [["2026-09-30T13:30:00Z", 153.09]],
+          meta: {
+            regularMarketPrice: 158,
+            regularMarketTime: Date.parse("2026-10-01T18:00:00Z") / 1000,
+          },
+        }),
+      ),
+    });
+    expect(result.priceCents).toBe(15309);
+    expect(result.fallbackUsed).toBe(true);
+  });
+
+  it("still carries the prior close forward when the session truly has no print", async () => {
+    const result = await fetchYahooUnadjustedDailyClose({
+      symbol: "MPJPY",
+      sessionDay: "2026-10-01",
+      allowPriorCloseFallback: true,
+      fetchImpl: fetchJson(
+        chart({
+          bars: [["2026-09-30T13:30:00Z", 1.85]],
+          meta: {
+            regularMarketPrice: 1.85,
+            regularMarketTime: Date.parse("2026-09-30T19:55:00Z") / 1000,
+          },
+        }),
+      ),
+    });
+    expect(result.priceCents).toBe(185);
+    expect(result.fallbackUsed).toBe(true);
+    expect(result.barSessionDay).toBe("2026-09-30");
   });
 });

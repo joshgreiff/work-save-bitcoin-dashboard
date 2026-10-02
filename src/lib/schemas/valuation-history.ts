@@ -22,6 +22,7 @@ export const valuationHistoryPointSchema = provenanceSchema.extend({
     MSTR: centsSchema.nullable().optional(),
     ASST: centsSchema.nullable().optional(),
     MPJPY: centsSchema.nullable().optional(),
+    SPCX: centsSchema.nullable().optional(),
   }),
 });
 

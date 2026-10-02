@@ -49,6 +49,20 @@ export default function MethodologyPage() {
             withdrawals − total external contributions. A deposit raises account value without
             creating investment profit.
           </p>
+          <p>
+            Contributions are matched to the valuation they belong to. An official close counts only
+            contributions recorded at or before that close, so a deposit made after the latest close
+            is listed as recorded after it and enters value, contributions, and P&amp;L together at
+            the next close. Live marks include every recorded contribution because they already
+            include the holdings those contributions bought. Earlier valuation-history points are
+            never restated by later deposits.
+          </p>
+          <p>
+            Day-over-day and normalized portfolio returns exclude new money: each close-to-close
+            return is (ending value − net external cash flow in the window) ÷ starting value − 1, and
+            the normalized line chain-links those returns. Cash-flow-matched benchmarks only buy units
+            with contributions made on or before each valuation point.
+          </p>
         </section>
         <section className="space-y-2">
           <h2 className="text-xl font-medium text-[var(--foreground)]">Benchmarks</h2>
@@ -77,6 +91,11 @@ export default function MethodologyPage() {
             primary metric. Preferreds, ETFs, cash, and issuers without usable disclosures are
             excluded or marked unavailable. Only actual portfolio holdings enter look-through
             totals; research examples discussed in Learn notes do not.
+          </p>
+          <p>
+            SPCX (SpaceX), held since October 2, 2026, is an operating-company allocation and is
+            excluded from look-through totals. Its reported Bitcoin was about 0.05% of its June 30,
+            2026 market value, so the position is not treated as a Bitcoin-amplification holding.
           </p>
         </section>
         <section className="space-y-2">
@@ -107,6 +126,14 @@ export default function MethodologyPage() {
             Episode 1 seed omits confirmed security prices, cost basis, benchmark prices, and issuer
             Bitcoin-per-share metrics. Income model securities are unconfigured until confirmed.
           </p>
+          <p>
+            The automated official closes from September 25 through October 1, 2026 stored the
+            previous session’s closes for MSTR, ASST, SPY, and GLD, because the job ran before the
+            day’s daily bar was published. Those stored values are shown unchanged pending a
+            correction. From October 2, the job uses the session’s regular-market close when the
+            daily bar is not yet available and carries a prior close forward only when the session
+            has no print.
+          </p>
         </section>
         <section id="research-notes" className="scroll-mt-24 space-y-3">
           <h2 className="text-xl font-medium text-[var(--foreground)]">Research notes</h2>
@@ -128,9 +155,10 @@ export default function MethodologyPage() {
             shares; diluted sats per share adds potentially dilutive awards; conditional performance
             awards are disclosed separately. Bitcoin value per share = reported Bitcoin fair value ÷
             reported common shares. Approximate market value applies one closing price to all
-            reported common shares. These snapshots never enter the Fiat Freedom Portfolio,
-            valuation history, market observations, or look-through totals, and any allocation
-            illustration is hypothetical.
+            reported common shares. These snapshots never value a Fiat Freedom Portfolio holding or
+            enter valuation history, market observations, or look-through totals, and any allocation
+            illustration is hypothetical. A company discussed in a note that is later bought is valued
+            only from official closes, like every other holding.
           </p>
           <p>
             A note may also include a shareholder-value overview that summarizes each business line

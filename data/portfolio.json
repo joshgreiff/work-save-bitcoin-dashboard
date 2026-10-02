@@ -18,7 +18,8 @@
     "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
     "No new contributions, withdrawals, trades, dividends, or options income recorded through the October 1, 2026 close.",
     "Investment P&L at October 1, 2026 close: +$371.15 (18.56% vs net external contributions).",
-    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
+    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash.",
+    "Recorded after this valuation: a $158.37 personal contribution and the purchase of 1 SPCX at $158.37 on October 2, 2026. Both enter the official value, contributions, and P&L at the October 2 close; SPCX has no official close mark until then."
   ],
   "positions": [
     {
@@ -52,6 +53,16 @@
       "priceCents": 191,
       "marketValueCents": 11269,
       "costBasisCents": null
+    },
+    {
+      "ticker": "SPCX",
+      "name": "SpaceX (SPCX)",
+      "assetClass": "common_equity",
+      "shares": 1,
+      "lookThroughEligible": false,
+      "priceCents": null,
+      "marketValueCents": null,
+      "costBasisCents": 15837
     }
   ],
   "afterHours": {

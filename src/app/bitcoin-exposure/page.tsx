@@ -164,6 +164,17 @@ export default function BitcoinExposurePage() {
             pos.metricDateLabel ?? pos.metricDate ?? "Unavailable",
           ])}
         />
+        {lt.excludedHoldings.length > 0 ? (
+          <p className="text-sm text-[var(--muted-foreground)]">
+            Held but excluded from look-through:{" "}
+            {lt.excludedHoldings.map((h) => h.name).join(", ")}. These are operating-company
+            allocations, not Bitcoin-amplification positions; see the{" "}
+            <a href="/methodology" className="action-link underline">
+              methodology
+            </a>
+            .
+          </p>
+        ) : null}
         <p className="text-xs text-[var(--muted)]">
           Issuer sources, retrieval dates, and dilution scope are listed under{" "}
           <a href="#advanced-methodology" className="action-link">

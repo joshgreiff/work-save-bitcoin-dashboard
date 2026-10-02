@@ -23,6 +23,7 @@ export type CashFlowMatchedSeries = {
  * Cash-flow-matched benchmark:
  * Buy units with each external contribution at that timestamp's price;
  * sell/reduce units for external withdrawals; multiply by latest price.
+ * Cash flows after the valuation timestamp are ignored.
  */
 export function extractExternalCashFlows(
   transactions: PortfolioTransaction[],
@@ -94,7 +95,9 @@ export function calculateCashFlowMatchedBenchmark(args: {
   }
 
   let units = 0;
+  const asOfMs = Date.parse(args.asOf);
   for (const flow of args.cashFlows) {
+    if (Date.parse(flow.timestamp) > asOfMs) continue;
     const price = priceForTimestamp(args.prices, flow.timestamp);
     if (price == null || price <= 0) {
       return {

@@ -13,6 +13,8 @@ type Props = {
   positions: Array<{ ticker: string; shares: number }>;
   totalExternalContributionsCents: number;
   netExternalContributionsCents: number;
+  liveTotalExternalContributionsCents: number;
+  liveNetExternalContributionsCents: number;
   startingPortfolioValueCents: number;
   inceptionValuationAt: string;
   fallbackValueCents: number;
@@ -25,6 +27,8 @@ export function PortfolioLiveHeader(props: Props) {
     positions: props.positions,
     totalExternalContributionsCents: props.totalExternalContributionsCents,
     netExternalContributionsCents: props.netExternalContributionsCents,
+    liveTotalExternalContributionsCents: props.liveTotalExternalContributionsCents,
+    liveNetExternalContributionsCents: props.liveNetExternalContributionsCents,
     fallbackValueCents: props.fallbackValueCents,
     fallbackAsOf: props.fallbackAsOf,
   });

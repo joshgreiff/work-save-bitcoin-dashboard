@@ -16,6 +16,13 @@ import {
 import { PriceCarryForwardNotice } from "@/components/PriceCarryForwardNotice";
 import { lastConfirmedBenchmarkPrices } from "@/lib/accounting/live-chart-trail";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
+import { formatEtTimestamp } from "@/lib/market/session";
+
+const TRANSACTION_LABEL: Partial<Record<string, string>> = {
+  personal_contribution: "Personal contribution",
+  security_purchase: "Purchase",
+  security_sale: "Sale",
+};
 
 export const metadata = {
   title: "Actual Portfolio",
@@ -26,6 +33,7 @@ export default function PortfolioPage() {
   const data = buildPublicDashboard();
   const c = data.portfolio.contributions;
   const p = data.portfolio.performance;
+  const pending = data.portfolio.transactionsAfterValuation;
 
   const series = data.valuationHistory.series;
 
@@ -68,7 +76,7 @@ export default function PortfolioPage() {
       <SectionIntro
         eyebrow="Actual securities portfolio"
         title="Fiat Freedom Portfolio"
-        description="A real portfolio of Bitcoin treasury equities. Contributions are separated from investment results. Current value marks the published share weights to live quotes."
+        description="A real portfolio of Bitcoin treasury equities plus a small, long-term experimental operating-company allocation. Contributions are separated from investment results. Current value marks the published share weights to live quotes."
       />
 
       <PortfolioLiveHeader
@@ -79,6 +87,12 @@ export default function PortfolioPage() {
         }))}
         totalExternalContributionsCents={c.totalExternalContributionsCents}
         netExternalContributionsCents={c.netExternalContributionsCents}
+        liveTotalExternalContributionsCents={
+          data.portfolio.contributionsToDate.totalExternalContributionsCents
+        }
+        liveNetExternalContributionsCents={
+          data.portfolio.contributionsToDate.netExternalContributionsCents
+        }
         startingPortfolioValueCents={data.portfolio.startingPortfolioValueCents}
         inceptionValuationAt={data.portfolio.inceptionValuationAt}
         fallbackValueCents={data.portfolio.currentPortfolioValueCents}
@@ -91,6 +105,26 @@ export default function PortfolioPage() {
       />
 
       <LiveMarkPanel />
+
+      {pending.length > 0 ? (
+        <section className="space-y-2 border border-dashed border-[var(--border)] p-4 text-sm">
+          <h2 className="font-medium">Recorded after the latest official close</h2>
+          <p className="text-[var(--muted-foreground)]">
+            These transactions are not yet reflected in the official value, contributions, or P&amp;L
+            below (valued {formatEtTimestamp(data.portfolio.currentValuationAt)}). They enter the
+            official figures at the next market close. New contributions are never counted as profit.
+          </p>
+          <ul className="list-disc space-y-1 pl-5 text-[var(--muted-foreground)]">
+            {pending.map((tx) => (
+              <li key={tx.id}>
+                {formatEtTimestamp(tx.timestamp)} · {TRANSACTION_LABEL[tx.category] ?? tx.category}
+                {tx.ticker ? ` · ${formatShares(tx.shares ?? 0)} ${tx.ticker}` : ""}
+                {tx.amountCents != null ? ` · ${formatUsdFromCents(tx.amountCents)}` : ""}
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         <MetricCard

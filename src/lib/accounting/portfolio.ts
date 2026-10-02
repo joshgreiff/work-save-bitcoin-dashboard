@@ -48,6 +48,63 @@ export function isExternalWithdrawal(tx: PortfolioTransaction): boolean {
   return tx.externalCashFlow && tx.category === "withdrawal";
 }
 
+/** Transactions recorded at or before a valuation timestamp. */
+export function transactionsThrough(
+  transactions: PortfolioTransaction[],
+  asOf: string,
+): PortfolioTransaction[] {
+  const cutoff = Date.parse(asOf);
+  return transactions.filter((tx) => Date.parse(tx.timestamp) <= cutoff);
+}
+
+/** Transactions recorded after a valuation timestamp (not yet reflected in it). */
+export function transactionsAfter(
+  transactions: PortfolioTransaction[],
+  asOf: string,
+): PortfolioTransaction[] {
+  const cutoff = Date.parse(asOf);
+  return transactions.filter((tx) => Date.parse(tx.timestamp) > cutoff);
+}
+
+/**
+ * Net external cash flow (contributions minus external withdrawals) in the
+ * window (afterExclusive, throughInclusive]. Omit throughInclusive for no upper bound.
+ */
+export function netExternalCashFlowBetween(
+  transactions: PortfolioTransaction[],
+  afterExclusive: string,
+  throughInclusive?: string,
+): number {
+  const start = Date.parse(afterExclusive);
+  const end = throughInclusive == null ? Infinity : Date.parse(throughInclusive);
+  let net = 0;
+  for (const tx of transactions) {
+    const t = Date.parse(tx.timestamp);
+    if (t <= start || t > end) continue;
+    if (isExternalContribution(tx)) net += tx.amountCents ?? 0;
+    if (isExternalWithdrawal(tx)) net -= Math.abs(tx.amountCents ?? 0);
+  }
+  return net;
+}
+
+/**
+ * Shares of a currently held position that were held at `asOf`: current shares
+ * minus purchases after `asOf`, plus sales after `asOf`.
+ */
+export function sharesHeldAt(
+  position: { ticker: string; shares: number },
+  transactions: PortfolioTransaction[],
+  asOf: string,
+): number {
+  let shares = position.shares;
+  for (const tx of transactionsAfter(transactions, asOf)) {
+    if (tx.ticker !== position.ticker || tx.shares == null) continue;
+    if (tx.category === "security_purchase") shares -= tx.shares;
+    if (tx.category === "security_sale") shares += Math.abs(tx.shares);
+  }
+  return Math.round(shares * 1e8) / 1e8;
+}
+
 export function summarizeContributions(
   transactions: PortfolioTransaction[],
 ): ContributionBreakdown {

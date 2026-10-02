@@ -30,6 +30,8 @@ const nullablePriceMap = z.object({
   MPJPY: centsSchema.nullable(),
   SPY: centsSchema.nullable(),
   GLD: centsSchema.nullable(),
+  /** Held from October 2, 2026; absent on earlier observations. */
+  SPCX: centsSchema.nullable().optional(),
 });
 
 const nullableSourceMap = z.object({
@@ -39,6 +41,7 @@ const nullableSourceMap = z.object({
   MPJPY: marketPriceSourceSchema.nullable(),
   SPY: marketPriceSourceSchema.nullable(),
   GLD: marketPriceSourceSchema.nullable(),
+  SPCX: marketPriceSourceSchema.nullable().optional(),
 });
 
 export const synchronizedMarketObservationSchema = z.object({

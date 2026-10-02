@@ -1,5 +1,9 @@
 import { selectSynchronizedBtcCandle } from "@/lib/accounting/session-comparison";
-import { summarizeContributions } from "@/lib/accounting/portfolio";
+import {
+  sharesHeldAt,
+  summarizeContributions,
+  transactionsThrough,
+} from "@/lib/accounting/portfolio";
 import { formatUsdFromCents } from "@/lib/accounting/format";
 import {
   etFourPmOffsetStamp,
@@ -17,6 +21,7 @@ export const OFFICIAL_CLOSE_EQUITY_SYMBOLS = [
   "MPJPY",
   "SPY",
   "GLD",
+  "SPCX",
 ] as const;
 
 export type OfficialCloseEquitySymbol =
@@ -155,17 +160,24 @@ export async function fetchOfficialCloseSnapshot(args: {
     ),
   } as OfficialCloseSnapshot["sources"];
 
-  const prices = {
-    BTCUSD: sources.BTCUSD.priceCents,
-    MSTR: sources.MSTR.priceCents,
-    ASST: sources.ASST.priceCents,
-    MPJPY: sources.MPJPY.priceCents,
-    SPY: sources.SPY.priceCents,
-    GLD: sources.GLD.priceCents,
-  };
+  const prices = Object.fromEntries(
+    (["BTCUSD", ...OFFICIAL_CLOSE_EQUITY_SYMBOLS] as const).map((symbol) => [
+      symbol,
+      sources[symbol].priceCents,
+    ]),
+  ) as OfficialCloseSnapshot["prices"];
 
+  const heldAtClose: PortfolioData = {
+    ...args.portfolio,
+    positions: args.portfolio.positions
+      .map((position) => ({
+        ...position,
+        shares: sharesHeldAt(position, args.transactions, asOf),
+      }))
+      .filter((position) => position.shares > 0),
+  };
   const mark = computeOfficialPortfolioMark({
-    portfolio: args.portfolio,
+    portfolio: heldAtClose,
     closes: prices,
   });
   if (mark.missing.length > 0) {
@@ -174,7 +186,7 @@ export async function fetchOfficialCloseSnapshot(args: {
     );
   }
 
-  const contributions = summarizeContributions(args.transactions);
+  const contributions = summarizeContributions(transactionsThrough(args.transactions, asOf));
   const investmentPnLCents =
     mark.portfolioValueCents - contributions.totalExternalContributionsCents;
 
@@ -191,7 +203,7 @@ export async function fetchOfficialCloseSnapshot(args: {
     prices,
     sources,
     portfolioValueCents: mark.portfolioValueCents,
-    netExternalContributionsCents: contributions.totalExternalContributionsCents,
+    netExternalContributionsCents: contributions.netExternalContributionsCents,
     investmentPnLCents,
     positionMarks: mark.positionMarks,
     reconciliationNote,

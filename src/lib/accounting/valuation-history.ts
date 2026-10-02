@@ -4,7 +4,11 @@ import {
   calculateCashFlowMatchedBenchmark,
   extractExternalCashFlows,
 } from "./benchmarks";
-import { calculateInvestmentPnL, summarizeContributions } from "./portfolio";
+import {
+  calculateInvestmentPnL,
+  summarizeContributions,
+  transactionsThrough,
+} from "./portfolio";
 
 export type ValuationChartRow = {
   id: string;
@@ -64,7 +68,6 @@ export function buildValuationChartSeries(args: {
   const points = [...args.points].sort(
     (a, b) => Date.parse(a.asOf) - Date.parse(b.asOf),
   );
-  const contributions = summarizeContributions(args.transactions);
   const cashFlows = extractExternalCashFlows(args.transactions);
 
   const firstBtc = points.find((p) => p.prices.BTCUSD != null)?.prices.BTCUSD ?? null;
@@ -72,6 +75,9 @@ export function buildValuationChartSeries(args: {
   const firstGld = points.find((p) => p.prices.GLD != null)?.prices.GLD ?? null;
 
   return points.map((point) => {
+    const contributions = summarizeContributions(
+      transactionsThrough(args.transactions, point.asOf),
+    );
     const portfolioPnL =
       point.portfolioValueCents == null
         ? null

@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { buildBitcoinLeaderboard, buildFiatLeaderboard } from "@/lib/schemas/donations";
 import { formatUsdFromCents } from "@/lib/accounting/format";
-import { calculateInvestmentPnL, summarizeContributions } from "@/lib/accounting/portfolio";
+import {
+  calculateInvestmentPnL,
+  sharesHeldAt,
+  summarizeContributions,
+  transactionsThrough,
+} from "@/lib/accounting/portfolio";
 import { computeOfficialPortfolioMark } from "@/lib/quotes/official-close";
 import {
   loadDonations,
@@ -70,22 +75,40 @@ describe("closing snapshot", () => {
     expect(last.prices).toEqual(latest.prices);
   });
 
-  it("reconciles the current total from published shares × the latest closes", () => {
+  it("reconciles the current total from shares held at the latest close × its prices", () => {
     const portfolio = loadPortfolio();
+    const transactions = loadTransactions().transactions;
     const latest = latestOfficialClose();
     const prices = closePrices(latest);
-    const mark = computeOfficialPortfolioMark({ portfolio, closes: prices });
+    const held = portfolio.positions.filter(
+      (p) => sharesHeldAt(p, transactions, latest.timestamp) > 0,
+    );
+    const acquiredLater = portfolio.positions.filter((p) => !held.includes(p));
+    for (const position of held) {
+      expect(sharesHeldAt(position, transactions, latest.timestamp), position.ticker).toBe(
+        position.shares,
+      );
+    }
+
+    const mark = computeOfficialPortfolioMark({
+      portfolio: { ...portfolio, positions: held },
+      closes: prices,
+    });
     expect(mark.missing).toEqual([]);
     expect(mark.portfolioValueCents).toBe(portfolio.currentPortfolioValueCents);
 
-    for (const position of portfolio.positions) {
+    for (const position of held) {
       expect(position.priceCents).toBe(prices[position.ticker]);
       expect(position.marketValueCents).toBe(Math.round(position.shares * position.priceCents!));
     }
-    const positionsTotal = portfolio.positions.reduce((sum, p) => sum + p.marketValueCents!, 0);
+    for (const position of acquiredLater) {
+      expect(position.priceCents, `${position.ticker} has no close mark yet`).toBeNull();
+      expect(position.marketValueCents).toBeNull();
+    }
+    const positionsTotal = held.reduce((sum, p) => sum + p.marketValueCents!, 0);
     expect(positionsTotal + portfolio.cashBalanceCents).toBe(portfolio.currentPortfolioValueCents);
 
-    const contributions = summarizeContributions(loadTransactions().transactions);
+    const contributions = summarizeContributions(transactionsThrough(transactions, latest.timestamp));
     expect(latest.netExternalContributionsCents).toBe(contributions.netExternalContributionsCents);
     const pnl = calculateInvestmentPnL({
       currentPortfolioValueCents: portfolio.currentPortfolioValueCents,

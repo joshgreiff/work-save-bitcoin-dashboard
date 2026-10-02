@@ -437,7 +437,7 @@
         "Reconciled from published shares × stored closes: 12.12×$153.09 + 13.7×$29.41 + 59×$1.91.",
         "Investment P&L: +$371.15 (+18.56% vs net external contributions of $1,999.91).",
         "Known data issue: the automated close job stored the September 30 closes for MSTR, ASST, SPY, and GLD instead of the October 1 closes. At actual October 1 closes the portfolio would have been about $2,470.46. The stored official value is shown unchanged pending a correction to the close data.",
-        "No new contributions, withdrawals, trades, dividends, or options income recorded through this close. SPCX is not held in the portfolio.",
+        "No new contributions, withdrawals, trades, dividends, or options income recorded through this close. SPCX was not held at publication or at this valuation.",
         "Discusses SpaceX as an operating company — see the research note Can SpaceX Help a Bitcoin Portfolio Outperform? at /learn/research/can-spacex-help-a-bitcoin-portfolio-outperform."
       ]
     }

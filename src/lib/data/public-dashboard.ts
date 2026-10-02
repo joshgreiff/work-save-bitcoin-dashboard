@@ -11,7 +11,10 @@ import {
 } from "@/lib/accounting/lookthrough";
 import {
   calculatePortfolioPerformance,
+  netExternalCashFlowBetween,
   summarizeContributions,
+  transactionsAfter,
+  transactionsThrough,
 } from "@/lib/accounting/portfolio";
 import { summarizeReserve } from "@/lib/accounting/reserve";
 import {
@@ -40,7 +43,10 @@ import {
   loadValuationHistory,
   loadYoutubeFeed,
 } from "./load";
-import { buildSessionComparison } from "@/lib/accounting/session-comparison";
+import {
+  buildSessionComparison,
+  flowAdjustedPortfolioIndex,
+} from "@/lib/accounting/session-comparison";
 import {
   changeBetweenObservations,
   observationByAsOfDate,
@@ -78,10 +84,18 @@ export function buildPublicDashboard() {
     incomeSecurities.securities.map((s) => [s.ticker, s]),
   );
 
-  const contributions = summarizeContributions(transactionsFile.transactions);
+  const valuedTransactions = transactionsThrough(
+    transactionsFile.transactions,
+    portfolio.currentValuationAt,
+  );
+  const transactionsAfterValuation = transactionsAfter(
+    transactionsFile.transactions,
+    portfolio.currentValuationAt,
+  );
+  const contributions = summarizeContributions(valuedTransactions);
   const performance = calculatePortfolioPerformance({
     currentPortfolioValueCents: portfolio.currentPortfolioValueCents,
-    transactions: transactionsFile.transactions,
+    transactions: valuedTransactions,
   });
 
   const lookThroughInputs = portfolio.positions.map((position) => {
@@ -108,7 +122,17 @@ export function buildPublicDashboard() {
       ? latestMetricDates[latestMetricDates.length - 1]!
       : null;
 
-  const positions = lookThroughResult.positions.map((pos) => {
+  const excludedHoldings = portfolio.positions
+    .filter((position) => !position.lookThroughEligible)
+    .map((position) => ({ ticker: position.ticker, name: position.name ?? position.ticker }));
+  const eligibleTickers = new Set(
+    portfolio.positions.filter((p) => p.lookThroughEligible).map((p) => p.ticker),
+  );
+
+  const eligibleResults = lookThroughResult.positions.filter((pos) =>
+    eligibleTickers.has(pos.ticker),
+  );
+  const positions = eligibleResults.map((pos) => {
     const metric = latestMetricForTicker(issuerMetrics.metrics, pos.ticker);
     const displayed =
       metric?.reportedDilutedSatsPerShare ??
@@ -196,10 +220,22 @@ export function buildPublicDashboard() {
   const latestClose = closes[closes.length - 1] ?? null;
   const previousClose = closes.length >= 2 ? closes[closes.length - 2]! : null;
   const latestOpen = opens[opens.length - 1] ?? null;
+  const flowBetween = (afterExclusive: string, throughInclusive: string) =>
+    netExternalCashFlowBetween(transactionsFile.transactions, afterExclusive, throughInclusive);
   const sessionComparison = buildSessionComparison({
     previous: previousClose,
     latest: latestClose,
+    netExternalCashFlowCents:
+      previousClose && latestClose
+        ? flowBetween(previousClose.timestamp, latestClose.timestamp)
+        : 0,
   });
+  const flowAdjustedPortfolioReturnByCloseId = Object.fromEntries(
+    flowAdjustedPortfolioIndex(closes, flowBetween),
+  );
+  const netExternalCashFlowSinceLatestCloseCents = latestClose
+    ? netExternalCashFlowBetween(transactionsFile.transactions, latestClose.timestamp)
+    : 0;
 
   const observationCarryForwards = marketObservations.observations.map((obs) => ({
     observationId: obs.id,
@@ -297,7 +333,10 @@ export function buildPublicDashboard() {
       positions: portfolio.positions,
       notes: portfolio.notes,
       contributions,
+      /** All recorded contributions, including any after the official valuation (for live marks). */
+      contributionsToDate: summarizeContributions(transactionsFile.transactions),
       performance,
+      transactionsAfterValuation,
       afterHours: portfolio.afterHours ?? null,
     },
     lookThrough: {
@@ -311,6 +350,8 @@ export function buildPublicDashboard() {
           : btcFromSats(lookThroughResult.totalLookThroughSats),
       eligibleHoldingsCount: eligibleAvailable.length,
       positions,
+      /** Held positions deliberately excluded from look-through (not missing data). */
+      excludedHoldings,
       /** Full issuer metric registry (primary sources). No brokerage credentials. */
       metrics: issuerMetrics.metrics,
     },
@@ -352,6 +393,8 @@ export function buildPublicDashboard() {
       latestMarketOpen: latestOpen,
       previousOfficialClose: previousClose,
       sessionComparison,
+      flowAdjustedPortfolioReturnByCloseId,
+      netExternalCashFlowSinceLatestCloseCents,
       priceCarryForwards: observationCarryForwards,
       latestCloseCarryForwards,
     },

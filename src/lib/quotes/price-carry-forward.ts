@@ -23,7 +23,7 @@ export function equityCarryForwardLabels(args: {
   /** Only label equity holdings, not BTC candle fallbacks. */
   tickers?: string[];
 }): string[] {
-  const tickers = args.tickers ?? ["MSTR", "ASST", "MPJPY", "SPY", "GLD"];
+  const tickers = args.tickers ?? ["MSTR", "ASST", "MPJPY", "SPCX", "SPY", "GLD"];
   const labels: string[] = [];
   for (const ticker of tickers) {
     if (args.sources[ticker]?.fallbackUsed) {

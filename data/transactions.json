@@ -44,6 +44,25 @@
       "externalCashFlow": false,
       "episodeNumber": 1,
       "note": "Share count confirmed. Metaplanet Level I ADR (1:1). Purchase price and dollar amount pending confirmation."
+    },
+    {
+      "id": "tx-2026-10-02-contribution-spcx",
+      "timestamp": "2026-10-02T14:39:00-04:00",
+      "category": "personal_contribution",
+      "amountCents": 15837,
+      "externalCashFlow": true,
+      "note": "New personal cash added to fund the 1-share SPCX purchase. External contribution — excluded from investment P&L. Recorded 2:39 p.m. Eastern; brokerage deposit time not provided."
+    },
+    {
+      "id": "tx-2026-10-02-buy-spcx",
+      "timestamp": "2026-10-02T14:39:00-04:00",
+      "category": "security_purchase",
+      "ticker": "SPCX",
+      "shares": 1,
+      "priceCents": 15837,
+      "amountCents": 15837,
+      "externalCashFlow": false,
+      "note": "Long-term experimental allocation funded entirely with new cash. Thesis: operating-company upside (launch, Starlink, Starship) and orbital-economy optionality. Not a Bitcoin-amplification position — SpaceX's Bitcoin was about 0.05% of its June 30, 2026 market value. The position is not resized in response to daily price moves. Recorded 2:39 p.m. Eastern; brokerage execution time not provided."
     }
   ]
 }

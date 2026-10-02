@@ -9,6 +9,9 @@ type PortfolioInput = {
   positions: Array<{ ticker: string; shares: number }>;
   totalExternalContributionsCents: number;
   netExternalContributionsCents: number;
+  /** Contributions through now; a live mark already includes any recorded after the official close. */
+  liveTotalExternalContributionsCents?: number;
+  liveNetExternalContributionsCents?: number;
   fallbackValueCents: number;
   fallbackAsOf: string;
 };
@@ -50,14 +53,17 @@ export function useLivePortfolioValue(input: PortfolioInput) {
         : null;
     const valueCents = liveValue ?? input.fallbackValueCents;
     const usingLive = liveValue != null;
+    const totalContributions = usingLive
+      ? (input.liveTotalExternalContributionsCents ?? input.totalExternalContributionsCents)
+      : input.totalExternalContributionsCents;
+    const netContributions = usingLive
+      ? (input.liveNetExternalContributionsCents ?? input.netExternalContributionsCents)
+      : input.netExternalContributionsCents;
     const pnl = calculateInvestmentPnL({
       currentPortfolioValueCents: valueCents,
-      totalExternalContributionsCents: input.totalExternalContributionsCents,
+      totalExternalContributionsCents: totalContributions,
     });
-    const ret =
-      input.netExternalContributionsCents === 0
-        ? null
-        : pnl / input.netExternalContributionsCents;
+    const ret = netContributions === 0 ? null : pnl / netContributions;
     const allocation =
       mark?.complete
         ? mark.positions

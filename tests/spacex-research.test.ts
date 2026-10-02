@@ -5,7 +5,13 @@ import {
   calculateAllocationIllustration,
   calculateResearchIssuerMetrics,
 } from "@/lib/accounting/research-issuer";
-import { loadResearchNotes, loadResearchSnapshots } from "@/lib/data/load";
+import {
+  loadPortfolio,
+  loadResearchNotes,
+  loadResearchSnapshots,
+  loadTransactions,
+} from "@/lib/data/load";
+import { calculatePortfolioPerformance, transactionsThrough } from "@/lib/accounting/portfolio";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 import { GET } from "@/app/learn/rss.xml/route";
 import { claimKindsUsed, SITE_RESEARCH_LINKS } from "@/lib/learn/content";
@@ -222,26 +228,55 @@ describe("SpaceX shareholder-value overview", () => {
 });
 
 describe("accounting boundaries", () => {
-  it("keeps SPCX out of every official portfolio data file", () => {
-    for (const file of [
-      "portfolio.json",
-      "transactions.json",
-      "valuation-history.json",
-      "market-observations.json",
-      "market-prices.json",
-      "issuer-metrics.json",
-      "issuer-bps-history.json",
-    ]) {
+  it("records the SPCX purchase as funded by an equal new contribution", () => {
+    const txs = loadTransactions().transactions;
+    const buy = txs.find((tx) => tx.category === "security_purchase" && tx.ticker === "SPCX");
+    const funding = txs.find((tx) => tx.id === "tx-2026-10-02-contribution-spcx");
+    expect(buy).toMatchObject({ shares: 1, priceCents: 15837, amountCents: 15837 });
+    expect(buy?.externalCashFlow).toBe(false);
+    expect(funding).toMatchObject({
+      category: "personal_contribution",
+      amountCents: 15837,
+      externalCashFlow: true,
+      timestamp: buy?.timestamp,
+    });
+    expect(buy?.note).toMatch(/operating-company upside/);
+    expect(buy?.note).toMatch(/orbital-economy optionality/);
+  });
+
+  it("never counts the SPCX contribution as investment profit", () => {
+    const txs = loadTransactions().transactions;
+    const portfolio = loadPortfolio();
+    const before = calculatePortfolioPerformance({
+      currentPortfolioValueCents: portfolio.currentPortfolioValueCents,
+      transactions: transactionsThrough(txs, portfolio.currentValuationAt),
+    });
+    const markedAtCost = calculatePortfolioPerformance({
+      currentPortfolioValueCents: portfolio.currentPortfolioValueCents + 15837,
+      transactions: txs,
+    });
+    expect(markedAtCost.investmentPnLCents).toBe(before.investmentPnLCents);
+    expect(buildPublicDashboard().portfolio.performance.investmentPnLCents).toBe(
+      before.investmentPnLCents,
+    );
+  });
+
+  it("holds SPCX without adding it to look-through totals", () => {
+    const lt = buildPublicDashboard().lookThrough;
+    expect(lt.positions.map((p) => p.ticker)).not.toContain("SPCX");
+    expect(lt.excludedHoldings.map((h) => h.ticker)).toEqual(["SPCX"]);
+    expect(lt.totalLookThroughSats).toBe(
+      lt.positions.reduce((sum, p) => sum + (p.lookThroughSats ?? 0), 0),
+    );
+    expect(lt.metrics.map((m) => m.ticker)).not.toContain("SPCX");
+  });
+
+  it("keeps the research snapshot out of issuer-metric registries", () => {
+    for (const file of ["issuer-metrics.json", "issuer-bps-history.json"]) {
       const fullPath = path.join(process.cwd(), "data", file);
       if (!existsSync(fullPath)) continue;
       expect(readFileSync(fullPath, "utf8"), file).not.toMatch(/SPCX|SpaceX/i);
     }
-  });
-
-  it("excludes SPCX from look-through totals", () => {
-    const lt = buildPublicDashboard().lookThrough;
-    expect(lt.positions.map((p) => p.ticker)).not.toContain("SPCX");
-    expect(lt.metrics.map((m) => m.ticker)).not.toContain("SPCX");
   });
 });
 

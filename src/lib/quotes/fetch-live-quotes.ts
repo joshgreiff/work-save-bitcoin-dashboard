@@ -16,6 +16,7 @@ const EQUITY_SYMBOLS = [
   "MSTR",
   "ASST",
   "MPJPY",
+  "SPCX",
   "SPY",
   "GLD",
   "STRF",
@@ -26,7 +27,7 @@ const EQUITY_SYMBOLS = [
   "IBIT",
 ] as const;
 
-const HOLDING_SYMBOLS = ["MSTR", "ASST", "MPJPY"] as const;
+const HOLDING_SYMBOLS = ["MSTR", "ASST", "MPJPY", "SPCX"] as const;
 
 type LiveMarkPortfolioInput = {
   cashBalanceCents: number;

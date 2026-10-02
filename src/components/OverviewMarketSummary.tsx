@@ -18,6 +18,9 @@ type Props = {
   positions: Array<{ ticker: string; shares: number }>;
   totalExternalContributionsCents: number;
   netExternalContributionsCents: number;
+  /** Contributions through now; a live mark already includes any recorded after the official close. */
+  liveTotalExternalContributionsCents: number;
+  liveNetExternalContributionsCents: number;
   officialCloseCents: number;
   officialCloseAt: string;
   lookThrough: { totalLookThroughSats: number | null; asOf: string };
@@ -70,14 +73,17 @@ export function OverviewMarketSummary(props: Props) {
     ? "Live — not historical · assumes published share weights unchanged"
     : "Official market-close snapshot";
 
+  const totalContributions = liveComplete
+    ? props.liveTotalExternalContributionsCents
+    : props.totalExternalContributionsCents;
+  const netContributions = liveComplete
+    ? props.liveNetExternalContributionsCents
+    : props.netExternalContributionsCents;
   const pnl = calculateInvestmentPnL({
     currentPortfolioValueCents: displayValue,
-    totalExternalContributionsCents: props.totalExternalContributionsCents,
+    totalExternalContributionsCents: totalContributions,
   });
-  const ret =
-    props.netExternalContributionsCents === 0
-      ? null
-      : pnl / props.netExternalContributionsCents;
+  const ret = netContributions === 0 ? null : pnl / netContributions;
 
   const allocation = useMemo(() => {
     if (!liveComplete || !live) return [];

@@ -1,5 +1,5 @@
 import { priorCloseCarriedForwardLabel } from "@/lib/quotes/price-carry-forward";
-import { etCalendarDay } from "@/lib/market/session";
+import { etCalendarDay, etFourPmIso } from "@/lib/market/session";
 
 function dollarsToCents(dollars: number): number {
   return Math.round(dollars * 100);
@@ -16,6 +16,7 @@ type YahooChartResponse = {
         symbol?: string;
         currency?: string;
         regularMarketPrice?: number;
+        regularMarketTime?: number;
         chartPreviousClose?: number;
       };
     }>;
@@ -114,6 +115,33 @@ export async function fetchYahooUnadjustedDailyClose(args: {
       sourceName: "Yahoo Finance chart unadjusted daily close",
       fallbackUsed: false,
       note: `Unadjusted regular-session close $${(cents / 100).toFixed(2)}`,
+    };
+  }
+
+  // After the bell the daily series often lacks the session's bar while the
+  // chart meta already carries the official regular-session close.
+  const meta = result?.meta;
+  if (
+    meta?.regularMarketPrice != null &&
+    Number.isFinite(meta.regularMarketPrice) &&
+    meta.regularMarketPrice > 0 &&
+    meta.regularMarketTime != null &&
+    etCalendarDay(new Date(meta.regularMarketTime * 1000)) === args.sessionDay &&
+    meta.regularMarketTime * 1000 >= Date.parse(etFourPmIso(args.sessionDay))
+  ) {
+    const cents = dollarsToCents(meta.regularMarketPrice);
+    return {
+      symbol: args.symbol,
+      priceCents: cents,
+      priceUsd: meta.regularMarketPrice,
+      sessionDay: args.sessionDay,
+      barSessionDay: args.sessionDay,
+      observedAtUnix: meta.regularMarketTime,
+      sourceUrl: url,
+      retrievedAt,
+      sourceName: "Yahoo Finance chart unadjusted daily close",
+      fallbackUsed: false,
+      note: `Unadjusted regular-session close $${(cents / 100).toFixed(2)} (chart regularMarketPrice; daily bar not yet published)`,
     };
   }
 

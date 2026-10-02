@@ -85,6 +85,7 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
         previous: marketObservations.latestOfficialClose,
         latest: null,
         liveEnd,
+        netExternalCashFlowCents: marketObservations.netExternalCashFlowSinceLatestCloseCents,
       });
     }
     return marketObservations.sessionComparison;
@@ -107,21 +108,19 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
         ["MSTR", obs.prices.MSTR],
         ["ASST", obs.prices.ASST],
         ["MPJPY", obs.prices.MPJPY],
-        ["Portfolio", obs.portfolioValueCents],
       ];
       for (const [key, value] of pair) {
         const baseValue =
-          key === "Portfolio"
-            ? base.portfolioValueCents
-            : base.prices[key === "Bitcoin" ? "BTCUSD" : (key as "MSTR" | "ASST" | "MPJPY")];
+          base.prices[key === "Bitcoin" ? "BTCUSD" : (key as "MSTR" | "ASST" | "MPJPY")];
         row[key] =
           value == null || baseValue == null || baseValue === 0
             ? null
             : value / baseValue - 1;
       }
+      row.Portfolio = marketObservations.flowAdjustedPortfolioReturnByCloseId[obs.id] ?? null;
       return row;
     });
-  }, [marketObservations.observations]);
+  }, [marketObservations.observations, marketObservations.flowAdjustedPortfolioReturnByCloseId]);
 
   async function copySummary() {
     if (!comparison.episodeSummary.available) return;

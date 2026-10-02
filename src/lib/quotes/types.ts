@@ -3,6 +3,7 @@ export type LiveQuoteSymbol =
   | "MSTR"
   | "ASST"
   | "MPJPY"
+  | "SPCX"
   | "SPY"
   | "GLD"
   | "STRF"

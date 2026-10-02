@@ -51,7 +51,7 @@ export function LiveMarkPanel() {
   }, [load]);
 
   const holdingQuotes = data?.quotes.filter((q) =>
-    ["MSTR", "ASST", "MPJPY"].includes(q.symbol),
+    ["MSTR", "ASST", "MPJPY", "SPCX"].includes(q.symbol),
   );
   const benchmarkQuotes = data?.quotes.filter((q) =>
     ["BTCUSD", "SPY", "GLD"].includes(q.symbol),

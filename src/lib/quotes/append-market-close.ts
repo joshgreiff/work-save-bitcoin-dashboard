@@ -12,6 +12,7 @@ import {
 } from "@/lib/quotes/price-carry-forward";
 import {
   fetchOfficialCloseSnapshot,
+  OFFICIAL_CLOSE_EQUITY_SYMBOLS,
   type OfficialCloseSnapshot,
 } from "@/lib/quotes/official-close";
 import {
@@ -25,6 +26,7 @@ import type { PortfolioData } from "@/lib/schemas/portfolio";
 import type { SynchronizedMarketObservation } from "@/lib/schemas/market-observations";
 import type { ValuationHistoryPoint } from "@/lib/schemas/valuation-history";
 import type { MarketPrice } from "@/lib/schemas/market-prices";
+import type { PortfolioTransaction } from "@/lib/schemas/transactions";
 
 const DATA_DIR = path.join(process.cwd(), "data");
 
@@ -68,6 +70,8 @@ export function observationAlreadyExists(
   );
 }
 
+const SNAPSHOT_SYMBOLS = ["BTCUSD", ...OFFICIAL_CLOSE_EQUITY_SYMBOLS] as const;
+
 export function buildMarketObservation(
   snapshot: OfficialCloseSnapshot,
 ): SynchronizedMarketObservation {
@@ -76,64 +80,23 @@ export function buildMarketObservation(
     timestamp: snapshot.asOf,
     timezone: "America/New_York",
     valuationType: "market_close",
-    prices: {
-      BTCUSD: snapshot.prices.BTCUSD,
-      MSTR: snapshot.prices.MSTR,
-      ASST: snapshot.prices.ASST,
-      MPJPY: snapshot.prices.MPJPY,
-      SPY: snapshot.prices.SPY,
-      GLD: snapshot.prices.GLD,
-    },
-    sources: {
-      BTCUSD: {
-        name: snapshot.sources.BTCUSD.sourceName,
-        url: snapshot.sources.BTCUSD.sourceUrl,
-        observedAt: snapshot.sources.BTCUSD.observedAt,
-        retrievedAt: snapshot.sources.BTCUSD.retrievedAt,
-        fallbackUsed: snapshot.sources.BTCUSD.fallbackUsed,
-        note: snapshot.sources.BTCUSD.note,
-      },
-      MSTR: {
-        name: snapshot.sources.MSTR.sourceName,
-        url: snapshot.sources.MSTR.sourceUrl,
-        observedAt: snapshot.sources.MSTR.observedAt,
-        retrievedAt: snapshot.sources.MSTR.retrievedAt,
-        fallbackUsed: snapshot.sources.MSTR.fallbackUsed,
-        note: snapshot.sources.MSTR.note,
-      },
-      ASST: {
-        name: snapshot.sources.ASST.sourceName,
-        url: snapshot.sources.ASST.sourceUrl,
-        observedAt: snapshot.sources.ASST.observedAt,
-        retrievedAt: snapshot.sources.ASST.retrievedAt,
-        fallbackUsed: snapshot.sources.ASST.fallbackUsed,
-        note: snapshot.sources.ASST.note,
-      },
-      MPJPY: {
-        name: snapshot.sources.MPJPY.sourceName,
-        url: snapshot.sources.MPJPY.sourceUrl,
-        observedAt: snapshot.sources.MPJPY.observedAt,
-        retrievedAt: snapshot.sources.MPJPY.retrievedAt,
-        fallbackUsed: snapshot.sources.MPJPY.fallbackUsed,
-        note: snapshot.sources.MPJPY.note,
-      },
-      SPY: {
-        name: snapshot.sources.SPY.sourceName,
-        url: snapshot.sources.SPY.sourceUrl,
-        observedAt: snapshot.sources.SPY.observedAt,
-        retrievedAt: snapshot.sources.SPY.retrievedAt,
-        fallbackUsed: snapshot.sources.SPY.fallbackUsed,
-        note: snapshot.sources.SPY.note,
-      },
-      GLD: {
-        name: snapshot.sources.GLD.sourceName,
-        url: snapshot.sources.GLD.sourceUrl,
-        observedAt: snapshot.sources.GLD.observedAt,
-        retrievedAt: snapshot.sources.GLD.retrievedAt,
-        fallbackUsed: snapshot.sources.GLD.fallbackUsed,
-        note: snapshot.sources.GLD.note,
-      },
-    },
+    prices: { ...snapshot.prices },
+    sources: Object.fromEntries(
+      SNAPSHOT_SYMBOLS.map((symbol) => {
+        const source = snapshot.sources[symbol];
+        return [
+          symbol,
+          {
+            name: source.sourceName,
+            url: source.sourceUrl,
+            observedAt: source.observedAt,
+            retrievedAt: source.retrievedAt,
+            fallbackUsed: source.fallbackUsed,
+            note: source.note,
+          },
+        ];
+      }),
+    ) as SynchronizedMarketObservation["sources"],
     portfolioValueCents: snapshot.portfolioValueCents,
     netExternalContributionsCents: snapshot.netExternalContributionsCents,
     note: appendCarryForwardClarification(
@@ -154,14 +117,7 @@ export function buildValuationHistoryPoint(
     session: "close",
     valuationType: "market_close",
     portfolioValueCents: snapshot.portfolioValueCents,
-    prices: {
-      BTCUSD: snapshot.prices.BTCUSD,
-      SPY: snapshot.prices.SPY,
-      GLD: snapshot.prices.GLD,
-      MSTR: snapshot.prices.MSTR,
-      ASST: snapshot.prices.ASST,
-      MPJPY: snapshot.prices.MPJPY,
-    },
+    prices: { ...snapshot.prices },
     sourceName: "Coinbase + Yahoo Finance chart",
     sourceUrl: "https://api.exchange.coinbase.com/products/BTC-USD/candles",
     retrievedAt: snapshot.retrievedAt,
@@ -171,7 +127,7 @@ export function buildValuationHistoryPoint(
 }
 
 export function buildMarketPrices(snapshot: OfficialCloseSnapshot): MarketPrice[] {
-  const order = ["BTCUSD", "SPY", "GLD", "MSTR", "ASST", "MPJPY"] as const;
+  const order = ["BTCUSD", "SPY", "GLD", "MSTR", "ASST", "MPJPY", "SPCX"] as const;
   return order.map((symbol) => {
     const source = snapshot.sources[symbol];
     return {
@@ -187,9 +143,52 @@ export function buildMarketPrices(snapshot: OfficialCloseSnapshot): MarketPrice[
   });
 }
 
+const CATEGORY_LABEL: Partial<Record<PortfolioTransaction["category"], string>> = {
+  personal_contribution: "personal contribution",
+  youtube_revenue_contribution: "YouTube-revenue contribution",
+  affiliate_revenue_contribution: "affiliate-revenue contribution",
+  sponsorship_revenue_contribution: "sponsorship-revenue contribution",
+  viewer_support_contribution: "viewer-support contribution",
+  withdrawal: "withdrawal",
+  dividend: "dividend",
+  options_premium: "options premium",
+  interest: "interest",
+  fee: "fee",
+};
+
+function describeTransaction(tx: PortfolioTransaction): string {
+  const day = etCalendarDay(tx.timestamp);
+  if (tx.category === "security_purchase" || tx.category === "security_sale") {
+    const verb = tx.category === "security_purchase" ? "bought" : "sold";
+    const price = tx.priceCents == null ? "" : ` at ${formatUsdFromCents(tx.priceCents)}`;
+    return `${verb} ${tx.shares ?? "?"} ${tx.ticker ?? "?"}${price} (${day})`;
+  }
+  const label = CATEGORY_LABEL[tx.category] ?? tx.category.replace(/_/g, " ");
+  const amount = tx.amountCents == null ? "" : ` of ${formatUsdFromCents(Math.abs(tx.amountCents))}`;
+  return `${label}${amount} (${day})`;
+}
+
+export function portfolioActivityNote(args: {
+  transactions: PortfolioTransaction[];
+  inceptionAt: string;
+  asOf: string;
+  longDate: string;
+}): string {
+  const start = Date.parse(args.inceptionAt);
+  const end = Date.parse(args.asOf);
+  const activity = args.transactions
+    .filter((tx) => Date.parse(tx.timestamp) > start && Date.parse(tx.timestamp) <= end)
+    .sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
+  if (activity.length === 0) {
+    return `No new contributions, withdrawals, trades, dividends, or options income recorded through the ${args.longDate} close.`;
+  }
+  return `Recorded since Episode 1 through the ${args.longDate} close: ${activity.map(describeTransaction).join("; ")}. Contributions are excluded from investment P&L.`;
+}
+
 export function applySnapshotToPortfolio(
   portfolio: PortfolioData,
   snapshot: OfficialCloseSnapshot,
+  transactions: PortfolioTransaction[],
 ): PortfolioData {
   const byTicker = new Map(
     snapshot.positionMarks.map((p) => [p.ticker, p] as const),
@@ -224,7 +223,12 @@ export function applySnapshotToPortfolio(
           `${label} The total is still a valid market-close valuation, but one component is estimated from its last available close.`,
       ),
       "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-      `No new contributions, withdrawals, trades, dividends, or options income recorded through the ${longDate} close.`,
+      portfolioActivityNote({
+        transactions,
+        inceptionAt: portfolio.inceptionValuationAt,
+        asOf: snapshot.asOf,
+        longDate,
+      }),
       `Investment P&L at ${longDate} close: ${formatUsdFromCents(pnl, { showSign: true })}${pnlPct == null ? "" : ` (${(pnlPct * 100).toFixed(2)}% vs net external contributions)`}.`,
       "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash.",
     ],
@@ -271,7 +275,7 @@ export async function appendMarketCloseForDay(args: {
   const marketPrices = loadMarketPrices();
   const observation = buildMarketObservation(snapshot);
   const historyPoint = buildValuationHistoryPoint(snapshot);
-  const updatedPortfolio = applySnapshotToPortfolio(portfolio, snapshot);
+  const updatedPortfolio = applySnapshotToPortfolio(portfolio, snapshot, transactions);
 
   if (valuationHistory.points.some((p) => p.id === historyPoint.id)) {
     return {

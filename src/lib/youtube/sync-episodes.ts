@@ -74,12 +74,8 @@ export function draftEpisodeFromVideo(args: {
   const { video, episodeNumber, close, positions } = args;
   const portfolioValueCents = close.portfolioValueCents ?? 0;
   const contributions = close.netExternalContributionsCents ?? portfolioValueCents;
-  const priceFor = (ticker: string): number | null => {
-    if (ticker === "MSTR" || ticker === "ASST" || ticker === "MPJPY") {
-      return close.prices[ticker];
-    }
-    return null;
-  };
+  const closePrices: Partial<Record<string, number | null>> = close.prices;
+  const priceFor = (ticker: string): number | null => closePrices[ticker] ?? null;
   return {
     episodeNumber,
     slug: slugifyEpisodeTitle(episodeNumber, video.title),

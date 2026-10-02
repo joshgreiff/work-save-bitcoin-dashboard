@@ -55,6 +55,45 @@ export function sessionReturn(
   return endCents / startCents - 1;
 }
 
+/**
+ * Portfolio return over a window, excluding net external cash flow that arrived
+ * inside it. The flow is treated as arriving at the end of the window, so new
+ * money is never counted as performance.
+ */
+export function flowAdjustedPortfolioReturn(
+  startCents: number | null | undefined,
+  endCents: number | null | undefined,
+  netExternalCashFlowCents = 0,
+): number | null {
+  if (endCents == null) return null;
+  return sessionReturn(startCents, endCents - netExternalCashFlowCents);
+}
+
+/**
+ * Cumulative portfolio return since the first close, chain-linking
+ * close-to-close returns that each exclude that window's net external cash flow.
+ */
+export function flowAdjustedPortfolioIndex(
+  closes: Array<{ id: string; timestamp: string; portfolioValueCents: number | null }>,
+  netExternalCashFlowBetween: (afterExclusive: string, throughInclusive: string) => number,
+): Map<string, number | null> {
+  const index = new Map<string, number | null>();
+  let cumulative: number | null = 0;
+  closes.forEach((close, i) => {
+    if (i > 0) {
+      const prev = closes[i - 1]!;
+      const r = flowAdjustedPortfolioReturn(
+        prev.portfolioValueCents,
+        close.portfolioValueCents,
+        netExternalCashFlowBetween(prev.timestamp, close.timestamp),
+      );
+      cumulative = cumulative == null || r == null ? null : (1 + cumulative) * (1 + r) - 1;
+    }
+    index.set(close.id, close.portfolioValueCents == null ? null : cumulative);
+  });
+  return index;
+}
+
 export function excessReturnPp(
   assetReturn: number | null,
   btcReturn: number | null,
@@ -121,6 +160,8 @@ export function buildSessionComparison(args: {
   latest: SynchronizedMarketObservation | null;
   /** When set, ending values come from live quotes (prior close → live). */
   liveEnd?: LiveSessionEnd | null;
+  /** Net external cash flow inside the window; excluded from the portfolio return. */
+  netExternalCashFlowCents?: number;
 }): SessionComparison {
   const { previous, latest, liveEnd } = args;
   const usingLive = liveEnd != null;
@@ -154,7 +195,7 @@ export function buildSessionComparison(args: {
     if (symbol === "PORTFOLIO") {
       const start = previous.portfolioValueCents;
       const end = endPortfolio;
-      const ret = sessionReturn(start, end);
+      const ret = flowAdjustedPortfolioReturn(start, end, args.netExternalCashFlowCents);
       return {
         symbol: "Actual portfolio",
         startCents: start,
