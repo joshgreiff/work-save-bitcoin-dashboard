@@ -11,6 +11,8 @@ import {
 } from "@/lib/accounting/lookthrough";
 import {
   calculatePortfolioPerformance,
+  capitalAdjustedStartingValue,
+  latestExternalCashFlowAt,
   netExternalCashFlowBetween,
   summarizeContributions,
   transactionsAfter,
@@ -62,6 +64,10 @@ function latestMetricForTicker(
   return [...metrics]
     .filter((m) => m.ticker === ticker)
     .sort((a, b) => Date.parse(b.asOf) - Date.parse(a.asOf))[0];
+}
+
+function latestTimestamp(a: string, b: string | null): string {
+  return b != null && Date.parse(b) > Date.parse(a) ? b : a;
 }
 
 export function buildPublicDashboard() {
@@ -335,6 +341,23 @@ export function buildPublicDashboard() {
       contributions,
       /** All recorded contributions, including any after the official valuation (for live marks). */
       contributionsToDate: summarizeContributions(transactionsFile.transactions),
+      contributionsToDateAsOf: latestTimestamp(
+        portfolio.currentValuationAt,
+        latestExternalCashFlowAt(transactionsFile.transactions),
+      ),
+      /** Starting value plus net capital added, on the official-close basis. */
+      adjustedStartingValue: capitalAdjustedStartingValue({
+        startingPortfolioValueCents: portfolio.startingPortfolioValueCents,
+        inceptionAt: portfolio.inceptionValuationAt,
+        transactions: transactionsFile.transactions,
+        through: portfolio.currentValuationAt,
+      }),
+      /** Starting value plus every recorded net capital addition (live-mark basis). */
+      adjustedStartingValueToDate: capitalAdjustedStartingValue({
+        startingPortfolioValueCents: portfolio.startingPortfolioValueCents,
+        inceptionAt: portfolio.inceptionValuationAt,
+        transactions: transactionsFile.transactions,
+      }),
       performance,
       transactionsAfterValuation,
       afterHours: portfolio.afterHours ?? null,

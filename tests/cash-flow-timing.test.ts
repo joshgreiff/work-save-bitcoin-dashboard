@@ -1,8 +1,12 @@
 import { describe, expect, it } from "vitest";
 import { calculateCashFlowMatchedBenchmark, extractExternalCashFlows } from "@/lib/accounting/benchmarks";
 import {
+  calculateInvestmentPnL,
+  capitalAdjustedStartingValue,
+  latestExternalCashFlowAt,
   netExternalCashFlowBetween,
   sharesHeldAt,
+  summarizeContributions,
   transactionsAfter,
   transactionsThrough,
 } from "@/lib/accounting/portfolio";
@@ -94,6 +98,40 @@ describe("transaction windows", () => {
     expect(sharesHeldAt({ ticker: "MSTR", shares: 12.12 }, TXS, "2026-10-01T16:00:00-04:00")).toBe(
       12.12,
     );
+  });
+});
+
+describe("capital-adjusted starting value", () => {
+  const base = {
+    startingPortfolioValueCents: 200000,
+    inceptionAt: "2026-09-16T08:00:00-04:00",
+    transactions: TXS,
+  };
+
+  it("adds net capital after inception without double-counting initial funding", () => {
+    expect(capitalAdjustedStartingValue(base)).toEqual({
+      startingPortfolioValueCents: 200000,
+      netCapitalAddedCents: 15837,
+      adjustedStartingValueCents: 215837,
+    });
+    expect(
+      capitalAdjustedStartingValue({ ...base, through: "2026-10-01T16:00:00-04:00" })
+        .adjustedStartingValueCents,
+    ).toBe(200000);
+  });
+
+  it("leaves current value minus adjusted start equal to investment P&L", () => {
+    const value = 230000;
+    const pnl = calculateInvestmentPnL({
+      currentPortfolioValueCents: value,
+      totalExternalContributionsCents: summarizeContributions(TXS).totalExternalContributionsCents,
+    });
+    expect(value - capitalAdjustedStartingValue(base).adjustedStartingValueCents).toBe(pnl);
+  });
+
+  it("dates contributions by the latest external cash flow", () => {
+    expect(latestExternalCashFlowAt(TXS)).toBe("2026-10-02T14:39:00-04:00");
+    expect(latestExternalCashFlowAt([LATER_BUY])).toBeNull();
   });
 });
 

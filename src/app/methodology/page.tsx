@@ -52,10 +52,18 @@ export default function MethodologyPage() {
           <p>
             Contributions are matched to the valuation they belong to. An official close counts only
             contributions recorded at or before that close, so a deposit made after the latest close
-            is listed as recorded after it and enters value, contributions, and P&amp;L together at
-            the next close. Live marks include every recorded contribution because they already
-            include the holdings those contributions bought. Earlier valuation-history points are
-            never restated by later deposits.
+            is listed as recorded after it and enters official value and P&amp;L together at the next
+            close. Live marks include every recorded contribution because they already include the
+            holdings those contributions bought. Earlier valuation-history points are never restated
+            by later deposits.
+          </p>
+          <p>
+            The contribution totals on the Portfolio page list every recorded external deposit and
+            withdrawal, dated by the latest one. &ldquo;Starting value + added capital&rdquo; is the
+            inception value plus net external capital added after inception, on the same basis as
+            the P&amp;L beside it: through the official close when the official close is shown, and
+            through now when a live mark is shown. Current value minus this figure equals investment
+            P&amp;L, so added capital is never shown as a gain.
           </p>
           <p>
             Day-over-day and normalized portfolio returns exclude new money: each close-to-close

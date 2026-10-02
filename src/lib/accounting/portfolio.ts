@@ -87,6 +87,45 @@ export function netExternalCashFlowBetween(
   return net;
 }
 
+export type CapitalAdjustedStartingValue = {
+  startingPortfolioValueCents: number;
+  netCapitalAddedCents: number;
+  adjustedStartingValueCents: number;
+};
+
+/**
+ * Inception value plus net external capital added after inception, through
+ * `through` (omit for every recorded flow). Current value minus this figure is
+ * investment P&L when the inception value equals initial funding.
+ */
+export function capitalAdjustedStartingValue(args: {
+  startingPortfolioValueCents: number;
+  inceptionAt: string;
+  transactions: PortfolioTransaction[];
+  through?: string;
+}): CapitalAdjustedStartingValue {
+  const netCapitalAddedCents = netExternalCashFlowBetween(
+    args.transactions,
+    args.inceptionAt,
+    args.through,
+  );
+  return {
+    startingPortfolioValueCents: args.startingPortfolioValueCents,
+    netCapitalAddedCents,
+    adjustedStartingValueCents: args.startingPortfolioValueCents + netCapitalAddedCents,
+  };
+}
+
+/** Timestamp of the latest recorded external contribution or withdrawal, if any. */
+export function latestExternalCashFlowAt(transactions: PortfolioTransaction[]): string | null {
+  let latest: string | null = null;
+  for (const tx of transactions) {
+    if (!isExternalContribution(tx) && !isExternalWithdrawal(tx)) continue;
+    if (latest == null || Date.parse(tx.timestamp) > Date.parse(latest)) latest = tx.timestamp;
+  }
+  return latest;
+}
+
 /**
  * Shares of a currently held position that were held at `asOf`: current shares
  * minus purchases after `asOf`, plus sales after `asOf`.

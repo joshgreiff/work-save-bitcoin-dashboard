@@ -31,7 +31,8 @@ export const metadata = {
 
 export default function PortfolioPage() {
   const data = buildPublicDashboard();
-  const c = data.portfolio.contributions;
+  const c = data.portfolio.contributionsToDate;
+  const contributionsAsOf = data.portfolio.contributionsToDateAsOf;
   const p = data.portfolio.performance;
   const pending = data.portfolio.transactionsAfterValuation;
 
@@ -85,16 +86,14 @@ export default function PortfolioPage() {
           ticker: pos.ticker,
           shares: pos.shares,
         }))}
-        totalExternalContributionsCents={c.totalExternalContributionsCents}
-        netExternalContributionsCents={c.netExternalContributionsCents}
-        liveTotalExternalContributionsCents={
-          data.portfolio.contributionsToDate.totalExternalContributionsCents
+        totalExternalContributionsCents={
+          data.portfolio.contributions.totalExternalContributionsCents
         }
-        liveNetExternalContributionsCents={
-          data.portfolio.contributionsToDate.netExternalContributionsCents
-        }
-        startingPortfolioValueCents={data.portfolio.startingPortfolioValueCents}
-        inceptionValuationAt={data.portfolio.inceptionValuationAt}
+        netExternalContributionsCents={data.portfolio.contributions.netExternalContributionsCents}
+        liveTotalExternalContributionsCents={c.totalExternalContributionsCents}
+        liveNetExternalContributionsCents={c.netExternalContributionsCents}
+        adjustedStartingValue={data.portfolio.adjustedStartingValue}
+        adjustedStartingValueToDate={data.portfolio.adjustedStartingValueToDate}
         fallbackValueCents={data.portfolio.currentPortfolioValueCents}
         fallbackAsOf={data.portfolio.currentValuationAt}
       />
@@ -110,9 +109,10 @@ export default function PortfolioPage() {
         <section className="space-y-2 border border-dashed border-[var(--border)] p-4 text-sm">
           <h2 className="font-medium">Recorded after the latest official close</h2>
           <p className="text-[var(--muted-foreground)]">
-            These transactions are not yet reflected in the official value, contributions, or P&amp;L
-            below (valued {formatEtTimestamp(data.portfolio.currentValuationAt)}). They enter the
-            official figures at the next market close. New contributions are never counted as profit.
+            The contribution totals below include these transactions. The official value and
+            official P&amp;L (valued {formatEtTimestamp(data.portfolio.currentValuationAt)}) pick
+            them up at the next market close; a live mark includes them now. New contributions are
+            never counted as profit.
           </p>
           <ul className="list-disc space-y-1 pl-5 text-[var(--muted-foreground)]">
             {pending.map((tx) => (
@@ -130,33 +130,35 @@ export default function PortfolioPage() {
         <MetricCard
           label="Total external contributions"
           value={formatUsdFromCents(c.totalExternalContributionsCents)}
-          asOf={data.portfolio.currentValuationAt}
+          asOf={contributionsAsOf}
+          hint="All recorded external deposits — never counted as profit"
         />
         <MetricCard
           label="Initial funding"
           value={formatUsdFromCents(c.initialFundingCents)}
-          asOf={data.portfolio.currentValuationAt}
+          asOf={data.portfolio.inceptionValuationAt}
           hint="Opening deposit establishing the portfolio"
         />
         <MetricCard
           label="Personal contributions"
           value={formatUsdFromCents(c.personalCents)}
-          asOf={data.portfolio.currentValuationAt}
+          asOf={contributionsAsOf}
+          hint="New personal cash added after inception"
         />
         <MetricCard
           label="Channel-income contributions"
           value={formatUsdFromCents(c.channelIncomeCents)}
-          asOf={data.portfolio.currentValuationAt}
+          asOf={contributionsAsOf}
         />
         <MetricCard
           label="Viewer-support contributions"
           value={formatUsdFromCents(c.viewerSupportCents)}
-          asOf={data.portfolio.currentValuationAt}
+          asOf={contributionsAsOf}
         />
         <MetricCard
           label="Withdrawals (external)"
           value={formatUsdFromCents(c.externalWithdrawalsCents)}
-          asOf={data.portfolio.currentValuationAt}
+          asOf={contributionsAsOf}
         />
         <MetricCard
           label="Dividends received"

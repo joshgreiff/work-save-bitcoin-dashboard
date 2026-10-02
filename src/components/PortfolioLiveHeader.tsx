@@ -7,6 +7,7 @@ import {
   MetricCard,
 } from "@/components/ui/primitives";
 import { useLivePortfolioValue } from "@/components/useLivePortfolioValue";
+import type { CapitalAdjustedStartingValue } from "@/lib/accounting/portfolio";
 
 type Props = {
   cashBalanceCents: number;
@@ -15,8 +16,9 @@ type Props = {
   netExternalContributionsCents: number;
   liveTotalExternalContributionsCents: number;
   liveNetExternalContributionsCents: number;
-  startingPortfolioValueCents: number;
-  inceptionValuationAt: string;
+  adjustedStartingValue: CapitalAdjustedStartingValue;
+  /** Includes capital recorded after the official close; pairs with a live mark. */
+  adjustedStartingValueToDate: CapitalAdjustedStartingValue;
   fallbackValueCents: number;
   fallbackAsOf: string;
 };
@@ -32,6 +34,7 @@ export function PortfolioLiveHeader(props: Props) {
     fallbackValueCents: props.fallbackValueCents,
     fallbackAsOf: props.fallbackAsOf,
   });
+  const start = live.usingLive ? props.adjustedStartingValueToDate : props.adjustedStartingValue;
 
   return (
     <div className="space-y-3">
@@ -44,9 +47,10 @@ export function PortfolioLiveHeader(props: Props) {
       </p>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <MetricCard
-          label="Starting value"
-          value={formatUsdFromCents(props.startingPortfolioValueCents)}
-          asOf={props.inceptionValuationAt}
+          label="Starting value + added capital"
+          value={formatUsdFromCents(start.adjustedStartingValueCents)}
+          asOf={live.asOf}
+          hint={`${formatUsdFromCents(start.startingPortfolioValueCents)} at inception + ${formatUsdFromCents(start.netCapitalAddedCents)} added since`}
         />
         <MetricCard
           label="Current value"
