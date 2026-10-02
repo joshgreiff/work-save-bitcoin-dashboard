@@ -221,6 +221,11 @@
       }
     },
     {
+      "sourceName": "Coinbase + Yahoo Finance chart",
+      "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+      "retrievedAt": "2026-10-01T00:46:11.224Z",
+      "manual": false,
+      "note": "Official market-close snapshot. Portfolio $2,385.30 reconciled from published shares × confirmed closes. MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes.",
       "id": "vh-2026-09-30-close",
       "asOf": "2026-09-30T16:00:00-04:00",
       "session": "close",
@@ -233,12 +238,27 @@
         "MSTR": 15467,
         "ASST": 2931,
         "MPJPY": 185
+      }
+    },
+    {
+      "id": "vh-2026-10-01-close",
+      "asOf": "2026-10-01T16:00:00-04:00",
+      "session": "close",
+      "valuationType": "market_close",
+      "portfolioValueCents": 237106,
+      "prices": {
+        "BTCUSD": 8472509,
+        "SPY": 76263,
+        "GLD": 38084,
+        "MSTR": 15309,
+        "ASST": 2941,
+        "MPJPY": 191
       },
       "sourceName": "Coinbase + Yahoo Finance chart",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-10-01T00:46:11.224Z",
+      "retrievedAt": "2026-10-02T01:02:29.935Z",
       "manual": false,
-      "note": "Official market-close snapshot. Portfolio $2,385.30 reconciled from published shares × confirmed closes. MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
+      "note": "Official market-close snapshot. Portfolio $2,371.06 reconciled from published shares × confirmed closes. MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
     }
   ]
 }

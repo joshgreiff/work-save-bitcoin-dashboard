@@ -761,6 +761,73 @@
       "portfolioValueCents": 238530,
       "netExternalContributionsCents": 199991,
       "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$154.67 + 13.7×$29.31 + 59×$1.85 = $2,385.30 (cash $0.00). MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
+    },
+    {
+      "id": "mo-2026-10-01-close",
+      "timestamp": "2026-10-01T16:00:00-04:00",
+      "timezone": "America/New_York",
+      "valuationType": "market_close",
+      "prices": {
+        "BTCUSD": 8472509,
+        "MSTR": 15309,
+        "ASST": 2941,
+        "MPJPY": 191,
+        "SPY": 76263,
+        "GLD": 38084
+      },
+      "sources": {
+        "BTCUSD": {
+          "name": "Coinbase Exchange BTC-USD 1-minute candle",
+          "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+          "observedAt": "2026-10-01T20:00:00.000Z",
+          "retrievedAt": "2026-10-02T01:02:29.935Z",
+          "fallbackUsed": false,
+          "note": "Exact 4:00 p.m. Eastern one-minute candle close $84,725.09"
+        },
+        "MSTR": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
+          "observedAt": "2026-10-01T16:00:00-04:00",
+          "retrievedAt": "2026-10-02T01:02:29.936Z",
+          "fallbackUsed": true,
+          "note": "MSTR prior close carried forward due to no reported session print. Carried 2026-09-30 unadjusted close $153.09."
+        },
+        "ASST": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
+          "observedAt": "2026-10-01T16:00:00-04:00",
+          "retrievedAt": "2026-10-02T01:02:29.969Z",
+          "fallbackUsed": true,
+          "note": "ASST prior close carried forward due to no reported session print. Carried 2026-09-30 unadjusted close $29.41."
+        },
+        "MPJPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
+          "observedAt": "2026-10-01T16:00:00-04:00",
+          "retrievedAt": "2026-10-02T01:02:29.970Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $1.91"
+        },
+        "SPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
+          "observedAt": "2026-10-01T16:00:00-04:00",
+          "retrievedAt": "2026-10-02T01:02:29.971Z",
+          "fallbackUsed": true,
+          "note": "SPY prior close carried forward due to no reported session print. Carried 2026-09-30 unadjusted close $762.63."
+        },
+        "GLD": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
+          "observedAt": "2026-10-01T16:00:00-04:00",
+          "retrievedAt": "2026-10-02T01:02:29.972Z",
+          "fallbackUsed": true,
+          "note": "GLD prior close carried forward due to no reported session print. Carried 2026-09-30 unadjusted close $380.84."
+        }
+      },
+      "portfolioValueCents": 237106,
+      "netExternalContributionsCents": 199991,
+      "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$153.09 + 13.7×$29.41 + 59×$1.91 = $2,371.06 (cash $0.00). MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
     }
   ],
   "notes": [

@@ -4,20 +4,20 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-09-30T16:00:00-04:00",
-  "currentPortfolioValueCents": 238530,
+  "currentValuationAt": "2026-10-01T16:00:00-04:00",
+  "currentPortfolioValueCents": 237106,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
   "notes": [
-    "Official current valuation is the September 30, 2026 4:00 p.m. Eastern regular-market close: $2,385.30.",
-    "Reconciled from published shares × confirmed closes: 12.12×$154.67 + 13.7×$29.31 + 59×$1.85 = $2,385.30 (cash $0.00).",
+    "Official current valuation is the October 1, 2026 4:00 p.m. Eastern regular-market close: $2,371.06.",
+    "Reconciled from published shares × confirmed closes: 12.12×$153.09 + 13.7×$29.41 + 59×$1.91 = $2,371.06 (cash $0.00).",
     "MSTR prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
     "ASST prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
     "SPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
     "GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
     "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-    "No new contributions, withdrawals, trades, dividends, or options income recorded through the September 30, 2026 close.",
-    "Investment P&L at September 30, 2026 close: +$385.39 (19.27% vs net external contributions).",
+    "No new contributions, withdrawals, trades, dividends, or options income recorded through the October 1, 2026 close.",
+    "Investment P&L at October 1, 2026 close: +$371.15 (18.56% vs net external contributions).",
     "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
@@ -27,8 +27,8 @@
       "assetClass": "common_equity",
       "shares": 12.12,
       "lookThroughEligible": true,
-      "priceCents": 15467,
-      "marketValueCents": 187460,
+      "priceCents": 15309,
+      "marketValueCents": 185545,
       "costBasisCents": null
     },
     {
@@ -37,8 +37,8 @@
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
-      "priceCents": 2931,
-      "marketValueCents": 40155,
+      "priceCents": 2941,
+      "marketValueCents": 40292,
       "costBasisCents": null
     },
     {
@@ -49,8 +49,8 @@
       "lookThroughEligible": true,
       "underlyingTicker": "3350",
       "adrRatio": 1,
-      "priceCents": 185,
-      "marketValueCents": 10915,
+      "priceCents": 191,
+      "marketValueCents": 11269,
       "costBasisCents": null
     }
   ],
