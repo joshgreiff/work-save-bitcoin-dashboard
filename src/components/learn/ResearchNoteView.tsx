@@ -10,6 +10,7 @@ import {
   type IssuerSnapshotView,
 } from "@/components/learn/IssuerSnapshotPanels";
 import { ResearchMethodology } from "@/components/learn/ResearchMethodology";
+import { ValueEngines } from "@/components/learn/ValueEngines";
 import { Expandable } from "@/components/ui/primitives";
 import { RelatedContent } from "@/components/learn/RelatedContent";
 import {
@@ -188,6 +189,9 @@ export function ResearchNoteView({
           ) : null}
           {issuerSnapshot && note.issuerSnapshot?.illustrationAfterSectionId === section.id ? (
             <AllocationIllustration view={issuerSnapshot} />
+          ) : null}
+          {note.valueEngines?.afterSectionId === section.id ? (
+            <ValueEngines view={note.valueEngines} citations={citations} />
           ) : null}
         </section>
       ))}

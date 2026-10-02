@@ -506,7 +506,7 @@
       "pillar": "bitcoin-capital-markets",
       "status": "published",
       "publishedAt": "2026-10-01T09:41:00-04:00",
-      "updatedAt": "2026-10-01T09:41:00-04:00",
+      "updatedAt": "2026-10-02T02:45:00-04:00",
       "centralQuestion": "Could a SpaceX (SPCX) position help a Bitcoin-focused portfolio outperform — and if so, through which source of equity return?",
       "workingThesis": "SpaceX is not currently a meaningful source of Bitcoin amplification. Its 18,712 BTC represented approximately 0.05% of its June 30 market value. A position would primarily be a bet on launch, Starlink, Starship, and future infrastructure—with incidental Bitcoin exposure.",
       "mainstreamView": {
@@ -922,12 +922,84 @@
         {
           "date": "2026-10-01",
           "note": "Editorially approved and published."
+        },
+        {
+          "date": "2026-10-02",
+          "note": "Added a “How SpaceX creates shareholder value” overview linking each business line to its evidence. Conclusions unchanged."
         }
       ],
       "issuerSnapshot": {
         "snapshotId": "spacex-2026-06-30",
         "metricsAfterSectionId": "bitcoin-on-the-balance-sheet",
         "illustrationAfterSectionId": "allocation-illustration"
+      },
+      "valueEngines": {
+        "heading": "How SpaceX creates shareholder value",
+        "afterSectionId": "bitcoin-on-the-balance-sheet",
+        "engines": [
+          {
+            "name": "Launch",
+            "role": "Builds and protects the infrastructure advantage",
+            "status": "Operating, strategically important",
+            "kind": "established_fact",
+            "evidence": "78 launches and 1,041 metric tons to orbit in the first half of 2026.",
+            "asOf": "2026-06-30",
+            "sourceIds": [
+              "spacex-10q-q2-2026"
+            ],
+            "sectionId": "launch"
+          },
+          {
+            "name": "Starlink",
+            "role": "Produces recurring revenue and funds expansion",
+            "status": "Scaling, current cash engine",
+            "kind": "established_fact",
+            "evidence": "12.0 million subscribers; $1.656 billion of Connectivity operating income in Q2 2026.",
+            "asOf": "2026-06-30",
+            "sourceIds": [
+              "spacex-10q-q2-2026"
+            ],
+            "sectionId": "starlink"
+          },
+          {
+            "name": "Orbital compute",
+            "role": "Opens entirely new markets",
+            "status": "Speculative, potentially enormous",
+            "kind": "speculative",
+            "evidence": "Deployment targeted as early as 2028; not yet proven at commercial scale.",
+            "asOf": null,
+            "sourceIds": [
+              "spacex-prospectus-2026"
+            ],
+            "sectionId": "orbital-compute"
+          }
+        ],
+        "equation": {
+          "result": "Shareholder return",
+          "terms": [
+            {
+              "label": "Operating growth",
+              "effect": "adds",
+              "sectionId": "starlink"
+            },
+            {
+              "label": "Capital consumption",
+              "effect": "subtracts",
+              "sectionId": "financial-counterarguments"
+            },
+            {
+              "label": "Dilution",
+              "effect": "subtracts",
+              "sectionId": "financial-counterarguments"
+            },
+            {
+              "label": "Expectations already priced in",
+              "effect": "subtracts",
+              "sectionId": null
+            }
+          ],
+          "note": "A framework for weighing the evidence below, not a literal formula. Growth only becomes shareholder return after capital spending, new shares, and the growth the share price already assumes."
+        }
       }
     }
   ],

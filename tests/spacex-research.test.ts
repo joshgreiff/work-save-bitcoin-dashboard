@@ -161,6 +161,66 @@ describe("SpaceX research note", () => {
   });
 });
 
+describe("SpaceX shareholder-value overview", () => {
+  it("maps each engine to its evidence section with the right claim label", () => {
+    const view = spacexNote().valueEngines;
+    expect(view?.heading).toBe("How SpaceX creates shareholder value");
+    expect(view?.afterSectionId).toBe("bitcoin-on-the-balance-sheet");
+    expect(view?.engines.map((e) => [e.name, e.sectionId, e.kind])).toEqual([
+      ["Launch", "launch", "established_fact"],
+      ["Starlink", "starlink", "established_fact"],
+      ["Orbital compute", "orbital-compute", "speculative"],
+    ]);
+    for (const engine of view!.engines) {
+      if (engine.kind === "established_fact") expect(engine.asOf, engine.name).not.toBeNull();
+    }
+  });
+
+  it("only restates figures already sourced in the matching evidence section", () => {
+    const note = spacexNote();
+    const sectionText = (id: string) =>
+      claimsInSection(note, id)
+        .map((c) => c.text)
+        .join("\n");
+    const engine = (name: string) => note.valueEngines!.engines.find((e) => e.name === name)!;
+    expect(sectionText("launch")).toContain("78 launches and 1,041 metric tons");
+    expect(engine("Launch").evidence).toContain("78 launches and 1,041 metric tons");
+    for (const figure of ["12.0 million subscribers", "$1.656 billion"]) {
+      expect(sectionText("starlink")).toContain(figure);
+      expect(engine("Starlink").evidence).toContain(figure);
+    }
+    expect(sectionText("orbital-compute")).toContain("as early as 2028");
+    expect(engine("Orbital compute").evidence).toContain("as early as 2028");
+  });
+
+  it("frames shareholder return as growth net of capital, dilution, and priced-in expectations", () => {
+    const { equation } = spacexNote().valueEngines!;
+    expect(equation.result).toBe("Shareholder return");
+    expect(equation.terms.map((t) => [t.label, t.effect])).toEqual([
+      ["Operating growth", "adds"],
+      ["Capital consumption", "subtracts"],
+      ["Dilution", "subtracts"],
+      ["Expectations already priced in", "subtracts"],
+    ]);
+    expect(claimKindsUsed(spacexNote()).has("interpretation")).toBe(true);
+  });
+
+  it("rejects overviews that point at missing sections or lead with a subtraction", () => {
+    const note = spacexNote();
+    const broken = structuredClone(note);
+    broken.valueEngines!.engines[0]!.sectionId = "missing-section";
+    expect(researchNoteSchema.safeParse(broken).success).toBe(false);
+
+    const negativeLead = structuredClone(note);
+    negativeLead.valueEngines!.equation.terms[0]!.effect = "subtracts";
+    expect(researchNoteSchema.safeParse(negativeLead).success).toBe(false);
+
+    const unsourcedSpeculation = structuredClone(note);
+    unsourcedSpeculation.valueEngines!.engines[2]!.sourceIds = [];
+    expect(researchNoteSchema.safeParse(unsourcedSpeculation).success).toBe(false);
+  });
+});
+
 describe("accounting boundaries", () => {
   it("keeps SPCX out of every official portfolio data file", () => {
     for (const file of [

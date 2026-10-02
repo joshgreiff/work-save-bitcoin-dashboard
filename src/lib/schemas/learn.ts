@@ -280,6 +280,36 @@ export const researchIssuerSnapshotLinkSchema = z.object({
   illustrationAfterSectionId: slugSchema,
 });
 
+/** One business line in a "how the company creates shareholder value" overview. */
+export const researchValueEngineSchema = z.object({
+  name: z.string().min(1),
+  role: z.string().min(1),
+  status: z.string().min(1),
+  /** Label for the evidence line, validated with the same sourcing rules as claims. */
+  kind: researchClaimKindSchema,
+  evidence: z.string().min(1),
+  asOf: isoDateSchema.nullable(),
+  sourceIds: z.array(slugSchema).default([]),
+  sectionId: slugSchema,
+});
+
+export const researchValueEquationTermSchema = z.object({
+  label: z.string().min(1),
+  effect: z.enum(["adds", "subtracts"]),
+  sectionId: slugSchema.nullable().default(null),
+});
+
+export const researchValueEnginesSchema = z.object({
+  heading: z.string().min(1),
+  afterSectionId: slugSchema,
+  engines: z.array(researchValueEngineSchema).min(2),
+  equation: z.object({
+    result: z.string().min(1),
+    terms: z.array(researchValueEquationTermSchema).min(2),
+    note: z.string().min(1),
+  }),
+});
+
 export const researchNoteSchema = z
   .object({
     slug: slugSchema,
@@ -305,6 +335,7 @@ export const researchNoteSchema = z
     disclosures: z.array(z.string().min(1)).default([]),
     revisions: z.array(researchRevisionSchema).default([]),
     issuerSnapshot: researchIssuerSnapshotLinkSchema.nullable().default(null),
+    valueEngines: researchValueEnginesSchema.nullable().default(null),
   })
   .superRefine((note, ctx) => {
     if (note.status === "published" && note.publishedAt == null) {
@@ -326,6 +357,11 @@ export const researchNoteSchema = z
       ...note.mainstreamView.claims,
       ...note.alternativeView.claims,
       ...note.evidence.flatMap((section) => section.claims),
+      ...(note.valueEngines?.engines ?? []).map((engine) => ({
+        kind: engine.kind,
+        text: engine.evidence,
+        sourceIds: engine.sourceIds,
+      })),
     ];
     for (const claim of claims) {
       for (const id of claim.sourceIds) {
@@ -378,6 +414,30 @@ export const researchNoteSchema = z
       }
     }
 
+    if (note.valueEngines) {
+      const sectionIds = new Set(note.evidence.map((section) => section.id));
+      const { afterSectionId, engines, equation } = note.valueEngines;
+      const targets = [
+        afterSectionId,
+        ...engines.map((engine) => engine.sectionId),
+        ...equation.terms.flatMap((term) => (term.sectionId ? [term.sectionId] : [])),
+      ];
+      for (const sectionId of targets) {
+        if (!sectionIds.has(sectionId)) {
+          ctx.addIssue({
+            code: "custom",
+            message: `${note.slug}: value engines reference unknown section ${sectionId}`,
+          });
+        }
+      }
+      if (equation.terms[0]?.effect !== "adds") {
+        ctx.addIssue({
+          code: "custom",
+          message: `${note.slug}: value equation must start with a term that adds`,
+        });
+      }
+    }
+
     for (let i = 1; i < note.revisions.length; i += 1) {
       if (note.revisions[i]!.date < note.revisions[i - 1]!.date) {
         ctx.addIssue({ code: "custom", message: `${note.slug}: revisions must be chronological` });
@@ -409,6 +469,7 @@ export type ResearchSource = z.infer<typeof researchSourceSchema>;
 export type ResearchClaimKind = z.infer<typeof researchClaimKindSchema>;
 export type ResearchClaim = z.infer<typeof researchClaimSchema>;
 export type ResearchNote = z.infer<typeof researchNoteSchema>;
+export type ResearchValueEngines = z.infer<typeof researchValueEnginesSchema>;
 export type LearnCategory = z.infer<typeof learnCategorySchema>;
 export type LearnLessonMeta = z.infer<typeof learnLessonMetaSchema>;
 export type LearnLessonsFile = z.infer<typeof learnLessonsFileSchema>;

@@ -133,6 +133,13 @@ export default function MethodologyPage() {
             illustration is hypothetical.
           </p>
           <p>
+            A note may also include a shareholder-value overview that summarizes each business line
+            in one card and links it to the evidence section below. Each card’s evidence line is
+            labeled and sourced under the same rules as any other claim, restates only figures that
+            appear in the note’s cited claims, and shows its as-of date. Any accompanying
+            shareholder-return equation is an interpretive framework, not a calculation.
+          </p>
+          <p>
             Each note shows its status (question, researching, published, or needs editorial review),
             publication and update dates, and a working thesis that is labeled as a working
             conclusion rather than a settled fact. Notes are revised by appending dated entries to the

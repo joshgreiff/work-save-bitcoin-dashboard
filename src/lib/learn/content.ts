@@ -113,6 +113,8 @@ export function claimKindsUsed(note: ResearchNote): Set<ResearchClaimKind> {
     ...note.evidence.flatMap((s) => s.claims),
   ];
   const kinds = new Set<ResearchClaimKind>(claims.map((c) => c.kind));
+  for (const engine of note.valueEngines?.engines ?? []) kinds.add(engine.kind);
+  if (note.valueEngines) kinds.add("interpretation");
   if (note.openQuestions.length > 0) kinds.add("open_question");
   return kinds;
 }
