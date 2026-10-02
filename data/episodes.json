@@ -292,6 +292,154 @@
         "Video published mid-session on September 21; this snapshot uses that day’s completed official close after 4:00 p.m. Eastern.",
         "No new contributions, withdrawals, trades, dividends, or options income recorded through this close."
       ]
+    },
+    {
+      "episodeNumber": 5,
+      "slug": "episode-5-does-the-economy-really-need-inflation-to-function",
+      "title": "Does the Economy Really Need Inflation to Function?",
+      "youtubeUrl": "https://www.youtube.com/watch?v=tzFiXsyynqU",
+      "thumbnailUrl": "https://i.ytimg.com/vi/tzFiXsyynqU/hqdefault.jpg",
+      "publishedAt": "2026-09-30T08:00:26-04:00",
+      "valuationAt": "2026-09-29T16:00:00-04:00",
+      "portfolioValueCents": 240863,
+      "cashBalanceCents": 0,
+      "cumulativeContributionsCents": 199991,
+      "cumulativeWithdrawalsCents": 0,
+      "cumulativeIncomeCents": 0,
+      "investmentPnLCents": 40872,
+      "positions": [
+        {
+          "ticker": "MSTR",
+          "shares": 12.12,
+          "priceCents": 15714,
+          "marketValueCents": 190454,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "ASST",
+          "shares": 13.7,
+          "priceCents": 2900,
+          "marketValueCents": 39730,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "MPJPY",
+          "shares": 59,
+          "priceCents": 181,
+          "marketValueCents": 10679,
+          "assetClass": "adr_common_equity",
+          "lookThroughEligible": true,
+          "underlyingTicker": "3350",
+          "adrRatio": 1
+        }
+      ],
+      "benchmarks": [
+        {
+          "symbol": "BTCUSD",
+          "label": "Bitcoin",
+          "priceCents": 8355525,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "SPY",
+          "label": "S&P 500 (SPY)",
+          "priceCents": 76561,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "GLD",
+          "label": "Gold (GLD)",
+          "priceCents": 37791,
+          "units": null,
+          "valueCents": null
+        }
+      ],
+      "notes": [
+        "Published the morning of September 30, 2026. Valuation uses the prior official close: September 29, 2026 at 4:00 p.m. Eastern ($2,408.63).",
+        "Reconciled from published shares × stored closes: 12.12×$157.14 + 13.7×$29.00 + 59×$1.81.",
+        "Investment P&L: +$408.72 (+20.44% vs net external contributions of $1,999.91).",
+        "Known data issue: the automated close job stored the September 28 closes for MSTR, ASST, SPY, and GLD instead of the September 29 closes. At actual September 29 closes the portfolio would have been about $2,382.94. The stored official value is shown unchanged pending a correction to the close data.",
+        "No new contributions, withdrawals, trades, dividends, or options income recorded through this close.",
+        "Discusses whether economic growth requires a continuously rising price level — see the research note Is 2% Inflation Necessary for Economic Growth? at /learn/research/is-two-percent-inflation-necessary."
+      ]
+    },
+    {
+      "episodeNumber": 6,
+      "slug": "episode-6-spacex-is-building-an-entire-economy-in-orbit",
+      "title": "SpaceX Is Building an Entire Economy in Orbit",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uf-ChGQ08Ps",
+      "thumbnailUrl": "https://i.ytimg.com/vi/uf-ChGQ08Ps/hqdefault.jpg",
+      "publishedAt": "2026-10-02T08:00:03-04:00",
+      "valuationAt": "2026-10-01T16:00:00-04:00",
+      "portfolioValueCents": 237106,
+      "cashBalanceCents": 0,
+      "cumulativeContributionsCents": 199991,
+      "cumulativeWithdrawalsCents": 0,
+      "cumulativeIncomeCents": 0,
+      "investmentPnLCents": 37115,
+      "positions": [
+        {
+          "ticker": "MSTR",
+          "shares": 12.12,
+          "priceCents": 15309,
+          "marketValueCents": 185545,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "ASST",
+          "shares": 13.7,
+          "priceCents": 2941,
+          "marketValueCents": 40292,
+          "assetClass": "common_equity",
+          "lookThroughEligible": true
+        },
+        {
+          "ticker": "MPJPY",
+          "shares": 59,
+          "priceCents": 191,
+          "marketValueCents": 11269,
+          "assetClass": "adr_common_equity",
+          "lookThroughEligible": true,
+          "underlyingTicker": "3350",
+          "adrRatio": 1
+        }
+      ],
+      "benchmarks": [
+        {
+          "symbol": "BTCUSD",
+          "label": "Bitcoin",
+          "priceCents": 8472509,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "SPY",
+          "label": "S&P 500 (SPY)",
+          "priceCents": 76263,
+          "units": null,
+          "valueCents": null
+        },
+        {
+          "symbol": "GLD",
+          "label": "Gold (GLD)",
+          "priceCents": 38084,
+          "units": null,
+          "valueCents": null
+        }
+      ],
+      "notes": [
+        "Published the morning of October 2, 2026. Valuation uses the prior official close: October 1, 2026 at 4:00 p.m. Eastern ($2,371.06).",
+        "Reconciled from published shares × stored closes: 12.12×$153.09 + 13.7×$29.41 + 59×$1.91.",
+        "Investment P&L: +$371.15 (+18.56% vs net external contributions of $1,999.91).",
+        "Known data issue: the automated close job stored the September 30 closes for MSTR, ASST, SPY, and GLD instead of the October 1 closes. At actual October 1 closes the portfolio would have been about $2,470.46. The stored official value is shown unchanged pending a correction to the close data.",
+        "No new contributions, withdrawals, trades, dividends, or options income recorded through this close. SPCX is not held in the portfolio.",
+        "Discusses SpaceX as an operating company — see the research note Can SpaceX Help a Bitcoin Portfolio Outperform? at /learn/research/can-spacex-help-a-bitcoin-portfolio-outperform."
+      ]
     }
   ]
 }

@@ -3,7 +3,7 @@ import {
   buildValuationChartSeries,
   valuationHistoryHasBenchmarkPrices,
 } from "@/lib/accounting/valuation-history";
-import { loadValuationHistory, loadTransactions } from "@/lib/data/load";
+import { loadEpisodes, loadValuationHistory, loadTransactions } from "@/lib/data/load";
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 import type { ValuationHistoryPoint } from "@/lib/schemas/valuation-history";
 
@@ -101,7 +101,9 @@ describe("valuation history data wiring", () => {
     const dashboard = buildPublicDashboard();
     expect(dashboard.valuationHistory.series.length).toBe(file.points.length);
     expect(dashboard.valuationHistory.hasBenchmarkPrices).toBe(true);
-    expect(dashboard.latestEpisode?.episodeNumber).toBe(4);
+    expect(dashboard.latestEpisode?.episodeNumber).toBe(
+      Math.max(...loadEpisodes().episodes.map((ep) => ep.episodeNumber)),
+    );
     expect(dashboard.youtubeFeed.pendingSeriesVideos).toEqual([]);
   });
 });

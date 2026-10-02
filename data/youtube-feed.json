@@ -2,9 +2,23 @@
   "channelId": "UCmsCaqPm1ELIPxBL7WSNQvQ",
   "channelUrl": "https://www.youtube.com/@WorkSaveBitcoin",
   "seriesStartPublishedAt": "2026-09-16T00:00:00-04:00",
-  "retrievedAt": "2026-09-22T14:52:22.760Z",
+  "retrievedAt": "2026-10-02T18:37:55.416Z",
   "sourceUrl": "https://www.youtube.com/feeds/videos.xml?channel_id=UCmsCaqPm1ELIPxBL7WSNQvQ",
   "videos": [
+    {
+      "videoId": "uf-ChGQ08Ps",
+      "title": "SpaceX Is Building an Entire Economy in Orbit",
+      "youtubeUrl": "https://www.youtube.com/watch?v=uf-ChGQ08Ps",
+      "thumbnailUrl": "https://i.ytimg.com/vi/uf-ChGQ08Ps/hqdefault.jpg",
+      "publishedAt": "2026-10-02T12:00:03+00:00"
+    },
+    {
+      "videoId": "tzFiXsyynqU",
+      "title": "Does the Economy Really Need Inflation to Function?",
+      "youtubeUrl": "https://www.youtube.com/watch?v=tzFiXsyynqU",
+      "thumbnailUrl": "https://i.ytimg.com/vi/tzFiXsyynqU/hqdefault.jpg",
+      "publishedAt": "2026-09-30T12:00:26+00:00"
+    },
     {
       "videoId": "Y6O_zij1X4w",
       "title": "My Bitcoin Stock Portfolio Is Up 26% in One Week",
@@ -95,20 +109,6 @@
       "youtubeUrl": "https://www.youtube.com/watch?v=s7RAyOKEh8A",
       "thumbnailUrl": "https://i.ytimg.com/vi/s7RAyOKEh8A/hqdefault.jpg",
       "publishedAt": "2026-05-28T04:43:02+00:00"
-    },
-    {
-      "videoId": "AzjXfKd-tyI",
-      "title": "Bitcoin Is Not Easy to Hold",
-      "youtubeUrl": "https://www.youtube.com/watch?v=AzjXfKd-tyI",
-      "thumbnailUrl": "https://i.ytimg.com/vi/AzjXfKd-tyI/hqdefault.jpg",
-      "publishedAt": "2026-05-27T14:38:56+00:00"
-    },
-    {
-      "videoId": "7A_jKwh1iwM",
-      "title": "Monetary Monday: Bitcoin Is Becoming Impossible To Ignore",
-      "youtubeUrl": "https://www.youtube.com/watch?v=7A_jKwh1iwM",
-      "thumbnailUrl": "https://i.ytimg.com/vi/7A_jKwh1iwM/hqdefault.jpg",
-      "publishedAt": "2026-05-26T08:50:58+00:00"
     }
   ],
   "notes": [
