@@ -241,6 +241,11 @@
       }
     },
     {
+      "sourceName": "Coinbase + Yahoo Finance chart",
+      "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+      "retrievedAt": "2026-10-02T01:02:29.935Z",
+      "manual": false,
+      "note": "Official market-close snapshot. Portfolio $2,371.06 reconciled from published shares × confirmed closes. MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes.",
       "id": "vh-2026-10-01-close",
       "asOf": "2026-10-01T16:00:00-04:00",
       "session": "close",
@@ -253,12 +258,28 @@
         "MSTR": 15309,
         "ASST": 2941,
         "MPJPY": 191
+      }
+    },
+    {
+      "id": "vh-2026-10-02-close",
+      "asOf": "2026-10-02T16:00:00-04:00",
+      "session": "close",
+      "valuationType": "market_close",
+      "portfolioValueCents": 261766,
+      "prices": {
+        "BTCUSD": 8435699,
+        "MSTR": 16001,
+        "ASST": 3003,
+        "MPJPY": 183,
+        "SPY": 76964,
+        "GLD": 38014,
+        "SPCX": 15896
       },
       "sourceName": "Coinbase + Yahoo Finance chart",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-10-02T01:02:29.935Z",
+      "retrievedAt": "2026-10-03T00:39:56.343Z",
       "manual": false,
-      "note": "Official market-close snapshot. Portfolio $2,371.06 reconciled from published shares × confirmed closes. MSTR prior close carried forward due to no reported session print. ASST prior close carried forward due to no reported session print. SPY prior close carried forward due to no reported session print. GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but labeled components are estimated from their last available closes."
+      "note": "Official market-close snapshot. Portfolio $2,617.66 reconciled from published shares × confirmed closes."
     }
   ]
 }

@@ -4,22 +4,17 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-10-01T16:00:00-04:00",
-  "currentPortfolioValueCents": 237106,
+  "currentValuationAt": "2026-10-02T16:00:00-04:00",
+  "currentPortfolioValueCents": 261766,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
   "notes": [
-    "Official current valuation is the October 1, 2026 4:00 p.m. Eastern regular-market close: $2,371.06.",
-    "Reconciled from published shares × confirmed closes: 12.12×$153.09 + 13.7×$29.41 + 59×$1.91 = $2,371.06 (cash $0.00).",
-    "MSTR prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "ASST prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "SPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
+    "Official current valuation is the October 2, 2026 4:00 p.m. Eastern regular-market close: $2,617.66.",
+    "Reconciled from published shares × confirmed closes: 12.12×$160.01 + 13.7×$30.03 + 59×$1.83 + 1×$158.96 = $2,617.66 (cash $0.00).",
     "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-    "No new contributions, withdrawals, trades, dividends, or options income recorded through the October 1, 2026 close.",
-    "Investment P&L at October 1, 2026 close: +$371.15 (18.56% vs net external contributions).",
-    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash.",
-    "Recorded after this valuation: a $158.37 personal contribution and the purchase of 1 SPCX at $158.37 on October 2, 2026. Both enter the official value, contributions, and P&L at the October 2 close; SPCX has no official close mark until then."
+    "Recorded since Episode 1 through the October 2, 2026 close: personal contribution of $158.37 (2026-10-02); bought 1 SPCX at $158.37 (2026-10-02). Contributions are excluded from investment P&L.",
+    "Investment P&L at October 2, 2026 close: +$459.38 (21.28% vs net external contributions).",
+    "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
     {
@@ -28,8 +23,8 @@
       "assetClass": "common_equity",
       "shares": 12.12,
       "lookThroughEligible": true,
-      "priceCents": 15309,
-      "marketValueCents": 185545,
+      "priceCents": 16001,
+      "marketValueCents": 193932,
       "costBasisCents": null
     },
     {
@@ -38,8 +33,8 @@
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
-      "priceCents": 2941,
-      "marketValueCents": 40292,
+      "priceCents": 3003,
+      "marketValueCents": 41141,
       "costBasisCents": null
     },
     {
@@ -50,8 +45,8 @@
       "lookThroughEligible": true,
       "underlyingTicker": "3350",
       "adrRatio": 1,
-      "priceCents": 191,
-      "marketValueCents": 11269,
+      "priceCents": 183,
+      "marketValueCents": 10797,
       "costBasisCents": null
     },
     {
@@ -60,8 +55,8 @@
       "assetClass": "common_equity",
       "shares": 1,
       "lookThroughEligible": false,
-      "priceCents": null,
-      "marketValueCents": null,
+      "priceCents": 15896,
+      "marketValueCents": 15896,
       "costBasisCents": 15837
     }
   ],
