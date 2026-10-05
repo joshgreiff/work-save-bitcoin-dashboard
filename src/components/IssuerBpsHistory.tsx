@@ -47,7 +47,7 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
   const chartData = useMemo(
     () =>
       buildIssuerBpsChartSeries({
-        // Only dates for enabled issuers — avoids null gaps that break strokes between
+        // Only dates for enabled issuers â avoids null gaps that break strokes between
         // disclosed points when another ticker reports on a different day.
         observations: observations.filter((o) => activeTickers.includes(o.ticker)),
         mode,
@@ -61,7 +61,7 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
       <div>
         <h2 className="text-xl font-medium">Diluted sats-per-share history</h2>
         <p className="mt-2 text-sm text-[var(--muted-foreground)]">
-          Append-only primary-source observations. Each issuer’s disclosed points are connected in
+          Append-only primary-source observations. Each issuerâs disclosed points are connected in
           date order; dates with no disclosure for that issuer are not filled with invented values.
         </p>
       </div>
@@ -100,9 +100,7 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                 <input
                   type="checkbox"
                   checked={enabled[ticker] !== false}
-                  onChange={(e) =>
-                    setEnabled((prev) => ({ ...prev, [ticker]: e.target.checked }))
-                  }
+                  onChange={(e) => setEnabled((prev) => ({ ...prev, [ticker]: e.target.checked }))}
                 />
                 {TICKER_LABELS[ticker] ?? ticker}
               </label>
@@ -129,14 +127,13 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                     return [formatSats(Math.round(Number(value))), String(name)];
                   }}
                   labelFormatter={(_, payload) => {
-                    const point = payload?.[0]?.payload as { asOf?: string; label?: string } | undefined;
+                    const point = payload?.[0]?.payload as
+                      { asOf?: string; label?: string } | undefined;
                     return point?.asOf ? formatEtTimestamp(point.asOf) : (point?.label ?? "");
                   }}
                   {...chartTooltipProps}
                 />
-                <Legend
-                  formatter={(value) => TICKER_LABELS[String(value)] ?? String(value)}
-                />
+                <Legend formatter={(value) => TICKER_LABELS[String(value)] ?? String(value)} />
                 {activeTickers.map((ticker, index) => (
                   <Line
                     key={ticker}
@@ -177,7 +174,7 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
             {latestByTicker.length === 0 ? (
               <tr>
                 <td colSpan={9} className="py-4 text-[var(--muted)]">
-                  Verified historical observations coming soon — no invented sats-per-share rows.
+                  Verified historical observations coming soon â no invented sats-per-share rows.
                 </td>
               </tr>
             ) : (
@@ -226,7 +223,12 @@ export function IssuerBpsHistory({ observations, latestByTicker, notes }: Props)
                       })}
                     </td>
                     <td className="py-2 pr-3">
-                      {row.latest.metricDateLabel ?? formatEtTimestamp(row.latest.asOf)}
+                      {formatEtTimestamp(row.latest.asOf)}
+                      {row.latest.metricDateLabel ? (
+                        <span className="block text-xs text-[var(--muted)]">
+                          Source label: “{row.latest.metricDateLabel}”
+                        </span>
+                      ) : null}
                     </td>
                     <td className="py-2 text-xs text-[var(--muted)]">
                       {row.latest.sourceUrl ? (

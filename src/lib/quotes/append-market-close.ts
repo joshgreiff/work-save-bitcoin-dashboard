@@ -10,6 +10,7 @@ import {
   appendCarryForwardClarification,
   equityCarryForwardLabels,
 } from "@/lib/quotes/price-carry-forward";
+import { fetchYahooUnadjustedDailyClose } from "@/lib/quotes/yahoo-daily-close";
 import {
   fetchOfficialCloseSnapshot,
   OFFICIAL_CLOSE_EQUITY_SYMBOLS,
@@ -31,11 +32,7 @@ import type { PortfolioTransaction } from "@/lib/schemas/transactions";
 const DATA_DIR = path.join(process.cwd(), "data");
 
 function writeJson(filename: string, value: unknown): void {
-  writeFileSync(
-    path.join(DATA_DIR, filename),
-    `${JSON.stringify(value, null, 2)}\n`,
-    "utf8",
-  );
+  writeFileSync(path.join(DATA_DIR, filename), `${JSON.stringify(value, null, 2)}\n`, "utf8");
 }
 
 function formatLongDate(sessionDay: string): string {
@@ -66,7 +63,8 @@ export function observationAlreadyExists(
 ): boolean {
   const id = `mo-${sessionDay}-close`;
   return observations.some(
-    (o) => o.id === id || (o.valuationType === "market_close" && o.timestamp.startsWith(sessionDay)),
+    (o) =>
+      o.id === id || (o.valuationType === "market_close" && o.timestamp.startsWith(sessionDay)),
   );
 }
 
@@ -106,9 +104,7 @@ export function buildMarketObservation(
   };
 }
 
-export function buildValuationHistoryPoint(
-  snapshot: OfficialCloseSnapshot,
-): ValuationHistoryPoint {
+export function buildValuationHistoryPoint(snapshot: OfficialCloseSnapshot): ValuationHistoryPoint {
   const carryLabels = snapshotCarryForwardLabels(snapshot);
   const base = `Official market-close snapshot. Portfolio ${formatUsdFromCents(snapshot.portfolioValueCents)} reconciled from published shares × confirmed closes.`;
   return {
@@ -143,6 +139,45 @@ export function buildMarketPrices(snapshot: OfficialCloseSnapshot): MarketPrice[
   });
 }
 
+/** Hypothetical income-model securities. Never portfolio holdings or valuation inputs. */
+export const INCOME_REFERENCE_SYMBOLS = ["STRF", "STRC"] as const;
+
+/**
+ * Same-session unadjusted closes for the income-model reference securities.
+ * No prior-close fallback: a symbol without a session close is omitted, never stale.
+ */
+export async function fetchIncomeReferencePrices(args: {
+  sessionDay: string;
+  asOf: string;
+  fetchImpl?: typeof fetch;
+}): Promise<MarketPrice[]> {
+  const results = await Promise.allSettled(
+    INCOME_REFERENCE_SYMBOLS.map((symbol) =>
+      fetchYahooUnadjustedDailyClose({
+        symbol,
+        sessionDay: args.sessionDay,
+        fetchImpl: args.fetchImpl,
+      }),
+    ),
+  );
+  return results.flatMap((result) =>
+    result.status === "fulfilled"
+      ? [
+          {
+            symbol: result.value.symbol,
+            asOf: args.asOf,
+            priceCents: result.value.priceCents,
+            sourceName: result.value.sourceName,
+            sourceUrl: result.value.sourceUrl,
+            retrievedAt: result.value.retrievedAt,
+            manual: false,
+            note: `${result.value.note}. Income-model reference price only — not a portfolio holding.`,
+          },
+        ]
+      : [],
+  );
+}
+
 const CATEGORY_LABEL: Partial<Record<PortfolioTransaction["category"], string>> = {
   personal_contribution: "personal contribution",
   youtube_revenue_contribution: "YouTube-revenue contribution",
@@ -164,7 +199,8 @@ function describeTransaction(tx: PortfolioTransaction): string {
     return `${verb} ${tx.shares ?? "?"} ${tx.ticker ?? "?"}${price} (${day})`;
   }
   const label = CATEGORY_LABEL[tx.category] ?? tx.category.replace(/_/g, " ");
-  const amount = tx.amountCents == null ? "" : ` of ${formatUsdFromCents(Math.abs(tx.amountCents))}`;
+  const amount =
+    tx.amountCents == null ? "" : ` of ${formatUsdFromCents(Math.abs(tx.amountCents))}`;
   return `${label}${amount} (${day})`;
 }
 
@@ -190,9 +226,7 @@ export function applySnapshotToPortfolio(
   snapshot: OfficialCloseSnapshot,
   transactions: PortfolioTransaction[],
 ): PortfolioData {
-  const byTicker = new Map(
-    snapshot.positionMarks.map((p) => [p.ticker, p] as const),
-  );
+  const byTicker = new Map(snapshot.positionMarks.map((p) => [p.ticker, p] as const));
   const longDate = formatLongDate(snapshot.sessionDay);
   const pnl = snapshot.investmentPnLCents;
   const pnlPct =
@@ -217,7 +251,10 @@ export function applySnapshotToPortfolio(
     }),
     notes: [
       `Official current valuation is the ${longDate} 4:00 p.m. Eastern regular-market close: ${formatUsdFromCents(snapshot.portfolioValueCents)}.`,
-      snapshot.reconciliationNote.replace(/^Official market-close snapshot\. Reconciled /, "Reconciled "),
+      snapshot.reconciliationNote.replace(
+        /^Official market-close snapshot\. Reconciled /,
+        "Reconciled ",
+      ),
       ...carryLabels.map(
         (label) =>
           `${label} The total is still a valid market-close valuation, but one component is estimated from its last available close.`,
@@ -293,9 +330,14 @@ export async function appendMarketCloseForDay(args: {
     ...valuationHistory,
     points: [...valuationHistory.points, historyPoint],
   });
+  const incomeReferencePrices = await fetchIncomeReferencePrices({
+    sessionDay: args.sessionDay,
+    asOf: snapshot.asOf,
+    fetchImpl: args.fetchImpl,
+  });
   writeJson("market-prices.json", {
     ...marketPrices,
-    prices: buildMarketPrices(snapshot),
+    prices: [...buildMarketPrices(snapshot), ...incomeReferencePrices],
   });
   writeJson("portfolio.json", updatedPortfolio);
 
@@ -316,8 +358,7 @@ export async function appendMarketCloseCatchUp(args: {
   if (!lastClose) {
     throw new Error("No existing market_close observation to catch up from");
   }
-  const through =
-    args.throughDay ?? latestCompletedEquitySessionDay(new Date());
+  const through = args.throughDay ?? latestCompletedEquitySessionDay(new Date());
   const days = etWeekdaysAfterThrough(lastClose, through);
   const results: AppendMarketCloseResult[] = [];
   for (const day of days) {

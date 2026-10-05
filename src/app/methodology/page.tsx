@@ -29,7 +29,8 @@ export default function MethodologyPage() {
           <h2 className="text-xl font-medium text-[var(--foreground)]">What it is not</h2>
           <p>
             It is not a recommendation, not a managed product for viewers, and not combined with the
-            WSB Strategic Bitcoin Reserve. Viewer support does not create ownership of either ledger.
+            WSB Strategic Bitcoin Reserve. Viewer support does not create ownership of either
+            ledger.
           </p>
         </section>
         <section className="space-y-2">
@@ -52,10 +53,10 @@ export default function MethodologyPage() {
           <p>
             Contributions are matched to the valuation they belong to. An official close counts only
             contributions recorded at or before that close, so a deposit made after the latest close
-            is listed as recorded after it and enters official value and P&amp;L together at the next
-            close. Live marks include every recorded contribution because they already include the
-            holdings those contributions bought. Earlier valuation-history points are never restated
-            by later deposits.
+            is listed as recorded after it and enters official value and P&amp;L together at the
+            next close. Live marks include every recorded contribution because they already include
+            the holdings those contributions bought. Earlier valuation-history points are never
+            restated by later deposits.
           </p>
           <p>
             The contribution totals on the Portfolio page list every recorded external deposit and
@@ -67,9 +68,37 @@ export default function MethodologyPage() {
           </p>
           <p>
             Day-over-day and normalized portfolio returns exclude new money: each close-to-close
-            return is (ending value − net external cash flow in the window) ÷ starting value − 1, and
-            the normalized line chain-links those returns. Cash-flow-matched benchmarks only buy units
-            with contributions made on or before each valuation point.
+            return is (ending value − net external cash flow in the window) ÷ starting value − 1,
+            and the normalized line chain-links those returns. Cash-flow-matched benchmarks only buy
+            units with contributions made on or before each valuation point.
+          </p>
+        </section>
+        <section className="space-y-2">
+          <h2 className="text-xl font-medium text-[var(--foreground)]">
+            Time frames and what is carrying the portfolio
+          </h2>
+          <p>
+            The Portfolio page measures four windows that all end at the latest official close, or
+            at the live mark during regular hours. &ldquo;Last session&rdquo; (or
+            &ldquo;Today&rdquo; when live) starts at the prior official close. &ldquo;1 week&rdquo;
+            starts at the latest close at least seven days earlier. &ldquo;Month to date&rdquo;
+            starts at the last close of the previous month. These three chain-link close-to-close
+            returns that exclude new money, and the benchmarks use their price change over the same
+            start and end.
+          </p>
+          <p>
+            &ldquo;Since inception&rdquo; matches the headline: investment P&amp;L ÷ net deposits.
+            Its benchmarks are cash-flow-matched, buying the same dollar amounts on the same dates,
+            so both sides are measured the same way.
+          </p>
+          <p>
+            Each holding&rsquo;s contribution is the dollar gain or loss it added over the window:
+            shares at the start × the change in close price, plus, for shares bought inside the
+            window, the change from the recorded purchase price. Episode 1 purchase prices are
+            pending confirmation, so since-inception holding gains start at the first official close
+            (September 16, 4:00 p.m.). The move from the 8:00 a.m. opening mark to that close, plus
+            any cash or rounding, is shown separately as &ldquo;Other&rdquo; so the holdings always
+            add up to the portfolio total.
           </p>
         </section>
         <section className="space-y-2">
@@ -93,7 +122,9 @@ export default function MethodologyPage() {
           </p>
         </section>
         <section className="space-y-2">
-          <h2 className="text-xl font-medium text-[var(--foreground)]">Bitcoin-per-share exposure</h2>
+          <h2 className="text-xl font-medium text-[var(--foreground)]">
+            Bitcoin-per-share exposure
+          </h2>
           <p>
             Look-through sats = shares owned × diluted sats per share. Diluted sats per share is the
             primary metric. Preferreds, ETFs, cash, and issuers without usable disclosures are
@@ -107,7 +138,9 @@ export default function MethodologyPage() {
           </p>
         </section>
         <section className="space-y-2">
-          <h2 className="text-xl font-medium text-[var(--foreground)]">Bitcoin Reserve separation</h2>
+          <h2 className="text-xl font-medium text-[var(--foreground)]">
+            Bitcoin Reserve separation
+          </h2>
           <p>
             Reserve sats = sats received − sats sent − network fees. Reserve dollar changes never
             appear as securities-portfolio performance.
@@ -132,7 +165,14 @@ export default function MethodologyPage() {
           <h2 className="text-xl font-medium text-[var(--foreground)]">Known limitations</h2>
           <p>
             Episode 1 seed omits confirmed security prices, cost basis, benchmark prices, and issuer
-            Bitcoin-per-share metrics. Income model securities are unconfigured until confirmed.
+            Bitcoin-per-share metrics.
+          </p>
+          <p>
+            The hypothetical income model prices STRF and STRC from live quotes during regular hours
+            and otherwise from their latest official close, which the nightly job stores alongside
+            the portfolio close as income-model reference prices. They are not portfolio holdings
+            and never enter portfolio value or performance. A symbol without a same-session close is
+            left unpriced rather than carried forward.
           </p>
           <p>
             The automated official closes from September 25 through October 1, 2026 stored the
@@ -140,21 +180,22 @@ export default function MethodologyPage() {
             day’s daily bar was published. Those stored values are shown unchanged pending a
             correction. From October 2, the job uses the session’s regular-market close when the
             daily bar is not yet available and carries a prior close forward only when the session
-            has no print.
+            has no print. Until they are corrected, &ldquo;1 week&rdquo; and &ldquo;Month to
+            date&rdquo; windows that start on one of those closes inherit the affected start values.
           </p>
         </section>
         <section id="research-notes" className="scroll-mt-24 space-y-3">
           <h2 className="text-xl font-medium text-[var(--foreground)]">Research notes</h2>
           <ResearchMethodology />
           <p>
-            Research notes are stored as validated data in <code>data/learn/research-notes.json</code>.
-            Every claim carries one of six labels: <em>established fact</em>,{" "}
-            <em>company target</em>, <em>speculative</em>, <em>interpretation</em>,{" "}
-            <em>disputed</em>, or <em>open question</em>. An established fact must cite at least one
-            primary, academic, official-data, or market-data source. A company target must cite the
-            company’s own primary source, and a speculative scenario must cite who proposed it. The
-            build fails otherwise. Podcasts, social posts, and creator commentary may be listed as
-            commentary but are never used as primary evidence.
+            Research notes are stored as validated data in{" "}
+            <code>data/learn/research-notes.json</code>. Every claim carries one of six labels:{" "}
+            <em>established fact</em>, <em>company target</em>, <em>speculative</em>,{" "}
+            <em>interpretation</em>, <em>disputed</em>, or <em>open question</em>. An established
+            fact must cite at least one primary, academic, official-data, or market-data source. A
+            company target must cite the company’s own primary source, and a speculative scenario
+            must cite who proposed it. The build fails otherwise. Podcasts, social posts, and
+            creator commentary may be listed as commentary but are never used as primary evidence.
           </p>
           <p>
             Some notes use research-only issuer snapshots stored in{" "}
@@ -165,8 +206,8 @@ export default function MethodologyPage() {
             reported common shares. Approximate market value applies one closing price to all
             reported common shares. These snapshots never value a Fiat Freedom Portfolio holding or
             enter valuation history, market observations, or look-through totals, and any allocation
-            illustration is hypothetical. A company discussed in a note that is later bought is valued
-            only from official closes, like every other holding.
+            illustration is hypothetical. A company discussed in a note that is later bought is
+            valued only from official closes, like every other holding.
           </p>
           <p>
             A note may also include a shareholder-value overview that summarizes each business line
@@ -176,10 +217,10 @@ export default function MethodologyPage() {
             shareholder-return equation is an interpretive framework, not a calculation.
           </p>
           <p>
-            Each note shows its status (question, researching, published, or needs editorial review),
-            publication and update dates, and a working thesis that is labeled as a working
-            conclusion rather than a settled fact. Notes are revised by appending dated entries to the
-            revision history; earlier revisions are not silently rewritten.
+            Each note shows its status (question, researching, published, or needs editorial
+            review), publication and update dates, and a working thesis that is labeled as a working
+            conclusion rather than a settled fact. Notes are revised by appending dated entries to
+            the revision history; earlier revisions are not silently rewritten.
           </p>
         </section>
         <section className="space-y-2">

@@ -79,8 +79,9 @@ export function SourcesOfEquityReturn({
         </li>
       </ol>
       <p className="text-xs text-[var(--muted)]">
-        {operatingExample?.ticker ?? "SPCX"} is a research example only. It is not a portfolio
-        holding and is excluded from every look-through total on this page.
+        {operatingExample?.ticker ?? "SPCX"} is held as a small, long-term experimental
+        operating-company allocation. It is not a Bitcoin-amplification position and is excluded
+        from every look-through total on this page.
       </p>
     </section>
   );

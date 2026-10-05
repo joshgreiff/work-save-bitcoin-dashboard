@@ -52,16 +52,11 @@ export default function BitcoinExposurePage() {
   const data = buildPublicDashboard();
   const lt = data.lookThrough;
   const operatingExample = loadOperatingCompanyExample();
-  const mstrLatest = data.issuerBitcoinPerShare.latestByTicker.find(
-    (r) => r.ticker === "MSTR",
-  );
-  const mpjpyLatest = data.issuerBitcoinPerShare.latestByTicker.find(
-    (r) => r.ticker === "MPJPY",
-  );
+  const mstrLatest = data.issuerBitcoinPerShare.latestByTicker.find((r) => r.ticker === "MSTR");
+  const mpjpyLatest = data.issuerBitcoinPerShare.latestByTicker.find((r) => r.ticker === "MPJPY");
   const asstMetric = lt.positions.find((p) => p.ticker === "ASST");
   const newestIssuerAsOf =
-    [...lt.metrics].sort((a, b) => Date.parse(b.asOf) - Date.parse(a.asOf))[0]
-      ?.asOf ?? null;
+    [...lt.metrics].sort((a, b) => Date.parse(b.asOf) - Date.parse(a.asOf))[0]?.asOf ?? null;
 
   return (
     <div className="space-y-10">
@@ -84,9 +79,7 @@ export default function BitcoinExposurePage() {
           <MetricCard
             label="Total look-through (sats)"
             value={
-              lt.totalLookThroughSats == null
-                ? "Unavailable"
-                : formatSats(lt.totalLookThroughSats)
+              lt.totalLookThroughSats == null ? "Unavailable" : formatSats(lt.totalLookThroughSats)
             }
             asOf={newestIssuerAsOf}
             hint="Eligible holdings only — excludes WSB Bitcoin Reserve"
@@ -154,21 +147,20 @@ export default function BitcoinExposurePage() {
             pos.displayedDilutedSatsPerShare == null
               ? "Unavailable"
               : formatMetricNumber(pos.displayedDilutedSatsPerShare),
-            pos.lookThroughSats == null
-              ? "Unavailable"
-              : formatSats(pos.lookThroughSats),
-            pos.lookThroughBtc == null
-              ? "Unavailable"
-              : `${pos.lookThroughBtc.toFixed(8)} BTC`,
+            pos.lookThroughSats == null ? "Unavailable" : formatSats(pos.lookThroughSats),
+            pos.lookThroughBtc == null ? "Unavailable" : `${pos.lookThroughBtc.toFixed(8)} BTC`,
             formatPercent(pos.percentOfTotal, { fallback: "Unavailable" }),
-            pos.metricDateLabel ?? pos.metricDate ?? "Unavailable",
+            pos.metricDate == null
+              ? "Unavailable"
+              : pos.metricDateLabel
+                ? `${pos.metricDate} (source: "${pos.metricDateLabel}")`
+                : pos.metricDate,
           ])}
         />
         {lt.excludedHoldings.length > 0 ? (
           <p className="text-sm text-[var(--muted-foreground)]">
-            Held but excluded from look-through:{" "}
-            {lt.excludedHoldings.map((h) => h.name).join(", ")}. These are operating-company
-            allocations, not Bitcoin-amplification positions; see the{" "}
+            Held but excluded from look-through: {lt.excludedHoldings.map((h) => h.name).join(", ")}
+            . These are operating-company allocations, not Bitcoin-amplification positions; see the{" "}
             <a href="/methodology" className="action-link underline">
               methodology
             </a>
@@ -242,10 +234,10 @@ export default function BitcoinExposurePage() {
 
       {/* 5. Limitations (always visible) */}
       <Disclaimer>
-        Look-through Bitcoin exposure is an analytical measure. Shareholders do not directly own
-        or have a claim on issuer Bitcoin. It does not fully account for debt, preferred-stock
-        claims, operating businesses, taxes, custody risk, dilution, warrants, convertibles,
-        financing costs or other liabilities.
+        Look-through Bitcoin exposure is an analytical measure. Shareholders do not directly own or
+        have a claim on issuer Bitcoin. It does not fully account for debt, preferred-stock claims,
+        operating businesses, taxes, custody risk, dilution, warrants, convertibles, financing costs
+        or other liabilities.
       </Disclaimer>
 
       {/* 6. Advanced methodology (expandable) */}
@@ -286,7 +278,9 @@ export default function BitcoinExposurePage() {
               m.dilutionScope ?? "Unavailable",
               m.basicSatsPerShare == null
                 ? "Unavailable"
-                : formatMetricNumber(m.reportedBasicSatsPerShare ?? Math.round(m.basicSatsPerShare)),
+                : formatMetricNumber(
+                    m.reportedBasicSatsPerShare ?? Math.round(m.basicSatsPerShare),
+                  ),
               m.dilutedSatsPerShare == null
                 ? "Unavailable"
                 : formatMetricNumber(
@@ -347,12 +341,12 @@ export default function BitcoinExposurePage() {
               .
             </p>
             <p>
-              <span className="font-medium text-[var(--foreground)]">Metaplanet / MPJPY.</span> MPJPY
-              represents Metaplanet ordinary shares at a 1:1 ADR ratio. The analytics tracker labels
-              the latest row as “Current”; the stored metric date is the retrieval date and does not
-              imply a new corporate action. Look-through uses unrounded holdings ÷ assumed diluted
-              shares when raw inputs are available (reported rounded diluted sats/share is 2,866).
-              Source:{" "}
+              <span className="font-medium text-[var(--foreground)]">Metaplanet / MPJPY.</span>{" "}
+              MPJPY represents Metaplanet ordinary shares at a 1:1 ADR ratio. The analytics tracker
+              labels the latest row as “Current”; the stored metric date is the retrieval date and
+              does not imply a new corporate action. Look-through uses unrounded holdings ÷ assumed
+              diluted shares when raw inputs are available (reported rounded diluted sats/share is
+              2,866). Source:{" "}
               <a
                 className="action-link underline"
                 href="https://analytics.metaplanet.jp/?tab=shares"
@@ -373,9 +367,9 @@ export default function BitcoinExposurePage() {
         >
           <ul className="list-disc space-y-2 pl-5 text-sm text-[var(--muted-foreground)]">
             <li>
-              Position look-through sats = portfolio shares × unrounded issuer diluted sats per share
-              × ADR ratio, rounded only at the end to the nearest satoshi. Missing metrics display as
-              Unavailable, never as zero.
+              Position look-through sats = portfolio shares × unrounded issuer diluted sats per
+              share × ADR ratio, rounded only at the end to the nearest satoshi. Missing metrics
+              display as Unavailable, never as zero.
             </li>
             <li>Historical issuer observations remain append-only.</li>
             <li>Historical values are never replaced with the latest current value.</li>
@@ -401,8 +395,8 @@ export default function BitcoinExposurePage() {
             <li>Sats per share is not the same as net asset value.</li>
             <li>Sats-per-share growth does not guarantee share-price appreciation.</li>
             <li>
-              Gross diluted sats per share does not subtract debt, preferred liquidation preferences,
-              or other senior obligations.
+              Gross diluted sats per share does not subtract debt, preferred liquidation
+              preferences, or other senior obligations.
             </li>
           </ul>
         </Expandable>
@@ -416,7 +410,11 @@ export default function BitcoinExposurePage() {
             headers={["Issuer", "Metric date", "Retrieved", "Source"]}
             rows={lt.positions.map((pos) => [
               `${pos.issuer} (${pos.ticker})`,
-              pos.metricDateLabel ?? pos.metricDate ?? "Unavailable",
+              pos.metricDate == null
+                ? "Unavailable"
+                : pos.metricDateLabel
+                  ? `${pos.metricDate} (source: "${pos.metricDateLabel}")`
+                  : pos.metricDate,
               pos.retrievalDate ?? "Unavailable",
               pos.sourceUrl ?? "Unavailable",
             ])}

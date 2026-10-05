@@ -7,6 +7,7 @@ import {
   summarizeContributions,
   transactionsThrough,
 } from "@/lib/accounting/portfolio";
+import { INCOME_REFERENCE_SYMBOLS } from "@/lib/quotes/append-market-close";
 import { computeOfficialPortfolioMark } from "@/lib/quotes/official-close";
 import {
   loadDonations,
@@ -108,13 +109,17 @@ describe("closing snapshot", () => {
     const positionsTotal = held.reduce((sum, p) => sum + p.marketValueCents!, 0);
     expect(positionsTotal + portfolio.cashBalanceCents).toBe(portfolio.currentPortfolioValueCents);
 
-    const contributions = summarizeContributions(transactionsThrough(transactions, latest.timestamp));
+    const contributions = summarizeContributions(
+      transactionsThrough(transactions, latest.timestamp),
+    );
     expect(latest.netExternalContributionsCents).toBe(contributions.netExternalContributionsCents);
     const pnl = calculateInvestmentPnL({
       currentPortfolioValueCents: portfolio.currentPortfolioValueCents,
       totalExternalContributionsCents: contributions.totalExternalContributionsCents,
     });
-    expect(pnl).toBe(portfolio.currentPortfolioValueCents - contributions.totalExternalContributionsCents);
+    expect(pnl).toBe(
+      portfolio.currentPortfolioValueCents - contributions.totalExternalContributionsCents,
+    );
     expect(portfolio.notes.join("\n")).toContain(
       formatUsdFromCents(portfolio.currentPortfolioValueCents),
     );
@@ -130,7 +135,8 @@ describe("closing snapshot", () => {
     closes.forEach((o, i) => {
       expect(o.timestamp).toMatch(OFFICIAL_CLOSE_TIME);
       expect(o.id).toBe(`mo-${sessionDay(o.timestamp)}-close`);
-      if (i > 0) expect(Date.parse(o.timestamp)).toBeGreaterThan(Date.parse(closes[i - 1]!.timestamp));
+      if (i > 0)
+        expect(Date.parse(o.timestamp)).toBeGreaterThan(Date.parse(closes[i - 1]!.timestamp));
       const sources = new Map(Object.entries(o.sources));
       for (const symbol of Object.keys(closePrices(o))) {
         expect(sources.get(symbol), `${o.id} ${symbol} source`).toBeTruthy();
@@ -147,6 +153,11 @@ describe("closing snapshot", () => {
     const latestPrices = closePrices(latest);
     for (const price of loadMarketPrices().prices) {
       expect(price.asOf, price.symbol).toBe(latest.timestamp);
+      if ((INCOME_REFERENCE_SYMBOLS as readonly string[]).includes(price.symbol)) {
+        expect(price.note).toContain("not a portfolio holding");
+        expect(latestPrices[price.symbol]).toBeUndefined();
+        continue;
+      }
       expect(price.priceCents, price.symbol).toBe(latestPrices[price.symbol]);
     }
   });
@@ -167,9 +178,7 @@ describe("donations and reserve", () => {
     expect(donations.bitcoin.map((d) => d.sats)).toEqual([13215, 5790]);
     expect(donations.bitcoin.every((d) => d.displayName === "Anonymous")).toBe(true);
     expect(reserve.transactions.map((tx) => tx.sats)).toEqual([13215, 5790]);
-    expect(reserve.transactions.every((tx) => tx.affectsPortfolioPerformance === false)).toBe(
-      true,
-    );
+    expect(reserve.transactions.every((tx) => tx.affectsPortfolioPerformance === false)).toBe(true);
     const board = buildBitcoinLeaderboard(donations.bitcoin);
     expect(board[0]?.displayName).toBe("Anonymous");
     expect(board[0]?.sats).toBe(19005);

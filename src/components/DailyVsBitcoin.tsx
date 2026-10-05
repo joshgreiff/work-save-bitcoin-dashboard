@@ -14,10 +14,7 @@ import {
 import { formatPercent, formatUsdFromCents } from "@/components/ui/primitives";
 import { chartTooltipProps } from "@/components/charts/Charts";
 import { PriceCarryForwardNotice } from "@/components/PriceCarryForwardNotice";
-import {
-  buildSessionComparison,
-  type LiveSessionEnd,
-} from "@/lib/accounting/session-comparison";
+import { buildSessionComparison, type LiveSessionEnd } from "@/lib/accounting/session-comparison";
 import type { PublicDashboard } from "@/lib/data/public-dashboard";
 import { formatEtTimestamp } from "@/lib/market/session";
 import type { LiveQuotesResponse } from "@/lib/quotes/types";
@@ -32,9 +29,7 @@ function pp(value: number | null): string {
   return `${sign}${(value * 100).toFixed(2)} pp`;
 }
 
-function liveSessionEndFromQuotes(
-  live: LiveQuotesResponse,
-): LiveSessionEnd | null {
+function liveSessionEndFromQuotes(live: LiveQuotesResponse): LiveSessionEnd | null {
   if (live.marketOpen !== true || !live.mark.complete) return null;
   const bySymbol = new Map(live.quotes.map((q) => [q.symbol, q]));
   const btc = bySymbol.get("BTCUSD");
@@ -48,6 +43,7 @@ function liveSessionEndFromQuotes(
       MSTR: mstr.priceCents,
       ASST: bySymbol.get("ASST")?.priceCents ?? null,
       MPJPY: bySymbol.get("MPJPY")?.priceCents ?? null,
+      SPCX: bySymbol.get("SPCX")?.priceCents ?? null,
     },
     portfolioValueCents: live.mark.portfolioValueCents,
   };
@@ -113,9 +109,7 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
         const baseValue =
           base.prices[key === "Bitcoin" ? "BTCUSD" : (key as "MSTR" | "ASST" | "MPJPY")];
         row[key] =
-          value == null || baseValue == null || baseValue === 0
-            ? null
-            : value / baseValue - 1;
+          value == null || baseValue == null || baseValue === 0 ? null : value / baseValue - 1;
       }
       row.Portfolio = marketObservations.flowAdjustedPortfolioReturnByCloseId[obs.id] ?? null;
       return row;
@@ -170,12 +164,8 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
                 {comparison.assets.map((row) => (
                   <tr key={row.symbol} className="border-t border-[var(--border)]">
                     <td className="py-2 pr-3">{row.symbol}</td>
-                    <td className="py-2 pr-3 tabular-nums">
-                      {formatUsdFromCents(row.startCents)}
-                    </td>
-                    <td className="py-2 pr-3 tabular-nums">
-                      {formatUsdFromCents(row.endCents)}
-                    </td>
+                    <td className="py-2 pr-3 tabular-nums">{formatUsdFromCents(row.startCents)}</td>
+                    <td className="py-2 pr-3 tabular-nums">{formatUsdFromCents(row.endCents)}</td>
                     <td className="py-2 pr-3 tabular-nums">
                       {formatPercent(row.sessionReturn, { showSign: true })}
                     </td>
@@ -211,8 +201,8 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
           {isLive && marketObservations.latestOfficialClose && comparison.endAsOf ? (
             <div className="space-y-1 text-xs text-[var(--muted)]">
               <p>
-                Window: {formatEtTimestamp(marketObservations.latestOfficialClose.timestamp)}{" "}
-                (prior close) → {formatEtTimestamp(comparison.endAsOf)} (live)
+                Window: {formatEtTimestamp(marketObservations.latestOfficialClose.timestamp)} (prior
+                close) → {formatEtTimestamp(comparison.endAsOf)} (live)
               </p>
               <p>
                 Live equities: Yahoo regular-session quotes. Live Bitcoin: Coinbase spot
@@ -220,8 +210,7 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
                 share weights unchanged.
               </p>
             </div>
-          ) : marketObservations.previousOfficialClose &&
-            marketObservations.latestOfficialClose ? (
+          ) : marketObservations.previousOfficialClose && marketObservations.latestOfficialClose ? (
             <div className="space-y-1 text-xs text-[var(--muted)]">
               <p>
                 Window: {formatEtTimestamp(marketObservations.previousOfficialClose.timestamp)} →{" "}
@@ -240,8 +229,8 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
                       marketObservations.latestOfficialClose.sources.BTCUSD.observedAt,
                     )
                   : "—"}{" "}
-                (Coinbase 1-minute candles). Equity closes: Yahoo unadjusted regular-session
-                daily bars.
+                (Coinbase 1-minute candles). Equity closes: Yahoo unadjusted regular-session daily
+                bars.
               </p>
             </div>
           ) : null}
@@ -270,10 +259,7 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
         <div className="mt-4 h-56">
           {normalized.length < 1 ||
           normalized.every(
-            (row) =>
-              row.Bitcoin == null &&
-              row.MSTR == null &&
-              row.Portfolio == null,
+            (row) => row.Bitcoin == null && row.MSTR == null && row.Portfolio == null,
           ) ? (
             <div className="flex h-full items-center justify-center text-sm text-[var(--muted)]">
               Exact BTC comparison pending — synchronized closes not yet stored.
@@ -295,11 +281,41 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
                   {...chartTooltipProps}
                 />
                 <Legend />
-                <Line dataKey="Bitcoin" stroke="#E8E2D6" dot={{ r: 3 }} connectNulls={false} />
-                <Line dataKey="MSTR" stroke="#F7931A" dot={{ r: 3 }} connectNulls={false} />
-                <Line dataKey="ASST" stroke="#7A8494" dot={{ r: 3 }} connectNulls={false} />
-                <Line dataKey="MPJPY" stroke="#A67C52" dot={{ r: 3 }} connectNulls={false} />
-                <Line dataKey="Portfolio" stroke="#3D9B6E" dot={{ r: 3 }} connectNulls={false} />
+                <Line
+                  isAnimationActive={false}
+                  dataKey="Bitcoin"
+                  stroke="#E8E2D6"
+                  dot={{ r: 3 }}
+                  connectNulls={false}
+                />
+                <Line
+                  isAnimationActive={false}
+                  dataKey="MSTR"
+                  stroke="#F7931A"
+                  dot={{ r: 3 }}
+                  connectNulls={false}
+                />
+                <Line
+                  isAnimationActive={false}
+                  dataKey="ASST"
+                  stroke="#7A8494"
+                  dot={{ r: 3 }}
+                  connectNulls={false}
+                />
+                <Line
+                  isAnimationActive={false}
+                  dataKey="MPJPY"
+                  stroke="#A67C52"
+                  dot={{ r: 3 }}
+                  connectNulls={false}
+                />
+                <Line
+                  isAnimationActive={false}
+                  dataKey="Portfolio"
+                  stroke="#3D9B6E"
+                  dot={{ r: 3 }}
+                  connectNulls={false}
+                />
               </LineChart>
             </ResponsiveContainer>
           )}
@@ -308,9 +324,9 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
 
       <p className="text-xs leading-relaxed text-[var(--muted)]">
         Official long-term plots and completed-session narration synchronize Bitcoin to the equity
-        market’s 4:00 p.m. Eastern close. Live ending values on this page use current regular-session
-        quotes for intraday comparison only and are never appended to valuation history. Excess
-        return is shown in percentage points, not as a percent-of-percent figure.
+        market’s 4:00 p.m. Eastern close. Live ending values on this page use current
+        regular-session quotes for intraday comparison only and are never appended to valuation
+        history. Excess return is shown in percentage points, not as a percent-of-percent figure.
       </p>
     </section>
   );

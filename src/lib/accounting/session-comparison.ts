@@ -28,6 +28,7 @@ export type LiveSessionEnd = {
     MSTR: number | null;
     ASST: number | null;
     MPJPY: number | null;
+    SPCX?: number | null;
   };
   portfolioValueCents: number | null;
 };
@@ -180,17 +181,24 @@ export function buildSessionComparison(args: {
         MSTR: latest!.prices.MSTR,
         ASST: latest!.prices.ASST,
         MPJPY: latest!.prices.MPJPY,
+        SPCX: latest!.prices.SPCX ?? null,
       };
-  const endPortfolio = usingLive
-    ? liveEnd.portfolioValueCents
-    : latest!.portfolioValueCents;
+  const endPortfolio = usingLive ? liveEnd.portfolioValueCents : latest!.portfolioValueCents;
   const endAsOf = usingLive ? liveEnd.asOf : latest!.timestamp;
 
   const btcStart = previous.prices.BTCUSD;
   const btcEnd = endPrices.BTCUSD;
   const btcReturn = sessionReturn(btcStart, btcEnd);
 
-  const symbols = ["BTCUSD", "MSTR", "ASST", "MPJPY", "PORTFOLIO"] as const;
+  const spcxHeldThroughWindow = previous.prices.SPCX != null && endPrices.SPCX != null;
+  const symbols = [
+    "BTCUSD",
+    "MSTR",
+    "ASST",
+    "MPJPY",
+    ...(spcxHeldThroughWindow ? (["SPCX"] as const) : []),
+    "PORTFOLIO",
+  ] as const;
   const assets: SessionAssetReturn[] = symbols.map((symbol) => {
     if (symbol === "PORTFOLIO") {
       const start = previous.portfolioValueCents;
@@ -204,8 +212,8 @@ export function buildSessionComparison(args: {
         excessVsBtcPp: excessReturnPp(ret, btcReturn),
       };
     }
-    const start = previous.prices[symbol];
-    const end = endPrices[symbol];
+    const start = previous.prices[symbol] ?? null;
+    const end = endPrices[symbol] ?? null;
     const ret = sessionReturn(start, end);
     return {
       symbol: symbol === "BTCUSD" ? "Bitcoin" : symbol,
@@ -288,8 +296,7 @@ export function buildEpisodeSummary(args: {
 
   const mstrVerb = args.mstrReturn >= 0 ? "rose" : "fell";
   const btcVerb = args.btcReturn >= 0 ? "rose" : "fell";
-  const vs =
-    args.mstrReturn - args.btcReturn >= 0 ? "outperformed" : "underperformed";
+  const vs = args.mstrReturn - args.btcReturn >= 0 ? "outperformed" : "underperformed";
   const excessPp = Math.abs((args.mstrReturn - args.btcReturn) * 100).toFixed(2);
   const live = args.windowKind === "live";
 
@@ -323,7 +330,12 @@ export function selectSynchronizedBtcCandle(args: {
   const exact = eligible.find((c) => c.startUnix * 1000 === targetMs);
   const chosen = exact ?? eligible[0];
   if (!chosen) {
-    return { priceCents: null, observedAt: null, fallbackUsed: false, note: "No candle at or before 4:00 p.m. ET" };
+    return {
+      priceCents: null,
+      observedAt: null,
+      fallbackUsed: false,
+      note: "No candle at or before 4:00 p.m. ET",
+    };
   }
   const fallbackUsed = !exact;
   return {

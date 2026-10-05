@@ -95,6 +95,7 @@ export function PortfolioValueChart({
             {...chartTooltipProps}
           />
           <Area
+            isAnimationActive={false}
             type="monotone"
             dataKey="value"
             stroke="#F7931A"
@@ -110,23 +111,33 @@ export function PortfolioValueChart({
 
 export function AllocationChart({
   data,
+  explanation,
 }: {
   data: { name: string; value: number }[];
+  explanation?: string;
 }) {
   const total = data.reduce((sum, d) => sum + d.value, 0);
   return (
     <ChartFrame
       title="Current allocation"
       explanation={
-        total > 0
+        explanation ??
+        (total > 0
           ? "Derived from position market values when prices are available."
-          : "Share counts are known; dollar allocation awaits confirmed prices."
+          : "Share counts are known; dollar allocation awaits confirmed prices.")
       }
       empty={data.length === 0 || total === 0}
     >
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
-          <Pie data={data} dataKey="value" nameKey="name" outerRadius={90} label>
+          <Pie
+            isAnimationActive={false}
+            data={data}
+            dataKey="value"
+            nameKey="name"
+            outerRadius={80}
+            label={({ name, percent }) => `${name} ${((percent ?? 0) * 100).toFixed(0)}%`}
+          >
             {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
@@ -146,9 +157,7 @@ export function BenchmarkReturnChart({
   data: SeriesPoint[];
   seriesKeys: { key: string; label: string; color: string }[];
 }) {
-  const hasSeries = seriesKeys.some((series) =>
-    data.some((row) => row[series.key] != null),
-  );
+  const hasSeries = seriesKeys.some((series) => data.some((row) => row[series.key] != null));
   return (
     <ChartFrame
       title="Contribution-adjusted returns vs benchmarks"
@@ -159,7 +168,11 @@ export function BenchmarkReturnChart({
         <LineChart data={data}>
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
-          <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`} />
+          <YAxis
+            stroke="#7A8494"
+            fontSize={12}
+            tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`}
+          />
           <Tooltip
             formatter={(value) => [`${(Number(value) * 100).toFixed(2)}%`]}
             {...chartTooltipProps}
@@ -167,6 +180,7 @@ export function BenchmarkReturnChart({
           <Legend />
           {seriesKeys.map((series) => (
             <Line
+              isAnimationActive={false}
               key={series.key}
               type="monotone"
               dataKey={series.key}
@@ -216,6 +230,7 @@ export function CashFlowMatchedChart({
           <Tooltip {...chartTooltipProps} />
           <Legend />
           <Line
+            isAnimationActive={false}
             type="monotone"
             dataKey="portfolio"
             name="Portfolio"
@@ -223,20 +238,40 @@ export function CashFlowMatchedChart({
             dot={{ r: 3 }}
             connectNulls={false}
           />
-          <Line type="monotone" dataKey="btc" name="Bitcoin" stroke="#E8E2D6" dot={{ r: 3 }} connectNulls={false} />
-          <Line type="monotone" dataKey="spy" name="SPY" stroke="#7A8494" dot={{ r: 3 }} connectNulls={false} />
-          <Line type="monotone" dataKey="gld" name="GLD" stroke="#A67C52" dot={{ r: 3 }} connectNulls={false} />
+          <Line
+            isAnimationActive={false}
+            type="monotone"
+            dataKey="btc"
+            name="Bitcoin"
+            stroke="#E8E2D6"
+            dot={{ r: 3 }}
+            connectNulls={false}
+          />
+          <Line
+            isAnimationActive={false}
+            type="monotone"
+            dataKey="spy"
+            name="SPY"
+            stroke="#7A8494"
+            dot={{ r: 3 }}
+            connectNulls={false}
+          />
+          <Line
+            isAnimationActive={false}
+            type="monotone"
+            dataKey="gld"
+            name="GLD"
+            stroke="#A67C52"
+            dot={{ r: 3 }}
+            connectNulls={false}
+          />
         </LineChart>
       </ResponsiveContainer>
     </ChartFrame>
   );
 }
 
-export function ReserveGrowthChart({
-  data,
-}: {
-  data: { label: string; sats: number }[];
-}) {
+export function ReserveGrowthChart({ data }: { data: { label: string; sats: number }[] }) {
   return (
     <ChartFrame
       title="WSB Bitcoin Reserve growth"
@@ -249,18 +284,21 @@ export function ReserveGrowthChart({
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} />
           <Tooltip {...chartTooltipProps} />
-          <Area type="monotone" dataKey="sats" stroke="#F7931A" fill="rgba(247,147,26,0.2)" name="Sats" />
+          <Area
+            isAnimationActive={false}
+            type="stepAfter"
+            dataKey="sats"
+            stroke="#F7931A"
+            fill="rgba(247,147,26,0.2)"
+            name="Sats"
+          />
         </AreaChart>
       </ResponsiveContainer>
     </ChartFrame>
   );
 }
 
-export function IncomeProgressChart({
-  data,
-}: {
-  data: { label: string; monthly: number }[];
-}) {
+export function IncomeProgressChart({ data }: { data: { label: string; monthly: number }[] }) {
   return (
     <ChartFrame
       title="Modeled monthly income over time"
@@ -273,18 +311,14 @@ export function IncomeProgressChart({
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `$${v}`} />
           <Tooltip {...chartTooltipProps} />
-          <Bar dataKey="monthly" fill="#F7931A" name="Monthly $" />
+          <Bar isAnimationActive={false} dataKey="monthly" fill="#F7931A" name="Monthly $" />
         </BarChart>
       </ResponsiveContainer>
     </ChartFrame>
   );
 }
 
-export function LookThroughChart({
-  data,
-}: {
-  data: { label: string; sats: number | null }[];
-}) {
+export function LookThroughChart({ data }: { data: { label: string; sats: number | null }[] }) {
   return (
     <ChartFrame
       title="Look-through BTC exposure by holding"
@@ -292,13 +326,20 @@ export function LookThroughChart({
       empty={data.every((d) => d.sats == null)}
     >
       <ResponsiveContainer width="100%" height="100%">
-        <LineChart data={data}>
+        <BarChart data={data}>
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
-          <YAxis stroke="#7A8494" fontSize={12} />
-          <Tooltip {...chartTooltipProps} />
-          <Line type="monotone" dataKey="sats" stroke="#F7931A" name="Look-through sats" connectNulls={false} />
-        </LineChart>
+          <YAxis
+            stroke="#7A8494"
+            fontSize={12}
+            tickFormatter={(v) => `${(Number(v) / 1_000_000).toFixed(1)}M`}
+          />
+          <Tooltip
+            formatter={(value) => [`${Number(value).toLocaleString("en-US")} sats`, "Look-through"]}
+            {...chartTooltipProps}
+          />
+          <Bar isAnimationActive={false} dataKey="sats" fill="#F7931A" name="Look-through sats" />
+        </BarChart>
       </ResponsiveContainer>
     </ChartFrame>
   );

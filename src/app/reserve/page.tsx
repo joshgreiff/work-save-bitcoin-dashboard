@@ -14,6 +14,7 @@ import {
 import { buildPublicDashboard } from "@/lib/data/public-dashboard";
 import { reserveHistoryByDate } from "@/lib/accounting/reserve";
 import { loadReserve } from "@/lib/data/load";
+import { formatEtTimestamp } from "@/lib/market/session";
 
 export const metadata = {
   title: "WSB Strategic Bitcoin Reserve",
@@ -28,6 +29,12 @@ export default function ReservePage() {
     sats: point.cumulativeSats,
   }));
   const s = data.reserve.summary;
+  const asOfDate = new Intl.DateTimeFormat("en-CA", { timeZone: "America/New_York" }).format(
+    new Date(data.reserve.asOf),
+  );
+  if (history.length > 0 && history[history.length - 1]!.label < asOfDate) {
+    history.push({ label: asOfDate, sats: s.currentReserveSats });
+  }
 
   return (
     <div className="space-y-8">
@@ -38,24 +45,58 @@ export default function ReservePage() {
       />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <MetricCard label="Reserve balance" value={formatSats(s.currentReserveSats)} asOf={data.reserve.asOf} tone="accent" />
-        <MetricCard label="Reserve balance (BTC)" value={formatBtcFromSats(s.currentReserveSats)} asOf={data.reserve.asOf} />
+        <MetricCard
+          label="Reserve balance"
+          value={formatSats(s.currentReserveSats)}
+          asOf={data.reserve.asOf}
+          tone="accent"
+        />
+        <MetricCard
+          label="Reserve balance (BTC)"
+          value={formatBtcFromSats(s.currentReserveSats)}
+          asOf={data.reserve.asOf}
+        />
         <MetricCard
           label="Estimated USD value"
           value={formatUsdFromCents(data.reserve.estimatedValueCents)}
-          hint="Requires confirmed BTCUSD price"
+          hint={
+            data.reserve.estimatedValueBtcPriceCents == null
+              ? "Requires confirmed BTCUSD price"
+              : `At the ${formatUsdFromCents(data.reserve.estimatedValueBtcPriceCents)} BTC/USD official close`
+          }
+          asOf={data.reserve.estimatedValueBtcPriceAsOf ?? data.reserve.asOf}
+        />
+        <MetricCard
+          label="Total sats received"
+          value={formatSats(s.totalSatsReceived)}
           asOf={data.reserve.asOf}
         />
-        <MetricCard label="Total sats received" value={formatSats(s.totalSatsReceived)} asOf={data.reserve.asOf} />
-        <MetricCard label="Network fees paid" value={formatSats(s.totalNetworkFees)} asOf={data.reserve.asOf} />
-        <MetricCard label="Net sats retained" value={formatSats(s.netSatsRetained)} asOf={data.reserve.asOf} />
-        <MetricCard label="Contributions" value={String(s.contributionCount)} asOf={data.reserve.asOf} />
+        <MetricCard
+          label="Network fees paid"
+          value={formatSats(s.totalNetworkFees)}
+          asOf={data.reserve.asOf}
+        />
+        <MetricCard
+          label="Net sats retained"
+          value={formatSats(s.netSatsRetained)}
+          asOf={data.reserve.asOf}
+        />
+        <MetricCard
+          label="Contributions"
+          value={String(s.contributionCount)}
+          asOf={data.reserve.asOf}
+        />
       </div>
 
       <section className="grid gap-4 md:grid-cols-3">
         {s.progressToTargets.map((target) => (
-          <article key={target.label} className="border border-[var(--border)] bg-[var(--surface)] p-4">
-            <p className="text-xs uppercase tracking-wide text-[var(--muted)]">Progress to {target.label}</p>
+          <article
+            key={target.label}
+            className="border border-[var(--border)] bg-[var(--surface)] p-4"
+          >
+            <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
+              Progress to {target.label}
+            </p>
             <p className="mt-2 text-2xl tabular-nums">{formatPercent(target.progress)}</p>
             <div className="mt-3 h-2 bg-[var(--surface-elevated)]">
               <div
@@ -86,11 +127,11 @@ export default function ReservePage() {
       <section className="space-y-3">
         <h2 className="text-xl font-medium">Contribution history</h2>
         <DataTable
-          headers={["Timestamp", "Supporter", "Category", "Sats", "Episode", "Note"]}
+          headers={["Date (ET)", "Supporter", "Type", "Sats", "Episode", "Note"]}
           rows={data.reserve.transactions.map((tx) => [
-            tx.timestamp,
+            formatEtTimestamp(tx.timestamp),
             tx.displayName ?? "Anonymous",
-            tx.category,
+            tx.category.replace(/_/g, " ").replace(/^./, (ch) => ch.toUpperCase()),
             formatSats(tx.sats),
             tx.episodeNumber ?? "—",
             tx.publicNote ?? "",

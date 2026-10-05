@@ -247,17 +247,23 @@ describe("accounting boundaries", () => {
   it("never counts the SPCX contribution as investment profit", () => {
     const txs = loadTransactions().transactions;
     const portfolio = loadPortfolio();
+    const funding = txs.find((tx) => tx.id === "tx-2026-10-02-contribution-spcx")!;
+    const justBefore = new Date(Date.parse(funding.timestamp) - 1).toISOString();
+    const value = portfolio.currentPortfolioValueCents;
     const before = calculatePortfolioPerformance({
-      currentPortfolioValueCents: portfolio.currentPortfolioValueCents,
-      transactions: transactionsThrough(txs, portfolio.currentValuationAt),
+      currentPortfolioValueCents: value,
+      transactions: transactionsThrough(txs, justBefore),
     });
     const markedAtCost = calculatePortfolioPerformance({
-      currentPortfolioValueCents: portfolio.currentPortfolioValueCents + 15837,
-      transactions: txs,
+      currentPortfolioValueCents: value + 15837,
+      transactions: transactionsThrough(txs, funding.timestamp),
     });
     expect(markedAtCost.investmentPnLCents).toBe(before.investmentPnLCents);
     expect(buildPublicDashboard().portfolio.performance.investmentPnLCents).toBe(
-      before.investmentPnLCents,
+      calculatePortfolioPerformance({
+        currentPortfolioValueCents: value,
+        transactions: transactionsThrough(txs, portfolio.currentValuationAt),
+      }).investmentPnLCents,
     );
   });
 

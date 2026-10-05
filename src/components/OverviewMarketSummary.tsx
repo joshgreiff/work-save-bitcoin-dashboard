@@ -23,6 +23,8 @@ type Props = {
   liveNetExternalContributionsCents: number;
   officialCloseCents: number;
   officialCloseAt: string;
+  /** Position market values (dollars) at the latest official close. */
+  officialAllocation: { name: string; value: number }[];
   lookThrough: { totalLookThroughSats: number | null; asOf: string };
   reserve: { currentReserveSats: number; asOf: string };
   incomeModel: {
@@ -57,8 +59,7 @@ export function OverviewMarketSummary(props: Props) {
   }, [load]);
 
   const marketOpen = live?.marketOpen === true;
-  const liveComplete =
-    marketOpen && live?.mark.complete && live.mark.portfolioValueCents != null;
+  const liveComplete = marketOpen && live?.mark.complete && live.mark.portfolioValueCents != null;
 
   const displayValue = liveComplete
     ? (live!.mark.portfolioValueCents as number)
@@ -86,14 +87,14 @@ export function OverviewMarketSummary(props: Props) {
   const ret = netContributions === 0 ? null : pnl / netContributions;
 
   const allocation = useMemo(() => {
-    if (!liveComplete || !live) return [];
+    if (!liveComplete || !live) return props.officialAllocation;
     return live.mark.positions
       .filter((p) => p.marketValueCents != null)
       .map((p) => ({
         name: p.ticker,
         value: (p.marketValueCents as number) / 100,
       }));
-  }, [live, liveComplete]);
+  }, [live, liveComplete, props.officialAllocation]);
 
   return (
     <div className="space-y-6">
@@ -167,7 +168,16 @@ export function OverviewMarketSummary(props: Props) {
         {error ? <p className="mt-2 text-xs text-[var(--negative)]">{error}</p> : null}
       </aside>
 
-      {allocation.length > 0 ? <AllocationChart data={allocation} /> : null}
+      {allocation.length > 0 ? (
+        <AllocationChart
+          data={allocation}
+          explanation={
+            liveComplete
+              ? "Live regular-session position values."
+              : `Position values at the ${formatEtTimestamp(props.officialCloseAt)} official close.`
+          }
+        />
+      ) : null}
     </div>
   );
 }

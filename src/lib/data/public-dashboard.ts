@@ -23,10 +23,7 @@ import {
   buildValuationChartSeries,
   valuationHistoryHasBenchmarkPrices,
 } from "@/lib/accounting/valuation-history";
-import {
-  buildBitcoinLeaderboard,
-  buildFiatLeaderboard,
-} from "@/lib/schemas/donations";
+import { buildBitcoinLeaderboard, buildFiatLeaderboard } from "@/lib/schemas/donations";
 import type { IssuerMetric } from "@/lib/schemas/issuer-metrics";
 import {
   loadDonations,
@@ -57,10 +54,7 @@ import {
 import { equityCarryForwardLabels } from "@/lib/quotes/price-carry-forward";
 import { unmatchedSeriesVideos } from "@/lib/youtube/sync-episodes";
 
-function latestMetricForTicker(
-  metrics: IssuerMetric[],
-  ticker: string,
-): IssuerMetric | undefined {
+function latestMetricForTicker(metrics: IssuerMetric[], ticker: string): IssuerMetric | undefined {
   return [...metrics]
     .filter((m) => m.ticker === ticker)
     .sort((a, b) => Date.parse(b.asOf) - Date.parse(a.asOf))[0];
@@ -86,9 +80,7 @@ export function buildPublicDashboard() {
   const incomeModel = loadIncomeModel();
   const incomeSecurities = loadIncomeSecurities();
   const incomeHistory = loadIncomeHistory();
-  const catalogByTicker = new Map(
-    incomeSecurities.securities.map((s) => [s.ticker, s]),
-  );
+  const catalogByTicker = new Map(incomeSecurities.securities.map((s) => [s.ticker, s]));
 
   const valuedTransactions = transactionsThrough(
     transactionsFile.transactions,
@@ -124,9 +116,7 @@ export function buildPublicDashboard() {
     .filter(Boolean)
     .sort();
   const latestMetricDate =
-    latestMetricDates.length > 0
-      ? latestMetricDates[latestMetricDates.length - 1]!
-      : null;
+    latestMetricDates.length > 0 ? latestMetricDates[latestMetricDates.length - 1]! : null;
 
   const excludedHoldings = portfolio.positions
     .filter((position) => !position.lookThroughEligible)
@@ -141,8 +131,7 @@ export function buildPublicDashboard() {
   const positions = eligibleResults.map((pos) => {
     const metric = latestMetricForTicker(issuerMetrics.metrics, pos.ticker);
     const displayed =
-      metric?.reportedDilutedSatsPerShare ??
-      displayDilutedSatsPerShare(pos.dilutedSatsPerShare);
+      metric?.reportedDilutedSatsPerShare ?? displayDilutedSatsPerShare(pos.dilutedSatsPerShare);
     return {
       issuer: metric?.issuer ?? pos.ticker,
       ticker: pos.ticker,
@@ -163,12 +152,8 @@ export function buildPublicDashboard() {
       portfolioShares: pos.shares,
       adrRatio: pos.adrRatio,
       lookThroughSats: pos.lookThroughSats,
-      lookThroughBtc:
-        pos.lookThroughSats == null ? null : btcFromSats(pos.lookThroughSats),
-      percentOfTotal: percentOfTotal(
-        pos.lookThroughSats,
-        lookThroughResult.totalLookThroughSats,
-      ),
+      lookThroughBtc: pos.lookThroughSats == null ? null : btcFromSats(pos.lookThroughSats),
+      percentOfTotal: percentOfTotal(pos.lookThroughSats, lookThroughResult.totalLookThroughSats),
       available: pos.available,
       reason: pos.reason,
       note: metric?.note ?? null,
@@ -177,17 +162,38 @@ export function buildPublicDashboard() {
   });
 
   const reserveSummary = summarizeReserve(reserve.transactions);
-  const btcPrice = marketPrices.prices.find(
-    (p) => p.symbol === "BTCUSD" && p.priceCents != null,
-  );
+  const btcPrice = marketPrices.prices.find((p) => p.symbol === "BTCUSD" && p.priceCents != null);
   const reserveValueCents =
     btcPrice?.priceCents != null
       ? Math.round((reserveSummary.currentReserveSats / 100_000_000) * btcPrice.priceCents)
       : null;
 
+  const storedPrices = new Map(
+    marketPrices.prices.filter((p) => p.priceCents != null).map((p) => [p.symbol, p]),
+  );
+  const incomeStoredPrices = incomeModel.securities
+    .filter((s) => s.priceCents == null)
+    .map((s) => storedPrices.get(s.ticker))
+    .filter((p) => p != null);
+  /** Unpriced income securities use the latest stored official close; live quotes override in the browser. */
+  const pricedIncomeModel = {
+    ...incomeModel,
+    securities: incomeModel.securities.map((s) =>
+      s.priceCents != null
+        ? s
+        : { ...s, priceCents: storedPrices.get(s.ticker)?.priceCents ?? null },
+    ),
+  };
+  const incomePricesAsOf =
+    incomeStoredPrices.length === 0
+      ? incomeModel.asOf
+      : incomeStoredPrices.reduce(
+          (min, p) => (Date.parse(p.asOf) < Date.parse(min) ? p.asOf : min),
+          incomeStoredPrices[0]!.asOf,
+        );
   const income = calculateIncomeModel({
     portfolioValueCents: portfolio.currentPortfolioValueCents,
-    model: incomeModel,
+    model: pricedIncomeModel,
     catalogByTicker,
   });
 
@@ -205,9 +211,7 @@ export function buildPublicDashboard() {
     });
   });
 
-  const episodes = [...episodesFile.episodes].sort(
-    (a, b) => a.episodeNumber - b.episodeNumber,
-  );
+  const episodes = [...episodesFile.episodes].sort((a, b) => a.episodeNumber - b.episodeNumber);
   const latestEpisode = episodes[episodes.length - 1] ?? null;
   const pendingYoutubeEpisodes = unmatchedSeriesVideos({
     feed: youtubeFeed,
@@ -220,9 +224,7 @@ export function buildPublicDashboard() {
   const opens = marketObservations.observations
     .filter((o) => o.valuationType === "market_open")
     .sort((a, b) => Date.parse(a.timestamp) - Date.parse(b.timestamp));
-  const inception = marketObservations.observations.find(
-    (o) => o.valuationType === "inception",
-  );
+  const inception = marketObservations.observations.find((o) => o.valuationType === "inception");
   const latestClose = closes[closes.length - 1] ?? null;
   const previousClose = closes.length >= 2 ? closes[closes.length - 2]! : null;
   const latestOpen = opens[opens.length - 1] ?? null;
@@ -250,8 +252,7 @@ export function buildPublicDashboard() {
     labels: equityCarryForwardLabels({ sources: obs.sources }),
   }));
   const latestCloseCarryForwards =
-    observationCarryForwards.find((row) => row.observationId === latestClose?.id)
-      ?.labels ?? [];
+    observationCarryForwards.find((row) => row.observationId === latestClose?.id)?.labels ?? [];
 
   const bpsByTicker = new Map<string, typeof issuerBpsHistory.observations>();
   for (const obs of issuerBpsHistory.observations) {
@@ -260,9 +261,7 @@ export function buildPublicDashboard() {
     bpsByTicker.set(obs.ticker, list);
   }
   const issuerBpsLatest = [...bpsByTicker.entries()].map(([ticker, list]) => {
-    const sorted = [...list].sort(
-      (a, b) => Date.parse(a.asOf) - Date.parse(b.asOf),
-    );
+    const sorted = [...list].sort((a, b) => Date.parse(a.asOf) - Date.parse(b.asOf));
     const latest = sorted[sorted.length - 1]!;
     const previous = sorted.length >= 2 ? sorted[sorted.length - 2]! : null;
     const latestPref = preferDilutedSatsPerShare({
@@ -275,10 +274,7 @@ export function buildPublicDashboard() {
           calculatedSatsPerDilutedShare: previous.calculatedSatsPerDilutedShare,
         })
       : { satsPerShare: null, status: "unavailable" as const };
-    const delta = changeBetweenObservations(
-      previousPref.satsPerShare,
-      latestPref.satsPerShare,
-    );
+    const delta = changeBetweenObservations(previousPref.satsPerShare, latestPref.satsPerShare);
 
     const jun2026 = observationByAsOfDate(sorted, ticker, "2026-06-30");
     const dec2025 = observationByAsOfDate(sorted, ticker, "2025-12-31");
@@ -294,14 +290,8 @@ export function buildPublicDashboard() {
           calculatedSatsPerDilutedShare: dec2025.calculatedSatsPerDilutedShare,
         })
       : { satsPerShare: null };
-    const vsJun2026 = changeBetweenObservations(
-      junPref.satsPerShare,
-      latestPref.satsPerShare,
-    );
-    const vsDec2025 = changeBetweenObservations(
-      decPref.satsPerShare,
-      latestPref.satsPerShare,
-    );
+    const vsJun2026 = changeBetweenObservations(junPref.satsPerShare, latestPref.satsPerShare);
+    const vsDec2025 = changeBetweenObservations(decPref.satsPerShare, latestPref.satsPerShare);
 
     return {
       ticker,
@@ -359,6 +349,17 @@ export function buildPublicDashboard() {
         transactions: transactionsFile.transactions,
       }),
       performance,
+      /** Position market values (dollars) at the official valuation, for allocation charts. */
+      officialAllocation: portfolio.positions
+        .filter((pos) => (pos.marketValueCents ?? 0) > 0)
+        .map((pos) => ({ name: pos.ticker, value: (pos.marketValueCents as number) / 100 })),
+      /** Official market closes for time-frame performance and holding attribution. */
+      performanceCloses: closes.map((c) => ({
+        id: c.id,
+        timestamp: c.timestamp,
+        portfolioValueCents: c.portfolioValueCents,
+        prices: c.prices,
+      })),
       transactionsAfterValuation,
       afterHours: portfolio.afterHours ?? null,
     },
@@ -384,6 +385,8 @@ export function buildPublicDashboard() {
       publicSupportQrUrl: reserve.publicSupportQrUrl,
       summary: reserveSummary,
       estimatedValueCents: reserveValueCents,
+      estimatedValueBtcPriceCents: btcPrice?.priceCents ?? null,
+      estimatedValueBtcPriceAsOf: btcPrice?.asOf ?? null,
       transactions: reserve.transactions.map((tx) => ({
         id: tx.id,
         timestamp: tx.timestamp,
@@ -437,7 +440,9 @@ export function buildPublicDashboard() {
       defaultRiskFreeRate: incomeModel.defaultRiskFreeRate,
       defaultInflationRate: incomeModel.defaultInflationRate,
       minHistoryObservations: incomeModel.minHistoryObservations,
-      allocation: incomeModel.securities,
+      allocation: pricedIncomeModel.securities,
+      /** Timestamp of the stored closes pricing the model (config date when none are used). */
+      pricesAsOf: incomePricesAsOf,
       excludedCashCents: incomeModel.excludedCashCents,
       milestonesMonthlyCents: incomeModel.milestonesMonthlyCents,
       catalog: incomeSecurities,

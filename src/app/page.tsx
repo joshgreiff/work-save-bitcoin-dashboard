@@ -2,11 +2,7 @@ import { DailyVsBitcoin } from "@/components/DailyVsBitcoin";
 import { LiveBtcCard } from "@/components/LiveBtcCard";
 import { LiveTrailingValuationCharts } from "@/components/LiveTrailingValuationCharts";
 import { OverviewMarketSummary } from "@/components/OverviewMarketSummary";
-import {
-  Disclaimer,
-  formatUsdFromCents,
-  TextLink,
-} from "@/components/ui/primitives";
+import { Disclaimer, formatUsdFromCents, TextLink } from "@/components/ui/primitives";
 import Link from "next/link";
 import { lastConfirmedBenchmarkPrices } from "@/lib/accounting/live-chart-trail";
 import { loadLearnPillars } from "@/lib/data/load";
@@ -21,8 +17,7 @@ export default function HomePage() {
     data.marketObservations.latestOfficialClose?.portfolioValueCents ??
     data.portfolio.currentPortfolioValueCents;
   const officialCloseAt =
-    data.marketObservations.latestOfficialClose?.timestamp ??
-    data.portfolio.currentValuationAt;
+    data.marketObservations.latestOfficialClose?.timestamp ?? data.portfolio.currentValuationAt;
 
   const valueChart = series.map((row) => ({
     label: row.label,
@@ -93,8 +88,7 @@ export default function HomePage() {
           Project · Fiat Freedom Portfolio
         </p>
         <h2 className="mt-3 text-2xl font-semibold tracking-tight md:text-3xl">
-          Tracking a real portfolio at the intersection of Bitcoin, public markets, and fiat
-          income.
+          Tracking a real portfolio at the intersection of Bitcoin, public markets, and fiat income.
         </h2>
         <p className="mt-4 text-base leading-relaxed text-[var(--muted-foreground)]">
           A public experiment within Work Save Bitcoin. Three separate ledgers: the actual
@@ -114,9 +108,7 @@ export default function HomePage() {
         totalExternalContributionsCents={
           data.portfolio.contributions.totalExternalContributionsCents
         }
-        netExternalContributionsCents={
-          data.portfolio.contributions.netExternalContributionsCents
-        }
+        netExternalContributionsCents={data.portfolio.contributions.netExternalContributionsCents}
         liveTotalExternalContributionsCents={
           data.portfolio.contributionsToDate.totalExternalContributionsCents
         }
@@ -125,6 +117,7 @@ export default function HomePage() {
         }
         officialCloseCents={officialClose}
         officialCloseAt={officialCloseAt}
+        officialAllocation={data.portfolio.officialAllocation}
         lookThrough={{
           totalLookThroughSats: data.lookThrough.totalLookThroughSats,
           asOf: data.lookThrough.asOf,
@@ -136,7 +129,7 @@ export default function HomePage() {
         incomeModel={{
           monthlyIncomeCents: data.incomeModel.result.monthlyIncomeCents,
           configured: data.incomeModel.result.configured,
-          asOf: data.incomeModel.asOf,
+          asOf: data.incomeModel.pricesAsOf,
         }}
       />
 

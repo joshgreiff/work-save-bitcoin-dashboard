@@ -2,8 +2,8 @@
 
 import { useEffect, useMemo, useState } from "react";
 import {
-  Area,
-  AreaChart,
+  Bar,
+  BarChart,
   CartesianGrid,
   Legend,
   Line,
@@ -24,15 +24,8 @@ import {
   frequencyToPeriodsPerYear,
   projectPreferredTotalReturn,
 } from "@/lib/accounting/scenario-preferred";
-import {
-  calculateRiskMetrics,
-  periodTotalReturnsFromPrices,
-} from "@/lib/accounting/risk-metrics";
-import {
-  formatPercent,
-  formatShares,
-  formatUsdFromCents,
-} from "@/lib/accounting/format";
+import { calculateRiskMetrics, periodTotalReturnsFromPrices } from "@/lib/accounting/risk-metrics";
+import { formatPercent, formatShares, formatUsdFromCents } from "@/lib/accounting/format";
 import type { PublicDashboard } from "@/lib/data/public-dashboard";
 import type { LiveQuotesResponse } from "@/lib/quotes/types";
 
@@ -99,9 +92,7 @@ function Field({
       <span className="flex items-center gap-2 text-[var(--muted)]">
         {label}
         {edited ? (
-          <span className="text-[10px] uppercase tracking-wide text-[var(--accent)]">
-            Edited
-          </span>
+          <span className="text-[10px] uppercase tracking-wide text-[var(--accent)]">Edited</span>
         ) : null}
         {edited && onReset ? (
           <button
@@ -139,8 +130,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
       "base",
   );
   const activePreset =
-    income.scenarioPresets.find((p) => p.id === presetId) ??
-    income.scenarioPresets[0];
+    income.scenarioPresets.find((p) => p.id === presetId) ?? income.scenarioPresets[0];
 
   const [horizonYears, setHorizonYears] = useState(income.defaultHorizonYears);
   const [bitcoinStartUsd, setBitcoinStartUsd] = useState("");
@@ -163,9 +153,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
     activePreset?.preferredTerminalRequiredYield ?? 0.1,
   );
   const [callActivated, setCallActivated] = useState(false);
-  const [dividendStress, setDividendStress] = useState(
-    activePreset?.dividendStress ?? false,
-  );
+  const [dividendStress, setDividendStress] = useState(activePreset?.dividendStress ?? false);
   const [strcRateBps, setStrcRateBps] = useState(1200);
 
   useEffect(() => {
@@ -179,9 +167,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
           setQuotes(payload);
           const btc = payload.quotes.find((q) => q.symbol === "BTCUSD");
           if (btc) {
-            setBitcoinStartUsd((prev) =>
-              prev === "" ? (btc.priceCents / 100).toFixed(2) : prev,
-            );
+            setBitcoinStartUsd((prev) => (prev === "" ? (btc.priceCents / 100).toFixed(2) : prev));
           }
         }
       } catch {
@@ -252,18 +238,10 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
       defaultInflationRate: income.defaultInflationRate,
       minHistoryObservations: income.minHistoryObservations,
     };
-  }, [
-    pricedAllocations,
-    catalogByTicker,
-    income,
-    wholeSharesOnly,
-    strcRateBps,
-  ]);
+  }, [pricedAllocations, catalogByTicker, income, wholeSharesOnly, strcRateBps]);
 
   const overrideCents =
-    deployableOverride.trim() === ""
-      ? null
-      : Math.round(Number(deployableOverride) * 100);
+    deployableOverride.trim() === "" ? null : Math.round(Number(deployableOverride) * 100);
 
   const liveResult = useMemo(
     () =>
@@ -273,18 +251,10 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
         catalogByTicker,
         deployableValueOverrideCents: overrideCents,
       }),
-    [
-      catalogByTicker,
-      data.portfolio.currentPortfolioValueCents,
-      modelForCalc,
-      overrideCents,
-    ],
+    [catalogByTicker, data.portfolio.currentPortfolioValueCents, modelForCalc, overrideCents],
   );
 
-  const allocationTotalBps = allocations.reduce(
-    (sum, row) => sum + row.targetAllocationBps,
-    0,
-  );
+  const allocationTotalBps = allocations.reduce((sum, row) => sum + row.targetAllocationBps, 0);
 
   const btcStartCents = Math.round(Number(bitcoinStartUsd || "0") * 100);
   const btcPath = useMemo(
@@ -305,14 +275,10 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
         bitcoinPricesCents: btcPath.map((p) => p.priceCents),
         startingBtcPerDilutedShare: Number(startingBtcPerShare) || 0,
         annualBtcPerShareGrowth: btcPerShareGrowth,
-        startingNetSeniorClaimsPerShareCents: Math.round(
-          Number(seniorClaimsPerShare || "0") * 100,
-        ),
+        startingNetSeniorClaimsPerShareCents: Math.round(Number(seniorClaimsPerShare || "0") * 100),
         annualSeniorClaimsGrowth: 0,
         startingCashPerShareCents: Math.round(Number(cashPerShare || "0") * 100),
-        startingSoftwareValuePerShareCents: Math.round(
-          Number(softwarePerShare || "0") * 100,
-        ),
+        startingSoftwareValuePerShareCents: Math.round(Number(softwarePerShare || "0") * 100),
         startingMnav,
         terminalMnav,
       }),
@@ -333,38 +299,38 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
     return ["STRF", "STRC"]
       .filter((ticker) => catalogByTicker.get(ticker)?.projectionsEnabled !== false)
       .map((ticker) => {
-      const catalog = catalogByTicker.get(ticker);
-      const row = pricedAllocations.find((a) => a.ticker === ticker);
-      const price = row?.priceCents ?? 10000;
-      const annualDist =
-        ticker === "STRC"
-          ? resolveAnnualDistributionCentsPerShare({
-              statedAmountCents: 10000,
-              annualDistributionRateBps: strcRateBps,
-            })
-          : (row?.annualDistributionCentsPerShare ??
-            resolveAnnualDistributionCentsPerShare({
-              annualDistributionCentsPerShare:
-                catalog?.annualDistributionCentsPerShare ?? null,
-              statedAmountCents: catalog?.statedAmountCents ?? null,
-              annualDistributionRateBps: catalog?.annualDistributionRateBps ?? null,
-            }) ?? 0);
-      const projected = projectPreferredTotalReturn({
-        horizonYears,
-        startingPriceCents: price ?? 10000,
-        annualDistributionCentsPerShare: annualDist ?? 0,
-        distributionFrequencyPerYear: frequencyToPeriodsPerYear(
-          catalog?.distributionFrequency ?? "quarterly",
-        ),
-        terminalRequiredYield: preferredRequiredYield,
-        reinvestDistributions: reinvest,
-        ordinaryCallable: catalog?.ordinaryCallable ?? false,
-        ordinaryCallActivated: callActivated,
-        ordinaryCallPriceCents: catalog?.ordinaryCallPriceCents ?? null,
-        dividendStressHaircut: dividendStress ? 0.5 : 0,
+        const catalog = catalogByTicker.get(ticker);
+        const row = pricedAllocations.find((a) => a.ticker === ticker);
+        const price = row?.priceCents ?? 10000;
+        const annualDist =
+          ticker === "STRC"
+            ? resolveAnnualDistributionCentsPerShare({
+                statedAmountCents: 10000,
+                annualDistributionRateBps: strcRateBps,
+              })
+            : (row?.annualDistributionCentsPerShare ??
+              resolveAnnualDistributionCentsPerShare({
+                annualDistributionCentsPerShare: catalog?.annualDistributionCentsPerShare ?? null,
+                statedAmountCents: catalog?.statedAmountCents ?? null,
+                annualDistributionRateBps: catalog?.annualDistributionRateBps ?? null,
+              }) ??
+              0);
+        const projected = projectPreferredTotalReturn({
+          horizonYears,
+          startingPriceCents: price ?? 10000,
+          annualDistributionCentsPerShare: annualDist ?? 0,
+          distributionFrequencyPerYear: frequencyToPeriodsPerYear(
+            catalog?.distributionFrequency ?? "quarterly",
+          ),
+          terminalRequiredYield: preferredRequiredYield,
+          reinvestDistributions: reinvest,
+          ordinaryCallable: catalog?.ordinaryCallable ?? false,
+          ordinaryCallActivated: callActivated,
+          ordinaryCallPriceCents: catalog?.ordinaryCallPriceCents ?? null,
+          dividendStressHaircut: dividendStress ? 0.5 : 0,
+        });
+        return { ticker, ...projected };
       });
-      return { ticker, ...projected };
-    });
   }, [
     pricedAllocations,
     callActivated,
@@ -385,10 +351,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
         BTC: Math.round(1000 * (btc.priceCents / btcPath[0]!.priceCents)),
         MSTR:
           mstrPath[0]?.projectedPriceCents && mstr.projectedPriceCents
-            ? Math.round(
-                1000 *
-                  (mstr.projectedPriceCents / mstrPath[0].projectedPriceCents),
-              )
+            ? Math.round(1000 * (mstr.projectedPriceCents / mstrPath[0].projectedPriceCents))
             : 0,
       };
       for (const pref of preferredPaths) {
@@ -431,10 +394,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
               annualDistributionRateBps: security.annualDistributionRateBps,
             });
       const price = allocation?.priceCents ?? null;
-      const yieldNow =
-        annualDist != null && price
-          ? annualDist / price
-          : null;
+      const yieldNow = annualDist != null && price ? annualDist / price : null;
       const metrics = calculateRiskMetrics({
         periodReturns,
         wealthPath: prices,
@@ -476,8 +436,8 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
 
       {income.illustrativePreset ? (
         <p className="text-sm text-[var(--accent)]">
-          Starting allocation is an <strong>illustrative only</strong> preset and is fully
-          editable. It is not a recommendation.
+          Starting allocation is an <strong>illustrative only</strong> preset and is fully editable.
+          It is not a recommendation.
         </p>
       ) : null}
 
@@ -536,9 +496,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
               <p className="text-xs uppercase tracking-wide text-[var(--muted)]">
                 Observed deployable (official close)
               </p>
-              <p className="mt-2 text-xl tabular-nums">
-                {formatUsdFromCents(officialDeployable)}
-              </p>
+              <p className="mt-2 text-xl tabular-nums">{formatUsdFromCents(officialDeployable)}</p>
               <p className="mt-1 text-xs text-[var(--muted)]">
                 Excludes WSB Bitcoin Reserve. Override never mutates the actual portfolio.
               </p>
@@ -580,9 +538,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                         }}
                       />
                     </td>
-                    <td className="py-2 pr-3 tabular-nums">
-                      {formatUsdFromCents(row.priceCents)}
-                    </td>
+                    <td className="py-2 pr-3 tabular-nums">{formatUsdFromCents(row.priceCents)}</td>
                     <td className="py-2 pr-3 tabular-nums">
                       {formatUsdFromCents(
                         row.ticker === "STRC"
@@ -601,9 +557,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
           </div>
           <p
             className={`text-sm ${
-              allocationTotalBps === 10000
-                ? "text-[var(--positive)]"
-                : "text-[var(--negative)]"
+              allocationTotalBps === 10000 ? "text-[var(--positive)]" : "text-[var(--negative)]"
             }`}
           >
             Allocations total {(allocationTotalBps / 100).toFixed(2)}%{" "}
@@ -631,8 +585,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
 
           {wholeSharesOnly ? (
             <p className="text-sm text-[var(--muted)]">
-              Whole-share residual cash modeled:{" "}
-              {formatUsdFromCents(liveResult.residualCashCents)}
+              Whole-share residual cash modeled: {formatUsdFromCents(liveResult.residualCashCents)}
             </p>
           ) : null}
 
@@ -652,9 +605,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                 {liveResult.securities.map((s) => (
                   <tr key={s.ticker} className="border-t border-[var(--border)]">
                     <td className="py-2 pr-3">{s.ticker}</td>
-                    <td className="py-2 pr-3 tabular-nums">
-                      {formatPercent(s.indicatedYield)}
-                    </td>
+                    <td className="py-2 pr-3 tabular-nums">{formatPercent(s.indicatedYield)}</td>
                     <td className="py-2 pr-3 tabular-nums">
                       {formatUsdFromCents(s.allocatedCapitalCents)}
                     </td>
@@ -691,19 +642,22 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
 
           <ChartShell title="Annual income by security" kind="projected">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={incomeBySecurityChart}>
+              <BarChart data={incomeBySecurityChart}>
                 <CartesianGrid stroke="rgba(255,255,255,0.06)" />
                 <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
-                <YAxis stroke="#7A8494" fontSize={12} />
-                <Tooltip {...chartTooltipProps} />
-                <Area
-                  type="monotone"
+                <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `$${v}`} />
+                <Tooltip
+                  formatter={(value) => [`$${Number(value).toFixed(2)}`, "Annual income"]}
+                  {...chartTooltipProps}
+                />
+                <Bar
+                  isAnimationActive={false}
                   dataKey="annual"
+                  fill="rgba(247,147,26,0.35)"
                   stroke="#F7931A"
-                  fill="rgba(247,147,26,0.2)"
                   strokeDasharray="4 4"
                 />
-              </AreaChart>
+              </BarChart>
             </ResponsiveContainer>
           </ChartShell>
         </div>
@@ -898,9 +852,8 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
 
           <p className="text-sm text-[var(--muted)]">
             Amplification illustration (assets − fixed senior claims): up{" "}
-            {formatUsdFromCents(amplificationUp)} vs down{" "}
-            {formatUsdFromCents(amplificationDown)}. Not a forecast that MSTR moves by a fixed
-            Bitcoin multiple.
+            {formatUsdFromCents(amplificationUp)} vs down {formatUsdFromCents(amplificationDown)}.
+            Not a forecast that MSTR moves by a fixed Bitcoin multiple.
           </p>
 
           {mstrPath.some((p) => p.negativeNav) ? (
@@ -919,10 +872,34 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <YAxis stroke="#7A8494" fontSize={12} />
                   <Tooltip {...chartTooltipProps} />
                   <Legend />
-                  <Line dataKey="BTC" stroke="#E8E2D6" strokeDasharray="5 4" dot={false} />
-                  <Line dataKey="MSTR" stroke="#F7931A" strokeDasharray="5 4" dot={false} />
-                  <Line dataKey="STRF" stroke="#7A8494" strokeDasharray="5 4" dot={false} />
-                  <Line dataKey="STRC" stroke="#A67C52" strokeDasharray="5 4" dot={false} />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="BTC"
+                    stroke="#E8E2D6"
+                    strokeDasharray="5 4"
+                    dot={false}
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="MSTR"
+                    stroke="#F7931A"
+                    strokeDasharray="5 4"
+                    dot={false}
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="STRF"
+                    stroke="#7A8494"
+                    strokeDasharray="5 4"
+                    dot={false}
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="STRC"
+                    stroke="#A67C52"
+                    strokeDasharray="5 4"
+                    dot={false}
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </ChartShell>
@@ -941,8 +918,20 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <YAxis stroke="#7A8494" fontSize={12} />
                   <Tooltip {...chartTooltipProps} />
                   <Legend />
-                  <Line dataKey="price" name="Nominal" stroke="#F7931A" strokeDasharray="4 3" />
-                  <Line dataKey="real" name="Inflation-adj." stroke="#7A8494" strokeDasharray="2 3" />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="price"
+                    name="Nominal"
+                    stroke="#F7931A"
+                    strokeDasharray="4 3"
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="real"
+                    name="Inflation-adj."
+                    stroke="#7A8494"
+                    strokeDasharray="2 3"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </ChartShell>
@@ -962,8 +951,20 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <YAxis stroke="#7A8494" fontSize={12} />
                   <Tooltip {...chartTooltipProps} />
                   <Legend />
-                  <Line dataKey="nav" name="Common NAV/sh" stroke="#E8E2D6" strokeDasharray="4 3" />
-                  <Line dataKey="price" name="Proj. price" stroke="#F7931A" strokeDasharray="4 3" />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="nav"
+                    name="Common NAV/sh"
+                    stroke="#E8E2D6"
+                    strokeDasharray="4 3"
+                  />
+                  <Line
+                    isAnimationActive={false}
+                    dataKey="price"
+                    name="Proj. price"
+                    stroke="#F7931A"
+                    strokeDasharray="4 3"
+                  />
                 </LineChart>
               </ResponsiveContainer>
             </ChartShell>
@@ -981,6 +982,7 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                   <YAxis stroke="#7A8494" fontSize={12} />
                   <Tooltip {...chartTooltipProps} />
                   <Line
+                    isAnimationActive={false}
                     dataKey="btcPerShare"
                     stroke="#F7931A"
                     strokeDasharray="4 3"
@@ -992,9 +994,9 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
           </div>
 
           <p className="text-xs text-[var(--muted)]">
-            After-tax mode currently applies only as a display reminder ({(taxRate * 100).toFixed(0)}
-            % assumption) — scenario chart values remain pre-tax gross paths unless you haircut
-            inputs yourself.
+            After-tax mode currently applies only as a display reminder (
+            {(taxRate * 100).toFixed(0)}% assumption) — scenario chart values remain pre-tax gross
+            paths unless you haircut inputs yourself.
           </p>
         </div>
       ) : null}
@@ -1033,19 +1035,13 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                         : "Insufficient history"}
                     </td>
                     <td className="py-2 pr-3 tabular-nums">
-                      {metrics.available
-                        ? formatPercent(metrics.annualizedVolatility)
-                        : "—"}
+                      {metrics.available ? formatPercent(metrics.annualizedVolatility) : "—"}
                     </td>
                     <td className="py-2 pr-3 tabular-nums">
-                      {metrics.sharpeRatio == null
-                        ? "—"
-                        : metrics.sharpeRatio.toFixed(2)}
+                      {metrics.sharpeRatio == null ? "—" : metrics.sharpeRatio.toFixed(2)}
                     </td>
                     <td className="py-2 pr-3 tabular-nums">
-                      {metrics.sortinoRatio == null
-                        ? "—"
-                        : metrics.sortinoRatio.toFixed(2)}
+                      {metrics.sortinoRatio == null ? "—" : metrics.sortinoRatio.toFixed(2)}
                     </td>
                     <td className="py-2 pr-3 tabular-nums">
                       {metrics.maximumDrawdown == null
@@ -1100,9 +1096,8 @@ export function IncomeModelLab({ data }: { data: PublicDashboard }) {
                           : "no"}
                       </li>
                       <li>
-                        Other redemptions: clean-up{" "}
-                        {security.cleanUpRedemption ? "yes" : "no"} / tax{" "}
-                        {security.taxRedemption ? "yes" : "no"} / fund. change{" "}
+                        Other redemptions: clean-up {security.cleanUpRedemption ? "yes" : "no"} /
+                        tax {security.taxRedemption ? "yes" : "no"} / fund. change{" "}
                         {security.fundamentalChangeRepurchase ? "yes" : "no"}
                       </li>
                       <li>
