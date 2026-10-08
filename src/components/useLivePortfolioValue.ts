@@ -16,6 +16,8 @@ type PortfolioInput = {
   fallbackAsOf: string;
 };
 
+export const LIVE_REFRESH_MS = 60_000;
+
 export function useLivePortfolioValue(input: PortfolioInput) {
   const [data, setData] = useState<LiveQuotesResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,16 +43,23 @@ export function useLivePortfolioValue(input: PortfolioInput) {
 
   useEffect(() => {
     load();
-    const id = window.setInterval(load, 60_000);
-    return () => window.clearInterval(id);
+    const id = window.setInterval(() => {
+      if (document.visibilityState === "visible") load();
+    }, LIVE_REFRESH_MS);
+    const onVisible = () => {
+      if (document.visibilityState === "visible") load();
+    };
+    document.addEventListener("visibilitychange", onVisible);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener("visibilitychange", onVisible);
+    };
   }, [load]);
 
   const live = useMemo(() => {
     const mark = data?.mark;
     const liveValue =
-      mark?.complete && mark.portfolioValueCents != null
-        ? mark.portfolioValueCents
-        : null;
+      mark?.complete && mark.portfolioValueCents != null ? mark.portfolioValueCents : null;
     const valueCents = liveValue ?? input.fallbackValueCents;
     const usingLive = liveValue != null;
     const totalContributions = usingLive
@@ -64,15 +73,14 @@ export function useLivePortfolioValue(input: PortfolioInput) {
       totalExternalContributionsCents: totalContributions,
     });
     const ret = netContributions === 0 ? null : pnl / netContributions;
-    const allocation =
-      mark?.complete
-        ? mark.positions
-            .filter((p) => p.marketValueCents != null)
-            .map((p) => ({
-              name: p.ticker,
-              value: (p.marketValueCents as number) / 100,
-            }))
-        : [];
+    const allocation = mark?.complete
+      ? mark.positions
+          .filter((p) => p.marketValueCents != null)
+          .map((p) => ({
+            name: p.ticker,
+            value: (p.marketValueCents as number) / 100,
+          }))
+      : [];
 
     return {
       valueCents,
@@ -83,6 +91,7 @@ export function useLivePortfolioValue(input: PortfolioInput) {
       allocation,
       quotes: data,
       mark,
+      checkedAt: mark?.retrievedAt ?? null,
     };
   }, [data, input]);
 

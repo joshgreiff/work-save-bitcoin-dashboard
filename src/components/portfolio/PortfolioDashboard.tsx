@@ -8,7 +8,7 @@ import {
   formatUsdFromCents,
   MetricCard,
 } from "@/components/ui/primitives";
-import { useLivePortfolioValue } from "@/components/useLivePortfolioValue";
+import { LIVE_REFRESH_MS, useLivePortfolioValue } from "@/components/useLivePortfolioValue";
 import {
   buildPerformancePeriods,
   PERFORMANCE_BENCHMARKS,
@@ -223,9 +223,13 @@ export function PortfolioDashboard(props: Props) {
           <p className="text-xs text-[var(--muted)]">
             {live.usingLive
               ? "Live regular-session mark — not historical. Assumes published share weights are unchanged."
-              : live.isPending
+              : live.isPending && !live.checkedAt
                 ? "Loading live quotes…"
                 : "Showing the latest official 4:00 p.m. Eastern close until a live regular-session mark is available."}
+            <span className="block">
+              Prices refresh every {LIVE_REFRESH_MS / 1000} seconds during market hours
+              {live.checkedAt ? ` · last checked ${formatEtTimestamp(live.checkedAt)}` : ""}.
+            </span>
           </p>
           <button
             type="button"
@@ -444,7 +448,10 @@ export function PortfolioDashboard(props: Props) {
                   Price
                 </th>
                 <th className="px-2 py-3 sm:px-3 text-right font-medium">Value</th>
-                <th className="px-2 py-3 sm:px-3 text-right font-medium">Weight</th>
+                <th className="px-2 py-3 sm:px-3 text-right font-medium">
+                  <span className="sm:hidden">% of total</span>
+                  <span className="hidden sm:inline">% of portfolio</span>
+                </th>
                 <th className="hidden px-2 py-3 text-right font-medium sm:table-cell sm:px-3">
                   {end?.live ? "Today" : "Last session"}
                 </th>
