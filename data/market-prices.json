@@ -72,23 +72,23 @@
     },
     {
       "symbol": "STRF",
-      "asOf": "2026-10-02T16:00:00-04:00",
-      "priceCents": 10340,
+      "asOf": "2026-10-07T16:00:00-04:00",
+      "priceCents": 10305,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/STRF?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-05T14:41:11.663Z",
+      "retrievedAt": "2026-10-08T23:34:07.720Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $103.40. Income-model reference price only — not a portfolio holding."
+      "note": "Unadjusted regular-session close $103.05. Income-model reference price only — not a portfolio holding."
     },
     {
       "symbol": "STRC",
-      "asOf": "2026-10-02T16:00:00-04:00",
-      "priceCents": 9941,
+      "asOf": "2026-10-07T16:00:00-04:00",
+      "priceCents": 9943,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/STRC?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-05T14:41:11.688Z",
+      "retrievedAt": "2026-10-08T23:34:07.749Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $99.41. Income-model reference price only — not a portfolio holding."
+      "note": "Unadjusted regular-session close $99.43. Income-model reference price only — not a portfolio holding."
     }
   ]
 }

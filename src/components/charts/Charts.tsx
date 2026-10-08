@@ -20,7 +20,11 @@ import {
 
 const COLORS = ["#F7931A", "#E8E2D6", "#7A8494", "#3D9B6E", "#C44C4C", "#A67C52"];
 
-/** Shared Recharts tooltip styles — dark surface with readable light text. */
+/**
+ * Shared Recharts tooltip styles — dark surface with readable light text.
+ * Item rows inherit each series color so they match the legend; every tooltip
+ * formatter must return `[value, name]` or Recharts drops the series name.
+ */
 export const chartTooltipProps = {
   contentStyle: {
     background: "#141414",
@@ -33,7 +37,8 @@ export const chartTooltipProps = {
     marginBottom: 4,
   },
   itemStyle: {
-    color: "#E8E2D6",
+    paddingTop: 2,
+    paddingBottom: 2,
   },
 } as const;
 
@@ -174,7 +179,7 @@ export function BenchmarkReturnChart({
             tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`}
           />
           <Tooltip
-            formatter={(value) => [`${(Number(value) * 100).toFixed(2)}%`]}
+            formatter={(value, name) => [`${(Number(value) * 100).toFixed(2)}%`, String(name)]}
             {...chartTooltipProps}
           />
           <Legend />
@@ -227,7 +232,10 @@ export function CashFlowMatchedChart({
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} tickFormatter={(v) => `$${v}`} />
-          <Tooltip {...chartTooltipProps} />
+          <Tooltip
+            formatter={(value, name) => [`$${Number(value).toFixed(2)}`, String(name)]}
+            {...chartTooltipProps}
+          />
           <Legend />
           <Line
             isAnimationActive={false}
@@ -283,7 +291,10 @@ export function ReserveGrowthChart({ data }: { data: { label: string; sats: numb
           <CartesianGrid stroke="rgba(255,255,255,0.06)" />
           <XAxis dataKey="label" stroke="#7A8494" fontSize={12} />
           <YAxis stroke="#7A8494" fontSize={12} />
-          <Tooltip {...chartTooltipProps} />
+          <Tooltip
+            formatter={(value) => [`${Number(value).toLocaleString("en-US")} sats`, "Reserve"]}
+            {...chartTooltipProps}
+          />
           <Area
             isAnimationActive={false}
             type="stepAfter"

@@ -275,9 +275,10 @@ export function DailyVsBitcoin({ marketObservations }: Props) {
                   tickFormatter={(v) => `${(Number(v) * 100).toFixed(0)}%`}
                 />
                 <Tooltip
-                  formatter={(value) =>
-                    value == null ? "—" : `${(Number(value) * 100).toFixed(2)}%`
-                  }
+                  formatter={(value, name) => [
+                    value == null ? "—" : `${(Number(value) * 100).toFixed(2)}%`,
+                    String(name),
+                  ]}
                   {...chartTooltipProps}
                 />
                 <Legend />
