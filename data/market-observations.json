@@ -1360,6 +1360,82 @@
       "portfolioValueCents": 249088,
       "netExternalContributionsCents": 215828,
       "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$152.68 + 13.7×$27.71 + 59×$1.65 + 1×$163.42 = $2,490.88 (cash $0.00)."
+    },
+    {
+      "id": "mo-2026-10-13-close",
+      "timestamp": "2026-10-13T16:00:00-04:00",
+      "timezone": "America/New_York",
+      "valuationType": "market_close",
+      "prices": {
+        "BTCUSD": 8321911,
+        "MSTR": 15218,
+        "ASST": 2759,
+        "MPJPY": 163,
+        "SPY": 77801,
+        "GLD": 38167,
+        "SPCX": 15654
+      },
+      "sources": {
+        "BTCUSD": {
+          "name": "Coinbase Exchange BTC-USD 1-minute candle",
+          "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+          "observedAt": "2026-10-13T20:00:00.000Z",
+          "retrievedAt": "2026-10-14T00:31:20.310Z",
+          "fallbackUsed": false,
+          "note": "Exact 4:00 p.m. Eastern one-minute candle close $83,219.11"
+        },
+        "MSTR": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
+          "observedAt": "2026-10-13T16:00:00-04:00",
+          "retrievedAt": "2026-10-14T00:31:20.310Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $152.18 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "ASST": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
+          "observedAt": "2026-10-13T16:00:00-04:00",
+          "retrievedAt": "2026-10-14T00:31:20.340Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $27.59 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "MPJPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
+          "observedAt": "2026-10-13T16:00:00-04:00",
+          "retrievedAt": "2026-10-14T00:31:20.342Z",
+          "fallbackUsed": true,
+          "note": "MPJPY prior close carried forward due to no reported session print. Carried 2026-10-12 unadjusted close $1.63."
+        },
+        "SPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
+          "observedAt": "2026-10-13T16:00:00-04:00",
+          "retrievedAt": "2026-10-14T00:31:20.343Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $778.01 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "GLD": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
+          "observedAt": "2026-10-13T16:00:00-04:00",
+          "retrievedAt": "2026-10-14T00:31:20.344Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $381.67 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "SPCX": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPCX?interval=1d&range=1mo",
+          "observedAt": "2026-10-13T16:00:00-04:00",
+          "retrievedAt": "2026-10-14T00:31:20.345Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $156.54 (chart regularMarketPrice; daily bar not yet published)"
+        }
+      },
+      "portfolioValueCents": 247511,
+      "netExternalContributionsCents": 215828,
+      "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$152.18 + 13.7×$27.59 + 59×$1.63 + 1×$156.54 = $2,475.11 (cash $0.00). MPJPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close."
     }
   ],
   "notes": [
