@@ -408,6 +408,11 @@
       }
     },
     {
+      "sourceName": "Coinbase + Yahoo Finance chart",
+      "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+      "retrievedAt": "2026-10-14T00:31:20.310Z",
+      "manual": false,
+      "note": "Official market-close snapshot. Portfolio $2,475.11 reconciled from published shares × confirmed closes. MPJPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
       "id": "vh-2026-10-13-close",
       "asOf": "2026-10-13T16:00:00-04:00",
       "session": "close",
@@ -415,18 +420,34 @@
       "portfolioValueCents": 247511,
       "prices": {
         "BTCUSD": 8321911,
+        "SPY": 77801,
+        "GLD": 38167,
         "MSTR": 15218,
         "ASST": 2759,
         "MPJPY": 163,
-        "SPY": 77801,
-        "GLD": 38167,
         "SPCX": 15654
+      }
+    },
+    {
+      "id": "vh-2026-10-14-close",
+      "asOf": "2026-10-14T16:00:00-04:00",
+      "session": "close",
+      "valuationType": "market_close",
+      "portfolioValueCents": 232488,
+      "prices": {
+        "BTCUSD": 8179760,
+        "MSTR": 14324,
+        "ASST": 2468,
+        "MPJPY": 167,
+        "SPY": 76960,
+        "GLD": 37599,
+        "SPCX": 15216
       },
       "sourceName": "Coinbase + Yahoo Finance chart",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-10-14T00:31:20.310Z",
+      "retrievedAt": "2026-10-15T00:02:12.573Z",
       "manual": false,
-      "note": "Official market-close snapshot. Portfolio $2,475.11 reconciled from published shares × confirmed closes. MPJPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close."
+      "note": "Official market-close snapshot. Portfolio $2,324.88 reconciled from published shares × confirmed closes."
     }
   ]
 }

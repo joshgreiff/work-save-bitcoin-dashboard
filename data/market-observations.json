@@ -1436,6 +1436,82 @@
       "portfolioValueCents": 247511,
       "netExternalContributionsCents": 215828,
       "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$152.18 + 13.7×$27.59 + 59×$1.63 + 1×$156.54 = $2,475.11 (cash $0.00). MPJPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close."
+    },
+    {
+      "id": "mo-2026-10-14-close",
+      "timestamp": "2026-10-14T16:00:00-04:00",
+      "timezone": "America/New_York",
+      "valuationType": "market_close",
+      "prices": {
+        "BTCUSD": 8179760,
+        "MSTR": 14324,
+        "ASST": 2468,
+        "MPJPY": 167,
+        "SPY": 76960,
+        "GLD": 37599,
+        "SPCX": 15216
+      },
+      "sources": {
+        "BTCUSD": {
+          "name": "Coinbase Exchange BTC-USD 1-minute candle",
+          "url": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+          "observedAt": "2026-10-14T20:00:00.000Z",
+          "retrievedAt": "2026-10-15T00:02:12.573Z",
+          "fallbackUsed": false,
+          "note": "Exact 4:00 p.m. Eastern one-minute candle close $81,797.60"
+        },
+        "MSTR": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
+          "observedAt": "2026-10-14T16:00:00-04:00",
+          "retrievedAt": "2026-10-15T00:02:12.573Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $143.24 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "ASST": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
+          "observedAt": "2026-10-14T16:00:00-04:00",
+          "retrievedAt": "2026-10-15T00:02:12.602Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $24.68 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "MPJPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
+          "observedAt": "2026-10-14T16:00:00-04:00",
+          "retrievedAt": "2026-10-15T00:02:12.603Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $1.67"
+        },
+        "SPY": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
+          "observedAt": "2026-10-14T16:00:00-04:00",
+          "retrievedAt": "2026-10-15T00:02:12.604Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $769.60 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "GLD": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
+          "observedAt": "2026-10-14T16:00:00-04:00",
+          "retrievedAt": "2026-10-15T00:02:12.605Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $375.99 (chart regularMarketPrice; daily bar not yet published)"
+        },
+        "SPCX": {
+          "name": "Yahoo Finance chart unadjusted daily close",
+          "url": "https://query1.finance.yahoo.com/v8/finance/chart/SPCX?interval=1d&range=1mo",
+          "observedAt": "2026-10-14T16:00:00-04:00",
+          "retrievedAt": "2026-10-15T00:02:12.606Z",
+          "fallbackUsed": false,
+          "note": "Unadjusted regular-session close $152.16 (chart regularMarketPrice; daily bar not yet published)"
+        }
+      },
+      "portfolioValueCents": 232488,
+      "netExternalContributionsCents": 215828,
+      "note": "Official market-close snapshot. Reconciled from published shares × confirmed closes: 12.12×$143.24 + 13.7×$24.68 + 59×$1.67 + 1×$152.16 = $2,324.88 (cash $0.00)."
     }
   ],
   "notes": [
