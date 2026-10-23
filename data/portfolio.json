@@ -4,16 +4,16 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-10-21T16:00:00-04:00",
-  "currentPortfolioValueCents": 254284,
+  "currentValuationAt": "2026-10-22T16:00:00-04:00",
+  "currentPortfolioValueCents": 240691,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
   "notes": [
-    "Official current valuation is the October 21, 2026 4:00 p.m. Eastern regular-market close: $2,542.84.",
-    "Reconciled from published shares × confirmed closes: 12.12×$153.48 + 13.7×$30.75 + 59×$1.73 + 1×$159.31 = $2,542.84 (cash $0.00).",
+    "Official current valuation is the October 22, 2026 4:00 p.m. Eastern regular-market close: $2,406.91.",
+    "Reconciled from published shares × confirmed closes: 12.12×$145.80 + 13.7×$29.03 + 59×$1.65 + 1×$144.75 = $2,406.91 (cash $0.00).",
     "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-    "Recorded since Episode 1 through the October 21, 2026 close: personal contribution of $158.37 (2026-10-02); bought 1 SPCX at $158.37 (2026-10-02). Contributions are excluded from investment P&L.",
-    "Investment P&L at October 21, 2026 close: +$384.56 (17.82% vs net external contributions).",
+    "Recorded since Episode 1 through the October 22, 2026 close: personal contribution of $158.37 (2026-10-02); bought 1 SPCX at $158.37 (2026-10-02). Contributions are excluded from investment P&L.",
+    "Investment P&L at October 22, 2026 close: +$248.63 (11.52% vs net external contributions).",
     "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
@@ -23,8 +23,8 @@
       "assetClass": "common_equity",
       "shares": 12.12,
       "lookThroughEligible": true,
-      "priceCents": 15348,
-      "marketValueCents": 186018,
+      "priceCents": 14580,
+      "marketValueCents": 176710,
       "costBasisCents": null
     },
     {
@@ -33,8 +33,8 @@
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
-      "priceCents": 3075,
-      "marketValueCents": 42128,
+      "priceCents": 2903,
+      "marketValueCents": 39771,
       "costBasisCents": null
     },
     {
@@ -45,8 +45,8 @@
       "lookThroughEligible": true,
       "underlyingTicker": "3350",
       "adrRatio": 1,
-      "priceCents": 173,
-      "marketValueCents": 10207,
+      "priceCents": 165,
+      "marketValueCents": 9735,
       "costBasisCents": null
     },
     {
@@ -55,8 +55,8 @@
       "assetClass": "common_equity",
       "shares": 1,
       "lookThroughEligible": false,
-      "priceCents": 15931,
-      "marketValueCents": 15931,
+      "priceCents": 14475,
+      "marketValueCents": 14475,
       "costBasisCents": 15837
     }
   ],

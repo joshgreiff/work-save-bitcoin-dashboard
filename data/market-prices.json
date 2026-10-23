@@ -2,93 +2,93 @@
   "prices": [
     {
       "symbol": "BTCUSD",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 8442151,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 8133400,
       "sourceName": "Coinbase Exchange BTC-USD 1-minute candle",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-10-22T00:08:55.349Z",
+      "retrievedAt": "2026-10-23T00:05:59.589Z",
       "manual": false,
-      "note": "Exact 4:00 p.m. Eastern one-minute candle close $84,421.51."
+      "note": "Exact 4:00 p.m. Eastern one-minute candle close $81,334.00."
     },
     {
       "symbol": "SPY",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 77309,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 76396,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.383Z",
+      "retrievedAt": "2026-10-23T00:05:59.621Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $773.09 (chart regularMarketPrice; daily bar not yet published)."
+      "note": "Unadjusted regular-session close $763.96 (chart regularMarketPrice; daily bar not yet published)."
     },
     {
       "symbol": "GLD",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 37895,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 36900,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/GLD?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.384Z",
+      "retrievedAt": "2026-10-23T00:05:59.622Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $378.95 (chart regularMarketPrice; daily bar not yet published)."
+      "note": "Unadjusted regular-session close $369.00 (chart regularMarketPrice; daily bar not yet published)."
     },
     {
       "symbol": "MSTR",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 15348,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 14580,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/MSTR?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.350Z",
+      "retrievedAt": "2026-10-23T00:05:59.589Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $153.48 (chart regularMarketPrice; daily bar not yet published)."
+      "note": "Unadjusted regular-session close $145.80 (chart regularMarketPrice; daily bar not yet published)."
     },
     {
       "symbol": "ASST",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 3075,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 2903,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/ASST?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.380Z",
+      "retrievedAt": "2026-10-23T00:05:59.619Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $30.75 (chart regularMarketPrice; daily bar not yet published)."
+      "note": "Unadjusted regular-session close $29.03 (chart regularMarketPrice; daily bar not yet published)."
     },
     {
       "symbol": "MPJPY",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 173,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 165,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/MPJPY?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.382Z",
+      "retrievedAt": "2026-10-23T00:05:59.621Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $1.73."
+      "note": "Unadjusted regular-session close $1.65."
     },
     {
       "symbol": "SPCX",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 15931,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 14475,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/SPCX?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.385Z",
+      "retrievedAt": "2026-10-23T00:05:59.623Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $159.31 (chart regularMarketPrice; daily bar not yet published)."
+      "note": "Unadjusted regular-session close $144.75 (chart regularMarketPrice; daily bar not yet published)."
     },
     {
       "symbol": "STRF",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 10342,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 10277,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/STRF?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.753Z",
+      "retrievedAt": "2026-10-23T00:06:00.132Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $103.42 (chart regularMarketPrice; daily bar not yet published). Income-model reference price only — not a portfolio holding."
+      "note": "Unadjusted regular-session close $102.77 (chart regularMarketPrice; daily bar not yet published). Income-model reference price only — not a portfolio holding."
     },
     {
       "symbol": "STRC",
-      "asOf": "2026-10-21T16:00:00-04:00",
-      "priceCents": 9920,
+      "asOf": "2026-10-22T16:00:00-04:00",
+      "priceCents": 9865,
       "sourceName": "Yahoo Finance chart unadjusted daily close",
       "sourceUrl": "https://query1.finance.yahoo.com/v8/finance/chart/STRC?interval=1d&range=1mo",
-      "retrievedAt": "2026-10-22T00:08:55.754Z",
+      "retrievedAt": "2026-10-23T00:06:00.133Z",
       "manual": false,
-      "note": "Unadjusted regular-session close $99.20 (chart regularMarketPrice; daily bar not yet published). Income-model reference price only — not a portfolio holding."
+      "note": "Unadjusted regular-session close $98.65 (chart regularMarketPrice; daily bar not yet published). Income-model reference price only — not a portfolio holding."
     }
   ]
 }
