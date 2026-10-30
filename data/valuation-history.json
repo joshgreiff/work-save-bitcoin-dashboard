@@ -639,6 +639,11 @@
       }
     },
     {
+      "sourceName": "Coinbase + Yahoo Finance chart",
+      "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
+      "retrievedAt": "2026-10-29T01:10:00.687Z",
+      "manual": false,
+      "note": "Official market-close snapshot. Portfolio $2,379.08 reconciled from published shares × confirmed closes.",
       "id": "vh-2026-10-28-close",
       "asOf": "2026-10-28T16:00:00-04:00",
       "session": "close",
@@ -646,18 +651,34 @@
       "portfolioValueCents": 237908,
       "prices": {
         "BTCUSD": 8161170,
+        "SPY": 77231,
+        "GLD": 37351,
         "MSTR": 14516,
         "ASST": 2753,
         "MPJPY": 165,
-        "SPY": 77231,
-        "GLD": 37351,
         "SPCX": 14523
+      }
+    },
+    {
+      "id": "vh-2026-10-29-close",
+      "asOf": "2026-10-29T16:00:00-04:00",
+      "session": "close",
+      "valuationType": "market_close",
+      "portfolioValueCents": 229717,
+      "prices": {
+        "BTCUSD": 8072913,
+        "MSTR": 14162,
+        "ASST": 2491,
+        "MPJPY": 162,
+        "SPY": 76936,
+        "GLD": 36857,
+        "SPCX": 14389
       },
       "sourceName": "Coinbase + Yahoo Finance chart",
       "sourceUrl": "https://api.exchange.coinbase.com/products/BTC-USD/candles",
-      "retrievedAt": "2026-10-29T01:10:00.687Z",
+      "retrievedAt": "2026-10-30T01:17:09.313Z",
       "manual": false,
-      "note": "Official market-close snapshot. Portfolio $2,379.08 reconciled from published shares × confirmed closes."
+      "note": "Official market-close snapshot. Portfolio $2,297.17 reconciled from published shares × confirmed closes."
     }
   ]
 }
