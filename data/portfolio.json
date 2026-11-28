@@ -4,22 +4,16 @@
   "inceptionPublishedAt": "2026-09-16T08:00:00-04:00",
   "inceptionValuationAt": "2026-09-16T08:00:00-04:00",
   "startingPortfolioValueCents": 199991,
-  "currentValuationAt": "2026-11-26T16:00:00-05:00",
-  "currentPortfolioValueCents": 136215,
+  "currentValuationAt": "2026-11-27T16:00:00-05:00",
+  "currentPortfolioValueCents": 139894,
   "cashBalanceCents": 0,
   "dataQuality": "confirmed",
   "notes": [
-    "Official current valuation is the November 26, 2026 4:00 p.m. Eastern regular-market close: $1,362.15.",
-    "Reconciled from published shares × confirmed closes: 12.12×$79.96 + 13.7×$14.95 + 59×$1.03 + 1×$127.44 = $1,362.15 (cash $0.00).",
-    "MSTR prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "ASST prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "MPJPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "SPCX prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "SPY prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
-    "GLD prior close carried forward due to no reported session print. The total is still a valid market-close valuation, but one component is estimated from its last available close.",
+    "Official current valuation is the November 27, 2026 4:00 p.m. Eastern regular-market close: $1,398.94.",
+    "Reconciled from published shares × confirmed closes: 12.12×$81.62 + 13.7×$15.59 + 59×$1.06 + 1×$133.59 = $1,398.94 (cash $0.00).",
     "Episode 1 remains the inception snapshot at $1,999.91 (8:00 a.m. Eastern on September 16).",
-    "Recorded since Episode 1 through the November 26, 2026 close: personal contribution of $158.37 (2026-10-02); bought 1 SPCX at $158.37 (2026-10-02). Contributions are excluded from investment P&L.",
-    "Investment P&L at November 26, 2026 close: -$796.13 (-36.89% vs net external contributions).",
+    "Recorded since Episode 1 through the November 27, 2026 close: personal contribution of $158.37 (2026-10-02); bought 1 SPCX at $158.37 (2026-10-02). Contributions are excluded from investment P&L.",
+    "Investment P&L at November 27, 2026 close: -$759.34 (-35.18% vs net external contributions).",
     "cashBalanceCents remains 0 pending a confirmed regular-session cash figure. Do not treat brokerage buying power as cash."
   ],
   "positions": [
@@ -29,8 +23,8 @@
       "assetClass": "common_equity",
       "shares": 12.12,
       "lookThroughEligible": true,
-      "priceCents": 7996,
-      "marketValueCents": 96912,
+      "priceCents": 8162,
+      "marketValueCents": 98923,
       "costBasisCents": null
     },
     {
@@ -39,8 +33,8 @@
       "assetClass": "common_equity",
       "shares": 13.7,
       "lookThroughEligible": true,
-      "priceCents": 1495,
-      "marketValueCents": 20482,
+      "priceCents": 1559,
+      "marketValueCents": 21358,
       "costBasisCents": null
     },
     {
@@ -51,8 +45,8 @@
       "lookThroughEligible": true,
       "underlyingTicker": "3350",
       "adrRatio": 1,
-      "priceCents": 103,
-      "marketValueCents": 6077,
+      "priceCents": 106,
+      "marketValueCents": 6254,
       "costBasisCents": null
     },
     {
@@ -61,8 +55,8 @@
       "assetClass": "common_equity",
       "shares": 1,
       "lookThroughEligible": false,
-      "priceCents": 12744,
-      "marketValueCents": 12744,
+      "priceCents": 13359,
+      "marketValueCents": 13359,
       "costBasisCents": 15837
     }
   ],
